@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+	<f:view locale="#{userManagedBean.language}" 
+		beforePhase="#{jobAdManagedBean.jobAdExit}">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+	</h:head>
+	<h:body onload="formId='searchTableForm'; setFocus(); ">
+			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+			<h:outputScript library="js" name="functions.js" target="head"/>
+			<f:loadBundle
+				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+				var="messages" />
+			<div id="header">
+    			<ui:insert name="header">
+					<ui:include src="./header.xhtml"/>
+				</ui:insert>
+			</div>
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="80"
+					width="1"
+					/>
+				<h:panelGroup 
+		    		layout="block" >
+		    		<h:outputText 
+		    			rendered="#{userManagedBean.loggedIn}"
+						value="#{messages['administration.welcomeMessage']}" 
+						styleClass="rf-msg-inf" 
+						escape="false"/>
+					<h:panelGroup 
+						rendered="#{not userManagedBean.loggedIn}"
+					>
+						<h1> 
+			    			CRIS UNS (Current Research Information System University of Novi Sad) 
+							<br/>
+							Informacioni sistem naučne delatnosti Univerziteta u Novom Sadu 
+						</h1>
+						<br/>
+						<br/>
+						<p>
+							CRIS UNS sistem je razvijan po preporukama neprofitne organizacije euroCRIS (<a style="font-size:14px;" href="http://www.eurocris.org">http://www.eurocris.org</a>).
+							<br/> 
+							Model podataka ovog sistema je kompatabilan sa modelom podataka CERIF (<i>Common European Research Information Format</i>). 
+							<br/>
+							Sistem podražava skup metapodataka propisane Dublin Core i EDT-MS formatom metapodataka, odnosno sistem može da razmenjuje podatke u Dublin Core ili ETD-MS formatu putem OAI-PMH protokola.
+							<br/>
+							Implementirana je digitalna biblioteka doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu.
+							<br/>
+							Implementiran je elektronski servis za vrednovanje publikovanih radova u časopisima na osnovu usvojenih pravilnika koji su bazirani na PRAVILNIKU o postupku i načinu vrednovanja, i kvantitativnom iskazivanju naučnoistraživačkih rezultata istraživača („Službeni glasnik RS”, br. 110/05 i 50/06-ispravka, 18/10 i 112/15).
+							<br/>
+							Generisanje svih Izveštaja propisanih za akreditaciju (samovrednovanje) i generisanje Izveštaja za analizu publikovanih naučnih rezultata.
+							<br/>
+							Generisanje kartona naučnih radnika po usvojenim Pravilnicima za vrednovanje naučnih rezultata.
+							<br/>
+						</p>
+						<ul>
+							<li><a style="font-size:16px" href="etheses.jsf">Digitalna biblioteka doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu</a></li>
+							<br/>
+							<br/>
+							<li><a style="font-size:16px" href="pmf.jsf">Prirodno-matematički fakultet u Novom Sadu</a></li>
+							<br/>
+							<ul>
+								<li><a style="font-size:14px" href="dmi.jsf">Departman za matematiku i informatiku</a></li>
+							</ul>
+							<br/>
+							<!--<li><a style="font-size:16px" href="tf.jsf">Tehnološki fakultet Novi Sad</a></li>
+							<br/>
+						--></ul>
+						</h:panelGroup>
+				</h:panelGroup>
+			</div>
+			
+			<div id="footer">
+    			<ui:insert name="footer">
+    				<ui:include src="./footer.xhtml"/>
+    			</ui:insert>
+    		</div>
+	</h:body>
+	</f:view>
+</html>

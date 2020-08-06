@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2015-10-26T13:51:05 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prilog64" pageWidth="590" pageHeight="830" columnWidth="550" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8caeca97-3bf6-400f-b105-4a51f3babfbc">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CCCCCC" fontName="Arial">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="brojNastavnika" class="java.lang.String"/>
+	<parameter name="brojMentora" class="java.lang.String"/>
+	<parameter name="organisation" class="java.lang.String"/>
+	<parameter name="startYear" class="java.lang.String"/>
+	<parameter name="endYear" class="java.lang.String"/>
+	<field name="firstName" class="java.lang.String"/>
+	<field name="lastName" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="currentPositionName" class="java.lang.String"/>
+	<field name="numM21" class="java.lang.Integer"/>
+	<field name="numM22" class="java.lang.Integer"/>
+	<field name="numM23" class="java.lang.Integer"/>
+	<variable name="imeiprezime" class="java.lang.String">
+		<variableExpression><![CDATA[$F{lastName}+" "+$F{firstName}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{numM21}+$F{numM22}+$F{numM23}]]></variableExpression>
+	</variable>
+	<variable name="ukupnoNastavnika" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA["Укупан број наставника: "+$P{brojNastavnika}.toString()]]></variableExpression>
+	</variable>
+	<variable name="ukupnoMentora" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA["Укупан број ментора: "+$P{brojMentora}.toString()]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA["Списак ментора према тренутно важећим стандардима који се односи на испуњеност услова за менторе у оквиру образовно-научног, односно образовно-уметничког поља, као и однос броја ментора у односу на укупан број наставника на "+$P{organisation}+" Универзитета у Новом Саду*"]]></variableExpression>
+	</variable>
+	<variable name="variableKriterijum" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA["Критеријум: најмање пет SCI-индексираних радова у периоду од "+$P{startYear}+". до "+$P{endYear}+". године"]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="119" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="55" width="175" height="20" uuid="76672235-e4b5-4044-bffa-4e773a305536"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ukupnoNastavnika}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="75" width="175" height="20" uuid="c4f2844c-199e-4dfc-a7eb-d4a0b7fd1da8"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ukupnoMentora}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="0" y="0" width="550" height="45" uuid="60a5fd17-b4ce-4e89-ac47-8b1443ec6c28"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="96" width="434" height="20" uuid="d5af5ea9-7c12-42b6-ba33-8c4084ebea56"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variableKriterijum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_CH" x="332" y="0" width="157" height="28" uuid="7d1a20e0-0707-48f4-9681-b1dc7c8890d2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Број радова ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="71" y="28" width="170" height="21" uuid="22ff0515-db3a-42e2-9f76-b25fd84c9bc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Презиме и име]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="241" y="28" width="91" height="21" uuid="91f469e1-9588-4d79-b2b4-391e8a6815a4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Звање]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="332" y="28" width="39" height="21" uuid="021e5c2d-1a8d-4e1b-916a-55256ed522a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[М21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="371" y="28" width="39" height="21" uuid="6a4ddbe2-a831-45b2-8b4b-3b6c8121fa83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[М22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="410" y="28" width="40" height="21" uuid="07cf3cac-12ca-4c21-b32c-ef52cb72e89c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[М23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="450" y="28" width="39" height="21" uuid="a301c892-16f6-4f6a-bc22-402abe5e59ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="38" y="28" width="33" height="21" uuid="2f0d44a4-0d6c-407e-8370-86d42e44623f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Рбр.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TD" x="38" y="0" width="33" height="23" uuid="97b638d6-8e5f-49ee-b24a-85cf14e49f6e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="71" y="0" width="170" height="23" isPrintInFirstWholeBand="true" uuid="837cb84a-4aaa-4fc2-b2c0-054fc34f435b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{imeiprezime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="241" y="0" width="91" height="23" isPrintInFirstWholeBand="true" uuid="d2063c93-771f-4c7b-a540-675d28ca337f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currentPositionName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="332" y="0" width="39" height="23" uuid="8ed5b1ac-9449-42d4-a913-06e30664a5b9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numM21}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="371" y="0" width="39" height="23" uuid="473a4bc8-e166-4e6d-a930-278099e6b80e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numM22}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="410" y="0" width="40" height="23" uuid="a4b3e953-fba9-4b4b-be89-33aca7884141"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numM23}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="450" y="0" width="39" height="23" uuid="d661b934-357a-4b44-b207-0b4714f3d922"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="481" y="3" width="20" height="20" uuid="33c0ae07-94b8-4ff3-a79c-3ad90022ed00"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="d34a08b2-9099-47f2-91df-ca6f455011d1"/>
+			</line>
+			<staticText>
+				<reportElement x="500" y="3" width="12" height="20" uuid="1bc518e7-c88a-4d40-9487-6f70da741053"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="511" y="3" width="31" height="20" uuid="3d8ca01b-4c78-4995-9221-c3153ee2ad6a"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="3" width="392" height="20" uuid="cf0ed271-9472-4898-a5d4-885078082ee7">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[*Табела је генерисана из софтверског система научно-истраживачке делатности CRIS PMF, ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="392" y="3" width="89" height="20" uuid="f95a33b5-d36d-455a-ab62-8c833c1aa7d9">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

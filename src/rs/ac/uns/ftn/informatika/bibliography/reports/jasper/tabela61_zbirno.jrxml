@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tablela61-zbirno" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="515" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CCCCCC" fontName="Arial">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<field name="year" class="java.lang.String"/>
+	<field name="numM21" class="java.lang.Integer"/>
+	<field name="numM22" class="java.lang.Integer"/>
+	<field name="numM23" class="java.lang.Integer"/>
+	<variable name="SUM_BY_YEAR" class="java.lang.Integer" incrementType="Report">
+		<variableExpression><![CDATA[$F{numM21}+$F{numM22}+$F{numM23}]]></variableExpression>
+	</variable>
+	<variable name="SUM_M21" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{numM21}]]></variableExpression>
+	</variable>
+	<variable name="SUM_M22" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{numM22}]]></variableExpression>
+	</variable>
+	<variable name="SUM_M23" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{numM23}]]></variableExpression>
+	</variable>
+	<variable name="SUM_ALL" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUM_BY_YEAR}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_CH" x="37" y="0" width="101" height="30">
+					<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ГОДИНА]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="138" y="0" width="76" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[M21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="214" y="0" width="78" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[M22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="292" y="0" width="79" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[M23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="371" y="0" width="56" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement style="table_CH" x="37" y="0" width="101" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" mode="Transparent" x="138" y="0" width="76" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numM21}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="214" y="0" width="78" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numM22}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="292" y="0" width="79" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numM23}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="371" y="0" width="56" height="30" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{SUM_BY_YEAR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TD" x="138" y="0" width="76" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{SUM_M21}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="214" y="0" width="78" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{SUM_M22}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="292" y="0" width="79" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{SUM_M23}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" isPrintRepeatedValues="false" x="371" y="0" width="56" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{SUM_ALL}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_CH" x="37" y="0" width="101" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

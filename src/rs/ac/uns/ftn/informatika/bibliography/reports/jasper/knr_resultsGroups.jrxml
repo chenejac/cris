@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="knr_resultsGroups" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\USERS\\Dragan\\bibliography\\workspace\\bibliography\\src\\rs\\ac\\uns\\ftn\\informatika\\bibliography\\reports\\jasper\\"]]></defaultValueExpression>
+	</parameter>
+	<field name="resultType" class="rs.ac.uns.ftn.informatika.bibliography.dto.ResultTypeDTO"/>
+	<field name="quantitativeMeasure" class="java.lang.Double"/>
+	<field name="results" class="java.util.List"/>
+	<field name="scienceArea" class="rs.ac.uns.ftn.informatika.bibliography.dto.ScienceAreaDTO"/>
+	<variable name="numberOfResults" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{results}.size()]]></variableExpression>
+	</variable>
+	<variable name="totalPoints" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{quantitativeMeasure}*$F{results}.size()]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Prevent">
+			<staticText>
+				<reportElement style="table_CH" x="0" y="0" width="539" height="20" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[6. Продукција - збирни резултати]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="0" y="20" width="47" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Ознака]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="47" y="20" width="404" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Назив критеријума продукције]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="451" y="20" width="43" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Број]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="494" y="20" width="45" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Поена]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Prevent">
+			<textField isStretchWithOverflow="true" pattern="###0.0" isBlankWhenNull="true">
+				<reportElement style="table_TD" stretchType="RelativeToTallestObject" x="494" y="0" width="45" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="11" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[($F{quantitativeMeasure}*$F{results}.size())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="table_TD" stretchType="RelativeToTallestObject" x="47" y="0" width="404" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial1" size="11" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{resultType}.getSomeTerm()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="table_TD" stretchType="RelativeToTallestObject" x="451" y="0" width="43" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="11" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{results}.size()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="table_TD" stretchType="RelativeToTallestObject" x="0" y="0" width="47" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial1" size="11" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{resultType}.getClassId()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_TD" x="0" y="0" width="451" height="20" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[$V{totalPoints}>0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<text><![CDATA[Укупно ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement style="table_TD" stretchType="RelativeToTallestObject" x="451" y="0" width="43" height="20">
+					<printWhenExpression><![CDATA[$V{totalPoints}>0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="11" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{numberOfResults}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.0" isBlankWhenNull="true">
+				<reportElement style="table_TD" stretchType="RelativeToTallestObject" x="494" y="0" width="45" height="20">
+					<printWhenExpression><![CDATA[$V{totalPoints}>0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial1" size="11" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totalPoints}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

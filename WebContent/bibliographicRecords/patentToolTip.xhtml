@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+<rich:tooltip followMouse="true" direction="topRight"
+	showDelay="1000" styleClass="tooltip" mode="client">
+	<span class="tooltipSpan"> 
+		<h:panelGrid columns="2">
+			<h:graphicImage 
+				rendered="#{patentManagedBean.tableMode!=modesManagedBean.none}"
+				library="img" name="details.png" />
+			<h:outputText
+				rendered="#{patentManagedBean.tableMode!=modesManagedBean.none}"
+				value="#{messages['records.patent.tablePanel.btnDetails']}" />
+			<h:graphicImage library="img" name="editToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{messages['records.patent.tablePanel.btnEdit']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.update]}" />
+			<h:graphicImage library="img" name="deleteToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.delete]}" />
+			<h:outputText
+				value="#{messages['records.patent.tablePanel.btnDelete']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.delete]}" />
+			<h:graphicImage library="img" name="pickToolTip.png"
+				rendered="#{patentManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:outputText
+				value="#{messages['records.paperProceedings.tablePanel.btnPick']}"
+				rendered="#{patentManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:graphicImage library="img" name="createToolTip.png"
+				rendered="#{(patentManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.add])}" />
+			<h:outputText
+				value="#{messages['records.patent.tablePanel.btnCreate']}"
+				rendered="#{(patentManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.add])}" />
+		</h:panelGrid> 
+	</span>
+</rich:tooltip>
+
+</ui:composition>

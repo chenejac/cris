@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 24.65-b04 (Oracle Corporation)
+Main-Class: rs.ac.uns.ftn.informatika.bibliography.backup.BackupApp
+Class-Path: lib/commons-beanutils-1.8.3.jar lib/commons-betwixt-0.8.ja
+ r lib/commons-collections-3.2.1.jar lib/commons-digester-2.1.jar lib/
+ commons-logging-1.1.1.jar lib/log4j-1.2.16.jar lib/mysql-connector-ja
+ va-5.1.8-bin.jar
+

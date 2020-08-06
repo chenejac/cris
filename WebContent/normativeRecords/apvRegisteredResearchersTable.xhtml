@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     >
+     <h:outputStylesheet>
+        .rbr-column {
+        	text-align:right;        	
+        }
+        
+        .active-row {
+        background-color: #FFEBDA !important;
+        cursor: pointer;
+        }
+ 
+           </h:outputStylesheet>     
+
+	<!-- ===========================   searchPanel  ============================= -->
+	<h:graphicImage 
+		library="img"
+		name="spacer.gif" 
+		alt="" 
+		height="10"
+		width="1"
+		/>
+    <h:form id="searchAuthorForm">	 
+	<h:panelGrid 
+		id="apvRegisteredResearchersSearchPanel" 
+		columns="2"
+		rendered="true">		
+					<!--  <mytags:outputLabel 
+						value="#{messages['records.apvRegisteredResearchers.searchPanel.APVNTnumber']}" 
+						for="whereAPVNT" 
+						errorStyleClass="errorMessage"
+						/>	
+										
+						<h:inputText 
+							id="whereAPVNT"
+							onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+							value="#{apvRegisteredResearchersManagedBean.filterAPVNT}" 
+							styleClass="searchBox" />						
+					-->
+						<mytags:outputLabel 
+						value="#{messages['records.apvRegisteredResearchers.searchPanel.firstName']}" 
+						for="whereFirstname" 
+						errorStyleClass="errorMessage"
+						/>  
+					
+						<h:inputText 
+							id="whereFirstname"
+							onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+							value="#{apvRegisteredResearchersManagedBean.filterFirstname}" 
+							styleClass="searchBox" />
+					
+					<mytags:outputLabel 
+						value="#{messages['records.apvRegisteredResearchers.searchPanel.lastName']}" 
+						for="whereLastname" 
+						errorStyleClass="errorMessage"
+						/>
+						
+						<h:inputText 
+							id="whereLastname"
+							onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+							value="#{apvRegisteredResearchersManagedBean.filterLastname}" 
+							styleClass="searchBox" />
+								
+				<a4j:commandButton 
+					id="btnFind"
+					value="Traži"
+					action="#{apvRegisteredResearchersManagedBean.btnFind}" 
+					render="scrollableBody" 
+					limitRender="true" 
+					execute="@form" />
+				<a4j:commandButton 
+					id="btnShowAll"
+					action="#{apvRegisteredResearchersManagedBean.btnShowAll}"
+					value="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
+					render="scrollableBody, registeredAuthorsSearchPanel" 
+					limitRender="true" 
+					immediate="true"
+					execute="@form" />
+									
+	</h:panelGrid>
+	</h:form>
+	<h:form>	
+	<rich:panel 
+		id="scrollableBody" 
+		styleClass="scrollableBody"
+		rendered="#{(not empty apvRegisteredResearchersManagedBean.authors) or (not apvRegisteredResearchersManagedBean.customPick)}">
+		
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid>
+			<rich:dataTable 
+				id="apvRegisteredResearchersTable" 
+				value="#{apvRegisteredResearchersManagedBean.authors}"
+				var="apvRegisteredResearchersRow"
+				rowKeyVar="apvRegisteredResearchersRowKey" 
+				rows="10"
+				styleClass="stable"			
+				>
+				<!--     ........  counter   .......-->
+				<rich:column			
+					styleClass="rbr-column" >						
+					<f:facet name="header">
+						<h:outputText value="#{messages['records.apvRegisteredResearchers.tablePanel.counter']}" />
+					</f:facet>
+					<h:outputText value="#{apvRegisteredResearchersRowKey + 1}." 
+						/>
+				</rich:column>				
+				
+				<!--     ........  APVNT broj    .......
+				<rich:column>					
+					<f:facet name="header">					
+						<h:outputText value="#{messages['records.apvRegisteredResearchers.tablePanel.APVNTnumber']}" />											
+					</f:facet>
+					<h:outputText value="#{apvRegisteredResearchersRow.apvnt}" />
+				</rich:column> -->
+				
+				<!--     ........  Names   .......-->
+				<rich:column styleClass="rich-table-wide-cell">
+					<f:facet name="header">						
+						<h:outputText value="#{messages['records.apvRegisteredResearchers.tablePanel.names']}" />						
+					</f:facet>
+					<h:outputText value="#{apvRegisteredResearchersRow.names}" />
+				</rich:column>
+				
+				<!--     ........  First name   .......
+				<rich:column styleClass="rich-table-wide-cell">					
+					<f:facet name="header">					
+						<h:outputText value="#{messages['records.apvRegisteredResearchers.tablePanel.firstName']}" />				
+					</f:facet>
+			      <h:outputText value="#{apvRegisteredResearchersRow.name.firstname}" />
+				</rich:column> -->
+			
+				<!--     ........  position   .......-->
+				<rich:column					
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">						
+						<h:outputText value="#{messages['records.apvRegisteredResearchers.tablePanel.position']}" />					
+					</f:facet>
+					<h:outputText value="#{apvRegisteredResearchersRow.currentPositionName}" />
+				</rich:column>
+					
+				<!--     ........  institution   .......-->
+				<rich:column					
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">						
+						<h:outputText value="#{messages['records.apvRegisteredResearchers.tablePanel.institution']}" />					
+					</f:facet>
+					<h:outputText value="#{apvRegisteredResearchersRow.institutionName}" />
+				</rich:column>
+				
+				<!--     ........  actions   .......-->
+				<rich:column style="text-align:center;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.apvRegisteredResearchers.tablePanel.karton']}" />
+					</f:facet>
+					<a4j:commandLink 
+						action="#{apvRegisteredResearchersManagedBean.switchToViewDetailsMode}"
+						render="mainPanel, apvRegisteredResearcherViewDetailsModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="knrPublic.gif"/>
+						<f:param name="controlNumber" value="#{apvRegisteredResearchersRow.controlNumber}" />
+					</a4j:commandLink>
+				</rich:column>				
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+					    maxPages="10"
+						id="downDataScroller" 
+						align="left"	
+						fastStep="10"					
+						for="apvRegisteredResearchersTable" 
+						render="apvRegisteredResearchersTablePanel"
+						renderIfSinglePage="false" /> 
+				</h:panelGroup>
+			</h:panelGrid>	
+		</h:panelGrid>
+	</rich:panel>
+	</h:form>
+	<rich:jQuery selector=".stable tr" event="mouseover" query="jQuery(this).addClass('active-row')" />
+    <rich:jQuery selector=".stable tr" event="mouseout" query="jQuery(this).removeClass('active-row')" />
+</ui:composition>

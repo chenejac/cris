@@ -1,0 +1,743 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="paperProceedingsEditFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......PaperProceedings.......           -->
+		<rich:panel id="paperProceedingsPreview"
+			header="#{messages['records.paperProceedings.editPanel.preview']}"
+			rendered="#{(paperProceedingsManagedBean.editTabNumber == 3) or (paperProceedingsManagedBean.editTabNumber == 4)}"
+			>
+			<h:panelGrid columns="1">
+				<h:outputText
+					value="#{paperProceedingsManagedBean.selectedPaperProceedings.stringRepresentation}"
+					styleClass="preview" />
+			</h:panelGrid>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody"
+			rendered="#{paperProceedingsManagedBean.editTabNumber lt 4}"
+			styleClass="scrollableBody">
+			<rich:tabPanel
+				switchType="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{paperProceedingsManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					rendered="#{(paperProceedingsManagedBean.editTabNumber == 0) or (paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+					header="#{messages['records.paperProceedings.editPanel.firstTab']}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... conferenceName .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.conferenceName']}*" 
+								for="conferenceName" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="conferenceName"
+							readonly="true" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.proceedings.conference.someName}"
+							rows="3" 
+							required="true"	/>
+						<a4j:commandButton
+							rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails)}" 
+							action="#{paperProceedingsManagedBean.pickConference}"
+							render="conferenceBrowseModalPanel"
+							value="#{messages['records.paperProceedings.editPanel.btnPickConference']}" 
+							execute="@this" />
+						<h:outputText value=""
+							rendered="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferenceName" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... conferencePlace .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.conferencePlace']}" 
+								for="conferencePlace" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="conferencePlace"
+							readonly="true" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.proceedings.conference.place}"
+							maxlength="200" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferencePlace" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... conferenceYear .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.conferenceYear']}*" 
+								for="conferenceYear" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="conferenceYear"
+							readonly="true" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.proceedings.conference.year}"
+							required="true" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferenceYear" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... proceedingsName .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.proceedingsName']}*" 
+								for="proceedingsName" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="proceedingsName"
+							readonly="true" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.proceedings.someTitle}"
+							rows="3" 
+							required="true" />
+						<a4j:commandButton
+							rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails)}" 
+							action="#{paperProceedingsManagedBean.pickProceedings}"
+							render="proceedingsBrowseModalPanel"
+							value="#{messages['records.paperProceedings.editPanel.btnPickProceedings']}" 
+							execute="@this" />
+						<h:outputText value=""
+							rendered="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="proceedingsName" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab 
+					name="tab1"
+					rendered="#{(paperProceedingsManagedBean.editTabNumber == 1) or (paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+					header="#{messages['records.paperProceedings.editPanel.secondTab']}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!--  ...... language ..... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.titleLanguage']}*" 
+								for="language" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="language"
+							disabled="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.title.language}" 
+							required="true"	>
+							<ui:include src="../languagesSelectItems.xhtml"/>
+						</h:selectOneMenu>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="language" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Title .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.title']}*" 
+								for="title" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="title"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.title.content}"
+							rows="3" 
+							required="#{empty paperProceedingsManagedBean.selectedPaperProceedings.titleTranslations}" />
+						<a4j:commandButton 
+							action="#{paperProceedingsManagedBean.titleTranslations}"
+							value="#{messages['records.paperProceedings.editPanel.btnTitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="title" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Subtitle .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.subtitle']}" 
+								for="subtitle" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="subtitle"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.subtitle.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{paperProceedingsManagedBean.subtitleTranslations}"
+							value="#{messages['records.paperProceedings.editPanel.btnSubtitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="subtitle" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... startPage .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.startPage']}" 
+								for="startPage" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="startPage"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.startPage}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="startPage" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... endPage .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.endPage']}" 
+								for="endPage" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="endPage"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.endPage}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="endPage" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... numberOfPages .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.numberOfPages']}" 
+								for="numberOfPages" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="numberOfPages"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.numberOfPages}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="numberOfPages" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... note .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.note']}" 
+								for="note" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="note"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.note.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{paperProceedingsManagedBean.noteTranslations}"
+							value="#{messages['records.paperProceedings.editPanel.btnNoteTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="note" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Keywords .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.keywords']}" 
+								for="keywords" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="keywords"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.keywords.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{paperProceedingsManagedBean.keywordsTranslations}"
+							value="#{messages['records.paperProceedings.editPanel.btnKeywordsTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="keywords" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Abstract .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.abstract']}" 
+								for="abstract" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="abstract"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.abstracT.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{paperProceedingsManagedBean.abstractTranslations}"
+							value="#{messages['records.paperProceedings.editPanel.btnAbstractTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="abstract" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... DOI ....... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.doi']}" 
+								for="doi" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText
+							id="doi"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.doi}"
+							maxlength="200" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="doi" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... URI ....... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.uri']}" 
+								for="uri" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea
+							id="uri"
+							readonly="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.uri}"
+							rows="3"/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="uri" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... paperType .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.editPanel.paperType']}*" 
+								for="paperType" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="paperType"
+							disabled="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.paperType}"
+							required="true">
+							<f:selectItems
+								value="#{paperProceedingsManagedBean.allPaperTypesSelectItems}" />
+						</h:selectOneMenu>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="paperType" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab 
+					name="tab2"
+					rendered="#{(paperProceedingsManagedBean.editTabNumber == 2) or (paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+					header="#{messages['records.paperProceedings.editPanel.thirdTab']}">
+					<h:panelGrid columns="1" width="100%">
+						<!--  Add Author -->
+						<a4j:commandButton
+							rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails)}" 
+							action="#{paperProceedingsManagedBean.pickAuthor}"
+							render="authorBrowseModalPanel"
+							value="#{messages['records.paperProceedings.editPanel.btnAddAuthor']}"	
+							execute="@form" />
+					</h:panelGrid>
+					<h:panelGrid id="authors" columns="1">
+						<!-- ===========================   tablePanel  ============================= -->
+						
+							<rich:dataTable id="authorTable"
+								value="#{paperProceedingsManagedBean.selectedPaperProceedings.allAuthors}"
+								var="authorRow">
+								<!--     ........  author name   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.paperProceedings.editPanel.authorTablePanel.name']}*" />
+									</f:facet>
+									<h:selectOneMenu 
+										value="#{authorRow.name}"
+										disabled="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}">
+										<f:selectItems value="#{authorRow.allNamesSelectItems}" />
+									</h:selectOneMenu>
+								</rich:column>
+								<!--     ........  change position   .......-->
+								<rich:column
+									rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.paperProceedings.editPanel.authorTablePanel.changePosition']}" />
+									</f:facet>
+									<a4j:commandLink
+										action="#{paperProceedingsManagedBean.moveAuthorUp}"
+										render="authors, paperProceedingsPreview"
+										execute="@form">
+										<h:graphicImage library="img" name="up.gif"  />
+										<f:param name="controlNumber"
+											value="#{authorRow.controlNumber}" />
+									</a4j:commandLink>
+									<a4j:commandLink
+										action="#{paperProceedingsManagedBean.moveAuthorDown}"
+										render="authors, paperProceedingsPreview"
+										execute="@form">
+										<h:graphicImage library="img" name="down.gif"  />
+										<f:param name="controlNumber"
+											value="#{authorRow.controlNumber}" />
+									</a4j:commandLink>
+								</rich:column>
+								<!--     ........  remove author   .......-->
+								<rich:column
+									rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.paperProceedings.editPanel.authorTablePanel.remove']}" />
+									</f:facet>
+									<a4j:commandLink
+										rendered="#{authorRow.controlNumber != userManagedBean.loggedUser.author.controlNumber}"
+										action="#{paperProceedingsManagedBean.removeAuthor}"
+										render="authors, paperProceedingsPreview" 
+										execute="@form">
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param name="controlNumber"
+											value="#{authorRow.controlNumber}" />
+									</a4j:commandLink>
+								</rich:column>
+								<!--     ........  add author other format name    .......-->
+								<rich:column
+									rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.paperProceedings.editPanel.authorTablePanel.addOtherFormatName']}" />
+									</f:facet>
+									<a4j:commandLink
+										action="#{paperProceedingsManagedBean.addAuthorOtherFormatName}"
+										render="authorNameFormatsModalPanel" 
+										execute="@form">
+										<h:graphicImage library="img" name="edit.png"  />
+										<f:param name="controlNumber"
+											value="#{authorRow.controlNumber}" />
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab 
+					name="tab3"
+					header="#{messages['records.paperProceedings.editPanel.fourthTab']}"
+					rendered="#{(paperProceedingsManagedBean.editTabNumber == 3) and (paperProceedingsManagedBean.editMode == modesManagedBean.import)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:panelGrid columns="2">
+							<h:graphicImage library="img" name="info.png" />
+							<h:outputText value="#{paperProceedingsManagedBean.pickSimilarMessage}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid>
+					</a4j:outputPanel>
+					<h:graphicImage 
+						library="img"
+						name="spacer.gif" 
+						alt="" 
+						height="10"
+						width="1"
+						/>
+					<rich:dataTable 
+						id="paperProceedingsTable" 
+						value="#{paperProceedingsManagedBean.similarPaperProceedings}"
+						var="paperProceedingsRow" >
+						<!--     ........  title   .......-->
+						<rich:column >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.reference']}" />
+							</f:facet>
+							<h:outputText value="#{paperProceedingsRow.stringRepresentation}" />
+						</rich:column>
+						<!--     ........  chooseSimilar   
+						 or ((paperProceedingsManagedBean.editMode == modesManagedBean.import) and (userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData]))
+						 and (userManagedBean.loggedIn) and (not userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])
+						.......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.chooseSimilar']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.chooseSimilar}"
+								render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}"
+								rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.import)}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{paperProceedingsRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.paperProceedings.tablePanel.btnPick']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.examineData}"
+								render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}"
+								rendered="#{(paperProceedingsManagedBean.editMode == modesManagedBean.import) }"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{paperProceedingsRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.paperProceedings.tablePanel.btnExamine']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  examineThis   
+						"#{(paperProceedingsManagedBean.editMode == modesManagedBean.import) and (userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}"
+						.......-->
+						<rich:column 
+							rendered="false" >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.examine']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.examineData}"
+								render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{paperProceedingsRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.paperProceedings.tablePanel.btnExamine']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  mergeWithThis   .......-->
+						<rich:column 
+							rendered="false">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.merge']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.mergeData}"
+								render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{paperProceedingsRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.paperProceedings.tablePanel.btnMerge']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</rich:tab>
+				<rich:tab 
+					name="tab4"
+					header="#{messages['records.paperProceedings.editPanel.fifthTab']}"
+					rendered="#{(paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:inputTextarea
+							value="#{paperProceedingsManagedBean.selectedPaperProceedings.record.MARC21Record.printableString}"
+							readonly="true" cols="60" styleClass="marc21TextArea" />
+					</a4j:outputPanel>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="3">
+			<a4j:commandButton
+				rendered="#{(((paperProceedingsManagedBean.editMode == modesManagedBean.add) and (paperProceedingsManagedBean.editTabNumber gt 1)) or ((paperProceedingsManagedBean.editMode == modesManagedBean.update) and (paperProceedingsManagedBean.editTabNumber gt 0)))  and (paperProceedingsManagedBean.editTabNumber lt 3) }"
+				action="#{paperProceedingsManagedBean.previousEditTab}"
+				value="#{messages['records.paperProceedings.editPanel.btnPrevious']}"
+				render="paperProceedingsEditModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(paperProceedingsManagedBean.editMode != modesManagedBean.viewDetails) and (paperProceedingsManagedBean.editTabNumber lt 2)}"
+				action="#{paperProceedingsManagedBean.nextEditTab}"
+				value="#{messages['records.paperProceedings.editPanel.btnNext']}"
+				render="paperProceedingsEditModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(paperProceedingsManagedBean.editMode == modesManagedBean.update) and (paperProceedingsManagedBean.editTabNumber == 2)}"
+				action="#{paperProceedingsManagedBean.update}"
+				value="#{messages['records.paperProceedings.editPanel.btnUpdate']}"
+				render="paperProceedingsEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{((paperProceedingsManagedBean.editMode == modesManagedBean.add) and (paperProceedingsManagedBean.editTabNumber == 2)) or ((paperProceedingsManagedBean.editMode == modesManagedBean.import) and (paperProceedingsManagedBean.editTabNumber == 3))}"
+				action="#{paperProceedingsManagedBean.add}"
+				value="#{messages['records.paperProceedings.editPanel.btnCreate']}"
+				render="paperProceedingsEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(paperProceedingsManagedBean.editTabNumber lt 3)}" 
+				action="#{paperProceedingsManagedBean.switchSimple}"
+				value="#{messages['records.paperProceedings.editPanel.btnSimpleEdit']}"
+				render="paperProceedingsSimpleEditModalPanel, paperProceedingsEditModalPanel" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(paperProceedingsManagedBean.editTabNumber == 4)}" 
+				action="#{paperProceedingsManagedBean.finishWizard}"
+				value="#{messages['records.paperProceedings.editPanel.btnAllRight']}"
+				render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}" 
+				execute="@this" />
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

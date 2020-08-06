@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+	<f:view locale="#{userManagedBean.language}" 
+		beforePhase="#{jobAdManagedBean.jobAdExit}">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=dmi.jsf" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS - PMF</ui:insert></title>
+	</h:head>
+	<h:body >
+		<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+		<h:outputScript library="js" name="functions.js" target="head"/>
+		<f:loadBundle
+			basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+			var="messages" />
+		<div id="header">
+    		<ui:insert name="header">
+				<ui:include src="./header.xhtml"/>
+			</ui:insert>
+			</div>
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="80"
+					width="1"
+					/>
+				<h:panelGroup 
+		    		layout="block" >
+		    		<h1> 
+		    			Prirodno-matematički fakultet u Novom Sadu 
+					</h1>
+					<br/>
+					<br/>
+					<p>
+						Razvoj sistema CRIS UNS započet je na Prirodno-matematičkom fakultetu u Novom Sadu a instalacija sistema se koristi od 2009. godine.  
+						<br/>
+						Uvođenjem ovog sistema ostvareno je da su uneti podaci o publikovanim radovima u saglasnosti sa CERIF modelom i tako jednom uneti podaci ostaju u bazi podataka na osnovu koje se kasnije mogu softverski generisati sve vrste izveštaja o publikovanim rezultatima na Fakultetu za potrebe različitih institucija (Ministarstva, Sekreterijati, Univerzitet, Fakultet i slično). 
+						<br/>
+					</p>
+					<ul>
+							<li><a style="font-size:16px" href="search.jsf?institution=(BISIS)5929">Pretraga publikovanih rezultata</a></li>
+							<br/>
+							<li><a style="font-size:16px" href="evaluation/evaluationJournal.jsf">Servis za vrednovanje časopisa</a></li>
+							<br/>
+							<li><a style="font-size:16px" href="apvRegisteredResearchers.jsf?institution=(BISIS)5929">Karton naučnih radnika</a></li>
+							<br/>
+							<br/>
+							<br/>
+							<li><a style="font-size:16px" href="index.jsf">CRIS UNS</a></li>
+					</ul>
+				</h:panelGroup>
+			</div>
+			
+			<div id="footer">
+    			<ui:insert name="footer">
+    				<ui:include src="./footer.xhtml"/>
+    			</ui:insert>
+    		</div>
+	</h:body>
+	</f:view>
+</html>

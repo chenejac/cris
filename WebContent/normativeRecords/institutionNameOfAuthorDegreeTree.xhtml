@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+	<h:panelGrid id="institutionTreePanel">
+		<rich:tree
+			id="richTreeInstitutionTreePanel"
+			value="#{searchDissertationsManagedBean.root}"
+			var="node"
+			toggleType="client"
+            selectionType="ajax"
+            nodeType="#{node.type}"
+            render="@this"
+            execute="@form"
+	        >
+           	<rich:treeSelectionChangeListener 
+           		listener="#{searchDissertationsManagedBean.selectionChanged}" 
+           		/>
+          	<rich:treeNode 
+			iconCollapsed="/resources/img/institution.jpg"
+			iconExpanded="/resources/img/institution.jpg"
+			iconLeaf="/resources/img/institution.jpg"
+			type="InstitutionDTO"
+			expanded="#{node.expanded}"
+			>
+				<h:graphicImage 
+					rendered="#{node.tree_state eq 'empty'}"
+					value="/resources/img/ce16.jpg"/>
+				<h:graphicImage 
+					rendered="#{node.tree_state eq 'full'}"
+					value="/resources/img/cf16.jpg" />
+				<h:graphicImage 
+					rendered="#{node.tree_state eq 'partial'}"
+					value="/resources/img/cp16.jpg" />
+				<h:outputText value="#{node}"/>
+			</rich:treeNode>
+			
+			<rich:treeNode 
+			iconCollapsed="/resources/img/spacer.gif"
+			iconExpanded="/resources/img/spacer.gif"
+			iconLeaf="/resources/img/spacer.gif"
+			type="ClassDTO"
+			expanded="#{false}"
+			>
+				<h:graphicImage 
+					rendered="#{node.tree_state eq 'empty'}"
+					value="/resources/img/ce16.jpg"/>
+				<h:graphicImage 
+					rendered="#{node.tree_state eq 'full'}"
+					value="/resources/img/cf16.jpg" />
+				<h:graphicImage 
+					rendered="#{node.tree_state eq 'partial'}"
+					value="/resources/img/cp16.jpg" />
+				<h:outputText value="#{node}"/>
+			</rich:treeNode>
+        </rich:tree>
+	</h:panelGrid>
+</ui:composition>
+	

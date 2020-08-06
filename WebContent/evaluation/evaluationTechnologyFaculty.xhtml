@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     >
+	<f:view locale="#{userManagedBean.language}" 
+		contentType="text/html; charset=iso-8859-1" 
+		beforePhase="#{evaluationTechnologyFacultyManagedBean.enterPage}" >
+		<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=../index.html" />
+			<meta http-equiv="Pragma" content="no-cache"/>
+			<meta http-equiv="Expires" content="-1"/>
+			<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+		</h:head>
+		<h:body>
+			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+			<h:outputScript library="js" name="functions.js" target="head"/>
+			<f:loadBundle
+				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+				var="messages" />
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="20"
+					width="1" 
+					/>
+				<div id="pleaseWait" class="transparent"></div>
+				<div id="progressBar" class="progressbar"><h:graphicImage
+					library="img" name="progressbar.gif"></h:graphicImage></div>
+				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<a4j:region id="form_region">
+					<h:form id="evaluationJournalTableForm">
+						<h:panelGrid id="mainPanel" 
+						 	styleClass="width100">
+							<h:inputText id="general" rendered="false" value="" />
+							<a4j:outputPanel ajaxRendered="true">
+								<rich:message 
+									for="general"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage"/>
+							</a4j:outputPanel>
+							
+							<rich:panel id="evaluationJournalPanel"
+							styleClass="width80">
+								<f:facet name="header">		
+									<h:outputText value="#{messages['evaluation.mainPanel.journalPanel.header']}" />
+								</f:facet>
+								<h:panelGrid id="journalSelection" columns="2" rendered="true" columnClasses="width15, width85" width="100%">
+									<a4j:outputPanel ajaxRendered="true">
+										<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.journalSelection.journalName']}: " 
+											for="name" 
+											errorStyleClass="errorMessage"
+											/>
+									</a4j:outputPanel>
+									<rich:autocomplete mode="cachedAjax" minChars="3" selectFirst="false"
+	            						id="name" 
+										value="#{evaluationTechnologyFacultyManagedBean.journalSomeName}" 
+										autocompleteMethod="#{journalManagedBean.autocompleteName}"
+										var="_journalRow"
+			            				fetchValue="#{_journalRow.controlNumber}"
+			            				autofill="false"
+			            				onselectitem="jsFuncChoose()" 
+			            				style="width:100% !important;"
+										inputClass="width80" 
+			            				>
+			            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+							            <!--     ........  name   ISSN .......-->
+							            <rich:column 
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell">
+											<h:outputText value="#{_journalRow.someName} &nbsp; ( &nbsp; #{_journalRow.issn} &nbsp;)"/>	
+										</rich:column>
+									</rich:autocomplete>
+	            					
+									<a4j:outputPanel ajaxRendered="true">
+										<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.journalSelection.journalISSN']}: " 
+											for="ISSN" 
+											errorStyleClass="errorMessage"
+											/>
+									</a4j:outputPanel>
+									<rich:autocomplete mode="cachedAjax" minChars="3" selectFirst="false"
+	            						id="ISSN" 
+										value="#{evaluationTechnologyFacultyManagedBean.journalISSN}" 
+										autocompleteMethod="#{journalManagedBean.autocompleteISSN}"
+										var="_journalRow"
+			            				fetchValue="#{_journalRow.controlNumber}"
+			            				autofill="false"
+			            				onselectitem="jsFuncChoose()"
+			            				style="width:60% !important;"
+										inputClass="width80"
+			            				>
+			            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+							            <!--     ........  ISSN   .......-->
+							            <rich:column 
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell">
+											<h:outputText value="#{_journalRow.issn} &nbsp; ( &nbsp; #{_journalRow.someName} &nbsp;)"/>		
+										</rich:column>
+									</rich:autocomplete>
+													
+									
+									<a4j:jsFunction 
+											name="jsFuncChoose"
+											execute="name ISSN"
+											action="#{evaluationTechnologyFacultyManagedBean.setAllFromJournal}" 
+											render="mainPanel"
+											
+											>
+									</a4j:jsFunction>
+									
+								</h:panelGrid>
+						 	</rich:panel>
+						 	
+						 	<rich:panel id="evaluationYearCommissionPanel"
+						 		styleClass="width80">
+						 		<f:facet name="header">
+										<h:outputText value="#{messages['evaluation.mainPanel.yearCommissionPanel.header']}" />
+								</f:facet>
+								
+						 		<h:panelGrid id="yearCommissionSelection" columns="4" rendered="true" columnClasses="width10, width40, width10, width40" width="100%">
+						 			
+						 				<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.yearCommissionSelection.year']}: " 
+											for="year" 
+											errorStyleClass="errorMessage"
+											/>
+										<h:inputText id="year" value="#{evaluationTechnologyFacultyManagedBean.year}">
+											<f:validateLongRange minimum="#{evaluationTechnologyFacultyManagedBean.minEvaluationYear}" maximum="#{evaluationTechnologyFacultyManagedBean.maxEvaluationYear}"/>
+											<rich:validator />
+										</h:inputText>
+										<a4j:outputPanel ajaxRendered="true">
+											<rich:message 
+												for="year" 
+												errorClass="errorMessage"
+												infoClass="infoMessage"
+												warnClass="warnMessage"
+												fatalClass="fatalMessage" />
+										</a4j:outputPanel>
+						 			
+						 				<h:outputText value="" />
+						 			
+						 			
+						 				<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.yearCommissionSelection.commission']}: " 
+											for="commission" 
+											errorStyleClass="errorMessage"
+											/>
+										
+										<h:selectOneMenu id="commission" value="#{evaluationTechnologyFacultyManagedBean.commissionID}" onchange="jsSetRulebook()">
+											<f:selectItems value="#{evaluationTechnologyFacultyManagedBean.allCommissions}"/>
+										</h:selectOneMenu>			
+
+						 				<mytags:outputLabel 
+											value=" #{messages['evaluation.mainPanel.yearCommissionSelection.fullText']}: " 
+											for="rulebookPng" 
+											errorStyleClass="errorMessage"
+											/>
+											
+										<h:outputLink 
+											value="#{evaluationTechnologyFacultyManagedBean.pdfUrl}"
+											target="_blank" 
+											rendered="#{not empty evaluationTechnologyFacultyManagedBean.commissionID}">
+											<h:graphicImage library="img" name="download32.png" id="rulebookPng" alt="none"/>
+										</h:outputLink>	
+										<h:graphicImage library="img" name="download32.png" id="rulebookPng1" alt="none" rendered="#{empty evaluationTechnologyFacultyManagedBean.commissionID}"/>
+
+										<h:outputText value="" />
+										<h:outputText value="" />
+										<h:outputText value="" />
+										
+							 			<h:commandButton 
+							 				value="#{messages['evaluation.mainPanel.yearCommissionSelection.btnEvaluate']}"
+							 				action="#{evaluationTechnologyFacultyManagedBean.evaluateSelectedJournalForCommissionAndYear()}"
+							 				  >
+								        </h:commandButton>
+							        
+							        	<a4j:jsFunction 
+												name="jsSetRulebook"
+												execute="year commission"
+												render="mainPanel"
+												action="#{evaluationTechnologyFacultyManagedBean.setCommissionRuleBook}" 
+												>
+										</a4j:jsFunction>
+							        			 			
+						 		</h:panelGrid>
+						 	
+						 	</rich:panel>
+						 	
+						 	<rich:panel id="evaluationEvaluationResultsPanel" 
+						 		styleClass="width80" 
+						 		rendered="true">
+						 		<f:facet name="header">
+										<h:outputText value="#{messages['evaluation.mainPanel.evaluationResultsPanel.header']}" />
+								</f:facet>
+								
+								<h:panelGrid id="evaluationResults" columns="1" 
+									rendered="#{not empty evaluationTechnologyFacultyManagedBean.evaluatedResult}" 
+									>
+											<h:outputText 
+												value="#{evaluationTechnologyFacultyManagedBean.selectedJournalHeader}" 
+												styleClass="evaluationResultsText"/>
+											<br/>
+											<br/>
+											<h:outputText 
+												escape="false"
+												value="#{evaluationTechnologyFacultyManagedBean.evaluatedResultHeader}" 
+												styleClass="evaluationResultsText"/>
+											<br/>
+											<h:outputText
+												escape="false"
+												rendered="#{not empty evaluationTechnologyFacultyManagedBean.evaluatedResult.impactFactor}" 
+												value="#{evaluationTechnologyFacultyManagedBean.evaluatedResultAsString}" 
+												styleClass="evaluationResultsText"/>
+											<br/>
+											<br/>	
+											<h:outputText
+												escape="false"
+												rendered="#{(not empty evaluationTechnologyFacultyManagedBean.evaluatedResult.impactFactor) and (not evaluationTechnologyFacultyManagedBean.showAllImpactFactors)}" 
+												value="#{messages['evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.bibliometricIndicators']}" 
+												styleClass="evaluationResultsText"/>
+											<h:outputText
+												escape="false"
+												rendered="#{(not empty evaluationTechnologyFacultyManagedBean.allImpactFactors) and (evaluationTechnologyFacultyManagedBean.showAllImpactFactors)}" 
+												value="#{messages['evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.allYearsImpactFactor']}" 
+												styleClass="evaluationResultsText"/>
+											<rich:panel id="scrollableBody"
+													styleClass="scrollableBody"
+													style="width:800px !important">
+												<rich:dataTable var="listVarTabel1" 
+										            	value="#{evaluationTechnologyFacultyManagedBean.evaluatedResultsImpactFactorsWithCategories}" 		
+										            	rowKeyVar="rowNumber"	
+										            	rendered="#{((not empty evaluationTechnologyFacultyManagedBean.evaluatedResult.impactFactor) and (not evaluationTechnologyFacultyManagedBean.showAllImpactFactors)) or ((not empty evaluationTechnologyFacultyManagedBean.allImpactFactors) and (evaluationTechnologyFacultyManagedBean.showAllImpactFactors))}"
+										            	styleClass="tableImpactFactors" 									      			
+										            	>																
+														<c:forEach items="#{evaluationTechnologyFacultyManagedBean.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames}" var="itemPropertyName">
+													        <rich:column style="#{(rowNumber == 0) ? 'background-color: #DCF0F7 !important;' : 'background-color: #F5F5F5 !important;'}">
+													        	<h:commandLink 
+													        		action="#{evaluationTechnologyFacultyManagedBean.setYearString(listVarTabel1[itemPropertyName])}" 
+													        		value="#{listVarTabel1[itemPropertyName]}" 
+													        		rendered="#{rowNumber == 0}"/> 
+													        	<h:outputText 
+													        		value="#{listVarTabel1[itemPropertyName]}" 
+													        		rendered="#{rowNumber != 0}"/>
+													            
+													        </rich:column> 
+													    </c:forEach>
+												</rich:dataTable>
+											</rich:panel>
+									        
+									        <br/>
+											<h:outputText
+													escape="false"
+													rendered="#{((not empty evaluationTechnologyFacultyManagedBean.evaluatedResult.impactFactor) and (not evaluationTechnologyFacultyManagedBean.showAllImpactFactors)) or ((not empty evaluationTechnologyFacultyManagedBean.allImpactFactors) and (evaluationTechnologyFacultyManagedBean.showAllImpactFactors))}"
+													value="#{messages['evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.clickOnYear']}" 
+													styleClass="evaluationResultsText"/>
+											<br/>
+											<br/>
+											<h:panelGroup>
+												<h:outputText
+													escape="false"
+													rendered="#{(not empty evaluationTechnologyFacultyManagedBean.allImpactFactors) and (not evaluationTechnologyFacultyManagedBean.showAllImpactFactors)}" 
+													value="#{messages['evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.allYearsImpactFactor']}" 
+													styleClass="evaluationResultsText"/>
+										        <h:commandLink 
+										        		rendered="#{(not empty evaluationTechnologyFacultyManagedBean.allImpactFactors) and (not evaluationTechnologyFacultyManagedBean.showAllImpactFactors)}" 
+														action="#{evaluationTechnologyFacultyManagedBean.impactFactorsForAllYears()}" 
+										        		value="link"
+										        		styleClass="evaluationResultsText" 
+										        		/> 
+									        
+										        <h:outputText
+													escape="false"
+													rendered="#{(not empty evaluationTechnologyFacultyManagedBean.evaluatedResult.impactFactor) and (evaluationTechnologyFacultyManagedBean.showAllImpactFactors)}" 
+													value="#{messages['evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.bibliometricIndicatorsBack']}" 
+													styleClass="evaluationResultsText"/>
+										        <h:commandLink 
+										        		rendered="#{(not empty evaluationTechnologyFacultyManagedBean.evaluatedResult.impactFactor) and (evaluationTechnologyFacultyManagedBean.showAllImpactFactors)}" 
+														action="#{evaluationTechnologyFacultyManagedBean.evaluateSelectedJournalForCommissionAndYear()}" 
+										        		value="link" 
+										        		styleClass="evaluationResultsText"
+										        		/>
+										   </h:panelGroup> 
+								</h:panelGrid>
+						 	</rich:panel>
+						</h:panelGrid>
+					</h:form>
+				</a4j:region>
+			</div>
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="70"
+				width="1"/>
+			<div id="footer">
+    			<ui:insert name="footer">
+					<ui:include src="../footer.xhtml"/>
+				</ui:insert>
+			</div>
+		</h:body>
+	</f:view>
+</html>

@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<rich:panel id="recordPreview"
+			header="#{messages['records.relatedRecords.preview']}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{relatedRecordsManagedBean.selectedRecord.HTMLRepresentation}"
+						styleClass="preview" 
+						escape="false"/>
+				</h:panelGrid>
+			</a4j:outputPanel>
+			<rich:panel 
+				id="scrollableBody"
+				styleClass="scrollableBody"
+				>
+				<h:panelGrid 
+					rendered="#{not empty relatedRecordsManagedBean.selectedRecord.relatedRecords}"
+					>
+					<rich:dataTable 
+						id="recordTable"
+						value="#{relatedRecordsManagedBean.selectedRecord.relatedRecords}"
+						var="relatedRecordsRow" 
+						rows="10" 
+						>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.relatedRecords.records']}" />
+							</f:facet>
+							<h:outputText value="#{relatedRecordsRow.stringRepresentation}" />
+						</rich:column>
+					</rich:dataTable>
+					<h:panelGrid >
+						<h:panelGroup>
+							<rich:dataScroller 
+								id="downDataScroller" 
+								align="left"
+								for="recordTable" 
+								render="recordPreview"
+								renderIfSinglePage="false"
+								/> 
+						</h:panelGroup>
+					</h:panelGrid>
+				</h:panelGrid>
+				<h:panelGrid 
+					rendered="#{empty relatedRecordsManagedBean.selectedRecord.relatedRecords}">
+					<h:outputText
+						value="#{messages['records.relatedRecords.norecords']}"
+						styleClass="rf-msg-inf" />
+				</h:panelGrid>
+			</rich:panel>
+		</rich:panel>
+</ui:composition>

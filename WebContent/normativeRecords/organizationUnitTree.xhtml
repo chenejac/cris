@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<rich:panel 
+		id="scrollableBody" 
+		styleClass="scrollableBody">
+		<!-- ===========================   treePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<rich:dragIndicator id="indicator" />
+		<h:panelGrid id="organizationUnitTreePanel">
+			<rich:tree 
+				  selectionType="ajax"
+		          value="#{organizationUnitManagedBean.root}"
+		          var="organizationUnitNode" >
+		          <rich:treeNode 
+		          		  expanded="true"
+		          		  icon="/img/institution.jpg"
+						  iconLeaf="/img/institution.jpg" >
+	               		<h:outputText value="#{organizationUnitNode.data}" />
+	               		<a4j:commandLink 
+							rendered="#{(not empty organizationUnitNode.data.superOrganizationUnit) and (not empty organizationUnitNode.data.superorganizationUnit.controlNumber)}"
+							action="#{organizationUnitManagedBean.switchToViewDetailsMode}"
+							render="organizationUnitEditModalPanel" 
+							limitRender="true"
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="details.png" />
+							<f:param name="controlNumber" value="#{organizationUnitNode.data.controlNumber}" />
+							<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.update]}"
+							action="#{organizationUnitManagedBean.switchToUpdateMode}"
+							render="organizationUnitEditModalPanel" 
+							limitRender="true"
+							execute="@this" 
+							immediate="true" >
+							<h:graphicImage library="img" name="edit.png" />
+							<f:param name="controlNumber" value="#{organizationUnitNode.data.controlNumber}" />
+							<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.delete]}"
+							action="#{organizationUnitManagedBean.delete}"
+							render="organizationUnitBrowseModalPanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true"
+							onclick="if(!confirmDecision()) return false" >
+							<h:graphicImage library="img" name="delete.png" />
+							<f:param name="controlNumber" value="#{organizationUnitNode.data.controlNumber}" />
+							<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							rendered="#{(organizationUnitManagedBean.tableMode == modesManagedBean.pick) and (not empty organizationUnitNode.data.superOrganizationUnit) and (not empty organizationUnitNode.data.superOrganizationUnit.controlNumber)}" 
+							action="#{organizationUnitManagedBean.chooseOrganizationUnit}"
+							render="mainPanel, #{organizationUnitManagedBean.renderModalPanels}"
+							immediate="true" 
+							execute="@this" > 
+							<h:graphicImage library="img" name="pick.png" />
+							<f:param name="controlNumber" value="#{organizationUnitNode.data.controlNumber}" />
+							<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							action="#{organizationUnitManagedBean.switchToAddMode}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.add]}" 
+							render="organizationUnitEditModalPanel" 
+							limitRender="true"
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="create24.png" />
+							<f:param name="controlNumber" value="#{organizationUnitNode.data.controlNumber}" />
+							<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
+						</a4j:commandLink>
+					</rich:treeNode>
+	        </rich:tree>
+			<h:panelGrid columns="1">
+				<a4j:commandLink 
+					action="#{organizationUnitManagedBean.switchToAddMode}"
+					rendered="#{userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.update]}" 
+					render="organizationUnitEditModalPanel" 
+					limitRender="true"
+					execute="@this" 
+					immediate="true">
+					<h:graphicImage library="img" name="create.png" />
+					<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
+				</a4j:commandLink>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

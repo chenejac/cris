@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 U (http://www.altova.com) by Srđan Škrbić (PMF, Department of Mathematics and Informatics) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="maticna_knjiga">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="podaci_o_autoru">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="prezime"/>
+							<xs:element name="ime"/>
+							<xs:element name="datum_rodjenja" type="xs:date" minOccurs="0"/>
+							<xs:element name="mesto_rodjenja" minOccurs="0"/>
+							<xs:element name="opstina_rodjenja" minOccurs="0"/>
+							<xs:element name="drzava_rodjenja" minOccurs="0"/>
+							<xs:element name="ocevo_ime" minOccurs="0"/>
+							<xs:element name="ocevo_prezime" minOccurs="0"/>
+							<xs:element name="majcino_ime" minOccurs="0"/>
+							<xs:element name="majcino_prezime" minOccurs="0"/>
+							<xs:element name="prezime_i_ime_staratelja" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="podaci_o_prethodnom_zvanju">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="pre_bolonje" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="naziv_zavrsene_ustanove"/>
+										<xs:element name="mesto_ustanove"/>
+										<xs:element name="naziv_zvanja_po_starom" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="магистарске студије - мр"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="datum_sticanja_zvanja" type="xs:date" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="po_bolonji" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="naziv_zvanja_po_bolonji">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Основне академске студије – ОАС"/>
+													<xs:enumeration value="Мастер академске студије – МАС"/>
+													<xs:enumeration value="Интегрисане академске студије – ОАС-МАС"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="zavrsio_skolske_godine" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="podaci_o_disertaciji">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="institucija"/>
+							<xs:element name="naslov"/>
+							<xs:element name="mentor_i_komisija">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="clan_komisije" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ime"/>
+													<xs:element name="prezime"/>
+													<xs:element name="titula">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="др"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="zvanje">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="Доцент"/>
+																<xs:enumeration value="Ванредни професор"/>
+																<xs:enumeration value="Редовни професор"/>
+																<xs:enumeration value="Научни сарадник"/>
+																<xs:enumeration value="Виши научни сарадник"/>
+																<xs:enumeration value="Научни саветник"/>
+																<xs:enumeration value="Професор емеритус"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element ref="institucija"/>
+													<xs:element name="uloga">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="ментор и члан"/>
+																<xs:enumeration value="ментор и није члан"/>
+																<xs:enumeration value="председник"/>
+																<xs:enumeration value="члан"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ocena" minOccurs="0"/>
+							<xs:element name="datum_odbrane" type="xs:date"/>
+							<xs:element name="naziv_stecenog_zvanja"/>
+							<xs:element name="broj_diplome" minOccurs="0"/>
+							<xs:element name="datum_izdavanja_diplome" type="xs:date" minOccurs="0"/>
+							<xs:element name="broj_dodatka" minOccurs="0"/>
+							<xs:element name="datum_izdavanja_dodatka" type="xs:date" minOccurs="0"/>
+							<xs:element name="datum_promocije" type="xs:date" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="adresa_za_promociju" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ulica_i_broj"/>
+							<xs:element name="mesto"/>
+							<xs:element name="postanski_broj" minOccurs="0"/>
+							<xs:element name="opstina" minOccurs="0"/>
+							<xs:element name="drzava"/>
+							<xs:element name="email"/>
+							<xs:element name="telefon"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="institucija">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="naziv"/>
+				<xs:element name="mesto"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

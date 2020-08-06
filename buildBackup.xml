@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CRIS UNS backup" default="main" basedir=".">
+	<property file="antBackup.properties" />
+	<property name="src" value="${basedir}/src" />
+	<property name="bin" value="${basedir}/bin" />
+	<property name="dist" value="${basedir}/dist" />
+	<property name="api" value="${basedir}/doc/api" />
+	<property name="compile-libs" value="${basedir}/compile-libs" />
+	<property name="runtime-libs" value="${basedir}/runtime-libs" />
+	<path id="compile.classpath">
+		<fileset dir="${compile-libs}" includes="*.jar" />
+	</path>
+	
+	<target name="init" >
+		<echo message="java.home = ${java.home}" />
+		<echo message="tomcat.dir = ${tomcat.dir}" />
+	</target>
+
+	<!-- Delete all built files -->
+	<target name="clean" depends="init">
+		<delete dir="${bin}" />
+		<delete dir="${dist}/backup" />
+		<delete dir="${META-INF}/backup" />
+	</target>
+
+	<!-- Compile everything -->
+	<target name="compile" depends="init">
+		<mkdir dir="${bin}" />
+		<javac srcdir="${src}" destdir="${bin}" classpathref="compile.classpath" >
+			<include name="rs/ac/uns/ftn/informatika/bibliography/backup/dbmodel/**"/>
+			<include name="rs/ac/uns/ftn/informatika/bibliography/backup/BackupApp.java"/>
+			<include name="rs/ac/uns/ftn/informatika/bibliography/backup/BackupTask.java"/>
+			<include name="rs/ac/uns/ftn/informatika/bibliography/backup/Task.java"/>
+		</javac>
+		<copy file="${src}/log4jBackup.properties" tofile="${bin}/log4j.properties" />
+		<copy file="${src}/rs/ac/uns/ftn/informatika/bibliography/backup/connection.properties" tofile="${bin}/rs/ac/uns/ftn/informatika/bibliography/backup/connection.properties" />
+	</target>
+	
+	
+
+	<!-- Jar -->
+	<target name="jar" depends="compile">
+		<mkdir dir="${dist}/backup" />
+		
+		<!-- create a property containing all .jar files, prefix lib/, and seperated with a space -->  
+		<pathconvert property="libs.project" pathsep=" ">  
+			<mapper>  
+				<chainedmapper>  
+			 		<!-- remove absolute path -->  
+			 		<flattenmapper />  
+			 		<!-- add lib/ prefix -->  
+					<globmapper from="*" to="lib/*" />  
+				</chainedmapper>  
+			</mapper>  
+	
+			<path>  
+				<!-- lib.home contains all jar files, in several subdirectories -->  
+	     		<fileset dir="${runtime-libs}">  
+			    	<include name="commons-beanutils-1.8.3.jar" />  
+	     			<include name="commons-betwixt-0.8.jar" />  
+	     			<include name="commons-collections-3.2.1.jar" />  
+	     			<include name="commons-digester-2.1.jar" />
+	     			<include name="commons-logging-1.1.1.jar" />  
+	     			<include name="log4j-1.2.16.jar" />  
+	     			<include name="mysql-connector-java-5.1.8-bin.jar" />  
+			    </fileset>  
+	     	</path>  
+		</pathconvert>  
+		<mkdir dir="${dist}/backup/lib" />  
+		<copy todir="${dist}/backup/lib" filtering="off">  
+		      <!-- remove the directory hierarchy: lib contains no subdirectories -->  
+			<flattenmapper />  
+			<fileset dir="${runtime-libs}">  
+		    	<include name="commons-beanutils-1.8.3.jar" />  
+     			<include name="commons-betwixt-0.8.jar" />  
+     			<include name="commons-collections-3.2.1.jar" />  
+     			<include name="commons-digester-2.1.jar" />
+     			<include name="commons-logging-1.1.1.jar" />  
+     			<include name="log4j-1.2.16.jar" />  
+     			<include name="mysql-connector-java-5.1.8-bin.jar" />  
+			</fileset>  
+		</copy>  
+		<mkdir dir="${src}/META-INF/backup" />  
+		<manifest file="${src}/META-INF/backup/MANIFEST.MF">
+			<attribute name="Main-Class" value="rs.ac.uns.ftn.informatika.bibliography.backup.BackupApp"/>
+			<!-- finally, use the magically generated libs path -->  
+			<attribute name="Class-Path" value="${libs.project}" />  
+		</manifest>
+		<jar 
+			destfile="${dist}/backup/${jarname}.jar"
+			basedir="${bin}"
+			manifest="${src}/META-INF/backup/MANIFEST.MF" />
+		
+	</target>
+
+	
+	<target name="main" depends="clean, jar" />
+	
+	<target name="javadoc">
+        <javadoc access="private" author="true" classpath="compile-libs/commons-digester-1.7.jar;compile-libs/commons-betwixt-0.7.jar;compile-libs/log4j-1.2.11.jar;compile-libs/commons-logging-1.1.jar" destdir="${api}" doctitle="CRIS UNS Backup API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="rs.ac.uns.ftn.informatika.bibliography.backup.dbmodel,rs.ac.uns.ftn.informatika.bibliography.backup" source="1.6" sourcepath="src" splitindex="true" use="true" version="true">
+            <link href="http://java.sun.com/javase/6/docs/api/"/>
+        </javadoc>
+    </target>
+	
+	<target name="run">
+		<java jar="${dist}/backup/${jarname}.jar" fork="true">
+			<arg value="${backupname}"/>
+		</java>
+	</target>
+	
+</project>

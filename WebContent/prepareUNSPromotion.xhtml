@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+	>
+	<f:view locale="#{userManagedBean.language}" 
+		contentType="text/html; charset=iso-8859-1" 
+		beforePhase="#{prepareUNSPromotionManagedBean.enterPage}">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=prepareUNSPromotion.jsf" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+	</h:head>
+	<h:body onload="formId='preparePromotionForm'; setFocus(); " 
+		rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.browse]))}"
+		>
+		<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+		<h:outputScript library="js" name="functions.js" target="head"/>
+		<f:loadBundle
+				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+				var="messages" />
+		<div id="header">
+   			<ui:insert name="header">
+   				<ui:include src="./header.xhtml"/>
+   			</ui:insert>
+		</div>		
+		<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="20"
+					width="1"
+					/>
+				<div id="pleaseWait" class="transparent"></div>
+				<div id="progressBar" class="progressbar"><h:graphicImage
+					library="img" name="progressbar.gif"></h:graphicImage></div>
+				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<a4j:region id="form_region">
+				<!-- MAIN PANEL -->
+					<h:panelGrid 
+						id="mainPanel">						
+						<rich:panel 
+							id="preparePromotionPanel"
+							header="#{messages['records.prepareUNSPromotion.preparePromotionUNS']}">
+							<h:form id="preparePromotionForm">							
+							<h:panelGrid id="preparePromotionFormPanel" width="100%">	
+							<h:inputText id="general" rendered="false" value="" />
+									<a4j:outputPanel ajaxRendered="true">
+										<rich:message 
+											for="general"
+											errorClass="errorMessage"
+											infoClass="infoMessage"
+											warnClass="warnMessage"
+											fatalClass="fatalMessage"/>
+									</a4j:outputPanel>							
+								<rich:tabPanel headerAlignment="left" switchType="ajax" itemChangeListener="#{prepareUNSPromotionManagedBean.changeTab}">
+							 		<a4j:ajax 
+										limitRender="true"
+										render="mainPanel, regEntriesForPromotionTable, promotionNames" 
+										event="itemchange"/> 
+									<rich:tab 
+										header="#{messages['records.prepareUNSPromotion.candidates']}" 
+										id="registeredEntriesWithoutIdTab" >
+										<h:panelGrid>
+										<rich:dataTable 
+											id="regEntriesWithoutIdTable" 
+											value="#{prepareUNSPromotionManagedBean.registerEntriesWithoutId}"
+											var="regEntryRow"
+											rowKeyVar="regEntryRowKey" 
+											rows="15"
+											styleClass="stable"			
+											>											
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+												 	<a4j:commandLink value="#{messages['records.prepareUNSPromotion.lastAndFirstName']}" render="regEntriesWithoutIdTable" action="#{prepareUNSPromotionManagedBean.sortByLastName}" />													
+												</f:facet>
+												<h:outputText value="#{regEntryRow.authorName.lastname} #{regEntryRow.authorName.firstname}"/>
+											</rich:column>		
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+													<a4j:commandLink value="#{messages['records.prepareUNSPromotion.faculty']}" render="regEntriesWithoutIdTable" action="#{prepareUNSPromotionManagedBean.sortBy('institution')}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.institution}"/>
+											</rich:column>		
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.nameOfDegree']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.nameOfAuthorDegree}"/>												
+											</rich:column>										
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.defendedOn']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.defendedOn.time}">
+													<f:convertDateTime type="date" pattern="dd.MM.yyyy." timeZone="CET"/>	
+												</h:outputText>
+											</rich:column>	
+											<rich:column			
+												style="text-align:center;" 
+												>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.forPromotion']}" />
+												</f:facet>
+												 <h:inputText  value="#{regEntryRow.futurePromotionName}" 
+												 rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.update]))}" />	
+												 <h:outputText  value="#{regEntryRow.futurePromotionName}" 
+												 	rendered="#{(not userManagedBean.loggedIn) or ((not userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.update]))}" />											 				                    
+							                 </rich:column>   
+										</rich:dataTable>
+										<h:panelGrid columns="1">
+										<h:panelGroup>
+											<rich:dataScroller 
+											    maxPages="10"
+												id="downDataScroller" 
+												align="left"	
+												fastStep="10"					
+												for="regEntriesWithoutIdTable" 
+												render="preparePromotionPanel"
+												renderIfSinglePage="false" /> 
+										</h:panelGroup>
+										</h:panelGrid>	
+									</h:panelGrid>
+									</rich:tab>	
+									<rich:tab header="#{messages['records.prepareUNSPromotion.prepareForPromotion']}" id="registeredEntriesForPromotionTab" 
+										rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.update]))}">									
+									<h:panelGrid>
+										<h:panelGrid columns="2">
+											<h:outputText value="#{messages['records.prepareUNSPromotion.promotion']}" />
+											<h:selectOneMenu id="promotionNames" value="#{prepareUNSPromotionManagedBean.selectedPromotionName}">
+												<f:selectItems value="#{prepareUNSPromotionManagedBean.distinctPromotionNames}"/> 
+												<a4j:ajax event="valueChange" immediate="true" execute="@this" render="regEntriesForPromotionTable" />												
+											</h:selectOneMenu>
+										</h:panelGrid>
+										<rich:dataTable 
+											id="regEntriesForPromotionTable" 
+											value="#{prepareUNSPromotionManagedBean.selectedForNamedPromotion}"
+											var="regEntryRow"
+											rowKeyVar="regEntryRowKey" 
+											rows="15"
+											styleClass="stable"													
+											>
+											<!--  
+											<rich:column			
+												styleClass="rbr-column" >															
+												<f:facet name="header">
+													<h:outputText value="R.br." />
+												</f:facet>
+												<h:outputText value="#{regEntryRowKey+1}."/>
+											</rich:column>	-->	
+											<rich:column			
+												styleClass="rich-table-wide-cell" >															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.lastAndFirstName']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.authorName.lastname} #{regEntryRow.authorName.firstname}"/>
+											</rich:column>		
+											<rich:column			
+												styleClass="rich-table-wide-cell">															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.faculty']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.institution}" />
+											</rich:column>		
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.nameOfDegree']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.nameOfAuthorDegree}" />												
+											</rich:column>										
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.defendedOn']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.defendedOn.time}" >
+													<f:convertDateTime type="date" pattern="dd.MM.yyyy." timeZone="CET"/>	
+												</h:outputText>
+											</rich:column>	
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.diplomaNumber']}" />
+												</f:facet>
+												<h:inputText value="#{regEntryRow.diplomaNumber}" readonly="#{!regEntryRow.oldProgram}"/>													
+											</rich:column>	
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.diplomaPublicationDate']}" />
+												</f:facet>
+												<rich:calendar									        	   
+									        	   value="#{regEntryRow.diplomaPublicationDateDate}"
+									        	   enableManualInput="true"
+									        	   required="false"
+												   datePattern="dd/MM/yyyy"
+												   firstWeekDay="1"	
+												   readonly="#{!regEntryRow.oldProgram}"/>													
+											</rich:column>	
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.forPromotion']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.futurePromotionName}" />													
+											</rich:column>	
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.notPromoted']}" />
+												</f:facet>									
+												<a4j:commandLink 
+													action="#{prepareUNSPromotionManagedBean.unselectForPromotion(regEntryRow)}"
+													render="preparePromotionPanel" 
+													limitRender="true"
+													execute="@this" 
+													immediate="true">
+													<h:graphicImage library="img" name="delete16.png"/>													
+												</a4j:commandLink>														
+											</rich:column>										
+										</rich:dataTable>
+										<h:panelGrid columns="1">
+										<h:panelGroup>
+											<rich:dataScroller 
+											    maxPages="10"
+												id="downDataScroller1" 
+												align="left"	
+												fastStep="10"					
+												for="regEntriesForPromotionTable" 
+												render="preparePromotionPanel"
+												renderIfSinglePage="false" /> 
+										</h:panelGroup>										
+										<h:panelGrid columns="4">
+										<a4j:commandButton 
+											id="showList" 
+											value="#{messages['records.prepareUNSPromotion.printList']}" 
+											action="#{prepareUNSPromotionManagedBean.prepareListForPrinting()}" 
+											render="showListForPrinting"/>	
+										<a4j:commandButton 
+											id="saveListForPromotion" 
+											value="#{messages['records.prepareUNSPromotion.saveList']}" 
+											action="#{prepareUNSPromotionManagedBean.saveListForPromotion()}" 
+											render="general"	/>													
+										<a4j:commandButton 
+											id="registerEntryInput"											
+											value="#{messages['records.prepareUNSPromotion.registerEntryInput']}" 
+											action="#{prepareUNSPromotionManagedBean.registerEntryInput()}" 
+											render="registerEntryInputGrid"
+											style="margin-left: 80px"/>	
+										<h:commandLink 
+											value="#{messages['records.prepareUNSPromotion.checkRegisterEntryData']}"
+											action="#{prepareUNSPromotionManagedBean.checkMaticnaKnjigaForPromotion()}"							
+											target="_blank">
+										</h:commandLink>			
+										</h:panelGrid>																			
+										</h:panelGrid>										
+									</h:panelGrid>																	
+									</rich:tab>			
+									<rich:tab header="#{messages['records.prepareUNSPromotion.numPhDPerInstitution']}" id="numPhDPerInstitution" 
+									rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.update]))}">									
+										<h:form id="reportPerInstitutionForm">								
+										<h:panelGrid columns="1">											
+											<h:outputText value="#{messages['records.prepareUNSPromotion.titleReport']}" />	
+											<h:panelGrid columns="5"> 
+												<h:outputText value="#{messages['records.prepareUNSPromotion.dateFrom']}" />	
+												<rich:calendar 
+									        	   id="dateFromInput"
+									        	   value="#{prepareUNSPromotionManagedBean.dateFrom}"
+									        	   enableManualInput="true"
+												   datePattern="dd/MM/yyyy"
+												   firstWeekDay="1"					        	   
+									        	   />
+												<h:outputText value="#{messages['records.prepareUNSPromotion.dateTo']}" />	
+												<rich:calendar 
+									        	   id="dateToInput"
+									        	   value="#{prepareUNSPromotionManagedBean.dateTo}"
+									        	   enableManualInput="true"
+												   datePattern="dd/MM/yyyy"
+												   firstWeekDay="1"					        	   
+									        	   />
+									        	   <a4j:commandButton 
+													id="showReport"											
+													value="#{messages['records.prepareUNSPromotion.showReport']}" 
+													action="#{prepareUNSPromotionManagedBean.executeNumberPhDPerIntitutionForPeriod()}" 
+													render="numPhDPerInstitution, mainPanel"									
+													execute="@form"
+													style="margin-left: 80px"/>			
+											</h:panelGrid>
+											<rich:dataTable 
+												id="reportPerInstitutionTable" 
+												value="#{prepareUNSPromotionManagedBean.listNumberPhDPerInstitution}"
+												var="organisationRow"
+												rowKeyVar="organisationRowKey" 
+												rows="17"
+												styleClass="stable"			
+											>	
+											<rich:column			
+													styleClass="rbr-column" >															
+													<f:facet name="header">
+														<h:outputText value="R.br." />
+													</f:facet>
+													<h:outputText value="#{organisationRowKey+1}."/>													
+												</rich:column>	
+												<rich:column			
+													styleClass="rich-table-wide-cell" >						
+													<f:facet name="header">
+													 	<h:outputText value="Организациона јединица Универзитета у Новом Саду"/>													
+													</f:facet>
+													<h:outputText value="#{organisationRow.institutionName}"/>
+													<f:facet name="footer">
+														<h:outputText value="Ukupno" />
+													</f:facet>
+												</rich:column>		
+												<rich:column			
+													styleClass="rich-table-wide-cell" >						
+													<f:facet name="header">
+													 	<h:outputText value="Број промовисаних-докторске студије"/>													
+													</f:facet>
+													<h:outputText value="#{organisationRow.numPhDNew}"/>
+													<f:facet name="footer">
+														<h:outputText value="#{prepareUNSPromotionManagedBean.totalNewProgram}" />
+													</f:facet>
+												</rich:column>		
+												<rich:column			
+													styleClass="rich-table-wide-cell" >						
+													<f:facet name="header">
+													 	<h:outputText value="Број промовисаних-по старом"/>													
+													</f:facet>
+													<h:outputText value="#{organisationRow.numPhDOld}"/>
+													<f:facet name="footer">
+														<h:outputText value="#{prepareUNSPromotionManagedBean.totalOldProgram}" />
+													</f:facet>
+												</rich:column>											
+											</rich:dataTable>
+											<h:outputText value="Ukupno promovisano: #{prepareUNSPromotionManagedBean.totalOldProgram+prepareUNSPromotionManagedBean.totalNewProgram} "/>
+										</h:panelGrid>										
+									</h:form>
+									<br/>
+									<br/>
+									<br/>
+									<br/>
+									<br/>								
+									</rich:tab>	
+									<rich:tab header="#{messages['records.prepareUNSPromotion.registerEntriesBook']}" id="registerGeneration">									
+										<h:form id="generateRegister" >
+										<h:panelGrid columns="1">		
+											<h:panelGrid columns="1">
+												<!--<h:selectOneRadio value="#{prepareUNSPromotionManagedBean.registerType}" id="radioRegisterType" immediate="true">
+												   	<f:selectItem itemValue="poDatumu" itemLabel="Po datumu" />
+												   	<f:selectItem itemValue="poInstituciji" itemLabel="Po instituciji" />	
+												   	<a4j:ajax event="valueChange" immediate="true" execute="@this" render="registerTypePanel"/>												   									   	
+												</h:selectOneRadio>
+												-->
+												<rich:panel id="registerTypePanel">
+												<h:panelGrid columns="5" id="poDatumuRegister" 
+												>
+												  <h:outputText value="#{messages['records.prepareUNSPromotion.dateFrom']}" />	
+												<rich:calendar 
+									        	   id="dateFromInputRegister"
+									        	   value="#{prepareUNSPromotionManagedBean.dateFromRegister}"
+									        	   enableManualInput="true"
+												   datePattern="dd/MM/yyyy"
+												   firstWeekDay="1"					        	   
+									        	   />
+												<h:outputText value="#{messages['records.prepareUNSPromotion.dateTo']}" />	
+												<rich:calendar 
+									        	   id="dateToInput"
+									        	   value="#{prepareUNSPromotionManagedBean.dateToRegister}"
+									        	   enableManualInput="true"
+												   datePattern="dd/MM/yyyy"
+												   firstWeekDay="1"					        	   
+									        	   />	
+												</h:panelGrid>
+												<h:panelGrid columns="3" id="poInstitucijiRegister" >
+													 <h:outputText value="Institucija" />
+													 <h:selectOneMenu value="#{prepareUNSPromotionManagedBean.institutionRegister}">
+													 	<f:selectItems value="#{prepareUNSPromotionManagedBean.getDistinctInstitutionsItems()}" />   
+													 </h:selectOneMenu>
+													 <h:commandButton 
+														id="showReport2"											
+														value="#{messages['records.prepareUNSPromotion.showReport']}" 
+														action="#{prepareUNSPromotionManagedBean.executeShowRegisterEntry()}"																						
+														execute="@form"														
+														style="margin-left: 80px"
+														 onclick="this.form.target='_blank'" 
+														/>	
+												</h:panelGrid>
+												</rich:panel>
+											</h:panelGrid>	
+											</h:panelGrid>							
+										</h:form>
+										<br/>
+										<br/>
+										<br/>
+										<br/>
+										<br/>
+										<br/>
+										<br/>
+									</rich:tab>	
+									<rich:tab header="#{messages['records.prepareUNSPromotion.generationIds']}" id="registeredEntriesForGenerationIdsTab"
+										rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.update]))}">									
+									<h:panelGrid>
+										<rich:dataTable 
+											id="regEntriesForGenerationIdsTable" 
+											value="#{prepareUNSPromotionManagedBean.listForGeneratingIds}"
+											var="regEntryRow"
+											rowKeyVar="regEntryRowKey" 
+											rows="15"
+											styleClass="stable"													
+											>
+											<!--  
+											<rich:column			
+												styleClass="rbr-column" >															
+												<f:facet name="header">
+													<h:outputText value="R.br." />
+												</f:facet>
+												<h:outputText value="#{regEntryRowKey+1}."/>
+											</rich:column>	-->	
+											<rich:column			>															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.id']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.id}"/>
+											</rich:column>
+											<rich:column			
+												>															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.academicYear']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.academicYear}"/>
+											</rich:column>
+											<rich:column			
+												>															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.academicYearNumber']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.academicYearNumber}"/>
+											</rich:column>
+											<rich:column			
+												styleClass="rich-table-wide-cell" >															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.lastAndFirstName']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.authorName.lastname} #{regEntryRow.authorName.firstname}"/>
+											</rich:column>		
+											<rich:column			
+												styleClass="rich-table-wide-cell">															
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.faculty']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.institution}" />
+											</rich:column>		
+											<rich:column			
+												styleClass="rich-table-wide-cell" >						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.nameOfDegree']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.nameOfAuthorDegree}" />												
+											</rich:column>										
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.defendedOn']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.defendedOn.time}" >
+													<f:convertDateTime type="date" pattern="dd.MM.yyyy." timeZone="CET"/>	
+												</h:outputText>
+											</rich:column>	
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.diplomaNumber']}" />
+												</f:facet>
+												<h:outputText value="#{regEntryRow.diplomaNumber}"/>													
+											</rich:column>	
+											<rich:column>						
+												<f:facet name="header">
+													<h:outputText value="#{messages['records.prepareUNSPromotion.promotionDate']}" />
+												</f:facet>
+												<rich:calendar									        	   
+									        	   value="#{regEntryRow.promotionDate.time}"
+									        	   enableManualInput="true"
+									        	   required="false"
+												   datePattern="dd/MM/yyyy"
+												   firstWeekDay="1"	
+												   readonly="true"/>													
+											</rich:column>											
+										</rich:dataTable>
+										<h:panelGrid columns="1">
+											<h:panelGroup>
+												<rich:dataScroller 
+												    maxPages="10"
+													align="left"	
+													fastStep="10"					
+													for="regEntriesForGenerationIdsTable" 
+													render="preparePromotionPanel"
+													renderIfSinglePage="false" /> 
+											</h:panelGroup>										
+											<h:panelGrid columns="3">
+												<a4j:commandButton 
+													value="#{messages['records.prepareUNSPromotion.generateIds']}" 
+													action="#{prepareUNSPromotionManagedBean.generateIds()}" 
+													render="preparePromotionPanel"/>	
+												<a4j:commandButton 
+													value="#{messages['records.prepareUNSPromotion.saveGeneratedIds']}" 
+													action="#{prepareUNSPromotionManagedBean.storeGeneratedIds()}" 
+													render="preparePromotionPanel"	/>
+												<a4j:commandButton 
+													value="#{messages['records.prepareUNSPromotion.cancel']}" 
+													action="#{prepareUNSPromotionManagedBean.executeObtainRegisterEntriesForGeneratingId()}" 
+													render="preparePromotionPanel"	/>																	
+											</h:panelGrid>																												
+										</h:panelGrid>
+									</h:panelGrid>																	
+									</rich:tab>			
+								</rich:tabPanel>
+							</h:panelGrid>
+							</h:form>
+						</rich:panel>						
+					</h:panelGrid>	
+					<h:panelGrid id="showListForPrinting">
+					<h:form id="showListForPrintingForm">
+					<rich:popupPanel 
+						rendered="#{prepareUNSPromotionManagedBean.showListForPrinting}" 
+						show="true"						
+						resizeable="true"
+						domElementAttachment="parent"
+						onbeforeshow="calculateSize('showListForPrintingForm:scrollableBody');"
+						minWidth="600"
+						minHeight="500">
+			       		 <f:facet name="header">
+				            <h:outputText value="#{messages['records.prepareUNSPromotion.listForPromotion']}" />
+				        </f:facet>
+				        <f:facet name="controls">
+							<a4j:commandLink 
+								action="#{prepareUNSPromotionManagedBean.exitShowList}"
+								styleClass="hidelink" 
+								render="showListForPrinting"
+								limitRender="true"
+								immediate="true" 
+								execute="@this">
+								<h:graphicImage library="img" name="close.png" />
+							</a4j:commandLink>
+						</f:facet>
+						<h:form>			
+						<h:panelGrid width="100%">						
+							<h:selectOneMenu id="viewType" value="#{prepareUNSPromotionManagedBean.choosenView}">
+							 <f:selectItem itemValue="1"  itemLabel="#{messages['records.prepareUNSPromotion.list']}"/>
+							 <f:selectItem itemValue="2"  itemLabel="#{messages['records.prepareUNSPromotion.addresses']}"/> 
+							 <f:selectItem itemValue="3"  itemLabel="#{messages['records.prepareUNSPromotion.forDiploma']}"/> 
+							 <a4j:ajax event="valueChange" immediate="true" execute="@this" render="panelForPrinting"/>												
+							</h:selectOneMenu>							
+							<rich:panel id="panelForPrinting">					        
+					        	<h:outputText value="#{prepareUNSPromotionManagedBean.listForPrinting}" escape="false" rendered="#{prepareUNSPromotionManagedBean.choosenView=='1'}" />
+					        	<h:outputText value="#{prepareUNSPromotionManagedBean.listForPrintingAdress}"  escape="false" rendered="#{prepareUNSPromotionManagedBean.choosenView=='2'}" />
+					        	<h:outputText value="#{prepareUNSPromotionManagedBean.listForPrintingForDiploma}"  escape="false" rendered="#{prepareUNSPromotionManagedBean.choosenView=='3'}" />
+					        </rich:panel>
+				        </h:panelGrid>	
+				        </h:form>					        
+				     </rich:popupPanel>
+				     </h:form>				     
+				    </h:panelGrid>	
+				    <h:panelGrid id="registerEntryInputGrid">	
+				   	<h:form>			
+					<rich:popupPanel 
+						rendered="#{prepareUNSPromotionManagedBean.showRegisterEntryInput}" 
+						show="true"						
+						resizeable="true"
+						domElementAttachment="parent"
+						onbeforeshow="calculateSize('showListForPrintingForm:scrollableBody');"
+						minWidth="600"
+						minHeight="500">
+						
+			       		 <f:facet name="header">
+				            <h:outputText value="#{messages['records.prepareUNSPromotion.registerEntryInput']}" />
+				        </f:facet>
+				       
+				        <f:facet name="controls">
+							<a4j:commandLink 
+								action="#{prepareUNSPromotionManagedBean.exitShowRegisterEntryInput()}"
+								styleClass="hidelink" 
+								render="registerEntryInputGrid"
+								limitRender="true"
+								immediate="true" 
+								execute="@this">
+								<h:graphicImage library="img" name="close.png" />
+							</a4j:commandLink>
+						</f:facet>
+						
+						<h:form id="savePromotionDateForm">			
+						<h:panelGrid width="100%">																
+							<h:outputText value="#{messages['records.prepareUNSPromotion.listOfPromotedForRegisterEntryInput']}" />						
+							<rich:panel id="showPromotedListPanel">					        
+					        	<h:outputText value="#{prepareUNSPromotionManagedBean.listForPromotion}" escape="false" />					        	
+					        </rich:panel>
+					        <h:panelGrid columns="2">
+					        	<h:outputFormat value="#{messages['records.prepareUNSPromotion.promotionDate']}" />
+					        	<rich:calendar 
+					        	   id="promotionDateInput"
+					        	   value="#{prepareUNSPromotionManagedBean.promotionDate}"
+					        	   enableManualInput="true"
+								   datePattern="dd/MM/yyyy"
+								   firstWeekDay="1"					        	   
+					        	   />
+					        	<a4j:outputPanel ajaxRendered="true" >
+									<rich:message 
+										for="promotionDateInput"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage"/>	
+								</a4j:outputPanel>			
+					        </h:panelGrid>						         			        	        			        
+					        <a4j:commandButton 
+									id="executeRegisterEntryInput"											
+									value="#{messages['records.prepareUNSPromotion.enter']}" 
+									action="#{prepareUNSPromotionManagedBean.executeRegisterEntryInput()}" 
+									render="registerEntryInputGrid, mainPanel"									
+									execute="@form"
+									style="margin-left: 80px"
+									/>		
+																				
+						</h:panelGrid>				       
+				        </h:form>			
+				        	        
+				     </rich:popupPanel>
+				     </h:form>			     
+				    </h:panelGrid>				
+				</a4j:region>
+				
+				</div>	
+	</h:body>	
+	</f:view>	
+	
+</html>	
+	

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UnsDisertacijeZbirno" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56c21d70-b5a8-427e-89f7-c13b05527328">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#CCCCCC" hAlign="Center" vAlign="Middle" fontName="Times New Roman" fontSize="11" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF" fontName="Times New Roman" fontSize="11">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" hAlign="Left" vAlign="Middle" fontName="Times New Roman" fontSize="11">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<field name="nazivFakulteta" class="java.lang.String"/>
+	<field name="brojDisertacija" class="java.lang.Integer"/>
+	<variable name="redniBroj" class="java.lang.String">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}+"."]]></variableExpression>
+	</variable>
+	<variable name="ukupno" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{brojDisertacija}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="02ec4b29-776b-4217-ae43-d781b9721729" x="10" y="0" width="792" height="35"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Табела  6.5.  Списак објављених докторских дисертација  кандидатa који су докторирали на високошколској установи у периоду
+2006-2012.године
+]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ef32e30a-26d4-4e49-807d-41cb5b60fe45" style="table_TH" x="0" y="0" width="56" height="27"/>
+				<textElement/>
+				<text><![CDATA[Редни број]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b72f208f-28ec-4935-8e5c-671b90c661ef" style="table_TH" x="56" y="0" width="436" height="27"/>
+				<textElement/>
+				<text><![CDATA[Факултети УНС-а  и АЦИМСИ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2624ce75-7812-46b5-9ac2-2a0ad318b822" style="table_TH" x="492" y="0" width="277" height="27"/>
+				<textElement/>
+				<text><![CDATA[Укупан број докторских дисертација у периоду од 2006-2012.године ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement uuid="e008a54b-83f2-41f1-be56-501a82d35d1f" style="table_TD" x="0" y="0" width="56" height="27"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{redniBroj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ba03f2a5-9d01-4e29-91a0-50f0af2ab0fa" style="table_TD" x="56" y="0" width="436" height="27"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nazivFakulteta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="84f418b6-9444-4982-89ec-76542115df26" style="table_TD" x="492" y="0" width="277" height="27"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{brojDisertacija}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bd75d9f3-2ea4-41f1-a937-e8f93684a128" style="table_TH" x="0" y="0" width="56" height="17"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bd75d9f3-2ea4-41f1-a937-e8f93684a128" style="table_TH" x="56" y="0" width="436" height="17"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Укупно:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6b84172b-3755-47f8-9b7d-4ea8caddaff5" style="table_TH" x="492" y="0" width="277" height="17"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$V{ukupno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

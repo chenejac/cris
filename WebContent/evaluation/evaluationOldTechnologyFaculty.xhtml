@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+     >
+	<f:view locale="#{userManagedBean.language}" 
+		contentType="text/html; charset=iso-8859-1" 
+		beforePhase="#{evaluationOldTechnologyFacultyManagedBean.enterPage}" >
+		<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=../index.html" />
+			<meta http-equiv="Pragma" content="no-cache"/>
+			<meta http-equiv="Expires" content="-1"/>
+			<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+		</h:head>
+		<h:body>
+			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+			<h:outputScript library="js" name="functions.js" target="head"/>
+			<f:loadBundle
+				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+				var="messages" />
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="20"
+					width="1" 
+					/>
+				<div id="pleaseWait" class="transparent"></div>
+				<div id="progressBar" class="progressbar"><h:graphicImage
+					library="img" name="progressbar.gif"></h:graphicImage></div>
+				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<a4j:region id="form_region">
+					<h:form id="evaluationJournalTableForm">
+						<h:panelGrid id="mainPanel">
+							<h:inputText id="general" rendered="false" value="" />
+							<a4j:outputPanel ajaxRendered="true">
+								<rich:message 
+									for="general"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage"/>
+							</a4j:outputPanel>
+							
+							<rich:panel id="evaluationJournalPanel">
+								<f:facet name="header">		
+									<h:outputText value="#{messages['evaluation.mainPanel.journalPanel.header']}" />
+								</f:facet>
+								<h:panelGrid id="journalSelection" columns="2" rendered="true" columnClasses="width15, width85" width="100%">
+									<a4j:outputPanel ajaxRendered="true">
+										<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.journalSelection.journalName']}: " 
+											for="name" 
+											errorStyleClass="errorMessage"
+											/>
+									</a4j:outputPanel>
+									<rich:autocomplete mode="cachedAjax" minChars="3" selectFirst="false"
+	            						id="name" 
+										value="#{evaluationOldTechnologyFacultyManagedBean.journalSomeName}" 
+										autocompleteMethod="#{journalManagedBean.autocompleteName}"
+										var="_journalRow"
+			            				fetchValue="#{_journalRow.controlNumber}"
+			            				autofill="false"
+			            				onselectitem="jsFuncChoose()" 
+			            				style="width:100% !important;"
+										inputClass="width98" 
+			            				>
+			            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+							            <!--     ........  name   ISSN .......-->
+							            <rich:column 
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell">
+											<h:outputText value="#{_journalRow.someName} &nbsp; ( &nbsp; #{_journalRow.issn} &nbsp;)"/>	
+										</rich:column>
+									</rich:autocomplete>
+	            					
+									<a4j:outputPanel ajaxRendered="true">
+										<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.journalSelection.journalISSN']}: " 
+											for="ISSN" 
+											errorStyleClass="errorMessage"
+											/>
+									</a4j:outputPanel>
+									<rich:autocomplete mode="cachedAjax" minChars="3" selectFirst="false"
+	            						id="ISSN" 
+										value="#{evaluationOldTechnologyFacultyManagedBean.journalISSN}" 
+										autocompleteMethod="#{journalManagedBean.autocompleteISSN}"
+										var="_journalRow"
+			            				fetchValue="#{_journalRow.controlNumber}"
+			            				autofill="false"
+			            				onselectitem="jsFuncChoose()"
+			            				style="width:60% !important;"
+										inputClass="width98"
+			            				>
+			            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+							            <!--     ........  ISSN   .......-->
+							            <rich:column 
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell">
+											<h:outputText value="#{_journalRow.issn} &nbsp; ( &nbsp; #{_journalRow.someName} &nbsp;)"/>		
+										</rich:column>
+									</rich:autocomplete>
+													
+									
+									<a4j:jsFunction 
+											name="jsFuncChoose"
+											execute="name ISSN"
+											action="#{evaluationOldTechnologyFacultyManagedBean.setAllFromJournal}" 
+											render="mainPanel"
+											
+											>
+									</a4j:jsFunction>
+									
+								</h:panelGrid>
+						 	</rich:panel>
+						 	
+						 	<rich:panel id="evaluationYearCommissionPanel">
+						 		<f:facet name="header">
+										<h:outputText value="#{messages['evaluation.mainPanel.yearCommissionPanel.header']}" />
+								</f:facet>
+								
+						 		<h:panelGrid id="yearCommissionSelection" columns="4" rendered="true" columnClasses="width10, width70, width10, width10" width="100%">
+						 			
+						 				<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.yearCommissionSelection.year']}: " 
+											for="year" 
+											errorStyleClass="errorMessage"
+											/>
+										<h:inputText id="year" value="#{evaluationOldTechnologyFacultyManagedBean.year}">
+											<f:validateLongRange minimum="#{evaluationOldTechnologyFacultyManagedBean.minEvaluationYear}" maximum="#{evaluationOldTechnologyFacultyManagedBean.maxEvaluationYear}"/>
+											<rich:validator />
+										</h:inputText>
+										<a4j:outputPanel ajaxRendered="true">
+											<rich:message 
+												for="year" 
+												errorClass="errorMessage"
+												infoClass="infoMessage"
+												warnClass="warnMessage"
+												fatalClass="fatalMessage" />
+										</a4j:outputPanel>
+						 			
+						 				<h:outputText value="" />
+						 			
+						 			
+						 				<mytags:outputLabel 
+											value="#{messages['evaluation.mainPanel.yearCommissionSelection.commission']}: " 
+											for="commission" 
+											errorStyleClass="errorMessage"
+											/>
+										
+										<h:selectOneMenu id="commission" value="#{evaluationOldTechnologyFacultyManagedBean.commissionID}" onchange="jsSetRulebook()">
+											<f:selectItems value="#{evaluationOldTechnologyFacultyManagedBean.allCommissions}"/>
+										</h:selectOneMenu>			
+
+						 				<mytags:outputLabel 
+											value=" #{messages['evaluation.mainPanel.yearCommissionSelection.fullText']}: " 
+											for="rulebookPng" 
+											errorStyleClass="errorMessage"
+											/>
+											
+										<h:outputLink 
+											value="#{evaluationOldTechnologyFacultyManagedBean.pdfUrl}"
+											target="_blank" 
+											rendered="#{not empty evaluationOldTechnologyFacultyManagedBean.commissionID}">
+											<h:graphicImage library="img" name="download32.png" id="rulebookPng" alt="none"/>
+										</h:outputLink>	
+										<h:graphicImage library="img" name="download32.png" id="rulebookPng1" alt="none" rendered="#{empty evaluationOldTechnologyFacultyManagedBean.commissionID}"/>
+
+										<h:outputText value="" />
+										<h:outputText value="" />
+										<h:outputText value="" />
+										
+							 			<a4j:commandButton 
+							 				value="#{messages['evaluation.mainPanel.yearCommissionSelection.btnEvaluate']}"
+							 				action="#{evaluationOldTechnologyFacultyManagedBean.evaluateSelectedJournalForCommissionAndYear()}"
+							 				render="evaluationEvaluationResultsPanel"
+							 				execute="year commission" >
+								        </a4j:commandButton>
+							        
+							        	<a4j:jsFunction 
+												name="jsSetRulebook"
+												execute="year commission"
+												render="mainPanel"
+												action="#{evaluationOldTechnologyFacultyManagedBean.setCommissionRuleBook}" 
+												>
+										</a4j:jsFunction>
+							        			 			
+						 		</h:panelGrid>
+						 	
+						 	</rich:panel>
+						 	
+						 	<rich:panel id="evaluationEvaluationResultsPanel" rendered="true">
+						 		<f:facet name="header">
+										<h:outputText value="#{messages['evaluation.mainPanel.evaluationResultsPanel.header']}" />
+								</f:facet>
+								
+								<h:panelGrid id="evaluationResults" columns="1" rendered="true" columnClasses="width100" width="100%">
+									
+						 				
+											<rich:dataTable columnClasses="width80, width10, width10" var="listVar" value="#{evaluationOldTechnologyFacultyManagedBean.evaluatedResylts}" 
+											rendered="#{not empty evaluationOldTechnologyFacultyManagedBean.evaluatedResylts}" width="100% !important">
+											
+												<f:facet name="header">
+													<rich:columnGroup> 
+				   										<rich:column colspan="1" rowspan="1" style="text-align:center">
+				   										<h:outputText escape="false">	 <h:outputFormat value="#{messages['evaluation.mainPanel.evaluationResultsPanel.results.header.name']}"> <f:param value="#{evaluationOldTechnologyFacultyManagedBean.journalSomeName}"/> <f:param value="#{evaluationOldTechnologyFacultyManagedBean.year} "/> </h:outputFormat> </h:outputText>
+							                            </rich:column>                    
+							                            <rich:column colspan="1" rowspan="1">
+							                            	<h:outputText value="#{messages['evaluation.mainPanel.evaluationResultsPanel.results.header.code']}"/>
+							                            </rich:column>
+							                            <rich:column colspan="1" rowspan="1">
+							                            	<h:outputText value="#{messages['evaluation.mainPanel.evaluationResultsPanel.results.header.score']}"/> 
+							                            </rich:column>
+						                        	</rich:columnGroup>
+												</f:facet>
+												
+												<rich:column>
+					    								<h:outputText value="#{listVar[0]}" escape="false"/>		
+												</rich:column>
+												<rich:column>
+					    								<h:outputText value="#{listVar[1]}" escape="false"/>		
+												</rich:column>
+												<rich:column>
+					    								<h:outputText value="#{listVar[2]}" escape="false"/>		
+												</rich:column>
+											</rich:dataTable>
+											
+											<rich:collapsiblePanel header="#{messages['evaluation.mainPanel.evaluationResultsDetailExplanationPanel.header']}" switchType="ajax" rendered="#{not empty evaluationOldTechnologyFacultyManagedBean.evaluatedResylts}" expanded="false">
+									            <h:panelGrid columns="1" rendered="true" width="100%" id="detailExplanation">
+									            	
+									            	<h:outputText value="#{evaluationOldTechnologyFacultyManagedBean.detailExplanation}"/>
+									            	
+													<br/>
+							
+									            	<rich:dataTable var="listVarTabel1" 
+									            	value="#{evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsImpactFactorsWithCategories}" 
+									            	rendered="#{evaluationOldTechnologyFacultyManagedBean.renderTabelaTip1}"
+									            	rowKeyVar="kWar1">																
+														<rich:column style="#{(kWar1 ge 3) ? 'background-color: #DCF0F7 !important;' : 'background-color: #CCCCCC !important;'}">
+							    								<h:outputText value="#{listVarTabel1[0]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel1[1]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel1[2]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel1[3]}" escape="false"/>		
+														</rich:column>
+													</rich:dataTable>
+
+										            <rich:dataTable var="listVarTabel3" 
+										            	value="#{evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsImpactFactorsWithCategories}" 
+										            	rendered="#{evaluationOldTechnologyFacultyManagedBean.renderTabelaTip3}"
+										            	rowKeyVar="kWar3">														
+															<rich:column style="#{(kWar3 ge 3) ? 'background-color: #DCF0F7 !important;' : 'background-color: #CCCCCC !important;'}">
+								    								<h:outputText value="#{listVarTabel3[0]}" escape="false"/>		
+															</rich:column>
+															<rich:column style="text-align:center">
+								    								<h:outputText value="#{listVarTabel3[1]}" escape="false"/>		
+															</rich:column>
+															<rich:column style="text-align:center">
+								    								<h:outputText value="#{listVarTabel3[2]}" escape="false"/>		
+															</rich:column>
+															<rich:column style="text-align:center">
+								    								<h:outputText value="#{listVarTabel3[3]}" escape="false"/>		
+															</rich:column>
+															<rich:column style="text-align:center">
+								    								<h:outputText value="#{listVarTabel3[4]}" escape="false"/>		
+															</rich:column>
+													</rich:dataTable>
+													
+									            	<rich:extendedDataTable 
+									            	
+									            	id = "extendedDataTable2"
+										            rows="17"
+										            frozenColumns="1"
+										            rowKeyVar="kWar2"
+										            var="listVarTabel2" 
+								            		value="#{evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsImpactFactorsWithCategories}" 
+								            		rendered="#{evaluationOldTechnologyFacultyManagedBean.renderTabelaTip2}"
+								            		selectionMode="none"
+								            		style="max-width: 1200px;">
+								            	
+									            		<rich:column style="#{(kWar2 ge 3) ? 'background-color: #DCF0F7 !important;' : 'background-color: #CCCCCC !important;'}">
+							    								<h:outputText value="#{listVarTabel2[0]}" escape="false"/>	
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[1]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[2]}" escape="false"/>		
+														</rich:column>
+									            		<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[3]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[4]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[5]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[6]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[7]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[8]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[9]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[10]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[11]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[12]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[13]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[14]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[15]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel2[15]}" escape="false"/>		
+														</rich:column>
+									            	</rich:extendedDataTable>
+													
+													<rich:extendedDataTable
+													id = "extendedDataTable4" 
+										            rows="33"
+										            frozenColumns="1"
+										            rowKeyVar="kWar4"
+										            var="listVarTabel4" 
+								            		value="#{evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsAllYears}" 
+								            		rendered="#{not empty evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsAllYears}"
+								            		selectionMode="none"
+								            		style="max-width: 1200px;">
+								            	
+									            		<rich:column style="#{(kWar4 ge 3) ? 'background-color: #DCF0F7 !important;' : 'background-color: #CCCCCC !important;'}">
+							    								<h:outputText value="#{listVarTabel4[0]}" escape="false"/>	
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[1]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[2]}" escape="false"/>		
+														</rich:column>
+									            		<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[3]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[4]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[5]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[6]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[7]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[8]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[9]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[10]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[11]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[12]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[13]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[14]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[15]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[16]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[17]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[18]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[19]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[20]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[21]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[22]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[23]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[24]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[25]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[26]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[27]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[28]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[29]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[30]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[31]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[32]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[32]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[33]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[34]}" escape="false"/>		
+														</rich:column>
+														<rich:column style="text-align:center">
+							    								<h:outputText value="#{listVarTabel4[35]}" escape="false"/>		
+														</rich:column>
+									            	</rich:extendedDataTable>
+									            	
+													<br/>
+													
+									            	
+									            	<rich:dataTable var="listVarTabel2Hed" 
+									            		columnClasses="width20, width80"
+										            	value="#{evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsLegendCategories}" 
+										            	rendered="#{(not empty evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsImpactFactorsWithCategories)}">																
+															<f:facet name="header">
+													            <rich:columnGroup>
+													            	<rich:column>
+													                    <h:outputText value="#{messages['evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableColumnHeaderAbbreviations']}" />
+													                </rich:column>
+													                <rich:column>
+													                    <h:outputText value="#{messages['evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableColumnHeaderScienceField']}" />
+													                </rich:column>
+													            </rich:columnGroup>
+													        </f:facet>
+													        <rich:column style="text-align:center; background-color: #DCF0F7 !important;">
+								    							<h:outputText value="#{listVarTabel2Hed[0]}" escape="false"/>		
+															</rich:column>
+															<rich:column>
+								    							<h:outputText value="#{listVarTabel2Hed[1]}" escape="false"/>
+															</rich:column>
+													</rich:dataTable>
+													<a4j:commandButton 
+										 				value="#{messages['evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableShowAllButton']}"
+										 				action="#{evaluationOldTechnologyFacultyManagedBean.calculateExplainTableAllYears()}"
+										 				render="detailExplanation"
+										 				rendered="#{empty evaluationOldTechnologyFacultyManagedBean.evaluatedResyltsAllYears}" >
+											        </a4j:commandButton>
+													
+													<br/>    
+												</h:panelGrid>
+									        </rich:collapsiblePanel>
+									        
+								</h:panelGrid>
+						 	</rich:panel>
+						</h:panelGrid>
+					</h:form>
+				</a4j:region>
+			</div>
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="70"
+				width="1"/>
+			<div id="footer">
+    			<ui:insert name="footer">
+					<ui:include src="../footer.xhtml"/>
+				</ui:insert>
+			</div>
+		</h:body>
+	</f:view>
+</html>

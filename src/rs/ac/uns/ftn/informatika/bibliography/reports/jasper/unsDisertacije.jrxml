@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="unsDisertacije" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8931cb79-125b-486b-afd8-279231309859">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="590"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#CCCCCC" hAlign="Center" vAlign="Middle" fontName="Times New Roman" fontSize="11" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF" fontName="Times New Roman" fontSize="11">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" hAlign="Left" vAlign="Middle" fontName="Times New Roman" fontSize="11">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="fakultet" class="java.lang.String"/>
+	<field name="imeIPrezimeAutora" class="java.lang.String"/>
+	<field name="naslovDisertacije" class="java.lang.String"/>
+	<field name="mentor" class="java.lang.String"/>
+	<field name="godinaOdbrane" class="java.lang.String"/>
+	<variable name="redniBroj" class="java.lang.String" resetType="Group" resetGroup="godina">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}+"."]]></variableExpression>
+	</variable>
+	<variable name="institucijaLabela" class="java.lang.String">
+		<variableExpression><![CDATA[($P{fakultet}.startsWith("Асоцијација") ? "АЦИМСИ:" : "Факултет:")]]></variableExpression>
+	</variable>
+	<group name="godina">
+		<groupExpression><![CDATA[$F{godinaOdbrane}]]></groupExpression>
+		<groupFooter>
+			<band height="13">
+				<staticText>
+					<reportElement uuid="9cc5a550-6b68-40b6-9e1f-d4b89f923985" style="table_TH" x="0" y="0" width="47" height="13"/>
+					<textElement/>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9cc5a550-6b68-40b6-9e1f-d4b89f923985" style="table_TH" x="47" y="0" width="161" height="13"/>
+					<textElement/>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9cc5a550-6b68-40b6-9e1f-d4b89f923985" style="table_TH" x="435" y="0" width="162" height="13"/>
+					<textElement/>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9cc5a550-6b68-40b6-9e1f-d4b89f923985" style="table_TH" x="597" y="0" width="185" height="13"/>
+					<textElement/>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d3ddab44-5196-4f56-95b8-d8f1d61da00b" style="table_TH" x="208" y="0" width="227" height="13"/>
+					<textElement/>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6de11d42-2ef8-4c6f-8a2b-61f9139ff278" x="0" y="0" width="616" height="29"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<text><![CDATA[Табеларни преглед објављених докторских дисертација кандидатa који су докторирали на високошколској установи у периоду 2006-2012.године
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0899d9b2-e170-4df1-82a6-345282205a96" x="0" y="40" width="286" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ сортирано по абецедном реду аутора]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f0b25aa5-af61-4491-8fff-d42d803b63b5" x="68" y="78" width="714" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fakultet}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="f7316be7-8cc0-46be-904c-237643e1a575" x="0" y="78" width="68" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{institucijaLabela}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="efb00906-4a16-4fbd-b256-c51143bb1026" style="table_TH" x="0" y="0" width="47" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Редни број]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8aedf84a-3c24-4e3f-a146-493f15167241" style="table_TH" x="47" y="0" width="161" height="26"/>
+				<textElement/>
+				<text><![CDATA[Име и презиме аутора]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4cddf97f-a5ce-4ea4-8606-17e99c306eaf" style="table_TH" x="435" y="0" width="162" height="26"/>
+				<textElement/>
+				<text><![CDATA[Ментор]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86b20940-aae2-453d-8724-771eda94b1a7" style="table_TH" x="597" y="0" width="185" height="26"/>
+				<textElement/>
+				<text><![CDATA[Година одбране докторске дисертације]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5108fccc-c49f-4496-a2c7-da7dbf7256fa" style="table_TH" x="208" y="0" width="227" height="26"/>
+				<textElement/>
+				<text><![CDATA[Наслов]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="394a10a0-9b3b-411b-908c-134359465bfb" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="47" y="0" width="161" height="27" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{imeIPrezimeAutora}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="9fcab5a0-5fd7-4a49-8bcd-d760d6b61538" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="435" y="0" width="162" height="27" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<printWhenExpression><![CDATA[$F{mentor}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{mentor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="f331b205-9f6c-4dec-90bc-ac5e8952cdcd" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="597" y="0" width="185" height="27" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{godinaOdbrane}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="503f9448-452e-4462-a4e0-9eeb58de95f9" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="208" y="0" width="227" height="27" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{naslovDisertacije}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e0f3fa3d-9e21-4aac-b6af-ebb778ab4f14" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="47" height="27" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{godina_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

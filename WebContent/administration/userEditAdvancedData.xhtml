@@ -1,0 +1,304 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="userEditAdvancedDataFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"
+				escape="false"
+				/>
+		</a4j:outputPanel>
+		<!-- .......User.......           -->
+		<rich:panel id="userPreview"
+			header="#{messages['administration.user.editPanel.preview']}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText 
+						value="#{userManagedBean.selectedUser}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<h:panelGrid rendered="#{userManagedBean.editTabNumber == 1}">
+			<rich:panel 
+				rendered="#{userManagedBean.selectedUser.type=='author'} and 0==1"  >	
+				<h:panelGrid columns="1" width="100%">
+					<!--  Add Research Area -->
+					<a4j:commandButton
+						action="#{userManagedBean.pickResearchArea}"
+						render="researchAreaBrowseModalPanel"
+						value="#{messages['administration.user.editPanel.btnAddResearchArea']}"	
+						execute="@this"
+						immediate="true"/>
+				</h:panelGrid>	
+				<h:panelGrid id="researchAreas" columns="1">
+					<!-- ===========================   tablePanel  ============================= -->
+					<rich:dataTable 
+						id="researchAreaTable"
+						value="#{userManagedBean.selectedUser.author.researchAreas}"
+						var="researchAreaRow">
+						<!--     ........  researchArea full hierarchy   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['administration.user.editPanel.researchAreaTablePanel.fullHierarchy']}" />
+							</f:facet>
+							<h:outputText value="#{researchAreaRow.fullHierarchy}" />
+						</rich:column>
+						<!--     ........  remove researchArea   .......-->
+						<rich:column
+							rendered="#{(userManagedBean.editMode != modesManagedBean.viewDetails)}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['administration.user.editPanel.researchAreaTablePanel.remove']}" />
+							</f:facet>
+							<a4j:commandLink
+								action="#{userManagedBean.removeResearchArea}"
+								render="researchAreas" 
+								execute="@this">
+								<h:graphicImage library="img" name="delete.png" />
+								<f:param name="classId"
+									value="#{researchAreaRow.classId}" />
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</h:panelGrid>
+			</rich:panel>
+			<h:panelGrid columns="5" columnClasses="width20, width25, width25, width15, width5" width="100%"
+				rendered="#{(userManagedBean.editMode != modesManagedBean.addFormatName)}">
+				<!-- ....... Research Interest.......         
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.researchInterest']}#{userManagedBean.selectedUser.type=='author'?'*':''}" 
+						for="researchInterest" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputTextarea 
+					id="researchInterest"
+					value="#{userManagedBean.selectedUser.author.researchInterest.content}"
+					rows="3"
+					required="#{userManagedBean.selectedUser.type=='author'}"
+					readonly="true" />
+				<a4j:commandButton 
+							action="#{userManagedBean.researchInterestTranslations}"
+							value="#{messages['administration.user.editPanel.btnResearchInterestTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							disabled="true"/>
+				<h:outputText value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="researchInterest" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel> -->
+       
+				
+				<!-- ....... Biography ....... -->      
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.biography']}" 
+						for="biography" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>				
+				
+				<rich:editor 
+					id="biography"
+					value="#{userManagedBean.selectedUser.author.biography.content}"
+					toolbar="CustomToolbar"
+					skin="office2003"
+					height="500"
+					width="500"
+					>
+					
+					<f:facet name="config">
+							
+							startupFocus: true,
+							forcePasteAsPlainText : true,
+							font_names : 'Arial;Times New Roman',
+							font_defaultLabel:  'Arial',
+							fontSize_defaultLabel: '12px',
+					        toolbar_CustomToolbar:
+					        [
+					
+					        { name: 'document', items : [ 'NewPage','Preview','Print','-','Templates' ] },
+					
+					        { name: 'clipboard', items : [ 'Cut','Copy','Paste','-','Undo','Redo' ] },
+					        
+					        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker','/' ] },
+					        					        
+					        
+					        { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-',
+					          							     '/','BidiLtr','BidiRtl' ] },
+					        
+					        { name: 'links', items : [ 'Link','Unlink','Anchor', '-' ] },        
+					
+					        '/',
+					        				
+					        { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+					        
+					        { name: 'colors', items : [ 'TextColor','BGColor' ] },
+					        
+					        { name: 'tools', items : [ 'Maximize' ] },
+					        
+					        { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Subscript','Superscript','-','RemoveFormat' ] },
+					        
+					        { name: 'insert', items : ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ] },
+					
+					        ]
+				
+				    
+          			</f:facet>
+				</rich:editor>
+				
+				
+				<a4j:commandButton 
+					action="#{userManagedBean.biographyTranslations}"
+					value="#{messages['administration.user.editPanel.btnBiographyTranslations']}"
+					render="multilingualContentEditModalPanel" 
+					execute="@this"/>
+				<h:outputText value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="biography" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel> 
+				
+				<!-- ....... Keywords ....... -->  
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.keywords']}" 
+						for="keywords" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<rich:editor 
+					id="keywords"
+					value="#{userManagedBean.selectedUser.author.keywords.content}"
+					toolbar="CustomToolbar"
+					skin="office2003"
+					height="500"
+					width="500"
+					>
+
+					<f:facet name="config">
+							
+							forcePasteAsPlainText : true,
+							font_names : 'Arial;Times New Roman',
+							font_defaultLabel:  'Arial',
+							fontSize_defaultLabel: '12px',
+					        toolbar_CustomToolbar:
+					        [
+					
+					        { name: 'document', items : [ 'NewPage','Preview','Print','-','Templates' ] },
+					
+					        { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','-','Undo','Redo' ] },
+					        
+					        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker','/' ] },
+					        					        
+					        
+					        { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-',
+					          							     '/','BidiLtr','BidiRtl' ] },
+					        
+					        { name: 'links', items : [ 'Link','Unlink','Anchor', '-' ] },        
+					
+					        '/',
+					        				
+					        { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+					        
+					        { name: 'colors', items : [ 'TextColor','BGColor' ] },
+					        
+					        { name: 'tools', items : [ 'Maximize' ] },
+					        
+					        { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Subscript','Superscript','-','RemoveFormat' ] },
+					        
+					        { name: 'insert', items : ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ] },
+					
+					        ]
+				
+				    
+          			</f:facet>
+				</rich:editor>
+				<a4j:commandButton 
+					action="#{userManagedBean.keywordsTranslations}"
+					value="#{messages['administration.user.editPanel.btnKeywordsTranslations']}"
+					render="multilingualContentEditModalPanel" 
+					execute="@this"/>
+				<h:outputText value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="keywords" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel> 
+			</h:panelGrid> 
+		</h:panelGrid>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="2">
+			<a4j:commandButton
+				rendered="#{((userManagedBean.editMode == modesManagedBean.update) or (userManagedBean.editMode == modesManagedBean.updateUserBasicData) or (userManagedBean.editMode == modesManagedBean.updateUserAdvancedData) or (userManagedBean.editMode == modesManagedBean.addFormatName)) and (userManagedBean.editTabNumber == 1)}"
+				action="#{userManagedBean.update}"
+				value="#{messages['administration.user.editPanel.btnUpdate']}"
+				render="userEditAdvancedDataModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(userManagedBean.editMode == modesManagedBean.add) and (userManagedBean.editTabNumber == 1)}"
+				action="#{userManagedBean.add}"
+				value="#{messages['administration.user.editPanel.btnCreate']}"
+				render="userEditAdvancedDataModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<h:outputText rendered="#{(userManagedBean.editMode == modesManagedBean.viewDetails) and (userManagedBean.editTabNumber == 1)}" 
+				value=""/>
+			<a4j:commandButton 
+				rendered="#{((userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData) and (userManagedBean.editMode != modesManagedBean.addFormatName)) and (userManagedBean.editTabNumber == 1)}"
+				action="#{userManagedBean.switchToEditNoneMode}"
+				value="#{messages['administration.user.editPanel.btnCancel']}"
+				render="mainPanel, #{userManagedBean.renderModalPanels}, userEditModalPanel"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+			<!--  <a4j:commandButton 
+				rendered="#{(userManagedBean.editMode == modesManagedBean.register) and (userManagedBean.editTabNumber == 1)}" 
+				action="#{userManagedBean.register}"
+				value="#{messages['administration.user.editPanel.btnRegister']}"
+				render="userEditAdvancedDataModalPanel" 
+				execute="@form" /> -->
+			<a4j:commandButton 
+				rendered="#{((userManagedBean.editMode == modesManagedBean.register) or (userManagedBean.editMode == modesManagedBean.updateUserBasicData) or (userManagedBean.editMode == modesManagedBean.updateUserAdvancedData) or (userManagedBean.editMode == modesManagedBean.addFormatName)) and (userManagedBean.editTabNumber == 1)}"
+				action="#{userManagedBean.exit}"
+				value="#{messages['administration.user.editPanel.btnCancel']}"
+				immediate="true" 
+				execute="@this"/>
+			<a4j:commandButton 
+				rendered="#{(userManagedBean.editTabNumber ge 2)}" 
+				action="#{userManagedBean.finishWizard}"
+				value="#{messages['administration.user.editPanel.btnAllRight']}"
+				immediate="true"
+				execute="@this"/>
+			<h:outputText 
+				rendered="#{(userManagedBean.editTabNumber ge 2)}" 
+				value="" />
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

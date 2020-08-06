@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tabela61" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="7" uuid="546a4d27-840f-4042-a001-80e1ca38a9e2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["e:/CRIS/workspace/bibliography/src/rs/ac/uns/ftn/informatika/bibliography/reports/jasper/"]]></defaultValueExpression>
+	</parameter>
+	<field name="year" class="java.lang.String"/>
+	<field name="resultsForType" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="82e6c2f3-7630-4144-870f-6cb4e1082e3f" x="0" y="0" width="426" height="24"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Списак SCI-индексираних радова по годинама и категоријама]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="70">
+			<textField>
+				<reportElement uuid="17436c82-3abd-413b-a0be-2d083fc6c9d8" positionType="Float" x="0" y="0" width="126" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}+". година"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="e7578f6d-32b2-4204-888c-32b01eba962e" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="20" width="555" height="50"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{resultsForType})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "tabela61_spisak_byType.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

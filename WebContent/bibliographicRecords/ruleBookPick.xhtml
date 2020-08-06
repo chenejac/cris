@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="ruleBookPickFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+			rendered="#{ruleBookManagedBean.pickMessage!=null}" >
+			<h:panelGrid columns="2">
+				<h:graphicImage library="img" name="info.png" />
+				<h:outputText value="#{ruleBookManagedBean.pickMessage}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+	</h:panelGrid>
+	<h:panelGrid width="100%">
+		<ui:include src="../bibliographicRecords/ruleBookTree.xhtml" />
+	</h:panelGrid>
+</ui:composition>

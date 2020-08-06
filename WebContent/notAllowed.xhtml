@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich">
+	<f:view 
+		locale="#{(param['language']=='en')?'en':'sr'}"
+		contentType="text/html; charset=iso-8859-1" 
+		>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+	</h:head>
+	<h:body>
+		<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+		<f:loadBundle
+			basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+			var="messages" />
+	    <div id="center">
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="40"
+				width="1"
+				/>
+			<h:panelGrid columns="1">
+				<h:panelGroup> 
+					<h:outputText 
+						escape="false"
+						value="#{messages['records.studyFinalDocument.download.notAllowed']}" 
+						styleClass="rf-msg-inf" />
+				</h:panelGroup>
+				<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="60"
+				width="1"
+				/>
+				<h:panelGroup> 
+					<h:outputText 
+						escape="false"
+						value="#{messages['records.studyFinalDocument.download.notAllowedTrans']}" 
+						styleClass="rf-msg-inf" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</div>
+			
+	</h:body>
+	</f:view>
+</html>

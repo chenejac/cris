@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+<rich:tooltip followMouse="true" direction="topRight"
+	showDelay="1000" styleClass="tooltip" mode="client">
+	<span style="tooltipSpan"> 
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="details.png" />
+			<h:outputText
+				value="#{messages['records.author.tablePanel.btnDetails']}" />
+			<h:graphicImage library="img" name="editToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{((userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData])?(messages['records.author.tablePanel.btnEdit']):(messages['records.author.tablePanel.btnAddOtherFormatName']))}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.update]}" />
+			<h:graphicImage library="img" name="deleteToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.delete]}" />
+			<h:outputText
+				value="#{messages['records.author.tablePanel.btnDelete']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.delete]}" />
+			<h:graphicImage library="img" name="pickToolTip.png"
+				rendered="#{authorManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:outputText
+				value="#{messages['records.author.tablePanel.btnPick']}"
+				rendered="#{authorManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:graphicImage library="img" name="publicationsToolTip.png" />
+			<h:outputText
+				value="#{messages['records.author.tablePanel.btnPublications']}" />
+			<h:graphicImage library="img" name="createToolTip.png"
+				rendered="#{(not authorManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.add])}" />
+			<h:outputText
+				value="#{messages['records.author.tablePanel.btnCreate']}"
+				rendered="#{(not authorManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.add])}" />
+		</h:panelGrid> 
+	</span>
+</rich:tooltip>
+
+</ui:composition>
+				

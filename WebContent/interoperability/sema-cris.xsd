@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 U (http://www.altova.com) by Srđan Škrbić (PMF, Department of Mathematics and Informatics) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="cris_results">
+		<xs:annotation>
+			<xs:documentation>root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ruleBook" type="xs:string"/>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="paperJournal">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier" type="xs:string"/>
+								<xs:element ref="evaluation" maxOccurs="unbounded"/>
+								<xs:element ref="title" maxOccurs="unbounded"/>
+								<xs:element name="year" minOccurs="0"/>
+								<xs:element name="startPage" minOccurs="0"/>
+								<xs:element name="endPage" minOccurs="0"/>
+								<xs:element name="volume" minOccurs="0"/>
+								<xs:element name="number" minOccurs="0"/>
+								<xs:element name="doi" minOccurs="0"/>
+								<xs:element name="paperType">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="Научни рад"/>
+											<xs:enumeration value="Научна критика или полемика"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="journal">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="identifier"/>
+											<xs:element ref="title" maxOccurs="unbounded"/>
+											<xs:element name="issn" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element ref="authors"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="paperConference">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier"/>
+								<xs:element ref="evaluation"/>
+								<xs:element ref="title" maxOccurs="unbounded"/>
+								<xs:element name="year"/>
+								<xs:element name="startPage" minOccurs="0"/>
+								<xs:element name="endPage" minOccurs="0"/>
+								<xs:element name="numberOfPages" minOccurs="0"/>
+								<xs:element name="doi" minOccurs="0"/>
+								<xs:element name="paperType">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="Предавање по позиву са скупа штампано у целини"/>
+											<xs:enumeration value="Предавање по позиву са скупа штампано у изводу"/>
+											<xs:enumeration value="Саопштење са скупа штампано у целини"/>
+											<xs:enumeration value="Саопштење са скупа штампано у изводу"/>
+											<xs:enumeration value="Ауторизована дискусија са скупа"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="conference">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="identifier"/>
+											<xs:element ref="name" maxOccurs="unbounded"/>
+											<xs:element name="place" minOccurs="0"/>
+											<xs:element name="country" minOccurs="0"/>
+											<xs:element name="year"/>
+											<xs:element name="number" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="proceedings">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="identifier"/>
+											<xs:element ref="title" maxOccurs="unbounded"/>
+											<xs:element name="year"/>
+											<xs:element name="isbn" minOccurs="0"/>
+											<xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+											<xs:element name="editors" minOccurs="0">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element ref="researcher" maxOccurs="unbounded"/>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element ref="authors"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="monograph">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier"/>
+								<xs:element ref="evaluation"/>
+								<xs:element ref="title" maxOccurs="unbounded"/>
+								<xs:element name="year"/>
+								<xs:element name="numberOfPages" minOccurs="0"/>
+								<xs:element name="isbn" minOccurs="0"/>
+								<xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element name="doi" minOccurs="0"/>
+								<xs:element ref="authors" minOccurs="0"/>
+								<xs:element name="editors" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element ref="researcher" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="paperMonograph">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier"/>
+								<xs:element ref="evaluation"/>
+								<xs:element ref="title" maxOccurs="unbounded"/>
+								<xs:element name="year"/>
+								<xs:element name="startPage" minOccurs="0"/>
+								<xs:element name="endPage" minOccurs="0"/>
+								<xs:element name="doi" minOccurs="0"/>
+								<xs:element name="monograph">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="identifier"/>
+											<xs:element ref="title" maxOccurs="unbounded"/>
+											<xs:element name="year"/>
+											<xs:element name="numberOfPages" minOccurs="0"/>
+											<xs:element name="isbn" minOccurs="0"/>
+											<xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+											<xs:element name="doi" minOccurs="0"/>
+											<xs:element ref="authors" minOccurs="0"/>
+											<xs:element name="editors" minOccurs="0">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element ref="researcher" maxOccurs="unbounded"/>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element ref="authors"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="product">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier"/>
+								<xs:element ref="evaluation"/>
+								<xs:element ref="name" maxOccurs="unbounded"/>
+								<xs:element name="year"/>
+								<xs:element name="number" minOccurs="0"/>
+								<xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element ref="authors"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="patent">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier"/>
+								<xs:element ref="evaluation"/>
+								<xs:element ref="name" maxOccurs="unbounded"/>
+								<xs:element name="year"/>
+								<xs:element name="number" minOccurs="0"/>
+								<xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element ref="authors"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="theses">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identifier"/>
+								<xs:element ref="evaluation"/>
+								<xs:element ref="title" maxOccurs="unbounded"/>
+								<xs:element name="institution"/>
+								<xs:element name="year"/>
+								<xs:element name="isbn" minOccurs="0"/>
+								<xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element name="doi" minOccurs="0"/>
+								<xs:element name="thesesType">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="Докторска дисертација"/>
+											<xs:enumeration value="Магистарска теза"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="author">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element ref="researcher"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="advisors" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element ref="researcher" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="boardMembers" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element ref="researcher" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="title">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="lang" type="xs:string" use="optional"/>
+					<xs:attribute name="original" type="xs:boolean" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="name">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="lang" type="xs:string" use="optional"/>
+					<xs:attribute name="original" type="xs:boolean" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="evaluation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="commission"/>
+				<xs:element name="type"/>
+				<xs:element name="sciencesGroup"/>
+				<xs:element name="scientificField"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="authors">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="researcher" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="researcher">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="identifier"/>
+				<xs:element name="apvnt" minOccurs="0"/>
+				<xs:element name="lastname"/>
+				<xs:element name="middlename" minOccurs="0"/>
+				<xs:element name="firstname"/>
+				<xs:element name="position" minOccurs="0"/>
+				<xs:element name="institution" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publisher">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="lang" type="xs:string" use="optional"/>
+					<xs:attribute name="original" type="xs:boolean" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

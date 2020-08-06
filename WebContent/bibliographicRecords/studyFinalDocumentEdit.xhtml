@@ -1,0 +1,2440 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="studyFinalDocumentEditFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......Preview.......           -->
+		<rich:panel id="studyFinalDocumentPreview"
+			header="#{messages['records.studyFinalDocument.editPanel.preview']}"
+			rendered="#{studyFinalDocumentManagedBean.editTabNumber == 5}" >
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.stringRepresentation}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody"
+			rendered="#{studyFinalDocumentManagedBean.editTabNumber lt 5}"
+			styleClass="scrollableBody">
+			<rich:panel id="studyFinalDocumentFullPreview"
+				header="#{messages['records.studyFinalDocument.editPanel.preview']}"
+				rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.import) and (studyFinalDocumentManagedBean.editTabNumber != 5)}">
+				<a4j:outputPanel ajaxRendered="true">
+					<h:panelGrid columns="1">
+						<h:outputText
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.HTMLRepresentation}"
+							styleClass="preview" 
+							escape="false"/>
+					</h:panelGrid>
+				</a4j:outputPanel>
+			</rich:panel>
+			<rich:tabPanel 
+				switchType="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{studyFinalDocumentManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					header="#{messages['records.studyFinalDocument.editPanel.firstTab']}"
+					rendered="#{((studyFinalDocumentManagedBean.editTabNumber == 0) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])}">
+					<rich:panel
+						rendered="#{empty userManagedBean.loggedUser.author.controlNumber}"
+						header="#{messages['records.studyFinalDocument.editPanel.preliminaryThesesPanel']}" 
+						> 
+						<h:panelGrid 
+							id="preliminaryThesesGroup" >
+							<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+								<!-- ....... preliminaryTheses    -->      
+								<a4j:outputPanel ajaxRendered="true">
+									<mytags:outputLabel 
+										value="#{messages['records.studyFinalDocument.editPanel.preliminaryTheses']}" 
+										for="preliminaryTheses" 
+										errorStyleClass="errorMessage"
+										/>
+								</a4j:outputPanel>
+								<h:inputTextarea 
+									id="preliminaryTheses"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses}"
+									readonly="true"
+									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses.fileNameClient}"
+									rows="3" 
+									style="width:300">
+								</h:inputTextarea>
+								<rich:fileUpload 
+									id="preliminaryThesesUpload"
+									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses}"
+									fileUploadListener="#{studyFinalDocumentManagedBean.uploadPreliminaryThesesListener}"
+					                listHeight="50"
+					                listWidth="200"
+					                acceptedTypes="pdf" 
+					                ontyperejected="alert('Samo PDF fajlovi su dozvoljeni');"
+					                allowFlash="auto"
+					                maxFilesQuantity="1"
+					                >
+					                <a4j:ajax event="uploadcomplete" render="preliminaryThesesGroup, finalTheses" execute="@form" />
+					            </rich:fileUpload>
+					            <h:panelGroup
+									id="deletePreliminaryTheses" 
+									>
+						        	<a4j:commandButton 
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses}"
+										disabled="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report.note}"
+										action="#{studyFinalDocumentManagedBean.deletePreliminaryTheses}"
+										value="#{messages['records.studyFinalDocument.editPanel.btnPreliminaryThesesDelete']}"
+										render="preliminaryThesesGroup" 
+										limitRender="true"
+										execute="@this"/> 
+									<h:outputText 
+						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses}"
+										value=""
+									 /> 
+									<h:outputLink
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryThesesURL}"
+										target="_blank"
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryThesesURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses)}"
+										>
+										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+									</h:outputLink> 
+						        	<h:outputText 
+						        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryThesesURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminaryTheses)}"
+										value=""
+									 /> 
+								</h:panelGroup>
+								<h:outputText 
+										value=""
+									 /> 
+								<a4j:outputPanel ajaxRendered="true">
+									<rich:message 
+										for="preliminaryThesesUpload"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+									<rich:message 
+										for="preliminaryTheses"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+								</a4j:outputPanel> 
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid 
+							id="preliminarySupplementGroup" >
+							<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+								<!-- ....... preliminarySupplement    -->      
+								<a4j:outputPanel ajaxRendered="true">
+									<mytags:outputLabel 
+										value="#{messages['records.studyFinalDocument.editPanel.preliminarySupplement']}" 
+										for="preliminarySupplement" 
+										errorStyleClass="errorMessage"
+										/>
+								</a4j:outputPanel>
+								<h:inputTextarea 
+									id="preliminarySupplement"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement}"
+									readonly="true"
+									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement.fileNameClient}"
+									rows="3" 
+									style="width:300">
+								</h:inputTextarea>
+								<rich:fileUpload 
+									id="preliminarySupplementUpload"
+									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement}"
+									fileUploadListener="#{studyFinalDocumentManagedBean.uploadPreliminarySupplementListener}"
+					                listHeight="50"
+					                listWidth="200"
+					                acceptedTypes="zip" 
+					                ontyperejected="alert('Samo ZIP fajlovi su dozvoljeni u ovom polju');"
+					                allowFlash="auto"
+					                maxFilesQuantity="1"
+					                >
+					                <a4j:ajax event="uploadcomplete" render="preliminaryThesesGroup, finalTheses" execute="@form" />
+					            </rich:fileUpload>
+					            <h:panelGroup
+									id="deletePreliminarySupplement" 
+									>
+						        	<a4j:commandButton 
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement}"
+										disabled="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report.note}"
+										action="#{studyFinalDocumentManagedBean.deletePreliminarySupplement}"
+										value="#{messages['records.studyFinalDocument.editPanel.btnPreliminarySupplementDelete']}"
+										render="preliminarySupplementGroup" 
+										limitRender="true"
+										execute="@this"/> 
+									<h:outputText 
+						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement}"
+										value=""
+									 /> 
+									<h:outputLink
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplementURL}"
+										target="_blank"
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplementURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement)}"
+										>
+										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+									</h:outputLink> 
+						        	<h:outputText 
+						        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplementURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.preliminarySupplement)}"
+										value=""
+									 /> 
+								</h:panelGroup>
+								<h:outputText 
+										value=""
+									 /> 
+								<a4j:outputPanel ajaxRendered="true">
+									<rich:message 
+										for="preliminarySupplementUpload"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+									<rich:message 
+										for="preliminarySupplement"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+								</a4j:outputPanel> 
+							</h:panelGrid>
+						</h:panelGrid>
+						<!--  ...... report ..... -->
+						<h:panelGrid 
+							id="reportGroup" 
+							rendered="#{empty userManagedBean.loggedUser.author.controlNumber}">
+							<h:panelGrid 
+								columns="5" columnClasses="width30, width30, width10, width10, width20" width="100%" >
+								<!-- ....... Report   -->      
+								<a4j:outputPanel 
+									ajaxRendered="true">
+									<mytags:outputLabel 
+										value="#{messages['records.studyFinalDocument.editPanel.report']}" 
+										for="reportUpload" 
+										errorStyleClass="errorMessage"
+										/>
+								</a4j:outputPanel>
+								<h:inputTextarea 
+									id="report"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report}"
+									readonly="true"
+									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.report.fileNameClient}"
+									rows="3" 
+									style="width:300">
+								</h:inputTextarea>
+								<rich:fileUpload 
+									id="reportUpload"
+									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report}"
+									fileUploadListener="#{studyFinalDocumentManagedBean.uploadReportListener}"
+					                listHeight="50"
+					                listWidth="200"
+					                acceptedTypes="pdf, jpg"
+					                ontyperejected="alert('Samo PDF i JPG fajlovi su dozvoljeni');"
+					                allowFlash="auto"
+					                maxFilesQuantity="1"
+					                >
+					                <a4j:ajax event="uploadcomplete" render="reportGroup" execute="@form" />
+					            </rich:fileUpload>
+						        <h:panelGroup
+									id="deleteReport" 
+									>
+						       		<a4j:commandButton 
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report) and ((empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report.note) or (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+										disabled="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report.note}"
+										action="#{studyFinalDocumentManagedBean.deleteReport}"
+										value="#{messages['records.studyFinalDocument.editPanel.btnReportDelete']}"
+										render="reportGroup" 
+										limitRender="true"
+										execute="@this"/>  
+						        	<h:outputText 
+						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report}"
+										value=""
+									 /> 
+						        	<h:outputLink
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.reportURL}"
+										target="_blank"
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.reportURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report)}"
+										>
+										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+									</h:outputLink>
+						        	<h:outputText 
+						        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.reportURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.report)}"
+										value=""
+									 /> 
+								</h:panelGroup>
+								<h:outputText 
+										value=""
+									 /> 
+								<a4j:outputPanel ajaxRendered="true">
+									<rich:message 
+										for="reportUpload"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+									<rich:message 
+										for="report"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+								</a4j:outputPanel>
+							</h:panelGrid>
+						</h:panelGrid>  
+					</rich:panel>
+					<!--  ...... finalTheses ..... -->
+					<h:panelGrid 
+						id="finalTheses" >
+						<rich:panel
+							header="#{messages['records.studyFinalDocument.editPanel.finalThesesPanel']}" > 
+							<h:panelGrid 
+								id="fileGroup" >
+								<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+									<!-- ....... File    -->      
+									<a4j:outputPanel ajaxRendered="true">
+										<mytags:outputLabel 
+											value="#{messages['records.studyFinalDocument.editPanel.file']}" 
+											for="file" 
+											errorStyleClass="errorMessage"
+											/>
+									</a4j:outputPanel>
+									<h:inputTextarea 
+										id="file"
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file}"
+										readonly="true"
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.fileNameClient}"
+										rows="3" 
+										style="width:300">
+									</h:inputTextarea>
+									<rich:fileUpload 
+										id="fileUpload"
+										rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file}"
+										fileUploadListener="#{studyFinalDocumentManagedBean.uploadFileListener}"
+						                listHeight="50"
+						                listWidth="200"
+						                acceptedTypes="pdf" 
+						                ontyperejected="alert('Samo PDF fajlovi su dozvoljeni');"
+						                allowFlash="auto"
+						                maxFilesQuantity="1"
+						                >
+						                <a4j:ajax event="uploadcomplete" render="finalTheses" execute="@form" />
+						            </rich:fileUpload>
+						            <h:panelGroup
+										id="deleteFile" 
+										>
+							        	<a4j:commandButton 
+											rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
+											action="#{studyFinalDocumentManagedBean.deleteFile}"
+											value="#{messages['records.studyFinalDocument.editPanel.btnFileDelete']}"
+											render="finalTheses" 
+											limitRender="true"
+											execute="@this"/> 
+										<h:outputText 
+							        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file}"
+											value=""
+										 /> 
+										<h:outputLink
+											value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileURL}"
+											target="_blank"
+											rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+											>
+											<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+										</h:outputLink> 
+							        	<h:outputText 
+							        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+											value=""
+										 /> 
+									</h:panelGroup>
+									<h:outputText 
+											value=""
+										 /> 
+									<a4j:outputPanel ajaxRendered="true">
+										<rich:message 
+											for="fileUpload"
+											errorClass="errorMessage"
+											infoClass="infoMessage"
+											warnClass="warnMessage"
+											fatalClass="fatalMessage" />
+										<rich:message 
+											for="file"
+											errorClass="errorMessage"
+											infoClass="infoMessage"
+											warnClass="warnMessage"
+											fatalClass="fatalMessage" />
+									</a4j:outputPanel> 
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid 
+								id="supplementGroup" >
+								<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+									<!-- ....... Supplement    -->      
+									<a4j:outputPanel ajaxRendered="true">
+										<mytags:outputLabel 
+											value="#{messages['records.studyFinalDocument.editPanel.supplement']}" 
+											for="supplement" 
+											errorStyleClass="errorMessage"
+											/>
+									</a4j:outputPanel>
+									<h:inputTextarea 
+										id="supplement"
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement}"
+										readonly="true"
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement.fileNameClient}"
+										rows="3" 
+										style="width:300">
+									</h:inputTextarea>
+									<rich:fileUpload 
+										id="supplementUpload"
+										rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement}"
+										fileUploadListener="#{studyFinalDocumentManagedBean.uploadSupplementListener}"
+						                listHeight="50"
+						                listWidth="200"
+						                acceptedTypes="zip" 
+					                	ontyperejected="alert('Samo ZIP fajlovi su dozvoljeni u ovom polju');"
+						                allowFlash="auto"
+						                maxFilesQuantity="1"
+						                >
+						                <a4j:ajax event="uploadcomplete" render="finalSupplement" execute="@form" />
+						            </rich:fileUpload>
+						            <h:panelGroup
+										id="deleteSupplement" 
+										>
+							        	<a4j:commandButton 
+											rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
+											action="#{studyFinalDocumentManagedBean.deleteSupplement}"
+											value="#{messages['records.studyFinalDocument.editPanel.btnSupplementDelete']}"
+											render="finalSupplement" 
+											limitRender="true"
+											execute="@this"/> 
+										<h:outputText 
+							        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement}"
+											value=""
+										 /> 
+										<h:outputLink
+											value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplementURL}"
+											target="_blank"
+											rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplementURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement)}"
+											>
+											<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+										</h:outputLink> 
+							        	<h:outputText 
+							        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplementURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement)}"
+											value=""
+										 /> 
+									</h:panelGroup>
+									<h:outputText 
+											value=""
+										 /> 
+									<a4j:outputPanel ajaxRendered="true">
+										<rich:message 
+											for="supplementUpload"
+											errorClass="errorMessage"
+											infoClass="infoMessage"
+											warnClass="warnMessage"
+											fatalClass="fatalMessage" />
+										<rich:message 
+											for="supplement"
+											errorClass="errorMessage"
+											infoClass="infoMessage"
+											warnClass="warnMessage"
+											fatalClass="fatalMessage" />
+									</a4j:outputPanel> 
+								</h:panelGrid>
+							</h:panelGrid>
+							<!--  ...... copyright ..... -->
+							<h:panelGrid 
+								rendered="#{empty userManagedBean.loggedUser.author.controlNumber}"
+								columns="5" columnClasses="width30, width30, width10, width10, width20" width="100%" >
+								<!-- ....... File Copyright   -->      
+								<a4j:outputPanel 
+									ajaxRendered="true">
+									<mytags:outputLabel 
+										value="#{messages['records.studyFinalDocument.editPanel.fileCopyright']}" 
+										for="fileCopyright" 
+										errorStyleClass="errorMessage"
+										/>
+								</a4j:outputPanel>
+								<h:inputTextarea 
+									id="fileCopyright"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
+									readonly="true"
+									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright.fileNameClient}"
+									rows="3" 
+									style="width:300">
+								</h:inputTextarea>
+								<rich:fileUpload 
+									id="fileCopyrightUpload"
+									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
+									fileUploadListener="#{studyFinalDocumentManagedBean.uploadFileCopyrightListener}"
+					                listHeight="50"
+					                listWidth="200"
+					                acceptedTypes="pdf, jpg"
+					                ontyperejected="alert('Samo PDF i JPG fajlovi su dozvoljeni');"
+					                allowFlash="auto"
+					                maxFilesQuantity="1"
+					                >
+					                <a4j:ajax event="uploadcomplete" render="finalTheses" execute="@form" />
+					            </rich:fileUpload>
+						        <h:panelGroup
+									id="deleteCopyrightFile" 
+									>
+						       		<a4j:commandButton 
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
+										action="#{studyFinalDocumentManagedBean.deleteFileCopyright}"
+										value="#{messages['records.studyFinalDocument.editPanel.btnFileCopyrightDelete']}"
+										disabled="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+										render="finalTheses" 
+										limitRender="true"
+										execute="@this"/> 
+									<h:outputText 
+						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
+										value=""
+									 /> 
+						        	<h:outputLink
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyrightURL}"
+										target="_blank"
+										disabled="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyrightURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright)}"
+										>
+										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+									</h:outputLink> 
+									 <h:outputText 
+						        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyrightURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright)}"
+										value=""
+									 /> 
+								</h:panelGroup>
+								<h:outputText 
+										value=""
+									 /> 
+								<a4j:outputPanel ajaxRendered="true">
+									<rich:message 
+										for="fileCopyrightUpload"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+									<rich:message 
+										for="fileCopyright"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+								</a4j:outputPanel>
+								<!-- ....... Copyright   -->
+								<a4j:outputPanel 
+									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+									ajaxRendered="true">
+									<mytags:outputLabel 
+										value="#{messages['records.studyFinalDocument.editPanel.copyright']}" 
+										for="copyright" 
+										errorStyleClass="errorMessage"
+										/>
+								</a4j:outputPanel>
+								<h:selectOneMenu 
+									id="copyright"
+									disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+									value="#{studyFinalDocumentManagedBean.fileLicense}" 
+									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+									required="true"
+									>
+									<f:selectItem 
+										itemValue="#{null}"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.notSpecified']}" />
+									<f:selectItem 
+										itemValue="Attribution"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution']}" />
+									<f:selectItem 
+										itemValue="Attribution-NonCommercial"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NonCommercial']}" />
+									<f:selectItem 
+										itemValue="Attribution-NonCommercial-NoDerivs"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NonCommercial-NoDerivs']}" />
+									<f:selectItem 
+										itemValue="Attribution-NonCommercial-ShareAlike"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NonCommercial-ShareAlike']}" />
+									<f:selectItem 
+										itemValue="Attribution-NoDerivs"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NoDerivs']}" />
+									<f:selectItem 
+										itemValue="Attribution-ShareAlike"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-ShareAlike']}" />
+									<!--   <f:selectItem 
+										itemValue="Creative Commons"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons']}" 
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.license) and ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.license == 'Creative Commons') or (studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.license == 'Usage forbidden'))}"/>
+									-->
+									<f:selectItem 
+										itemValue="Usage forbidden"
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.usageForbidden']}" 
+										/>
+								</h:selectOneMenu>
+								<h:outputText 
+									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+									value="" />
+								<h:outputText 
+									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+									value="" />
+								<a4j:outputPanel 
+									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
+									ajaxRendered="true">
+									<rich:message 
+										for="copyright" 
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+								</a4j:outputPanel>
+								<!-- ....... Metadata Copyright   -->      
+								<a4j:outputPanel 
+									ajaxRendered="true"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}" >
+									<mytags:outputLabel 
+										value="#{messages['records.studyFinalDocument.editPanel.metadataCopyright']}" 
+										for="metadataCopyrightUpload" 
+										errorStyleClass="errorMessage"
+										/>
+								</a4j:outputPanel>
+								<h:inputTextarea 
+									id="metadataCopyright"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
+									readonly="true"
+									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright.fileNameClient}"
+									rows="3" 
+									style="width:300">
+								</h:inputTextarea>
+								<!--
+								<rich:fileUpload 
+									id="metadataCopyrightUpload"
+									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
+									fileUploadListener="#{studyFinalDocumentManagedBean.uploadMetadataCopyrightListener}"
+					                listHeight="50"
+					                listWidth="200"
+					                acceptedTypes="pdf, jpg"
+					                ontyperejected="alert('Samo PDF i JPG fajlovi su dozvoljeni');"
+					                allowFlash="auto"
+					                maxFilesQuantity="1"
+					                >
+					                <a4j:ajax event="uploadcomplete" render="metadataCopyrightGroup" execute="@form" />
+					            </rich:fileUpload>
+						        -->
+						        <h:panelGroup
+									id="deleteMetadataCopyright" 
+									>
+						       		<a4j:commandButton 
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
+										action="#{studyFinalDocumentManagedBean.deleteMetadataCopyright}"
+										value="#{messages['records.studyFinalDocument.editPanel.btnMetadataCopyrightDelete']}"
+										render="metadataCopyrightGroup" 
+										limitRender="true"
+										execute="@this"/>  
+									<!--
+									<h:outputText 
+						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
+										value=""
+									 /> 
+						        	-->
+						        	<h:outputLink
+										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyrightURL}"
+										target="_blank"
+										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyrightURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright)}"
+										>
+										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+									</h:outputLink>
+									<!--
+									<h:outputText 
+						        		rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyrightURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright)}"
+										value=""
+									 /> 
+									-->
+								</h:panelGroup>
+								<h:outputText 
+										value=""
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}" 
+									 /> 
+								<a4j:outputPanel 
+									ajaxRendered="true"
+									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}" >
+									<rich:message 
+										for="metadataCopyrightUpload"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+									<rich:message 
+										for="metadataCopyright"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage" />
+								</a4j:outputPanel>
+							</h:panelGrid>
+						</rich:panel>
+					</h:panelGrid> 
+						<!-- ....... Content format.......  
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.contentFormat']}" 
+								for="contentFormat" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="contentFormat"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.contentFormat}"
+							rows="3"  />
+						<h:outputText 
+							value=""
+							 />
+						<h:outputText 
+							value=""
+							 />
+						<a4j:outputPanel 
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="contentFormat" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel> -->
+						<!-- ....... Rights .......           
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.rights']}" 
+								for="rights" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<rich:editor 
+							id="rights"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.rights.content}"
+							theme="advanced"
+							height="200"
+							width="300"
+							>
+							<f:param name="theme_advanced_buttons1" value="bold,italic,underline, cut,copy,paste,pasteword"/>
+		          			<f:param name="theme_advanced_toolbar_location" value="top"/>                               
+		          			<f:param name="theme_advanced_toolbar_align" value="left"/>
+						</rich:editor>
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.rightsTranslations}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnRightsTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="rights" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel> -->
+				</rich:tab>
+				<rich:tab 
+					name="tab1"
+					header="#{messages['records.studyFinalDocument.editPanel.secondTab']}"
+					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 1) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<h:panelGrid columns="5" columnClasses="width10, width25, width25, width20, width20" width="100%">		
+						<!-- ....... Author .......           -->
+						<a4j:outputPanel 
+							style="width:100%"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.author']}*" 
+								for="author" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="author"
+							rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.author.controlNumber!=null}"
+							disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.author.name}" 
+							required="true"
+							style="width:245px"
+							> 
+							<f:selectItems value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.author.allNamesSelectItems}" />			
+						</h:selectOneMenu>
+						<h:outputText 
+							rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.author.controlNumber==null}"
+							value="" 
+							style="width:245px"/>	
+						<a4j:commandButton 
+							rendered="#{empty userManagedBean.loggedUser.author.controlNumber}"
+							action="#{studyFinalDocumentManagedBean.addAuthorOtherFormatName}"
+							render="authorNameFormatsModalPanel" 
+							execute="@this"
+							value="#{messages['records.studyFinalDocument.editPanel.btnAddAuthorOtherFormatName']}"
+							style="width:245px"
+							/>
+						<h:outputText 
+							rendered="#{not empty userManagedBean.loggedUser.author.controlNumber}"
+							value="" 
+							style="width:245px"/>
+						<a4j:commandButton 
+							rendered="#{empty userManagedBean.loggedUser.author.controlNumber}"
+							action="#{studyFinalDocumentManagedBean.pickAuthor}"
+							render="authorBrowseModalPanel"
+							value="#{messages['records.studyFinalDocument.editPanel.btnPickAuthor']}"
+							execute="@this"
+							style="width:100%"
+							/>
+						<h:outputText 
+							rendered="#{not empty userManagedBean.loggedUser.author.controlNumber}"
+							value="" 
+							style="width:100%"/>
+						<a4j:outputPanel 
+							ajaxRendered="true" 
+							style="width:100%"
+							>
+							<rich:message 
+								for="author" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... studyType .......           -->
+						<a4j:outputPanel 
+							style="width:100%"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.studyType']}*" 
+								for="studyType" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="studyType"
+							disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.studyType}"
+							required="true"
+							style="width:100%">
+							<f:selectItems
+								value="#{studyFinalDocumentManagedBean.allStudyTypesSelectItems}" />
+						</h:selectOneMenu>
+						<h:outputText 
+							style="width:100%"
+							value="" />
+						<h:outputText 
+							style="width:100%"
+							value="" />
+						<a4j:outputPanel 
+							style="width:100%"
+							ajaxRendered="true">
+							<rich:message 
+								for="studyType" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+					<a4j:status for="language_region" onstart="onStart()" onstop="onStop()" />
+					<a4j:region 
+						id="language_region"
+						renderRegionOnly="true" 
+						style="width:100%"
+						>
+						<h:panelGrid 
+							id="language_panel"
+							columns="5" columnClasses="width10, width25, width25, width20, width20" width="100%">
+							<!--  ...... language ..... -->
+							<a4j:outputPanel 
+								style="width:100%"
+								ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.language']}*" 
+									for="language" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:selectOneMenu 
+								id="language"
+								disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.language}" 
+								required="true"	
+								style="width:245px" >
+								<a4j:ajax event="change" render="language_panel" limitRender="true" execute="@this" />
+								<ui:include src="../languagesSelectItems.xhtml"/>
+							</h:selectOneMenu>
+							<h:selectOneMenu 
+								id="alphabet"
+								rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.language == 'srp'}"
+								disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.alphabet}" 
+								style="width:245px"
+								required="true"
+								>
+								<f:selectItem 
+									itemValue="#{null}"
+									itemLabel="#{messages['records.studyFinalDocument.editPanel.alphabet.notSpecified']}" />
+								<f:selectItem 
+									itemValue="cyrillic script"
+									itemLabel="#{messages['records.studyFinalDocument.editPanel.alphabet.cyrillic']}" />
+								<f:selectItem 
+									itemValue="latin script"
+									itemLabel="#{messages['records.studyFinalDocument.editPanel.alphabet.latin']}" />
+							</h:selectOneMenu>
+							<h:outputText 
+								rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.language != 'srp'}"
+								value="" 
+								style="width:245px"/>
+							<h:outputText 
+								style="width:100%"
+								value="" />
+							<a4j:outputPanel 
+								style="width:100%"
+								ajaxRendered="true">
+								<rich:message 
+									for="language" 
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage" />
+								<rich:message 
+									for="alphabet" 
+									rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.language == 'srp'}"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage" />
+							</a4j:outputPanel>
+						</h:panelGrid>
+					</a4j:region>
+					<h:panelGrid columns="4" columnClasses="width15, width50, width20, width15" width="100%">
+						<!-- ....... Title .......           -->
+						<a4j:outputPanel 
+							style="width:100%"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.title']}*" 
+								for="title" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="title"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.title.content}"
+							rows="3" 
+							style="width:100%"
+							required="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.titleTranslations}"/>
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.titleTranslations}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnTitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							style="width:100%"
+							execute="@this"/>
+						<a4j:outputPanel 
+							style="width:100%"
+							ajaxRendered="true">
+							<rich:message 
+								for="title" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Subtitle .......           -->
+						<a4j:outputPanel 
+							style="width:100%"
+							ajaxRendered="true"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}" >
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.subtitle']}" 
+								for="subtitle" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="subtitle"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.subtitle.content}"
+							rows="3" 
+							style="width:100%" />
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.subtitleTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnSubtitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							style="width:100%" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<rich:message 
+								for="subtitle" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Alternative Title .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.alternativeTitle']}" 
+								for="alternativeTitle" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="alternativeTitle"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.alternativeTitle.content}"
+							rows="3" 
+							style="width:100%"/>
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.alternativeTitleTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnAlternativeTitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							style="width:100%"/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<rich:message 
+								for="alternativeTitle" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Abstract .......        -->   
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.abstract']}" 
+								for="abstract" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<rich:editor 
+							id="abstract"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.abstracT.content}"
+							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails}" 
+							toolbar="CustomToolbar"
+							skin="office2003"
+							height="500"
+							width="500"
+							>
+							<!-- config="#{messages['administration.user.richedit']}" -->
+							
+							
+							<f:facet name="config">
+									
+									forcePasteAsPlainText : true,
+									font_names : 'Arial;Times New Roman',
+									font_defaultLabel:  'Arial',
+									fontSize_defaultLabel: '12px',
+							        toolbar_CustomToolbar:
+							        [
+							
+							        { name: 'document', items : [ 'NewPage','Preview','Print','-','Templates' ] },
+							
+							        { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','-','Undo','Redo' ] },
+							        
+							        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker','/' ] },
+							        					        
+							        
+							        { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-',
+							          							     '/','BidiLtr','BidiRtl' ] },
+							        
+							        { name: 'links', items : [ 'Link','Unlink','Anchor', '-' ] },        
+							
+							        '/',
+							        				
+							        { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+							        
+							        { name: 'colors', items : [ 'TextColor','BGColor' ] },
+							        
+							        { name: 'tools', items : [ 'Maximize' ] },
+							        
+							        { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Subscript','Superscript','-','RemoveFormat' ] },
+							        
+							        { name: 'insert', items : ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ] },
+							
+							        ]
+						
+						    
+		          			</f:facet>
+						</rich:editor>
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.abstractTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnAbstractTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							style="width:100%"/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<rich:message 
+								for="abstract" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Extended Abstract ....... -->           
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.extendedAbstract']}" 
+								for="extendedAbstract" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<rich:editor 
+							id="extendedAbstract"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.extendedAbstract.content}"
+							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails}" 
+							toolbar="CustomToolbar"
+							skin="office2003"
+							height="500"
+							width="500"
+							>
+							
+							<f:facet name="config">
+									
+									forcePasteAsPlainText : true,
+									font_names : 'Arial;Times New Roman',
+									font_defaultLabel:  'Arial',
+									fontSize_defaultLabel: '12px',
+							        toolbar_CustomToolbar:
+							        [
+							
+							        { name: 'document', items : [ 'NewPage','Preview','Print','-','Templates' ] },
+							
+							        { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','-','Undo','Redo' ] },
+							        
+							        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker','/' ] },
+							        					        
+							        
+							        { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-',
+							          							     '/','BidiLtr','BidiRtl' ] },
+							        
+							        { name: 'links', items : [ 'Link','Unlink','Anchor', '-' ] },        
+							
+							        '/',
+							        				
+							        { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+							        
+							        { name: 'colors', items : [ 'TextColor','BGColor' ] },
+							        
+							        { name: 'tools', items : [ 'Maximize' ] },
+							        
+							        { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Subscript','Superscript','-','RemoveFormat' ] },
+							        
+							        { name: 'insert', items : ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ] },
+							
+							        ]
+						
+						    
+		          			</f:facet>
+						</rich:editor>
+						
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.extendedAbstractTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnExtendedAbstractTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							style="width:100%"/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<rich:message 
+								for="extendedAbstract" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel> 
+						<!-- ....... Keywords .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.keywords']}" 
+								for="keywords" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="keywords"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.keywords.content}"
+							rows="3" 
+							style="width:100%"/>
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.keywordsTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnKeywordsTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							style="width:100%"/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<rich:message 
+								for="keywords" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Note .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.note']}" 
+								for="note" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="note"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.note.content}"
+							rows="3" 
+							style="width:100%"/>
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.noteTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnNoteTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"
+							style="width:100%"/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true"
+							style="width:100%">
+							<rich:message 
+								for="note" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+					<rich:panel 
+						header="#{messages['records.studyFinalDocument.editPanel.physicalDescription.header']}"
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"	>
+						<h:inputText id="physicalDescription" rendered="false" value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="physicalDescription"
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage"/>
+						</a4j:outputPanel>
+						<h:panelGrid columns="8" columnClasses="width15, width10, width15, width10, width15, width10, width15, width10" width="100%">
+							<!-- ....... number of pages ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.pages']}" 
+									for="pages" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="pages"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfPages}"
+								maxlength="4"
+								style="width:35px"/>
+							<!-- ....... number of chapters ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.chapters']}" 
+									for="chapters" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="chapters"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfChapters}"
+								maxlength="4"
+								style="width:35px"/>
+							<!-- ....... number of references ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.references']}" 
+									for="references" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="references"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfReferences}"
+								maxlength="4"
+								style="width:35px"/>
+							<!-- ....... number of tables ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.tables']}" 
+									for="tables" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="tables"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfTables}"
+								maxlength="4"
+								style="width:35px"/>
+							<!-- ....... number of pictures ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.pictures']}" 
+									for="pictures" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="pictures"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfPictures}"
+								maxlength="4"
+								style="width:35px"/>
+							<!-- ....... number of graphs ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.graphs']}" 
+									for="graphs" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="graphs"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfGraphs}"
+								maxlength="4"
+								style="width:35px"/>
+							<!-- ....... number of appendixes ....... -->
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									value="#{messages['records.studyFinalDocument.editPanel.physicalDescription.appendixes']}" 
+									for="appendixes" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:inputText
+								id="appendixes"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.physicalDescription.numberOfAppendixes}"
+								maxlength="4"
+								style="width:35px"/>
+						</h:panelGrid>
+					</rich:panel>
+				</rich:tab>
+				<rich:tab 
+					name="tab2"
+					header="#{messages['records.studyFinalDocument.editPanel.thirdTab']}"
+					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 2) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... Institution.......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.institution']}*" 
+								for="institution" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<a4j:region 
+							rendered="#{((empty userManagedBean.loggedUser.institution.controlNumber) or (userManagedBean.loggedUser.institution.controlNumber=='(BISIS)5920') or (userManagedBean.loggedUser.institution.controlNumber=='(BISIS)94894')) and (studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+							<rich:autocomplete
+					            id="institution"
+					            value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.institution.name.content}" 
+								required="true"
+								mode="cachedAjax"
+								autocompleteMethod="#{institutionManagedBean.autocompleteUNS}" 
+					            var="_institutionRow"
+					            fetchValue="#{_institutionRow.controlNumber}" 
+					            minChars="3" 
+					            selectFirst="false"
+					            style="width:100% !important;"
+				         		inputClass="width100"
+					            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
+					            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+					            onfocus="activeElId = this.id;"
+					            onblur="activeElId = null;"
+					            >
+					            <a4j:attachQueue 
+					            	ignoreDupResponses="true" 
+					            	requestDelay="5000" 
+					            	/>
+					            <!--   ........  IME Institucije   .......   -->
+								<rich:column 
+									style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+									styleClass="rich-table-wide-cell" >
+									<h:outputText value="#{_institutionRow.name.content}" />
+								</rich:column>
+								<a4j:jsFunction 
+									name="choose" 
+									action="#{institutionManagedBean.chooseInstitution}" 
+									render="institution"
+									limitRender="true">
+								<a4j:param 
+									name="param1" 
+									assignTo="#{institutionManagedBean.institutionControlNumber}"/>
+								</a4j:jsFunction> 
+							</rich:autocomplete>
+						</a4j:region>
+						<h:inputTextarea  
+							rendered="#{((not empty userManagedBean.loggedUser.institution.controlNumber) and (userManagedBean.loggedUser.institution.controlNumber!='(BISIS)5920') and (userManagedBean.loggedUser.institution.controlNumber!='(BISIS)94894')) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							readonly="true"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.institution.name.content}" 
+							rows="3"
+							/>
+						<h:inputHidden id="controlNumber"/>
+						<h:outputText 
+							value=""
+							 />
+						<a4j:outputPanel 
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="institution" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Research Area.......  -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.researchArea']}" 
+								for="researchArea" 
+								errorStyleClass="errorMessage"
+								rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.studyType != 'records.studyFinalDocument.editPanel.studyType.phdArt'}"
+								/>
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.artArea']}" 
+								for="researchArea" 
+								errorStyleClass="errorMessage"
+								rendered="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.studyType == 'records.studyFinalDocument.editPanel.studyType.phdArt'}"
+								/>
+						</a4j:outputPanel>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<h:inputTextarea 
+								id="researchArea"
+								readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) }" 
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.researchArea.term.content}"
+								rows="3"  />
+						</a4j:outputPanel>
+						<h:outputText 
+							value=""
+							rendered="#{(userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])}" />
+						<!--
+						readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.institution.controlNumber) or (studyFinalDocumentManagedBean.selectedStudyFinalDocument.institution.controlNumber=='(BISIS)5929')}"
+						<a4j:commandButton
+							disabled="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.institution.controlNumber}"
+							rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])}" 
+							action="#{studyFinalDocumentManagedBean.pickResearchArea}"
+							render="researchAreaBrowseModalPanel"
+							value="#{messages['records.studyFinalDocument.editPanel.btnPickResearchArea']}" 
+							execute="@this" />
+							-->
+						<h:outputText 
+							value=""
+							rendered="#{(userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])}" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="researchArea" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Level of education.......  -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.levelOfEducation']}" 
+								for="levelOfEducation" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="levelOfEducation"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.levelOfEducation}"
+							rows="3"  />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value=""
+							 />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value=""
+							 />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="levelOfEducation" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Holding data.......  -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.holdingData']}" 
+								for="holdingData" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="holdingData"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.holdingData}"
+							rows="3"  />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value=""
+							 />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value=""
+							 />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="holdingData" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... acceptedOn .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.acceptedOn']}" 
+								for="acceptedOn" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="acceptedOn"
+							value="#{studyFinalDocumentManagedBean.acceptedOn}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							enableManualInput="true"
+							datePattern="dd/MM/yyyy"
+							firstWeekDay="1"
+							dayDisableFunction="disablementFutureDate"
+					    	dayClassFunction="disablementFutureStyleClass"
+							showFooter="false"
+							showWeekDaysBar="false"
+							showWeeksBar="false" 
+							inputStyle="width:120px" 
+							/>
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="acceptedOn" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publisherName .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.publisherName']}" 
+								for="publisherName" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="publisherName"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.publisher.originalPublisher.name}"
+							rows="3"  />
+						<a4j:commandButton 
+							action="#{studyFinalDocumentManagedBean.publisherTranslations}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="#{messages['records.studyFinalDocument.editPanel.btnPublisherTranslations']}"
+							render="multilingualContentPublisherEditModalPanel" 
+							execute="@this"/>
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="publisherName" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publisherPlace .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.publisherPlace']}" 
+								for="publisherPlace" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="publisherPlace"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.publisher.originalPublisher.place}"
+							maxlength="200"  />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="publisherPlace" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publisherState .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.publisherState']}" 
+								for="publisherState" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="publisherState"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.publisher.originalPublisher.state}"
+							maxlength="200"  />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="publisherState" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publicationDate .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.publicationDate']}*" 
+								for="publicationDate" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="publicationDate"
+							value="#{studyFinalDocumentManagedBean.publicationDate}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
+							enableManualInput="true"
+							datePattern="dd/MM/yyyy"
+							firstWeekDay="1"
+							dayDisableFunction="disablementFutureDate"
+					      	dayClassFunction="disablementFutureStyleClass"
+							showFooter="false"
+							showWeekDaysBar="false"
+							showWeeksBar="false" 
+							inputStyle="width:120px" 
+							required="true"/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="publicationDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... ISBN ....... -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.isbn']}" 
+								for="isbn" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText
+							id="isbn"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.isbn}" 
+							maxlength="30" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="isbn" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... UDC ....... -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.udc']}" 
+								for="udc" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText
+							id="udc"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.udc}" 
+							/>
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="udc" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... DOI ....... -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.doi']}" 
+								for="doi" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText
+							id="doi"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.doi}"
+							maxlength="200"/>
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="doi" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... URI ....... -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.uri']}" 
+								for="uri" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea
+							id="uri"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.uri}"
+							rows="3"/>
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="uri" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... defended On .......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.studyFinalDocument.editPanel.defendedOn']}" 
+								for="defendedOn" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="defendedOn"
+							value="#{studyFinalDocumentManagedBean.defendedOn}"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							enableManualInput="true"
+							datePattern="dd/MM/yyyy"
+							firstWeekDay="1"
+							dayDisableFunction="disablementFutureDate"
+							dayClassFunction="disablementFutureStyleClass"
+							showFooter="false"
+							showWeekDaysBar="false"
+							showWeeksBar="false" 
+							inputStyle="width:120px" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<h:outputText 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							value="" />
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<rich:message 
+								for="defendedOn" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab 
+					name="tab3"
+					header="#{messages['records.studyFinalDocument.editPanel.fourthTab']}"
+					rendered="#{((studyFinalDocumentManagedBean.editTabNumber == 3) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])}">
+					<rich:panel 
+						header="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.header']}">
+						<h:inputText id="listOfAdvisors" rendered="false" value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="listOfAdvisors"
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage"/>
+						</a4j:outputPanel>
+						<h:panelGrid id="advisors" columns="1">
+							<!--  add Advisor -->
+							<a4j:commandButton 
+								action="#{studyFinalDocumentManagedBean.pickAdvisor}"
+								render="authorBrowseModalPanel"
+								limitRender="true"
+								value="#{messages['records.studyFinalDocument.editPanel.btnAddAdvisor']}"
+								rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}" 
+								execute="@form" />
+							<!-- ===========================   tablePanel  ============================= -->
+							<rich:dataTable 
+								id="advisorTable"
+								value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.advisors}"
+								var="advisorRow">
+								<!--     ........  advisor name   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.name']}" />
+									</f:facet>
+									<h:selectOneMenu 
+										value="#{advisorRow.name}"
+										disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" >
+										<f:selectItems value="#{advisorRow.allNamesSelectItems}" />
+									</h:selectOneMenu>
+								</rich:column>
+								<!--     ........  advisor title   .......-->
+								<rich:column >
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.title']}" />
+									</f:facet>
+									<h:selectOneMenu 
+										value="#{advisorRow.title}"
+										disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+										style="width:100px;">
+										<f:selectItems value="#{studyFinalDocumentManagedBean.allTitlesSelectItems}" />
+									</h:selectOneMenu>
+								</rich:column>
+								<!--     ........  advisor position   .......-->
+								<rich:column >
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.position']}" />
+									</f:facet>
+									<h:selectOneMenu 
+										value="#{advisorRow.currentPosition.position.term.content}"
+										disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+										style="width:100px;">
+										<f:selectItems value="#{studyFinalDocumentManagedBean.allPositionsSelectItems}" />
+									</h:selectOneMenu>
+								</rich:column>
+								<!--     ........  institution   .......-->
+								<rich:column >
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.institution']}" />
+									</f:facet>
+									<a4j:region
+					            			rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}"  >
+										<rich:autocomplete 
+											value="#{advisorRow.institution.someName}"
+					            			mode="cachedAjax" 
+					            			autocompleteMethod="#{institutionManagedBean.autocompleteUNS}"
+					            			var="_institutionRow"
+					            			fetchValue="#{_institutionRow.someName}" 
+					           				minChars="3" 
+					            			selectFirst="false"					            	
+				         					onfocus="activeElId = this.id;"
+				         					onblur="activeElId = null;"
+							            	>
+							            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+											<!--     ........  IME Institucije.......-->
+											<rich:column 
+												style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+												styleClass="rich-table-wide-cell" width="100%">
+								                <h:outputText value="#{_institutionRow.someName}"/>
+											</rich:column>
+										</rich:autocomplete>
+									</a4j:region>
+									<h:inputText 
+										value="#{advisorRow.institution.someName}"
+										readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+										rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+										style="width:100%">
+									</h:inputText>
+								</rich:column>
+								<!--     ........  committee member   .......-->
+								<rich:column
+									rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.commmitteeMember']}" />
+									</f:facet>
+									<h:selectBooleanCheckbox 
+										value="#{studyFinalDocumentManagedBean.advisorsList[advisorRow.controlNumber]}" 
+										onclick="changedCM();"/>
+									<a4j:jsFunction 
+										name="changedCM" 
+										action="#{studyFinalDocumentManagedBean.changeCommitteeMembersList}" 
+										render="committeeMembers"
+										limitRender="true">
+									</a4j:jsFunction> 
+								</rich:column>
+								<!--     ........  change position   .......-->
+								<rich:column
+									rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.changePosition']}" />
+									</f:facet>
+									<a4j:commandLink
+										action="#{studyFinalDocumentManagedBean.moveAdvisorUp}"
+										render="advisors"
+										execute="@form" >
+										<h:graphicImage library="img" name="up.gif"  />
+										<f:param name="controlNumber"
+											value="#{advisorRow.controlNumber}" />
+									</a4j:commandLink>
+									<a4j:commandLink
+										action="#{studyFinalDocumentManagedBean.moveAuthorDown}"
+										render="advisors"
+										execute="@form" >
+										<h:graphicImage library="img" name="down.gif"  />
+										<f:param name="controlNumber"
+											value="#{advisorRow.controlNumber}" />
+									</a4j:commandLink>
+								</rich:column>
+								<!--     ........  remove advisor   .......-->
+								<rich:column
+									rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.remove']}" />
+									</f:facet>
+									<a4j:commandLink 
+										action="#{studyFinalDocumentManagedBean.removeAdvisor}"
+										render="advisors, committeeMembers"
+										limitRender="true"
+										execute="@form" >
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param name="controlNumber"
+											value="#{advisorRow.controlNumber}" />
+									</a4j:commandLink>
+								</rich:column>
+								<!--     ........  add advisor other format name    .......-->
+								<rich:column
+									rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.studyFinalDocument.editPanel.advisorTablePanel.addOtherFormatName']}" />
+									</f:facet>
+									<a4j:commandLink
+										action="#{studyFinalDocumentManagedBean.addAdvisorOtherFormatName}"
+										render="authorNameFormatsModalPanel" 
+										execute="@form" >
+										<h:graphicImage library="img" name="edit.png"  />
+										<f:param name="controlNumber"
+											value="#{advisorRow.controlNumber}" />
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+						</h:panelGrid>
+					</rich:panel>
+					<rich:panel 
+						header="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.header']}">
+						<h:inputText id="listOfCommitteeMembers" rendered="false" value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="listOfCommitteeMembers"
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage"/>
+						</a4j:outputPanel>
+						<h:panelGrid id="committeeMembers" columns="1">
+							<!--  add CommitteeMember -->
+							<a4j:commandButton 
+								action="#{studyFinalDocumentManagedBean.pickCommitteeMember}"
+								render="authorBrowseModalPanel"
+								limitRender="true"
+								value="#{messages['records.studyFinalDocument.editPanel.btnAddCommitteeMember']}"
+								rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}" 
+								execute="@form" />
+							<!-- ===========================   tablePanel  ============================= -->
+								<rich:dataTable 
+									id="committeeMemberTable"
+									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.committeeMembers}"
+									var="committeeMemberRow"
+									rowKeyVar="committeeMemberRowKey">
+									<!-- ........  committeeMember name   .......-->
+									<rich:column>
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.name']}" />
+										</f:facet>
+										<h:selectOneMenu 
+											value="#{committeeMemberRow.name}"
+											disabled="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber]) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" >
+											<f:selectItems value="#{committeeMemberRow.allNamesSelectItems}" />
+										</h:selectOneMenu>
+									</rich:column>
+									<!--     ........  committeeMember title   .......-->
+									<rich:column>
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.title']}" />
+										</f:facet>
+										<h:selectOneMenu 
+											value="#{committeeMemberRow.title}"
+											disabled="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber]) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+											style="width:100px;">
+											<f:selectItems value="#{studyFinalDocumentManagedBean.allTitlesSelectItems}" />
+										</h:selectOneMenu>
+									</rich:column>
+									<!--     ........  committeeMember position   .......-->
+									<rich:column>
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.position']}" />
+										</f:facet>
+										<h:selectOneMenu 
+											value="#{committeeMemberRow.currentPosition.position.term.content}"
+											disabled="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber]) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+											style="width:100px;" >
+											<f:selectItems value="#{studyFinalDocumentManagedBean.allPositionsSelectItems}" />
+										</h:selectOneMenu>
+									</rich:column>
+									<!--     ........  institution   .......-->
+									<rich:column>
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.institution']}" />
+										</f:facet>
+										<a4j:region
+											rendered="#{(!studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber]) and (studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}" >
+											<rich:autocomplete 
+												value="#{committeeMemberRow.institution.someName}"
+						            			mode="cachedAjax" 
+						            			autocompleteMethod="#{institutionManagedBean.autocompleteUNS}"
+						            			var="_institutionRow"
+						            			fetchValue="#{_institutionRow.someName}" 
+						           				minChars="3" 
+						            			selectFirst="false"
+					         					onfocus="activeElId = this.id;"
+					         					onblur="activeElId = null;"
+								            	>
+								            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+												<!--     ........  IME Institucije.......-->
+												<rich:column 
+													style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+													styleClass="rich-table-wide-cell" width="100%">
+									                <h:outputText value="#{_institutionRow.someName}"/>
+												</rich:column>
+											</rich:autocomplete>
+										</a4j:region>
+										<h:inputText 
+											value="#{committeeMemberRow.institution.someName}"
+											readonly="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber]) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+											rendered="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber]) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}" 
+											>
+										</h:inputText>
+									</rich:column>
+									<!--     ........  role   .......-->
+									<rich:column>
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.role']}" />
+										</f:facet>
+										<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.role.president']}" 
+												rendered="#{committeeMemberRowKey==0}"/>
+										<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.role.member']}" 
+												rendered="#{committeeMemberRowKey!=0}"/>
+									</rich:column>
+									<!--     ........  change position   .......-->
+									<rich:column
+										rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.changePosition']}" />
+										</f:facet>
+										<a4j:commandLink
+											action="#{studyFinalDocumentManagedBean.moveCommitteeMemberUp}"
+											render="committeeMembers"
+											execute="@form" >
+											<h:graphicImage library="img" name="up.gif"  />
+											<f:param name="controlNumber"
+												value="#{committeeMemberRow.controlNumber}" />
+										</a4j:commandLink>
+										<a4j:commandLink
+											action="#{studyFinalDocumentManagedBean.moveCommitteeMemberDown}"
+											render="committeeMembers"
+											execute="@form" >
+											<h:graphicImage library="img" name="down.gif"  />
+											<f:param name="controlNumber"
+												value="#{committeeMemberRow.controlNumber}" />
+										</a4j:commandLink>
+									</rich:column>
+									<!--     ........  remove committeeMember   .......-->
+									<rich:column
+										rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.remove']}" />
+										</f:facet>
+										<a4j:commandLink 
+											action="#{studyFinalDocumentManagedBean.removeCommitteeMember}"
+											render="committeeMembers"
+											execute="@form" 
+											disabled="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber])}"
+											style="#{((!studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber])?(''):('opacity:0.4;filter:alpha(opacity=40);'))}"
+											>
+											<h:graphicImage library="img" name="delete.png" />
+											<f:param name="controlNumber"
+												value="#{committeeMemberRow.controlNumber}" />
+										</a4j:commandLink>
+									</rich:column>
+									<!--     ........  add committeeMember other format name    .......-->
+									<rich:column
+										rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails)}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.editPanel.committeeMemberTablePanel.addOtherFormatName']}" />
+										</f:facet>
+										<a4j:commandLink
+											action="#{studyFinalDocumentManagedBean.addCommitteeMemberOtherFormatName}"
+											render="authorNameFormatsModalPanel" 
+											execute="@form"
+											disabled="#{(studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber])}"
+											style="#{((!studyFinalDocumentManagedBean.advisorsList[committeeMemberRow.controlNumber])?(''):('opacity:0.4;filter:alpha(opacity=40);'))}"
+											>
+											<h:graphicImage library="img" name="edit.png"  />
+											<f:param name="controlNumber"
+												value="#{committeeMemberRow.controlNumber}" />
+										</a4j:commandLink>
+									</rich:column>
+								</rich:dataTable>
+						</h:panelGrid>
+					</rich:panel>
+				</rich:tab>
+				<rich:tab 
+					name="tab4"
+					header="#{messages['records.studyFinalDocument.editPanel.fifthTab']}"
+					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 4) and ((studyFinalDocumentManagedBean.editMode == modesManagedBean.add) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.import))}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:panelGrid columns="2">
+							<h:graphicImage library="img" name="info.png" />
+							<h:outputText value="#{studyFinalDocumentManagedBean.pickSimilarMessage}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid>
+					</a4j:outputPanel>
+					<h:graphicImage 
+						library="img"
+						name="spacer.gif" 
+						alt="" 
+						height="10"
+						width="1"
+						/>
+					<rich:dataTable 
+						id="studyFinalDocumentTable" 
+						value="#{studyFinalDocumentManagedBean.similarStudyFinalDocuments}"
+						var="studyFinalDocumentRow" >
+						<!--     ........  name   .......-->
+						<rich:column >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.studyFinalDocument.tablePanel.reference']}" />
+							</f:facet>
+							<h:outputText value="#{studyFinalDocumentRow.stringRepresentation}" />
+						</rich:column>
+						<!--     ........  chooseSimilar   .......-->
+						<rich:column
+							rendered="false">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.studyFinalDocument.tablePanel.chooseSimilar']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="false"
+								render="mainPanel, #{studyFinalDocumentManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{studyFinalDocumentRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.tablePanel.btnPick']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  examineThis   .......-->
+						<rich:column 
+							rendered="false">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.studyFinalDocument.tablePanel.examine']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{studyFinalDocumentManagedBean.examineData}"
+								render="mainPanel, #{studyFinalDocumentManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{studyFinalDocumentRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.tablePanel.btnExamine']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  mergeWithThis   .......-->
+						<rich:column 
+							rendered="true">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.studyFinalDocument.tablePanel.merge']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{studyFinalDocumentManagedBean.mergeData}"
+								render="mainPanel, #{studyFinalDocumentManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{studyFinalDocumentRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.studyFinalDocument.tablePanel.btnMerge']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</rich:tab>
+				<rich:tab 
+					name="tab5"
+					header="#{messages['records.studyFinalDocument.editPanel.sixthTab']}"
+					rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:inputTextarea
+							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.MARC21Record.printableString}"
+							readonly="true" cols="60" styleClass="marc21TextArea" />
+					</a4j:outputPanel>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="2">
+			<a4j:commandButton 
+				rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails) and ((studyFinalDocumentManagedBean.editTabNumber gt 1) or ((studyFinalDocumentManagedBean.editTabNumber == 1) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData]))) and (studyFinalDocumentManagedBean.editTabNumber lt 4)}"
+				action="#{studyFinalDocumentManagedBean.previousEditTab}"
+				value="#{messages['records.studyFinalDocument.editPanel.btnPrevious']}"
+				render="studyFinalDocumentEditModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewDetails) and ((studyFinalDocumentManagedBean.editTabNumber lt 2) or ((studyFinalDocumentManagedBean.editTabNumber == 2) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])))}"
+				action="#{studyFinalDocumentManagedBean.nextEditTab}"
+				value="#{messages['records.studyFinalDocument.editPanel.btnNext']}"
+				render="studyFinalDocumentEditModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{((studyFinalDocumentManagedBean.editMode == modesManagedBean.update) or ((studyFinalDocumentManagedBean.editMode == modesManagedBean.import) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.controlNumber))) and ((studyFinalDocumentManagedBean.editTabNumber == 3) or (studyFinalDocumentManagedBean.editTabNumber == 4) or ((studyFinalDocumentManagedBean.editTabNumber == 2) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])))}"
+				action="#{studyFinalDocumentManagedBean.update}"
+				value="#{messages['records.studyFinalDocument.editPanel.btnUpdate']}"
+				render="studyFinalDocumentEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{((studyFinalDocumentManagedBean.editMode == modesManagedBean.add) or ((studyFinalDocumentManagedBean.editMode == modesManagedBean.import) and (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.controlNumber))) and ((studyFinalDocumentManagedBean.editTabNumber == 3) or (studyFinalDocumentManagedBean.editTabNumber == 4) or ((studyFinalDocumentManagedBean.editTabNumber == 2) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editFullData])))}"
+				action="#{studyFinalDocumentManagedBean.add}"
+				value="#{messages['records.studyFinalDocument.editPanel.btnCreate']}"
+				render="studyFinalDocumentEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.import) and (studyFinalDocumentManagedBean.editTabNumber == 4)}"
+				action="#{studyFinalDocumentManagedBean.examineData}"
+				value="#{messages['records.studyFinalDocument.editPanel.btnExamine']}"
+				render="studyFinalDocumentEditModalPanel" 
+				limitRender="true" 
+				execute="@this" />
+			<a4j:commandButton 
+				rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 5)}" 
+				action="#{studyFinalDocumentManagedBean.finishWizard}"
+				value="#{messages['records.studyFinalDocument.editPanel.btnAllRight']}"
+				render="mainPanel, #{studyFinalDocumentManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this"/>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+    >
+	<f:view locale="#{userManagedBean.language}">
+		<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+			<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
+			<meta http-equiv="Pragma" content="no-cache"/>
+			<meta http-equiv="Expires" content="-1"/>
+			<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+		</h:head>
+		<h:body>
+			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+			<h:outputScript library="js" name="functions.js" target="head"/>
+			<f:loadBundle
+				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+				var="messages" />
+			<div id="header">
+    			<ui:insert name="header">
+    				<ui:include src="../header.xhtml"/>
+    			</ui:insert>
+			</div>
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="20"
+					width="1"
+					/>
+				<div id="pleaseWait" class="transparent"></div>
+				<div id="progressBar" class="progressbar">
+					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
+				</div>
+				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
+				<a4j:region id="form_region">
+					<h:panelGrid id="mainPanel">
+						<rich:panel id="resultsTypeGroupBrowseModalPanel"
+							header="#{messages['cerif.resultsTypeGroup.header']}">
+							<h:form id="resultsTypeGroupTableForm">
+								<h:panelGrid id="resultsTypeGroupTableFormPanel" >
+									<h:inputText id="general" rendered="false" value="" />
+									<ui:include src="../cerif/resultsTypeGroupTable.xhtml"/>
+								</h:panelGrid>
+							</h:form>
+						</rich:panel>
+					</h:panelGrid>
+					<h:panelGrid id="modalPanel2s">
+						<!-- ======================== Results Type Group  ============= -->
+						<!-- ======================== Results Type Group Pick panel ============= -->
+						<!-- ======================== Results Type Group Edit panel ============= -->
+						<h:form id="resultsTypeGroupEditForm">
+							<h:panelGrid id="resultsTypeGroupEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.update) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('resultsTypeGroupEditForm:scrollableBody');"
+									onshow="formId='resultsTypeGroupEditForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['cerif.resultsTypeGroup.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{resultsTypeGroupManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{resultsTypeGroupManagedBean.renderModalPanels}"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../cerif/resultsTypeGroupEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Results Type Group end ============= -->
+						<!-- ======================== Results type  ============= -->
+						<!-- ======================== Results type Pick panel ============= -->
+						<!-- ======================== Results type Edit panel ============= -->
+						<h:form id="resultsTypeEditForm">
+							<h:panelGrid id="resultsTypeEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(resultsTypeManagedBean.editMode == modesManagedBean.update) or (resultsTypeManagedBean.editMode == modesManagedBean.viewDetails) or (resultsTypeManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('resultsTypeEditForm:scrollableBody');"
+									onshow="formId='resultsTypeEditForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['cerif.resultsType.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{resultsTypeManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{resultsTypeManagedBean.renderModalPanels}"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../cerif/resultsTypeEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Results Type end ============= -->
+						<!-- ======================== Multilingual content  ============= -->
+						<!-- ======================== Multilingual content Edit panel ============= -->
+						<h:form id="multilingualContentForm">
+							<h:panelGrid id="multilingualContentEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('multilingualContentForm:scrollableBody');"
+									onshow="formId='multilingualContentForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{multilingualContentManagedBean.panelHeader}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{multilingualContentManagedBean.exit}"
+											styleClass="hidelink" 
+											render="multilingualContentEditModalPanel"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../multilingualContent.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Multilingual content end ============= -->
+						
+					</h:panelGrid>
+				</a4j:region>
+			</div>
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="70"
+				width="1"/>
+			<div id="footer">
+    			<ui:insert name="footer">
+					<ui:include src="../footer.xhtml"/>
+				</ui:insert>
+			</div>
+		</h:body>
+	</f:view>
+</html>

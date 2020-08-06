@@ -1,0 +1,287 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="resultsTypeEditFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......ResultsType.......           -->
+		<rich:panel id="resultsTypePreview"
+			header="#{messages['cerif.resultsType.editPanel.preview']}"
+			rendered="#{resultsTypeManagedBean.editTabNumber == 1}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{resultsTypeManagedBean.selectedResultsType}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody"
+			rendered="#{resultsTypeManagedBean.editTabNumber lt 1}"
+			styleClass="scrollableBody">
+			<rich:tabPanel 
+				switchType="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{resultsTypeManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					header="#{messages['cerif.resultsType.editPanel.firstTab']}"
+					rendered="#{resultsTypeManagedBean.editTabNumber == 0}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... classId .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.classId']}*" 
+								for="classId" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputText 
+							id="classId"
+							readonly="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails) or (resultsTypeManagedBean.editMode == modesManagedBean.update)}" 
+							value="#{resultsTypeManagedBean.selectedResultsType.classId}"
+							maxlength="30"
+							required="true"/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="classId" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!--  ...... language ..... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.termLanguage']}*" 
+								for="language" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="language"
+							disabled="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{resultsTypeManagedBean.selectedResultsType.originalLanguage}" 
+							required="true"	>
+							<ui:include src="../languagesSelectItems.xhtml"/>
+						</h:selectOneMenu>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="language" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Term .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.term']}*" 
+								for="term" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="term"
+							readonly="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{resultsTypeManagedBean.selectedResultsType.term.content}"
+							rows="3" 
+							required="#{empty resultsTypeManagedBean.selectedResultsType.termTranslations}"/>
+						<a4j:commandButton 
+							action="#{resultsTypeManagedBean.termTranslations}"
+							value="#{messages['cerif.resultsType.editPanel.btnTermTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="term" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... superResultsTypeGroup .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.superResultsTypeGroup']}" 
+								for="superResultsTypeGroup" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="superResultsTypeGroup"
+							readonly="true" 
+							value="#{resultsTypeManagedBean.selectedResultsType.superResultsTypeGroup}"
+							rows="3"/>
+						<h:outputText 
+							value="" 
+							/>
+						<h:outputText 
+							value=""  
+							/>
+						<a4j:outputPanel 
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="superResultsTypeGroup" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... superResultsType .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.superResultsType']}" 
+								for="superResultsType" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="superResultsType"
+							readonly="true" 
+							value="#{resultsTypeManagedBean.selectedResultsType.superResultsType}"
+							rows="3"/>
+						<h:outputText 
+							value="" 
+							/>
+						<h:outputText 
+							value=""  
+							/>
+						<a4j:outputPanel 
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="superResultsType" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Description .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.description']}" 
+								for="description" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="description"
+							readonly="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{resultsTypeManagedBean.selectedResultsType.description.content}"
+							rows="3"/>
+						<a4j:commandButton 
+							action="#{resultsTypeManagedBean.descriptionTranslations}"
+							value="#{messages['cerif.resultsType.editPanel.btnDescriptionTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="description" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... START DATE .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.startDate']}" 
+								for="startDate" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="startDate"
+							locale="en/US"
+							disabled="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{resultsTypeManagedBean.startDate}"
+							datePattern="d/M/yyyy"
+							required="true"
+							firstWeekDay="1"
+							enableManualInput="false"
+							defaultTime="00:00"
+						/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="startDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... END DATE .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.resultsType.editPanel.endDate']}" 
+								for="endDate" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="endDate"
+							locale="en/US"
+							disabled="#{(resultsTypeManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{resultsTypeManagedBean.endDate}"
+							datePattern="d/M/yyyy"
+							required="true"
+							firstWeekDay="1"
+							enableManualInput="false"
+							defaultTime="23:59"
+						/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="endDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid>
+			<a4j:commandButton
+				rendered="#{(resultsTypeManagedBean.editMode == modesManagedBean.update) and (resultsTypeManagedBean.editTabNumber == 0)}"
+				action="#{resultsTypeManagedBean.update}"
+				value="#{messages['cerif.resultsType.editPanel.btnUpdate']}"
+				render="resultsTypeEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(resultsTypeManagedBean.editMode == modesManagedBean.add) and (resultsTypeManagedBean.editTabNumber == 0)}"
+				action="#{resultsTypeManagedBean.add}"
+				value="#{messages['cerif.resultsType.editPanel.btnCreate']}"
+				render="resultsTypeEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(resultsTypeManagedBean.editTabNumber == 1)}" 
+				action="#{resultsTypeManagedBean.finishWizard}"
+				value="#{messages['cerif.resultsType.editPanel.btnAllRight']}"
+				render="mainPanel, #{resultsTypeManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this"/>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

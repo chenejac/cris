@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+     
+<rich:tooltip followMouse="true" direction="topRight"
+	showDelay="1000" styleClass="tooltip" mode="client">
+	<span class="tooltipSpan"> 
+		<h:panelGrid columns="2">
+			<h:graphicImage 
+				rendered="#{studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none}"
+				library="img" 
+				name="details.png" />
+			<h:outputText
+				rendered="#{studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none}"
+				value="#{messages['records.studyFinalDocument.tablePanel.btnDetails']}" />
+			<h:graphicImage 
+				library="img" 
+				name="editToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnEdit']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update]}" />
+			<h:graphicImage 
+				library="img" 
+				name="archiveToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel] or userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnArchive']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel] or userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]}" />
+			<h:graphicImage 
+				library="img" 
+				name="extractArchiveToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnUnarchive']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]}" />
+			<h:graphicImage 
+				library="img" 
+				name="deleteToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.delete]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnDelete']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.delete]}" />
+			<h:graphicImage 
+				library="img" 
+				name="setPubAv.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel] or userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnSetPubAv']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel] or userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]}" />
+			<h:graphicImage 
+				library="img" 
+				name="setPubUnav.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnSetPubUnav']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]}" />
+			<h:graphicImage 
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update]}"
+				library="img" 
+				name="publicationsToolTip.png" />
+			<h:outputText
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update]}"
+				value="#{messages['records.studyFinalDocument.tablePanel.btnPublications']}" />
+			<h:graphicImage 
+				library="img" 
+				name="editRegisterEntryToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnEditRegisterEntry']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.update]}" />
+			<h:graphicImage 
+				library="img" 
+				name="pickToolTip.png"
+				rendered="#{studyFinalDocumentManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:outputText
+				value="#{messages['records.paperProceedings.tablePanel.btnPick']}"
+				rendered="#{studyFinalDocumentManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:graphicImage 
+				rendered="#{studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none}"
+				library="img" 
+				name="download.png" 
+				width="24"
+				height="24" />
+			<h:outputText
+				rendered="#{studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none}"
+				value="#{messages['records.studyFinalDocument.tablePanel.btnDownload']}" 
+				/>
+			<h:graphicImage 
+				library="img" 
+				name="createToolTip.png"
+				rendered="#{(studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.add])}" />
+			<h:outputText
+				value="#{messages['records.studyFinalDocument.tablePanel.btnCreate']}"
+				rendered="#{(studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.add])}" />
+		</h:panelGrid> 
+	</span>
+</rich:tooltip>
+
+</ui:composition>

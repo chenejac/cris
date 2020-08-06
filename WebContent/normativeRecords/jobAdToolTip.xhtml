@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+<rich:tooltip followMouse="true" direction="topRight"
+	showDelay="1000" styleClass="tooltip" mode="client">
+	<span class="tooltipSpan"> 
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="details.png" />
+			<h:outputText
+				value="#{messages['records.jobAd.tablePanel.btnDetails']}" />
+			<h:graphicImage library="img" name="editToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{messages['records.jobAd.tablePanel.btnEdit']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.update]}" />
+			<h:graphicImage library="img" name="deleteToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.delete]}" />
+			<h:outputText
+				value="#{messages['records.jobAd.tablePanel.btnDelete']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.delete]}" />
+			<h:graphicImage library="img" name="pickToolTip.png"
+				rendered="#{jobAdManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:outputText
+				value="#{messages['records.jobAd.tablePanel.btnPick']}"
+				rendered="#{jobAdManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:graphicImage 
+				rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber) and (userManagedBean.loggedUser.author.controlNumber eq jobAdManagedBean.selectedAuthor.controlNumber)}"
+				library="img" 
+				name="publicationsToolTip.png" />
+			<h:outputText
+				rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber) and (userManagedBean.loggedUser.author.controlNumber eq jobAdManagedBean.selectedAuthor.controlNumber)}"
+				value="#{messages['records.jobAd.tablePanel.btnPublications']}" />
+			<h:graphicImage 
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.editFullData]}"
+				library="img" 
+				name="publicationsToolTip.png" />
+			<h:outputText
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.editFullData]}"
+				value="#{messages['records.jobAd.tablePanel.btnApplications']}" />
+			<h:graphicImage library="img" name="createToolTip.png"
+				rendered="#{(not jobAdManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.add])}" />
+			<h:outputText
+				value="#{messages['records.jobAd.tablePanel.btnCreate']}"
+				rendered="#{(not jobAdManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.add])}" />
+		</h:panelGrid> 
+	</span>
+</rich:tooltip>
+				
+</ui:composition>

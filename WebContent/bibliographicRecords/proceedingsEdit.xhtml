@@ -1,0 +1,939 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="proceedingsEditFormPanel">	
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......Proceedings.......           -->
+		<rich:panel id="proceedingsPreview"
+			header="#{messages['records.proceedings.editPanel.preview']}"
+			rendered="#{proceedingsManagedBean.editTabNumber == 4}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{proceedingsManagedBean.selectedProceedings.stringRepresentation}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<rich:panel id="scrollableBody"
+			rendered="#{proceedingsManagedBean.editTabNumber lt 4}"
+			styleClass="scrollableBody" >
+			<rich:panel id="proceedingsFullPreview"
+				header="#{messages['records.proceedings.editPanel.preview']}"
+				rendered="#{(proceedingsManagedBean.editMode == modesManagedBean.import) and (proceedingsManagedBean.editTabNumber == 3)}">
+				<a4j:outputPanel ajaxRendered="true">
+					<h:panelGrid columns="1">
+						<h:outputText
+							value="#{proceedingsManagedBean.selectedProceedings.HTMLRepresentation}"
+							styleClass="preview" 
+							escape="false"/>
+					</h:panelGrid>
+				</a4j:outputPanel>
+				<a4j:commandLink 
+					render="relatedRecordsEditModalPanel"
+				    execute="@this" 
+				    limitRender="true">
+				    <h:graphicImage library="img" name="publications.png" />
+				    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+				        value="#{proceedingsManagedBean.selectedProceedings}" />
+				    <rich:tooltip followMouse="true" direction="topRight"
+						showDelay="1000" styleClass="tooltip" mode="client">
+						<span class="tooltipSpan"> 
+							<h:panelGrid columns="2">
+								<h:graphicImage library="img" name="publicationsToolTip.png" />
+								<h:outputText
+									value="#{messages['records.proceedings.tablePanel.btnPublications']}" />
+							</h:panelGrid> 
+						</span>
+					</rich:tooltip>
+				</a4j:commandLink>
+			</rich:panel>
+			<rich:tabPanel
+				switchType="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}"
+				activeItem="#{proceedingsManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					rendered="#{(proceedingsManagedBean.editTabNumber == 0) or (proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+					header="#{messages['records.proceedings.editPanel.firstTab']}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... conferenceName .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.conferenceName']}*" 
+								for="conferenceName" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="conferenceName"
+							readonly="true" 
+							value="#{proceedingsManagedBean.selectedProceedings.conference.someName}"
+							rows="3" />
+						<a4j:commandButton
+							rendered="#{((proceedingsManagedBean.editMode != modesManagedBean.viewDetails) and (proceedingsManagedBean.conference == null))}" 
+							action="#{proceedingsManagedBean.pickConference}"
+							value="#{messages['records.proceedings.editPanel.btnPickConference']}"
+							render="conferenceBrowseModalPanel"
+							limitRender="true" 
+							execute="@this" />
+						<h:outputText value=""
+							rendered="#{((proceedingsManagedBean.editMode == modesManagedBean.viewDetails) or (proceedingsManagedBean.conference != null))}" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferenceName" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... conferencePlace .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.conferencePlace']}" 
+								for="conferencePlace" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="conferencePlace"
+							readonly="true" 
+							value="#{proceedingsManagedBean.selectedProceedings.conference.place}"
+							maxlength="200" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferencePlace" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... conferenceYear .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.conferenceYear']}*" 
+								for="conferenceYear" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="conferenceYear"
+							readonly="true" 
+							value="#{proceedingsManagedBean.selectedProceedings.conference.year}"
+							required="true" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferenceYear" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... conferenceNumber .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.conferenceNumber']}" 
+								for="conferenceNumber" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="conferenceNumber"
+							readonly="true" 
+							value="#{proceedingsManagedBean.selectedProceedings.conference.number}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="conferenceNumber" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+					<rich:panel header="#{messages['records.proceedings.editPanel.editorTablePanel.header']}">
+						<h:panelGrid id="editors" columns="1">
+							<!--  add Editor -->
+							<a4j:commandButton 
+								action="#{proceedingsManagedBean.pickEditor}"
+								render="authorBrowseModalPanel"
+								value="#{messages['records.proceedings.editPanel.btnAddEditor']}"
+								rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}" 
+								execute="@form" />						
+							<!-- ===========================   tablePanel  ============================= -->
+								<rich:dataTable 
+									id="editorTable"
+									value="#{proceedingsManagedBean.selectedProceedings.editors}"
+									var="editorRow">
+									<!--     ........  editor name   .......-->
+									<rich:column>
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.proceedings.editPanel.editorTablePanel.name']}" />
+										</f:facet>
+										<h:selectOneMenu 
+											value="#{editorRow.name}"
+											disabled="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" >
+											<f:selectItems value="#{editorRow.allNamesSelectItems}" />
+										</h:selectOneMenu>
+									</rich:column>
+									<!--     ........  change position   .......-->
+									<rich:column
+										rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.proceedings.editPanel.editorTablePanel.changePosition']}" />
+										</f:facet>
+										<a4j:commandLink
+											action="#{proceedingsManagedBean.moveEditorUp}"
+											render="editors"
+											execute="@form" >
+											<h:graphicImage library="img" name="up.gif"  />
+											<f:param name="controlNumber"
+												value="#{editorRow.controlNumber}" />
+										</a4j:commandLink>
+										<a4j:commandLink
+											action="#{proceedingsManagedBean.moveEditorDown}"
+											render="editors"
+											execute="@form" >
+											<h:graphicImage library="img" name="down.gif"  />
+											<f:param name="controlNumber"
+												value="#{editorRow.controlNumber}" />
+										</a4j:commandLink>
+									</rich:column>
+									<!--     ........  remove editor   .......-->
+									<rich:column
+										rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.proceedings.editPanel.editorTablePanel.remove']}" />
+										</f:facet>
+										<a4j:commandLink 
+											action="#{proceedingsManagedBean.removeEditor}"
+											render="editors"
+											execute="@form" >
+											<h:graphicImage library="img" name="delete.png" />
+											<f:param name="controlNumber"
+												value="#{editorRow.controlNumber}" />
+										</a4j:commandLink>
+									</rich:column>
+									<!--     ........  add editor other format name    .......-->
+									<rich:column
+										rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+										<f:facet name="header">
+											<h:outputText
+												value="#{messages['records.proceedings.editPanel.editorTablePanel.addOtherFormatName']}" />
+										</f:facet>
+										<a4j:commandLink
+											action="#{proceedingsManagedBean.addEditorOtherFormatName}"
+											render="authorNameFormatsModalPanel" 
+											execute="@form" >
+											<h:graphicImage library="img" name="edit.png"  />
+											<f:param name="controlNumber"
+												value="#{editorRow.controlNumber}" />
+										</a4j:commandLink>
+									</rich:column>
+								</rich:dataTable>
+						</h:panelGrid>
+					</rich:panel>
+				</rich:tab>
+				<rich:tab 
+					name="tab1"
+					rendered="#{(proceedingsManagedBean.editTabNumber == 1) or (proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+					header="#{messages['records.proceedings.editPanel.secondTab']}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!--  ...... language ..... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.titleLanguage']}*" 
+								for="language" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="language"
+							disabled="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{proceedingsManagedBean.selectedProceedings.title.language}" 
+							required="true"	>
+							<ui:include src="../languagesSelectItems.xhtml"/>
+						</h:selectOneMenu>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="language" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Title .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.title']}*" 
+								for="title" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="title"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.title.content}"
+							rows="3" 
+							required="#{empty proceedingsManagedBean.selectedProceedings.titleTranslations}" />
+						<a4j:commandButton 
+							action="#{proceedingsManagedBean.titleTranslations}"
+							value="#{messages['records.proceedings.editPanel.btnTitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="title" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Subtitle .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.subtitle']}" 
+								for="subtitle" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="subtitle"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.subtitle.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{proceedingsManagedBean.subtitleTranslations}"
+							value="#{messages['records.proceedings.editPanel.btnSubtitleTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="subtitle" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Name Abbreviation .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.nameAbbreviation']}" 
+								for="nameAbbreviation" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="nameAbbreviation"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.nameAbbreviation.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{proceedingsManagedBean.nameAbbreviationTranslations}"
+							value="#{messages['records.proceedings.editPanel.btnNameAbbreviationTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="nameAbbreviation" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... isbn .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.isbn']}" 
+								for="isbn" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="isbn"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.isbn}"
+							maxlength="30" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="isbn" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... numberOfPages .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.numberOfPages']}" 
+								for="numberOfPages" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="numberOfPages"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.numberOfPages}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="numberOfPages" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... dimension .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.dimension']}" 
+								for="dimension" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="dimension"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.dimension}"
+							maxlength="30"  />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="dimension" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... editionTitle .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.editionTitle']}" 
+								for="editionTitle" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="editionTitle"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.editionTitle}"
+							maxlength="30"  />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="editionTitle" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... editionNumber .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.editionNumber']}" 
+								for="editionNumber" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="editionNumber"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.editionNumber}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="editionNumber" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Note .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.note']}" 
+								for="note" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="note"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.note.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{proceedingsManagedBean.noteTranslations}"
+							value="#{messages['records.proceedings.editPanel.btnNoteTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="note" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Keywords .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.keywords']}" 
+								for="keywords" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="keywords"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.keywords.content}"
+							rows="3" />
+						<a4j:commandButton 
+							action="#{proceedingsManagedBean.keywordsTranslations}"
+							value="#{messages['records.proceedings.editPanel.btnKeywordsTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="keywords" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... DOI ....... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.doi']}" 
+								for="doi" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText
+							id="doi"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{proceedingsManagedBean.selectedProceedings.doi}"
+							maxlength="200" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="doi" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... URI ....... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.uri']}" 
+								for="uri" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea
+							id="uri"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{proceedingsManagedBean.selectedProceedings.uri}"
+							rows="3"/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="uri" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab 
+					name="tab2"
+					rendered="#{(proceedingsManagedBean.editTabNumber == 2) or (proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}"
+					header="#{messages['records.proceedings.editPanel.thirdTab']}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... publisherName .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.publisherName']}" 
+								for="publisherName" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="publisherName"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.publisher.originalPublisher.name}"
+							rows="3"  />
+						<a4j:commandButton 
+							action="#{proceedingsManagedBean.publisherTranslations}"
+							value="#{messages['records.proceedings.editPanel.btnPublisherTranslations']}"
+							render="multilingualContentPublisherEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="publisherName" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publisherPlace .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.publisherPlace']}" 
+								for="publisherPlace" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="publisherPlace"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.publisher.originalPublisher.place}"
+							maxlength="200"  />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="publisherPlace" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publisherState .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.publisherState']}" 
+								for="publisherState" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="publisherState"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.publisher.originalPublisher.state}"
+							maxlength="200"  />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="publisherState" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... publicationYear .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.proceedings.editPanel.publicationYear']}*" 
+								for="publicationYear" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="publicationYear"
+							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{proceedingsManagedBean.selectedProceedings.publicationYear}"
+							required="true" 
+							validatorMessage="#{messages['records.proceedings.editPanel.publicationYear.format']}"
+							 >
+							<f:validateRegex pattern="[1-2][0-9]{3}" />
+						</h:inputText>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="publicationYear" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>		
+					<!--  
+					<rich:panel 
+							id="languageTablePanel"
+							header="#{messages['records.proceedings.editPanel.languageTablePanel.header']}">		
+						<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+							 ....... Text Language .......           
+							<a4j:outputPanel ajaxRendered="true">
+								<mytags:outputLabel 
+									rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}"
+									value="#{messages['records.proceedings.editPanel.language']}" 
+									for="textLanguage" 
+									errorStyleClass="errorMessage"
+									/>
+							</a4j:outputPanel>
+							<h:selectOneMenu 
+								id="textLanguage"
+								rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}"
+								value="#{proceedingsManagedBean.language}" 
+								required="true"	>
+								<jsp:include page="/languagesSelectItems.xhtml" flush="true" />
+							</h:selectOneMenu>
+							<a4j:commandButton 
+								rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}" 
+								action="#{proceedingsManagedBean.addLanguage}"
+								value="#{messages['records.proceedings.editPanel.btnAddLanguage']}"
+								render="proceedingsEditModalPanel" 
+								execute="@form" />
+							<h:outputText value=""
+								rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}" />
+							<a4j:outputPanel 
+								ajaxRendered="true"
+								rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+								<rich:message 
+									for="textLanguage" 
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage" />
+							</a4j:outputPanel>
+						</h:panelGrid>
+						<h:panelGrid id="languages" columns="1">
+						 ===========================   tablePanel  ============================= 
+							<rich:dataTable 
+								id="languageTable"
+								value="#{proceedingsManagedBean.selectedProceedings.localizedLanguages}"
+								var="languageRow">
+								     ........  language   .......
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.proceedings.editPanel.languageTablePanel.language']}" />
+									</f:facet>
+									<h:outputText value="#{languageRow}" />
+								</rich:column>
+								     ........  remove language   .......
+								<rich:column
+									rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.proceedings.editPanel.languageTablePanel.remove']}" />
+									</f:facet>
+									<a4j:commandLink
+										action="#{proceedingsManagedBean.removeLanguage}"
+										render="languageTablePanel"
+										limitRender="true" 
+										execute="@this" >
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param name="language" value="#{languageRow}" />
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+						</h:panelGrid>
+					</rich:panel>
+					-->
+				</rich:tab>
+				<rich:tab 
+					name="tab3"
+					header="#{messages['records.proceedings.editPanel.fourthTab']}"
+					rendered="#{(proceedingsManagedBean.editTabNumber == 3) and ((proceedingsManagedBean.editMode == modesManagedBean.add) or (proceedingsManagedBean.editMode == modesManagedBean.import))}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:panelGrid columns="2">
+							<h:graphicImage library="img" name="info.png" />
+							<h:outputText value="#{proceedingsManagedBean.pickSimilarMessage}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid>
+					</a4j:outputPanel>
+					<h:graphicImage 
+						library="img"
+						name="spacer.gif" 
+						alt="" 
+						height="10"
+						width="1"
+						/>
+					<rich:dataTable 
+						id="proceedingsTable" 
+						value="#{proceedingsManagedBean.similarProceedings}"
+						var="proceedingsRow" >
+						<!--     ........  title   .......-->
+						<rich:column >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.proceedings.tablePanel.title']}" />
+							</f:facet>
+							<h:outputText value="#{proceedingsRow.someTitle}" />
+						</rich:column>
+						<!--     ........  conference   .......-->
+						<rich:column >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.proceedings.tablePanel.conference']}" />
+							</f:facet>
+							<h:outputText value="#{proceedingsRow.conferenceName}" />
+						</rich:column>
+						<!--     ........  isbn  .......-->
+						<rich:column >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.proceedings.tablePanel.isbn']}" />
+							</f:facet>
+							<h:outputText value="#{proceedingsRow.isbn}" />
+						</rich:column>
+						<!--     ........  chooseSimilar   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.proceedings.tablePanel.chooseSimilar']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{proceedingsManagedBean.chooseSimilar}"
+								render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
+								rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.import)}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{proceedingsRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.proceedings.tablePanel.btnPick']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+							<a4j:commandLink 
+								action="#{proceedingsManagedBean.examineData}"
+								render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
+								rendered="#{(proceedingsManagedBean.editMode == modesManagedBean.import) }"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{proceedingsRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.proceedings.tablePanel.btnExamine']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+							<a4j:commandLink 
+								render="relatedRecordsEditModalPanel"
+							    execute="@this" 
+							    limitRender="true">
+							    <h:graphicImage id="relatedRecords" library="img" name="publications.png" />
+							    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+							        value="#{proceedingsRow}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="publicationsToolTip.png" />
+											<h:outputText
+												value="#{messages['records.proceedings.tablePanel.btnPublications']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</rich:tab>
+				<rich:tab 
+					name="tab4"
+					header="#{messages['records.proceedings.editPanel.fifthTab']}"
+					rendered="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:inputTextarea
+							value="#{proceedingsManagedBean.selectedProceedings.record.MARC21Record.printableString}"
+							readonly="true" cols="60" styleClass="marc21TextArea" />
+					</a4j:outputPanel>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="2">
+			<a4j:commandButton 
+				rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails) and (proceedingsManagedBean.editTabNumber gt 0) and (proceedingsManagedBean.editTabNumber lt 3)}"
+				action="#{proceedingsManagedBean.previousEditTab}"
+				value="#{messages['records.proceedings.editPanel.btnPrevious']}"
+				render="proceedingsEditModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(proceedingsManagedBean.editMode != modesManagedBean.viewDetails) and (proceedingsManagedBean.editTabNumber lt 2)}"
+				action="#{proceedingsManagedBean.nextEditTab}"
+				value="#{messages['records.proceedings.editPanel.btnNext']}"
+				render="proceedingsEditModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{((proceedingsManagedBean.editMode == modesManagedBean.update) or ((proceedingsManagedBean.editMode == modesManagedBean.import) and (not empty proceedingsManagedBean.selectedProceedings.controlNumber))) and ((proceedingsManagedBean.editTabNumber == 2) or (proceedingsManagedBean.editTabNumber == 3))}"
+				action="#{proceedingsManagedBean.update}"
+				value="#{messages['records.proceedings.editPanel.btnUpdate']}"
+				render="proceedingsEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{((proceedingsManagedBean.editMode == modesManagedBean.add) or ((proceedingsManagedBean.editMode == modesManagedBean.import) and (empty proceedingsManagedBean.selectedProceedings.controlNumber))) and ((proceedingsManagedBean.editTabNumber == 2) or (proceedingsManagedBean.editTabNumber == 3))}"
+				action="#{proceedingsManagedBean.add}"
+				value="#{messages['records.proceedings.editPanel.btnCreate']}"
+				render="proceedingsEditModalPanel" 
+				limitRender="true" 
+				execute="@form"
+				/>
+			<a4j:commandButton
+				rendered="#{(proceedingsManagedBean.editMode == modesManagedBean.import) and (proceedingsManagedBean.editTabNumber == 5)}"
+				action="#{proceedingsManagedBean.examineData}"
+				value="#{messages['records.proceedings.editPanel.btnExamine']}"
+				render="proceedingsEditModalPanel" 
+				limitRender="true" 
+				execute="@this" />
+			<a4j:commandButton 
+				rendered="#{(proceedingsManagedBean.editTabNumber == 4)}" 
+				action="#{proceedingsManagedBean.finishWizard}"
+				value="#{messages['records.proceedings.editPanel.btnAllRight']}"
+				render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

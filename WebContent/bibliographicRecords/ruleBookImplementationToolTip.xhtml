@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+     
+<rich:tooltip followMouse="true" direction="topRight"
+	showDelay="1000" styleClass="tooltip" mode="client">
+	<span class="tooltipSpan"> 
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="details.png" />
+			<h:outputText
+				value="#{messages['records.ruleBookImplementation.tablePanel.btnDetails']}" />
+			<h:graphicImage 
+				library="img" name="editToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{messages['records.ruleBookImplementation.tablePanel.btnEdit']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.update]}" />
+			<h:graphicImage 
+				library="img" name="deleteToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.delete]}" />
+			<h:outputText
+				value="#{messages['records.ruleBookImplementation.tablePanel.btnDelete']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.delete]}" />
+			<h:graphicImage 
+				library="img" name="pickToolTip.png"
+				rendered="#{ruleBookImplementationManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:outputText
+				value="#{messages['records.ruleBookImplementation.tablePanel.btnPick']}"
+				rendered="#{ruleBookImplementationManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:graphicImage 
+				library="img" name="createToolTip.png"
+				rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.add])}" />
+			<h:outputText
+				value="#{messages['records.ruleBookImplementation.tablePanel.btnCreate']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.add]}" />
+		</h:panelGrid> 
+	</span>
+</rich:tooltip>
+				
+</ui:composition>

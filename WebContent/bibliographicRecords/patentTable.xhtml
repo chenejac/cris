@@ -1,0 +1,174 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+     
+	<h:panelGrid id="patentTableFormPanel" >
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<h:panelGrid
+			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)}">
+			<!-- ===========================   searchPanel  ============================= -->
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="10"
+				width="1"
+				/>
+			<h:panelGrid 
+				id="patentSearchPanel"
+				columns="4">
+				<h:panelGroup>
+					<h2>
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.patent.searchPanel.header']}: " 
+								for="whereStr" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+					</h2>
+				</h:panelGroup>
+				<h:inputText 
+					id="whereStr"
+					onkeydown="keyDownHandler(event, 'patentTableForm:btnFind')"
+					value="#{patentManagedBean.whereStr}" 
+					styleClass="searchBox" />
+				<a4j:commandButton 
+					id="btnFind"
+					value="#{messages['records.patent.searchPanel.btnFind']}"
+					render="patentTablePanel" 
+					limitRender="true" 
+					execute="@form" />
+				<a4j:commandButton 
+					id="btnShowAll"
+					action="#{patentManagedBean.removeFilter}"
+					value="#{messages['records.patent.searchPanel.btnShowAll']}"
+					render="patentTablePanel, patentSearchPanel"
+					execute="@this" 
+					limitRender="true" />
+			</h:panelGrid>
+		</h:panelGrid>
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="patentTablePanel">
+			<rich:dataTable 
+				id="patentTable"
+				value="#{patentManagedBean.patents}"
+				var="patentRow" 
+				rows="10"
+				 >
+				<!--     ........  reference   .......-->
+				<rich:column
+					style="#{patentManagedBean.selectedPatent.controlNumber == patentRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{patentManagedBean.sort}"
+							render="patentTable"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true">
+							<h:outputText
+								value="#{messages['records.patent.tablePanel.reference']}" />
+							<h:graphicImage 
+								library="img" name="up.gif"
+								rendered="#{(patentManagedBean.orderBy=='author.name.firstname') and (patentManagedBean.direction=='asc')}" />
+							<h:graphicImage 
+								library="img" name="down.gif"
+								rendered="#{(patentManagedBean.orderBy=='author.name.firstname') and (patentManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="author.name.firstname" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{patentRow.stringRepresentation}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+					style="#{patentManagedBean.selectedPatent.controlNumber == patentRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.patent.tablePanel.actions']}" />
+					</f:facet>
+					<a4j:commandLink
+						action="#{patentManagedBean.switchToViewDetailsMode}"
+						render="patentEditModalPanel" 
+						limitRender="true" 
+						execute="@this"
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber"
+							value="#{patentRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/patentToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.update]}"
+						action="#{patentManagedBean.switchToUpdateMode}"
+						render="patentEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{patentRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/patentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.delete]}"
+						action="#{patentManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="patentTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{patentRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/patentToolTip.xhtml" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScroller" 
+						align="left"
+						for="patentTable" 
+						render="patentTablePanel"
+						renderIfSinglePage="false"/>
+				</h:panelGroup>
+				<h:panelGroup 
+					rendered="#{userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.add]}">
+					<h3>
+						<h:outputText
+								value="#{messages['records.patent.tablePanel.btnCreate']}: " />
+						<a4j:commandLink 
+							action="#{patentManagedBean.switchToAddMode}"
+							render="patentEditModalPanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true" >
+							<h:graphicImage library="img" name="create.png" />
+							<ui:include src="../bibliographicRecords/patentToolTip.xhtml" />
+						</a4j:commandLink>
+					</h3>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

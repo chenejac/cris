@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2015-10-26T11:54:32 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tabela64_zbirno" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="73e92ad0-c2b6-4031-a1f1-6e1c918a6687">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CCCCCC" fontName="Arial">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<field name="resultType" class="java.lang.String"/>
+	<field name="result" class="java.lang.String"/>
+	<variable name="total" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{result}]]></variableExpression>
+	</variable>
+	<group name="ResultTypeGroup">
+		<groupExpression><![CDATA[$F{resultType}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement style="table_TD" x="120" y="0" width="73" height="20" uuid="61150d1d-241f-4dcb-8bd0-35cc352234f9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{resultType}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="table_TD" x="193" y="0" width="48" height="20" uuid="5d3ee38e-0a55-42d3-a8b9-5fb8f8ad5224"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{ResultTypeGroup_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_CH" x="193" y="31" width="48" height="20" uuid="13f8473d-8fc8-4daa-8ba7-6086985b283b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[2014]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_CH" x="120" y="31" width="73" height="20" uuid="5b211a09-583b-4d6b-afdd-a5f97026db8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Категорија]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TD" x="193" y="0" width="48" height="25" uuid="7c959f52-0203-4ffc-8302-35cf1da4387f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="120" y="0" width="73" height="25" uuid="a084dd82-dd66-4fa1-8c64-d08d3fa2ec58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

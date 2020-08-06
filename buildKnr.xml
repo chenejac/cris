@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CRIS UNS import" default="main" basedir=".">
+	<property file="antBackup.properties" />
+	<property name="src" value="${basedir}/src" />
+	<property name="bin" value="${basedir}/bin" />
+	<property name="dist" value="${basedir}/dist" />
+	<property name="api" value="${basedir}/doc/api" />
+	<property name="compile-libs" value="${basedir}/compile-libs" />
+	<property name="runtime-libs" value="${basedir}/runtime-libs" />
+	<path id="compile.classpath">
+		<fileset dir="${compile-libs}" includes="*.jar" />
+	</path>
+	
+	<target name="init" >
+		<echo message="java.home = ${java.home}" />
+		<echo message="tomcat.dir = ${tomcat.dir}" />
+	</target>
+
+	<!-- Delete all built files -->
+	<target name="clean" depends="init">
+		<delete dir="${bin}" />
+		<delete dir="${dist}/backup" />
+		<delete dir="${META-INF}/backup" />
+	</target>
+
+	<!-- Compile everything -->
+	<target name="compile" depends="init">
+		<mkdir dir="${bin}" />
+		<javac srcdir="${src}" destdir="${bin}" classpathref="compile.classpath" />
+		<copy file="${src}/log4j.properties" tofile="${bin}/log4j.properties" />
+		<copy file="${src}/rs/ac/uns/ftn/informatika/bibliography/knr/connection.properties" tofile="${bin}/rs/ac/uns/ftn/informatika/bibliography/knr/connection.properties" />
+	</target>
+	
+	
+	
+	<target name="main" depends="clean" />
+	
+	<target name="javadoc">
+        <javadoc access="private" author="true" classpath="compile-libs/commons-digester-1.7.jar;compile-libs/commons-betwixt-0.7.jar;compile-libs/log4j-1.2.11.jar;compile-libs/commons-logging-1.1.jar" destdir="${api}" doctitle="CRIS UNS import API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="rs.ac.uns.ftn.informatika.bibliography.Import.knr" source="1.6" sourcepath="src" splitindex="true" use="true" version="true">
+            <link href="http://java.sun.com/javase/6/docs/api/"/>
+        </javadoc>
+    </target>
+	
+	<target name="runAuthors">
+		<java classname="rs.ac.uns.ftn.informatika.bibliography.Import.knr.ImportAuthorsFromKNRAPP"  fork="true">
+            <classpath>
+				<pathelement path="${bin}" />
+				<pathelement path="${runtime-libs}/mysql-connector-java-5.1.8-bin.jar" />
+				<pathelement path="${compile-libs}/servlet-api.jar" />
+        	</classpath>
+		</java>
+	</target>
+			
+	<target name="runJournals">
+			<java classname="rs.ac.uns.ftn.informatika.bibliography.Import.knr.ImportJournalsFromKNRAPP"  fork="true">
+	            <classpath>
+					<pathelement path="${bin}" />
+					<pathelement path="${runtime-libs}/mysql-connector-java-5.1.8-bin.jar" />
+					<pathelement path="${compile-libs}/servlet-api.jar" />
+	        	</classpath>
+			</java>
+	</target>
+	
+	<target name="runJournalPapers">
+		<java classname="rs.ac.uns.ftn.informatika.bibliography.Import.knr.ImportJournalPapersFromKNRAPP"  fork="true">
+            <classpath>
+				<pathelement path="${bin}" />
+				<pathelement path="${runtime-libs}/mysql-connector-java-5.1.8-bin.jar" />
+				<pathelement path="${compile-libs}/servlet-api.jar" />
+        	</classpath>
+		</java>
+	</target>
+	
+</project>

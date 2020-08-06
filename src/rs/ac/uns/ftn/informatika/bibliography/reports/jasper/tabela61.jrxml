@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tabela61" pageWidth="595" pageHeight="842" columnWidth="551" leftMargin="22" rightMargin="22" topMargin="22" bottomMargin="22" uuid="45c998fd-a578-4188-8d69-9d7f09409bd0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["e:/CRIS/workspace/bibliography/src/rs/ac/uns/ftn/informatika/bibliography/reports/jasper/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organisation" class="java.lang.String"/>
+	<field name="results" class="java.util.List"/>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA["Број и списак SCI-индексираних радова по годинама на "+$P{organisation}+" Универзитета у Новом Саду (последњих 5 година 2010-2014)*"]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement uuid="2810e40d-5f5b-49d5-817d-b5cc768ee8b3" x="0" y="0" width="551" height="52"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<subreport isUsingCache="false">
+				<reportElement uuid="a781d53e-01da-4435-b0b5-8a81afe96cb0" x="0" y="0" width="555" height="70"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{results})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "tabela61_zbirno.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="78">
+			<subreport>
+				<reportElement uuid="7bd03577-30ae-4bab-a227-583cce860a58" stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="78"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{results})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "tabela61_spisak_by_year.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="10c7d5d1-63b0-4878-a817-bd8783fc12f0" x="480" y="3" width="20" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="43cea86e-7b23-4791-828f-c94b43f3d03b" x="0" y="0" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="111f8f32-ad5b-492f-9fea-ebc3dd46cf9c" x="500" y="3" width="12" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="b7e7e6d4-d93b-4e9c-8ab8-a84ada20a448" x="512" y="3" width="31" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="241c59dc-701d-4ca2-8f13-1c271e061db8" x="0" y="3" width="390" height="20">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[*Табела је генерисана из софтверског система научно-истраживачке делатности CRIS PMF,]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="49d6e4da-2689-44fc-bf79-62d644c6c3bb" x="390" y="3" width="71" height="20">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

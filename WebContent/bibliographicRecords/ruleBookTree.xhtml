@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<rich:panel 
+		id="scrollableBodyTree" 
+		styleClass="scrollableBody">
+		<!-- ===========================   treePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="ruleBookTreePanel">
+			<rich:tree 
+				id = "ruleBookAndRuleBookImplementationsTree"
+				selectionType="client"
+				value="#{ruleBookManagedBean.rootNodes}"
+				var="ruleBookNode" 
+				nodeType="#{ruleBookNode.type}"	>			 
+				<rich:treeNode 
+					expanded="#{ruleBookNode.expanded}"
+					iconCollapsed="/resources/img/ruleBook32.png"
+					iconExpanded="/resources/img/ruleBook32.png"
+					iconLeaf="/resources/img/ruleBook32.png" 
+					type="RuleBookDTO"
+					>
+					<h:outputText value="#{ruleBookNode.element}" />
+					<a4j:commandLink 
+						action="#{ruleBookManagedBean.switchToViewDetailsMode}"
+						render="ruleBookEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBook][privilegesManagedBean.update]}"
+						action="#{ruleBookManagedBean.switchToUpdateMode}"
+						render="ruleBookEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true" >
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBook][privilegesManagedBean.delete]}"
+						action="#{ruleBookManagedBean.delete}"
+						render="ruleBookBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						onclick="if(!confirmDecision()) return false" >
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(ruleBookManagedBean.tableMode == modesManagedBean.pick)}" 
+						action="#{ruleBookManagedBean.chooseRuleBook}"
+						render="mainPanel, #{ruleBookManagedBean.renderModalPanels}"
+						immediate="true" 
+						execute="@this" > 
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						action="#{ruleBookManagedBean.switchRuleBookImplementationToAddMode}"
+						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.add])}" 
+						render="ruleBookImplementationEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="create24.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookImplementationToolTip.xhtml"/>
+					</a4j:commandLink>
+				</rich:treeNode>
+				<rich:treeNode 
+					expanded="#{ruleBookNode.expanded}"
+					iconCollapsed="/resources/img/ruleBookImplementation32.png"
+					iconExpanded="/resources/img/ruleBookImplementation32.png"
+					iconLeaf="/resources/img/ruleBookImplementation32.png" 
+					type="RuleBookImplementationDTO"
+					>
+					<h:outputText value="#{ruleBookNode.element}" />
+					<a4j:commandLink 
+						action="#{ruleBookImplementationManagedBean.switchToViewDetailsMode}"
+						render="ruleBookImplementationEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookImplementationToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.update]}"
+						action="#{ruleBookImplementationManagedBean.switchToUpdateMode}"
+						render="ruleBookImplementationEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true" >
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookImplementationToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.delete]}"
+						action="#{ruleBookImplementationManagedBean.delete}"
+						render="ruleBookBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						onclick="if(!confirmDecision()) return false" >
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookImplementationToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(ruleBookImplementationManagedBean.tableMode == modesManagedBean.pick)}" 
+						action="#{ruleBookImplementationManagedBean.chooseRuleBookImplementation}"
+						render="mainPanel, #{ruleBookImplementationManagedBean.renderModalPanels}"
+						immediate="true" 
+						execute="@this" > 
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookImplementationToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						action="#{ruleBookImplementationManagedBean.switchToAddMode}"
+						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRuleBookImplementation][privilegesManagedBean.add])}" 
+						render="ruleBookImplementationEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="create24.png" />
+						<f:param name="controlNumber" value="#{ruleBookNode.element.controlNumber}" />
+						<ui:include src="../bibliographicRecords/ruleBookImplementationToolTip.xhtml"/>
+					</a4j:commandLink>
+				</rich:treeNode>
+	        </rich:tree>
+			<h:panelGrid columns="1">
+				<a4j:commandLink 
+					action="#{ruleBookManagedBean.switchToAddMode}"
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRuleBook][privilegesManagedBean.add])}" 
+					render="ruleBookEditModalPanel" 
+					limitRender="true"
+					execute="@this" 
+					immediate="true">
+					<h:graphicImage library="img" name="create.png" />
+					<ui:include src="../bibliographicRecords/ruleBookToolTip.xhtml"/>
+				</a4j:commandLink>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

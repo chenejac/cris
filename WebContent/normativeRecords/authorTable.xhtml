@@ -1,0 +1,302 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<a4j:outputPanel ajaxRendered="true"
+			rendered="#{(not authorManagedBean.customPick) and (authorManagedBean.pickMessage!=null)}">
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="info.png" />
+			<h:outputText value="#{authorManagedBean.pickMessage}"
+				styleClass="rf-msg-inf" />
+		</h:panelGrid>
+	</a4j:outputPanel>
+	<!-- ===========================   searchPanel  ============================= -->
+	<h:graphicImage 
+		library="img"
+		name="spacer.gif" 
+		alt="" 
+		height="10"
+		width="1"
+		/>
+	<h:panelGrid 
+		id="authorSearchPanel" 
+		columns="4"
+		rendered="#{not authorManagedBean.customPick}">
+		<h:panelGroup>
+			<h2>
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.author.searchPanel.header']}: " 
+						for="whereStr" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+			</h2>
+		</h:panelGroup>
+		<h:inputText 
+			id="whereStr"
+			onkeydown="keyDownHandler(event, 'authorPickForm:btnFind')"
+			value="#{authorManagedBean.whereStr}" 
+			styleClass="searchBox" />
+		<a4j:commandButton 
+			id="btnFind"
+			value="#{messages['records.author.searchPanel.btnFind']}"
+			render="authorTablePanel" 
+			limitRender="true" 
+			execute="@form" />
+		<a4j:commandButton 
+			id="btnShowAll"
+			action="#{authorManagedBean.removeFilter}"
+			value="#{messages['records.author.searchPanel.btnShowAll']}"
+			render="authorTablePanel, authorSearchPanel" 
+			limitRender="true" 
+			immediate="true"
+			/>
+	</h:panelGrid>
+	<rich:panel 
+		id="scrollableBody" 
+		styleClass="scrollableBody"
+		rendered="#{(not empty authorManagedBean.authors) or (not authorManagedBean.customPick)}">
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="authorTablePanel">
+			<rich:dataTable 
+				id="authorTable" 
+				value="#{authorManagedBean.authors}"
+				var="authorRow" 
+				rows="10"
+				>
+				<!--     ........  name   .......-->
+				<rich:column
+					style="#{authorManagedBean.selectedAuthor.controlNumber == authorRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; "
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{authorManagedBean.sort}"
+							render="authorTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText value="#{messages['records.author.tablePanel.names']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(authorManagedBean.orderBy=='names') and (authorManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(authorManagedBean.orderBy=='names') and (authorManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="name.lastname" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{authorRow.names}" />
+				</rich:column>
+				<!--     ........  year of birth   .......-->
+				<rich:column
+					style="#{authorManagedBean.selectedAuthor.controlNumber == authorRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{authorManagedBean.sort}"
+							render="authorTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.author.tablePanel.yearOfBirth']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(authorManagedBean.orderBy=='yearOfBirth') and (authorManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(authorManagedBean.orderBy=='yearOfBirth') and (authorManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="yearOfBirth" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{authorRow.yearOfBirth}" />
+				</rich:column>
+				<!--     ........  institution   .......-->
+				<rich:column
+					style="#{authorManagedBean.selectedAuthor.controlNumber == authorRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; "
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{authorManagedBean.sort}"
+							render="authorTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.author.tablePanel.institution']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(authorManagedBean.orderBy=='institutionName') and (authorManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(authorManagedBean.orderBy=='institutionName') and (authorManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="institutionName" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{authorRow.institutionName}" />
+				</rich:column>
+				<!--     ........  title   .......-->
+				<rich:column
+					style="#{authorManagedBean.selectedAuthor.controlNumber == authorRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{authorManagedBean.sort}"
+							render="authorTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.author.tablePanel.title']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(authorManagedBean.orderBy=='title') and (authorManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(authorManagedBean.orderBy=='title') and (authorManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="title" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{authorRow.title}" />
+				</rich:column>
+				<!--     ........  position   .......-->
+				<rich:column
+					style="#{authorManagedBean.selectedAuthor.controlNumber == authorRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{authorManagedBean.sort}"
+							render="authorTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.author.tablePanel.position']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(authorManagedBean.orderBy=='currentPositionName') and (authorManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(authorManagedBean.orderBy=='currentPositionName') and (authorManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="currentPositionName" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{authorRow.currentPositionName}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+					style="#{authorManagedBean.selectedAuthor.controlNumber == authorRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.author.tablePanel.actions']}" />
+					</f:facet>
+					<a4j:commandLink 
+						action="#{authorManagedBean.switchToViewDetailsMode}"
+						render="authorEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+						<ui:include src="../normativeRecords/authorToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.update]}"
+						action="#{authorManagedBean.switchToUpdateMode}"
+						render="authorEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+						<ui:include src="../normativeRecords/authorToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.delete]}"
+						action="#{authorManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="authorBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true" >
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+						<ui:include src="../normativeRecords/authorToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						action="#{authorManagedBean.chooseAuthor}"
+						render="#{((userManagedBean.editMode == modesManagedBean.register) or ((studyFinalDocumentManagedBean.tableMode == modesManagedBean.browse) and (studyFinalDocumentManagedBean.editMode == modesManagedBean.none)))?('mainPanel, '):('')}#{authorManagedBean.renderModalPanels}"
+						rendered="#{authorManagedBean.tableMode == modesManagedBean.pick}" 
+						immediate="true"
+						execute="@this" >
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+						<ui:include src="../normativeRecords/authorToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						render="relatedRecordsEditModalPanel"
+					    execute="@this" 
+					    limitRender="true">
+					    <h:graphicImage library="img" name="publications.png" />
+					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+					        value="#{authorRow}" />
+					    <ui:include src="../normativeRecords/authorToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.delete]}"
+						value="#{messages['records.author.tablePanel.btnChooseDuplicate']}"
+						action="#{authorManagedBean.chooseDuplicateAuthor}"
+						render="authorTablePanel" 
+						limitRender="true" 
+						execute="@this" >
+						<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+					</a4j:commandButton>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.delete]}"
+						value="#{messages['records.author.tablePanel.btnReplaceDuplicate']}"
+						action="#{authorManagedBean.replaceDuplicateAuthors}"
+						render="authorBrowseModalPanel" 
+						limitRender="true"
+						execute="@this" >
+						<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+						<rich:tooltip followMouse="true" direction="topRight"
+							showDelay="1000" styleClass="tooltip" mode="ajax">
+							<span class="tooltipSpan"> 
+								<h:panelGrid columns="1">
+									<h:outputText
+										value="#{authorManagedBean.duplicateAuthorsAsString}" />
+								</h:panelGrid> 
+							</span>
+						</rich:tooltip>
+					</a4j:commandButton>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScroller" 
+						align="left"
+						for="authorTable" 
+						render="authorTablePanel"
+						renderIfSinglePage="false" 
+						execute="@this" /> 
+				</h:panelGroup>
+				<h:panelGroup 
+					rendered="#{(empty authorManagedBean.coauthor) and (authorManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.add])}">
+					<h3>
+						<h:outputText
+							value="#{messages['records.author.tablePanel.btnCreate']}: " />
+						<a4j:commandLink 
+							action="#{authorManagedBean.switchToAddMode}"
+							render="authorEditModalPanel" 
+							limitRender="true"
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="create.png" />
+							<ui:include src="../normativeRecords/authorToolTip.xhtml" />
+						</a4j:commandLink>
+					</h3>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

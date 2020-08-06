@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="maticne_knjige_disertacije" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="8f80c4e1-3ba1-4b08-ac29-18e3241ea60d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF" fontName="Arial" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<field name="redniBroj" class="java.lang.String"/>
+	<field name="prezimeAutora" class="java.lang.String"/>
+	<field name="imeAutora" class="java.lang.String"/>
+	<field name="datumRodjenja" class="java.lang.String"/>
+	<field name="mestoRodjenja" class="java.lang.String"/>
+	<field name="opstinaRodjenja" class="java.lang.String"/>
+	<field name="drzavaRodjenja" class="java.lang.String"/>
+	<field name="ocevoIme" class="java.lang.String"/>
+	<field name="majcinoIme" class="java.lang.String"/>
+	<field name="ocevoImeIPrezime" class="java.lang.String"/>
+	<field name="majcinoImeIPrezime" class="java.lang.String"/>
+	<field name="imeIPrezimeStaratelja" class="java.lang.String"/>
+	<field name="nazivZavrseneVisokoskolskeUstanove" class="java.lang.String"/>
+	<field name="sedisteZavrseneVisokoskolskeUstanove" class="java.lang.String"/>
+	<field name="bologna" class="java.lang.Boolean"/>
+	<field name="strucniAkademskiNazivDiplomskeStaro" class="java.lang.String"/>
+	<field name="strucniAkademskiSkraceniNazivStaro" class="java.lang.String"/>
+	<field name="datumSticanjaZvanjaStaro" class="java.lang.String"/>
+	<field name="strucniAkademskiNazivDiplomskeBolonja" class="java.lang.String"/>
+	<field name="strucniAkademskiSkraceniNazivBolonja" class="java.lang.String"/>
+	<field name="godinaZavrsetkaBolonja" class="java.lang.String"/>
+	<field name="organizacionaJedinicaOdbrane" class="java.lang.String"/>
+	<field name="mestoOrganizacioneJediniceOdbrane" class="java.lang.String"/>
+	<field name="naslovDisertacije" class="java.lang.String"/>
+	<field name="komisija" class="java.lang.String"/>
+	<field name="ocenaDisertacije" class="java.lang.String"/>
+	<field name="datumOdbrane" class="java.lang.String"/>
+	<field name="naucniNaziv" class="java.lang.String"/>
+	<field name="brojDiplome" class="java.lang.String"/>
+	<field name="datumIzdavanjaDiplome" class="java.lang.String"/>
+	<field name="brojDodatka" class="java.lang.String"/>
+	<field name="datumIzdavanjaDodatka" class="java.lang.String"/>
+	<field name="datumPromocije" class="java.util.Date"/>
+	<field name="roditeljIliStaratelj" class="java.lang.String"/>
+	<field name="mentori" class="java.lang.String"/>
+	<field name="skolskaGodina" class="java.lang.String"/>
+	<field name="redniBrojUGodini" class="java.lang.String"/>
+	<field name="adresa" class="java.lang.String"/>
+	<variable name="prezimeIIme" class="java.lang.String">
+		<variableExpression><![CDATA[$F{prezimeAutora}+"<br>"+$F{imeAutora}]]></variableExpression>
+	</variable>
+	<variable name="rodjenje" class="java.lang.String">
+		<variableExpression><![CDATA[(!$F{datumRodjenja}.equals("")  ? "ДАТУМ: <br>"+$F{datumRodjenja}+"<br>" : "" )+
+(!$F{mestoRodjenja}.equals("") ? "МЕСТО: <br>"+$F{mestoRodjenja}+"<br>" : "")+
+(!$F{opstinaRodjenja}.equals("") ? "ОПШТИНА: <br>"+$F{opstinaRodjenja}+"<br>" :
+    "")+
+(!$F{drzavaRodjenja}.equals("") ? "ДРЖАВА: <br>"+$F{drzavaRodjenja}+"<br>" : "")]]></variableExpression>
+	</variable>
+	<variable name="roditeljiIliStaratelj" class="java.lang.String">
+		<variableExpression><![CDATA[( !$F{imeIPrezimeStaratelja}.equals("") ?
+    "Старатељ: "+$F{imeIPrezimeStaratelja} : "")+
+(!$F{ocevoImeIPrezime}.equals("") ? "Очево име и презиме: "
+    +$F{ocevoImeIPrezime}+"<br>":
+ (!$F{ocevoIme}.equals("") ? "Очевo име: "+$F{ocevoIme} : ""))+
+(!$F{majcinoImeIPrezime}.equals("") ? "Мајчино име и презиме: "
+    +$F{majcinoImeIPrezime}
+:(!$F{majcinoIme}.equals("") ? "Мајчино име: "+$F{majcinoIme}
+: ""))]]></variableExpression>
+	</variable>
+	<variable name="visokoSkolskaUstanovaISediste" class="java.lang.String">
+		<variableExpression><![CDATA[$F{nazivZavrseneVisokoskolskeUstanove}+", "+
+$F{sedisteZavrseneVisokoskolskeUstanove}]]></variableExpression>
+	</variable>
+	<variable name="zavrseneDiplomske" class="java.lang.String">
+		<variableExpression><![CDATA[($F{bologna}?
+    $F{strucniAkademskiNazivDiplomskeBolonja}+
+    (!$F{strucniAkademskiSkraceniNazivBolonja}.equals("") ?
+        "-"+$F{strucniAkademskiSkraceniNazivBolonja}+"<br>" : "<br>")+
+    $F{godinaZavrsetkaBolonja}
+    :
+    $F{strucniAkademskiNazivDiplomskeStaro}+
+    (!$F{strucniAkademskiSkraceniNazivStaro}.equals("") ?
+        "-"+$F{strucniAkademskiSkraceniNazivStaro}+"<br>" : "<br>")+
+    $F{datumSticanjaZvanjaStaro}
+)]]></variableExpression>
+	</variable>
+	<variable name="orgJedinicaOdbrane" class="java.lang.String">
+		<variableExpression><![CDATA[$F{organizacionaJedinicaOdbrane}+", "+
+$F{mestoOrganizacioneJediniceOdbrane}]]></variableExpression>
+	</variable>
+	<variable name="ocenaIDatumOdbrane" class="java.lang.String">
+		<variableExpression><![CDATA[(!$F{ocenaDisertacije}.equals("")  ? "ОЦЕНА: <br>"+$F{ocenaDisertacije} + "<br>" : "")+
+(!$F{datumOdbrane}.equals("") ? "ОДБРАЊЕНО: "+$F{datumOdbrane} : "")]]></variableExpression>
+	</variable>
+	<variable name="brojIDatumIzdavanjaDiplome" class="java.lang.String">
+		<variableExpression><![CDATA[(!$F{brojDiplome}.equals("") ? "БРОЈ ДИПЛОМE: <br>"+$F{brojDiplome}+"<br>" : "")
++(!$F{datumIzdavanjaDiplome}.equals("") ? "ДАТУМ: "+$F{datumIzdavanjaDiplome}+"<br>" : "")
++(!$F{brojDodatka}.equals("") ? "БРОЈ ДОДАТКА: <br>"+$F{brojDodatka}+"<br>" : "")
++(!$F{datumIzdavanjaDodatka}.equals("") ? "ДАТУМ: "+$F{datumIzdavanjaDodatka}+"<br>" : "")]]></variableExpression>
+	</variable>
+	<variable name="mentoriKomisija" class="java.lang.String">
+		<variableExpression><![CDATA[$F{komisija}]]></variableExpression>
+	</variable>
+	<variable name="skolskaGodinaVariable" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA["Школска "+($F{skolskaGodina}!=null ? $F{skolskaGodina} : "")]]></variableExpression>
+	</variable>
+	<variable name="redniBroj" class="java.lang.String" resetType="Group" resetGroup="skolskaGodinaGroup" incrementType="Group" incrementGroup="skolskaGodinaGroup">
+		<variableExpression><![CDATA[$F{redniBroj}+"<br>---------<br>"+$F{redniBrojUGodini}]]></variableExpression>
+	</variable>
+	<variable name="naslov" class="java.lang.String">
+		<variableExpression><![CDATA["ДИСЕРТАЦИЈА:<br>"+$F{naslovDisertacije}]]></variableExpression>
+	</variable>
+	<variable name="adresaNaslov" class="java.lang.String">
+		<variableExpression><![CDATA["Адреса на коју слати позив за промоцију"]]></variableExpression>
+	</variable>
+	<group name="skolskaGodinaGroup">
+		<groupExpression><![CDATA[$F{skolskaGodina}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Immediate"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="cae63ef2-097e-4b79-a513-3d2ef24790c1" style="table_TH" x="683" y="0" width="173" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Комисија за одбрану и ментор за израду докторске дисертације]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5d295a38-7b1d-4aef-b60f-15007777abde" style="table_TH" x="44" y="0" width="52" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Име и презиме]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="82c42c33-a575-4a8b-b661-f8ebd6a1e75b" style="table_TH" x="96" y="0" width="72" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Датум, место,
+општина рођења
+и држава]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="643e027d-3e89-4c6d-a48b-eb58078739ce" style="table_TH" x="168" y="0" width="83" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Презиме и име
+оба родитеља
+(или старатеља) ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e651a02a-0a0e-4e3f-997e-8e418dabea30" style="table_TH" x="251" y="0" width="107" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Назив завршене високошколске
+установе и седиште]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c85e189c-06f8-4014-9a5d-393751752ac3" style="table_TH" x="358" y="0" width="120" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Стручни или академски и скраћени назив после завршених дипломских или специјалистичких академских студија ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e142c364-c800-4de1-acaa-de479fd7328c" style="table_TH" x="478" y="0" width="115" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Назив организационе јединице Универзитета на којој је одбрањена дисертација ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1b4057bf-c329-49a4-9616-75f18fde6232" style="table_TH" x="593" y="0" width="90" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Наслов докторске дисертације или докторски уметнички пројекат]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b7a4143a-b6c1-46e4-bc25-e329bd546902" style="table_TH" x="856" y="0" width="80" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Оцена дисертације и датум одбране дисертације]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d01b1906-207d-4062-af25-f9cc219316b5" style="table_TH" x="1016" y="0" width="79" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Број и датум издавања дипломе и додатка дипломе]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5e6c1c82-3e61-4403-8c2b-f14c52304546" style="table_TH" x="936" y="0" width="80" height="58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Научни назив који је кандидат стекао]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="456a4958-ca2a-43c1-9a0b-2fe9dbf896eb" x="53" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[adresa]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="60" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="5281fac8-8a61-4926-ab40-424c8dfe78f4" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="251" y="0" width="108" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{visokoSkolskaUstanovaISediste}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="87820940-6534-4205-a0e0-98a3ecdfbf55" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="358" y="0" width="120" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{zavrseneDiplomske}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="37e1b201-741b-4102-a3f2-d8277e21c282" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="478" y="0" width="115" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{orgJedinicaOdbrane}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="53b06985-e34c-49f4-9c44-ca35b3c1859b" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="856" y="0" width="80" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ocenaIDatumOdbrane}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="a4edf0f1-f8b3-4bf6-a855-c2e7f9b7eada" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="936" y="0" width="80" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{naucniNaziv}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="2684fce6-c070-42bf-8902-a4d1b0c55012" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="1016" y="0" width="79" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{brojIDatumIzdavanjaDiplome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0df97710-c2b5-47a3-98f6-d1dafd1ac55f" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="168" y="0" width="83" height="60"/>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{roditeljIliStaratelj}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="c92d74d7-2a64-4552-847a-35854d8f5c7b" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="44" y="0" width="52" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{prezimeIIme}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="4bff8fd1-44ae-40df-88b9-ca4f6cbf2e42" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" mode="Opaque" x="96" y="0" width="72" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
+				</reportElement>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{rodjenje}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="91be39a9-6aa0-4a74-9c4f-f2586feca600" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="683" y="0" width="173" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{mentoriKomisija}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f0fd6763-2dd6-4a2b-8cd9-03cbca9b5de1" style="table_TD" positionType="Float" stretchType="RelativeToBandHeight" x="593" y="0" width="90" height="60" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement markup="html">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{naslov}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="169" splitType="Stretch">
+			<textField>
+				<reportElement uuid="1d4ed293-ed8c-4af9-bcb4-35fdc796eb24" x="44" y="40" width="339" height="129"/>
+				<textElement markup="html">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ec3f6001-459c-4683-a43d-3d57daa1117a" x="44" y="10" width="339" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{adresaNaslov}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

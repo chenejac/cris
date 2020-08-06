@@ -1,0 +1,263 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<a4j:outputPanel ajaxRendered="true"
+		rendered="#{(not proceedingsManagedBean.customPick) and (proceedingsManagedBean.pickMessage!=null)}">
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="info.png" />
+			<h:outputText value="#{proceedingsManagedBean.pickMessage}"
+				styleClass="rf-msg-inf" />
+		</h:panelGrid>
+	</a4j:outputPanel>
+	<!-- ===========================   searchPanel  ============================= -->
+	<h:graphicImage 
+		library="img"
+		name="spacer.gif" 
+		alt="" 
+		height="10"
+		width="1"
+		/>
+	<h:panelGrid 
+		id="proceedingsSearchPanel" 
+		columns="4"
+		rendered="#{not proceedingsManagedBean.customPick}">
+		<h:panelGroup>
+			<h2>
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.proceedings.searchPanel.header']}: " 
+						for="whereStr" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+			</h2>
+		</h:panelGroup>
+		<h:inputText 
+			id="whereStr"
+			onkeydown="keyDownHandler(event, 'proceedingsPickForm:btnFind')"
+			value="#{proceedingsManagedBean.whereStr}" 
+			styleClass="searchBox" />
+		<a4j:commandButton 
+			id="btnFind"
+			value="#{messages['records.proceedings.searchPanel.btnFind']}"
+			render="proceedingsTablePanel" 
+			limitRender="true" 
+			execute="@form" />
+		<a4j:commandButton 
+			id="btnShowAll"
+			action="#{proceedingsManagedBean.removeFilter}"
+			value="#{messages['records.proceedings.searchPanel.btnShowAll']}"
+			render="proceedingsTablePanel, proceedingsSearchPanel"
+			limitRender="true" 
+			execute="@this" />
+	</h:panelGrid>
+	<rich:panel 
+			id="scrollableBody"
+			styleClass="scrollableBody" 
+			rendered="#{(not empty proceedingsManagedBean.proceedings) or (not proceedingsManagedBean.customPick)}" >
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="proceedingsTablePanel">
+			<rich:dataTable 
+				id="proceedingsTable"
+				value="#{proceedingsManagedBean.proceedings}" 
+				var="proceedingsRow"
+				rows="10" 
+				>
+				<!--     ........  title   .......-->
+				<rich:column
+					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{proceedingsManagedBean.sort}"
+							render="proceedingsTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true">
+							<h:outputText
+								value="#{messages['records.proceedings.tablePanel.title']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(proceedingsManagedBean.orderBy=='someTitle') and (proceedingsManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(proceedingsManagedBean.orderBy=='someTitle') and (proceedingsManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="someTitle" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{proceedingsRow.someTitle}" />
+				</rich:column>
+				<!--     ........  conference   .......-->
+				<rich:column
+					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{proceedingsManagedBean.sort}"
+							render="proceedingsTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.proceedings.tablePanel.conference']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(proceedingsManagedBean.orderBy=='conference.name') and (proceedingsManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(proceedingsManagedBean.orderBy=='conference.name') and (proceedingsManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="conference.name" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{proceedingsRow.conferenceName}" />
+				</rich:column>
+				<!--     ........  isbn  .......-->
+				<rich:column
+					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{proceedingsManagedBean.sort}"
+							render="proceedingsTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true">
+							<h:outputText
+								value="#{messages['records.proceedings.tablePanel.isbn']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(proceedingsManagedBean.orderBy=='isbn') and (proceedingsManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(proceedingsManagedBean.orderBy=='isbn') and (proceedingsManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="isbn" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{proceedingsRow.isbn}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.proceedings.tablePanel.actions']}" />
+					</f:facet>
+					<a4j:commandLink 
+						action="#{proceedingsManagedBean.switchToViewDetailsMode}"
+						render="proceedingsEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber"
+							value="#{proceedingsRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.update]}"
+						action="#{proceedingsManagedBean.switchToUpdateMode}"
+						render="proceedingsEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{proceedingsRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.delete]}"
+						action="#{proceedingsManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="proceedingsBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{proceedingsRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						action="#{proceedingsManagedBean.chooseProceedings}"
+						rendered="#{proceedingsManagedBean.tableMode == modesManagedBean.pick}"
+						render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="controlNumber"
+							value="#{proceedingsRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						render="relatedRecordsEditModalPanel"
+					    execute="@this" 
+					    limitRender="true">
+					    <h:graphicImage id="relatedRecords" library="img" name="publications.png" />
+					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+					        value="#{proceedingsRow}" />
+					    <ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.delete]}"
+						value="#{messages['records.proceedings.tablePanel.btnChooseDuplicate']}"
+						action="#{proceedingsManagedBean.chooseDuplicateProceedings}"
+						render="proceedingsTablePanel" 
+						limitRender="true" 
+						execute="@this" >
+						<f:param name="controlNumber" value="#{proceedingsRow.controlNumber}" />
+					</a4j:commandButton>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.delete]}"
+						value="#{messages['records.proceedings.tablePanel.btnReplaceDuplicate']}"
+						action="#{proceedingsManagedBean.replaceDuplicateProceedings}"
+						render="proceedingsBrowseModalPanel" 
+						limitRender="true"
+						execute="@this" >
+						<f:param name="controlNumber" value="#{proceedingsRow.controlNumber}" />
+						<rich:tooltip followMouse="true" direction="topRight"
+							showDelay="1000" styleClass="tooltip" mode="ajax">
+							<span class="tooltipSpan"> 
+								<h:panelGrid columns="1">
+									<h:outputText
+										value="#{proceedingsManagedBean.duplicateProceedingsAsString}" />
+								</h:panelGrid> 
+							</span>
+						</rich:tooltip>
+					</a4j:commandButton>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScroller" 
+						align="left"
+						for="proceedingsTable" 
+						render="proceedingsTablePanel"
+						renderIfSinglePage="false" /> 
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{(proceedingsManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.add])}">
+					<h3>
+						<h:outputText
+							value="#{messages['records.proceedings.tablePanel.btnCreate']}: " />
+						<a4j:commandLink 
+							action="#{proceedingsManagedBean.switchToAddMode}"
+							render="proceedingsEditModalPanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="create.png" />
+							<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
+						</a4j:commandLink>
+					</h3>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

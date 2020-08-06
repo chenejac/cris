@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+	<f:view locale="#{userManagedBean.language}" 
+		beforePhase="#{jobAdManagedBean.jobAdExit}">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=dmi.jsf" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS - Disertacije</ui:insert></title>
+	</h:head>
+	<h:body >
+		<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+		<h:outputScript library="js" name="functions.js" target="head"/>
+		<f:loadBundle
+			basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+			var="messages" />
+		<div id="header">
+    		<ui:insert name="header">
+				<ui:include src="./headerDissertations.xhtml"/>
+			</ui:insert>
+			</div>
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="80"
+					width="1"
+					/>
+				<h:panelGroup 
+		    		layout="block" >
+		    		<h1> 
+		    			Digitalna biblioteka doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu 
+					</h1>
+					<br/>
+					<br/>
+					<p>
+						Osnovne karakteristike Digitalne biblioteke doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu su: 
+						<ul>
+							<li>Razmena podataka u Dublin Core ili ETD-MS formatu po AOI-PMH protokolu i</li>
+							<li>Uključivanje u međunarodnu mrežu digitalnih biblioteka teza i disertacija.</li> 
+						</ul>
+						<br/>
+						Razmena podataka po AOI-PMH protokolu ostvaruje se sa sledećim portalima:
+						<ul>
+							<li>Nacionalni repozitorijum disertacija u Srbiji – NaRDuS (<a style="font-size:14px;" href="http://nardus.mpn.gov.rs">http://nardus.mpn.gov.rs</a>);</li>
+							<li>Svetska mreža teza i disertacija – NDLTD (<a style="font-size:14px;" href="http://search.ndltd.org">http://search.ndltd.org</a>);</li>
+							<li>Open Access Theses and Dissertations – OATD (<a style="font-size:14px;" href="https://oatd.org">https://oatd.org</a>);</li>
+							<li>Evropska mreža institucionalnih repozitorijuma sa otvorenim pristupom – OpenAire+ (<a style="font-size:14px;" href="https://www.openaire.eu">https://www.openaire.eu</a>);</li>
+							<li>Evropski portal elektronskih teza – DART-Europe (<a style="font-size:14px;" href="http://www.dart-europe.eu">http://www.dart-europe.eu</a>);</li> 
+						</ul>
+						<br/>
+						Odlukom Senata Univerziteta u Novom Sadu ovaj javni servis digitalne biblioteka dostupan je od 2013. godine. 
+						<br/>
+					</p>
+					<ul>
+							<li><a style="font-size:16px" href="searchDissertations.jsf">Pretraga digitalne biblioteke doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu</a></li>
+							<br/>
+							<br/>
+							<br/>
+							<li><a style="font-size:16px" href="index.jsf">CRIS UNS</a></li>
+					</ul>
+				</h:panelGroup>
+			</div>
+			
+			<div id="footer">
+    			<ui:insert name="footer">
+    				<ui:include src="./footer.xhtml"/>
+    			</ui:insert>
+    		</div>
+	</h:body>
+	</f:view>
+</html>

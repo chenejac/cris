@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="threeYearSCIResults" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8caeca97-3bf6-400f-b105-4a51f3babfbc">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" hAlign="Center" vAlign="Middle">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CCCCCC" hAlign="Center" vAlign="Middle" fontName="Arial">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="organisation" class="java.lang.String"/>
+	<parameter name="year1" class="java.lang.String"/>
+	<parameter name="year2" class="java.lang.String"/>
+	<parameter name="year3" class="java.lang.String"/>
+	<field name="firstName" class="java.lang.String"/>
+	<field name="lastName" class="java.lang.String"/>
+	<field name="year1M21" class="java.lang.Integer"/>
+	<field name="year1M22" class="java.lang.Integer"/>
+	<field name="year1M23" class="java.lang.Integer"/>
+	<field name="year2M21" class="java.lang.Integer"/>
+	<field name="year2M22" class="java.lang.Integer"/>
+	<field name="year2M23" class="java.lang.Integer"/>
+	<field name="year3M21" class="java.lang.Integer"/>
+	<field name="year3M22" class="java.lang.Integer"/>
+	<field name="year3M23" class="java.lang.Integer"/>
+	<field name="currentPositionName" class="java.lang.String"/>
+	<variable name="imeiprezime" class="java.lang.String">
+		<variableExpression><![CDATA[$F{lastName}+" "+$F{firstName}]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA["Преглед SCI-индексираних радова по годинама на Природно-математичком факултeту Универзитета у Новом Саду за трогодишњи период ("+$P{year1}+"-"
++$P{year3}+")*"]]></variableExpression>
+	</variable>
+	<variable name="totalM21" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{year1M21}+$F{year2M21}+$F{year3M21}]]></variableExpression>
+	</variable>
+	<variable name="totalM22" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{year1M22}+$F{year2M22}+$F{year3M22}]]></variableExpression>
+	</variable>
+	<variable name="totalM23" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{year1M23}+$F{year2M23}+$F{year3M23}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{totalM21}+$V{totalM22}+$V{totalM23}]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.String"/>
+	<variable name="totalYear1M21" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year1M21}]]></variableExpression>
+	</variable>
+	<variable name="totalYear1M22" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year1M22}]]></variableExpression>
+	</variable>
+	<variable name="totalYear1M23" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year1M23}]]></variableExpression>
+	</variable>
+	<variable name="totalYear2M21" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year2M21}]]></variableExpression>
+	</variable>
+	<variable name="totalYear2M22" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year2M22}]]></variableExpression>
+	</variable>
+	<variable name="totalYear2M23" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year2M23}]]></variableExpression>
+	</variable>
+	<variable name="totalYear3M21" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year3M21}]]></variableExpression>
+	</variable>
+	<variable name="totalYear3M22" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year3M22}]]></variableExpression>
+	</variable>
+	<variable name="totalYear3M23" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{year3M23}]]></variableExpression>
+	</variable>
+	<variable name="totalAllM21" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{totalM21}]]></variableExpression>
+	</variable>
+	<variable name="totalAllM22" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{totalM22}]]></variableExpression>
+	</variable>
+	<variable name="totalAllM23" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{totalM23}]]></variableExpression>
+	</variable>
+	<variable name="totalAll" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement uuid="60a5fd17-b4ce-4e89-ac47-8b1443ec6c28" x="0" y="0" width="802" height="45"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="22ff0515-db3a-42e2-9f76-b25fd84c9bc5" style="table_CH" x="33" y="28" width="170" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Презиме и име]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="021e5c2d-1a8d-4e1b-916a-55256ed522a3" style="table_CH" x="317" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6a4ddbe2-a831-45b2-8b4b-3b6c8121fa83" style="table_CH" x="344" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="07cf3cac-12ca-4c21-b32c-ef52cb72e89c" style="table_CH" x="371" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2f0d44a4-0d6c-407e-8370-86d42e44623f" style="table_CH" x="0" y="28" width="33" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Рбр.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="68b94804-4e60-446f-bf7d-c0ea97b45843" style="table_CH" x="317" y="0" width="81" height="28"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{year1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="056e0544-53ed-40f6-9909-cee9f545e393" style="table_CH" x="398" y="0" width="81" height="28"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{year2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1cbf1e2c-63f0-4088-912e-8cc0fd5fb2d6" style="table_CH" x="425" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d0694a78-9fe9-416c-8815-c883f7c38d5e" style="table_CH" x="398" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7ce4dc69-4427-40c9-ae14-f8a843bce5ff" style="table_CH" x="452" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М23]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="883286bb-3646-4e1a-9b16-8a9b465543fe" style="table_CH" x="479" y="0" width="81" height="28"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{year3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="946c766d-cb70-437e-af6d-647baec8137b" style="table_CH" x="506" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7f9031d8-f2ae-4d1d-8d3f-012f06ba3a2c" style="table_CH" x="479" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3161bc38-61c1-417f-83b5-0bfb15b59ac4" style="table_CH" x="533" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a8f0b497-f7ff-48fd-ab1e-58c603b55a96" style="table_CH" x="560" y="0" width="81" height="28"/>
+				<textElement/>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="95d77907-ada7-40c6-aed4-7b4ee5f1ead5" style="table_CH" x="587" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="93d8d223-032a-44b9-a431-397d994c0398" style="table_CH" x="560" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ca019436-0a26-45af-bedf-98cdca7d7627" style="table_CH" x="614" y="28" width="27" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[М23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e9cd1c3-a58e-49ea-a89b-d96adb8b18e2" style="table_CH" x="641" y="0" width="39" height="28"/>
+				<textElement/>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bf8c0948-ab7a-4cab-b633-10b4b2be01be" style="table_CH" x="641" y="28" width="39" height="21"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f2e0aaa8-286d-4dc3-a7f1-53baba5e3e5e" style="table_CH" x="203" y="28" width="114" height="21"/>
+				<textElement/>
+				<text><![CDATA[Звање]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement uuid="97b638d6-8e5f-49ee-b24a-85cf14e49f6e" style="table_TD" x="0" y="0" width="33" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="837cb84a-4aaa-4fc2-b2c0-054fc34f435b" style="table_TD" x="33" y="0" width="170" height="23" isPrintInFirstWholeBand="true"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{imeiprezime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="88a69870-dc28-42f6-9d92-94212025c283" style="table_TD" x="317" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year1M21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b11eec2c-d887-4f9f-a0c4-5dfb1eb0ed73" style="table_TD" x="344" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year1M22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9744c82-5b71-4cc4-a21f-1d9a0e8f6d19" style="table_TD" x="371" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year1M23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f137588d-b560-45df-ba01-51890ecd0750" style="table_TD" x="398" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year2M21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5805dd1b-e887-4118-8341-aae3053275b8" style="table_TD" x="425" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year2M22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="432e25a2-5176-4a1b-922c-a2674b1ba343" style="table_TD" x="452" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year2M23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0fc36763-7d16-4d64-b56b-dec7e01bd6e1" style="table_TD" x="479" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year3M21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ebfc2a39-83ab-4394-abde-22b78c559ca8" style="table_TD" x="506" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year3M22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b45fcd23-8461-4b06-b630-1da9d3ea5d54" style="table_TD" x="533" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{year3M23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="62723b24-79b6-4b71-b57e-434d82e90f8e" style="table_TD" x="560" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalM21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="948dfcc3-e9f8-4625-891f-38a46f12b035" style="table_TD" x="587" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalM22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cfa1c7b1-163c-4a3b-95cc-4f3135b063e1" style="table_TD" x="614" y="0" width="27" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalM23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="98d3ac69-f5a2-4130-b146-88463cf429d0" style="table_TD" x="641" y="0" width="39" height="23"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6523bc1a-ae9d-4c6f-9237-e49ca1268dae" style="table_TD" x="203" y="0" width="114" height="23"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currentPositionName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="33c0ae07-94b8-4ff3-a79c-3ad90022ed00" x="481" y="3" width="20" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="d34a08b2-9099-47f2-91df-ca6f455011d1" x="0" y="0" width="600" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="1bc518e7-c88a-4d40-9487-6f70da741053" x="500" y="3" width="12" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="3d8ca01b-4c78-4995-9221-c3153ee2ad6a" x="511" y="3" width="31" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cf0ed271-9472-4898-a5d4-885078082ee7" x="0" y="3" width="392" height="20">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[*Табела је генерисана из софтверског система научно-истраживачке делатности CRIS PMF, ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy">
+				<reportElement uuid="f95a33b5-d36d-455a-ab62-8c833c1aa7d9" x="393" y="3" width="89" height="20">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ca1e6700-2636-4010-9848-9107e91f2c5e" style="table_CH" x="203" y="0" width="114" height="20"/>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<text><![CDATA[Укупно]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d4c3a3a9-b36a-4675-a857-60362ee91b6c" style="table_TD" x="317" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear1M21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a700fa43-5395-4bb3-971f-bf3e52d33113" style="table_TD" x="344" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear1M22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="03445904-2a7f-4abb-848b-fd5091114218" style="table_TD" x="371" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear1M23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="edaee7df-f985-4e66-b435-c05ee8c31605" style="table_TD" x="398" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear2M21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fc9a84a6-a24d-409d-8c8c-00f7d5fc7b58" style="table_TD" x="425" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear2M22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c0de5d53-df13-43aa-b535-258bbeb18655" style="table_TD" x="452" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear2M23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="74f0e876-8352-471f-aade-b7ae54f6cea1" style="table_TD" x="479" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear3M21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="85c3ee00-b894-4739-ab3f-307c52ab4228" style="table_TD" x="506" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear3M22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6424120b-16b7-4c5e-8167-c1038e02fa13" style="table_TD" x="533" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalYear3M23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0b90fb76-39aa-4b3f-bbc0-db4e8caaf05c" style="table_TD" x="560" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalAllM21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="280c11c3-4991-4d91-aa1a-5c88c8cd1898" style="table_TD" x="587" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalAllM22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0ce74913-833a-4cb1-b8f5-43aefd01f70e" style="table_TD" x="614" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalAllM23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3240f4c9-d248-41aa-a82f-2e1c5582c885" style="table_TD" x="641" y="0" width="39" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{totalAll}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

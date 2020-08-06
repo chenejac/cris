@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+     >
+	<f:view locale="#{userManagedBean.language}">
+		<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+			<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
+			<meta http-equiv="Pragma" content="no-cache"/>
+			<meta http-equiv="Expires" content="-1"/>
+			<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+		</h:head>
+		<h:body>
+			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+			<h:outputScript library="js" name="functions.js" target="head"/>
+			<f:loadBundle
+				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+				var="messages" />
+			<div id="header">
+    			<ui:insert name="header">
+    				<ui:include src="../header.xhtml"/>
+    			</ui:insert>
+			</div>
+			<div id="center">
+				<h:graphicImage 
+					library="img"
+					name="spacer.gif" 
+					alt="" 
+					height="20"
+					width="1"
+					/>
+				<div id="pleaseWait" class="transparent"></div>
+				<div id="progressBar" class="progressbar">
+					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
+				</div>
+				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
+				<a4j:region id="form_region" >
+					<h:form id="paperMonographTableForm">
+						<h:panelGrid id="mainPanel">
+							<rich:panel id="paperMonographBrowseModalPanel"
+								header="#{messages['records.paperMonograph.header']}">
+								<ui:include src="../bibliographicRecords/paperMonographTable.xhtml"	/>
+							</rich:panel>
+						</h:panelGrid>
+					</h:form>
+					<h:panelGrid id="modalPanel2s">
+						<!-- ======================== PaperMonograph  ============= -->
+						<!-- ======================== PaperMonograph Pick panel ============= -->
+				
+						<!-- ======================== PaperMonograph Edit panel ============= -->
+						<h:form id="paperMonographEditForm">
+							<h:panelGrid id="paperMonographEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(paperMonographManagedBean.simpleForm == false) and ((paperMonographManagedBean.editMode == modesManagedBean.update) or (paperMonographManagedBean.editMode == modesManagedBean.viewDetails) or (paperMonographManagedBean.editMode == modesManagedBean.add))}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('paperMonographEditForm:scrollableBody');"
+									onshow="formId='paperMonographEditForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.paperMonograph.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{paperMonographManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{paperMonographManagedBean.renderModalPanels}" 
+											limitRender="true"
+											immediate="true"
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../bibliographicRecords/paperMonographEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== PaperMonograph Simple Edit panel ============= -->
+						<h:form id="paperMonographSimpleEditForm">
+							<h:panelGrid id="paperMonographSimpleEditModalPanel">
+								<rich:popupPanel
+									id="paperMonographSimpleEditPopupPanel"
+									rendered="#{(paperMonographManagedBean.simpleForm == true) and ((paperMonographManagedBean.editMode == modesManagedBean.update) or (paperMonographManagedBean.editMode == modesManagedBean.viewDetails) or (paperMonographManagedBean.editMode == modesManagedBean.add))}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('paperMonographSimpleEditForm:scrollableBody');"
+									onshow="if(! (document.getElementById('paperMonographSimpleEditForm:authorNameInput').value.length > 3)) document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = true; formId='paperMonographSimpleEditForm'; setFocus();">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.paperMonograph.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{paperMonographManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{paperMonographManagedBean.renderModalPanels}" 
+											limitRender="true"
+											immediate="true"
+											execute="@this"
+											onclick="copiedReference='';"
+											>
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../bibliographicRecords/paperMonographSimpleEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== PaperMonograph end ============= -->
+						
+						<!-- ======================== Monograph  ============= -->
+						<!-- ======================== Monograph Pick panel ============= -->
+						<h:form id="monographPickForm" >
+							<h:panelGrid id="monographBrowseModalPanel">
+								<rich:popupPanel 
+									rendered="#{(monographManagedBean.tableMode == modesManagedBean.pick)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('monographPickForm:scrollableBody');"
+									onshow="formId='monographPickForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText value="#{messages['records.monograph.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{monographManagedBean.switchToTableNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{monographManagedBean.renderModalPanels}"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../bibliographicRecords/monographPick.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>				
+						<!-- ======================== Monograph Edit panel ============= -->
+						<h:form id="monographEditForm" >
+							<h:panelGrid id="monographEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(monographManagedBean.editMode == modesManagedBean.update) or (monographManagedBean.editMode == modesManagedBean.viewDetails) or (monographManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('monographEditForm:scrollableBody');"
+									onshow="formId='monographEditForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.monograph.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{monographManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{monographManagedBean.renderModalPanels}"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../bibliographicRecords/monographEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Monograph Simple Edit panel ============= -->
+						<h:form id="monographSimpleEditForm">
+							<h:panelGrid id="monographSimpleEditModalPanel">
+								<rich:popupPanel
+									id="monographSimpleEditPopupPanel"
+									rendered="#{(monographManagedBean.simpleForm == true) and ((monographManagedBean.editMode == modesManagedBean.update) or (monographManagedBean.editMode == modesManagedBean.viewDetails) or (monographManagedBean.editMode == modesManagedBean.add))}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('monographSimpleEditForm:scrollableBody');"
+									onshow="if(! (document.getElementById('monographSimpleEditForm:authorNameInput').value.length > 3)) document.getElementById('monographSimpleEditForm:chooseAuthor').disabled = true; formId='monographSimpleEditForm'; setFocus();">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.monograph.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{monographManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{monographManagedBean.renderModalPanels}" 
+											limitRender="true"
+											immediate="true"
+											execute="@this"
+											onclick="copiedReference='';"
+											>
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../bibliographicRecords/monographSimpleEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Monograph end ============= -->
+						
+						<!-- ======================== Author  ============= -->
+						<!-- ======================== Author Pick panel ============= -->
+						<h:form id="authorPickForm">
+							<h:panelGrid id="authorBrowseModalPanel">
+								<rich:popupPanel
+									rendered="#{(authorManagedBean.tableMode == modesManagedBean.pick)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('authorPickForm:scrollableBody');"
+									onshow="formId='authorPickForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText value="#{messages['records.author.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{authorManagedBean.switchToTableNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{authorManagedBean.renderModalPanels}" 
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../normativeRecords/authorPick.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Author Edit panel ============= -->
+						<h:form id="authorEditForm">
+							<h:panelGrid id="authorEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(authorManagedBean.editMode == modesManagedBean.update) or (authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('authorEditForm:scrollableBody');"
+									onshow="formId='authorEditForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.author.editPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{authorManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{authorManagedBean.renderModalPanels}"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../normativeRecords/authorEdit.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Author Name Formats panel ============= -->
+						<h:form id="authorNameFormatsForm">
+							<h:panelGrid id="authorNameFormatsModalPanel">
+								<rich:popupPanel
+									rendered="#{authorManagedBean.editMode == modesManagedBean.addFormatName}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('authorNameFormatsForm:scrollableBody');"
+									onshow="formId='authorNameFormatsForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.author.nameFormatsPanel.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{authorManagedBean.switchToEditNoneMode}"
+											styleClass="hidelink" 
+											render="mainPanel, #{authorManagedBean.renderModalPanels}"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../normativeRecords/authorNameFormats.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Author end ============= -->
+						
+						
+						<!-- ======================== Multilingual content  ============= -->
+						<!-- ======================== Multilingual content Edit panel ============= -->
+						<h:form id="multilingualContentForm">
+							<h:panelGrid id="multilingualContentEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('multilingualContentForm:scrollableBody');"
+									onshow="formId='multilingualContentForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{multilingualContentManagedBean.panelHeader}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{multilingualContentManagedBean.exit}"
+											styleClass="hidelink" 
+											render="multilingualContentEditModalPanel"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../multilingualContent.xhtml" />
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Multilingual content end ============= -->
+						
+						<!-- ======================== Multilingual content Publisher ============= -->
+						<!-- ======================== Multilingual content Publisher Edit panel ============= -->
+						<h:form id="multilingualContentPublisherForm">
+							<h:panelGrid id="multilingualContentPublisherEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(multilingualContentPublisherManagedBean.editMode == modesManagedBean.update) or (multilingualContentPublisherManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentPublisherManagedBean.editMode == modesManagedBean.add)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('multilingualContentPublisherForm:scrollableBody');"
+									onshow="formId='multilingualContentPublisherForm'; setFocus(); ">
+									<f:facet name="header">
+										<h:outputText
+											value="#{multilingualContentPublisherManagedBean.panelHeader}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{multilingualContentPublisherManagedBean.exit}"
+											styleClass="hidelink" 
+											render="multilingualContentPublisherEditModalPanel"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../multilingualContentPublisher.xhtml"/>
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Multilingual content publisher end ============= -->
+						<!-- ======================== Related Records  ============= -->
+						<h:form id="relatedRecordsForm">
+							<h:panelGrid id="relatedRecordsEditModalPanel">
+								<rich:popupPanel
+									rendered="#{(not empty relatedRecordsManagedBean.selectedRecord)}"
+									show="true" 
+									domElementAttachment="parent"
+									autosized="true"
+									onbeforeshow="calculateSize('relatedRecordsForm:scrollableBody');">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.relatedRecords.header']}"
+											styleClass="panel-header" />
+									</f:facet>
+									<f:facet name="controls">
+										<a4j:commandLink 
+											action="#{relatedRecordsManagedBean.exit}"
+											styleClass="hidelink" 
+											render="relatedRecordsEditModalPanel"
+											limitRender="true"
+											immediate="true" 
+											execute="@this">
+											<h:graphicImage library="img" name="close.png" />
+										</a4j:commandLink>
+									</f:facet>
+									<ui:include src="../relatedRecords.xhtml" />
+								</rich:popupPanel>
+							</h:panelGrid>
+						</h:form>
+						<!-- ======================== Related records end ============= -->
+					</h:panelGrid>
+				</a4j:region>
+			</div>
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="70"
+				width="1"/>
+			<div id="footer">
+    			<ui:insert name="footer">
+					<ui:include src="../footer.xhtml"/>
+				</ui:insert>
+			</div>
+		</h:body>
+	</f:view>
+</html>

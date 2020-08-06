@@ -1,0 +1,159 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="authorNameFormatsFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......Author.......           -->
+		<rich:panel id="authorNameFormatsPreview"
+			header="#{messages['records.author.editPanel.nameTablePanel.header']}">
+			<rich:dataTable id="authorNameTable"
+				value="#{authorManagedBean.selectedAuthor.allNames}"
+				var="authorNameRow">
+				<!--     ........  name   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.author.editPanel.nameTablePanel.name']}" />
+					</f:facet>
+					<h:outputText value="#{authorNameRow}" />
+				</rich:column>
+				<!--     ........  change position   .......-->
+				<rich:column rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.author.editPanel.nameTablePanel.changePosition']}" />
+					</f:facet>
+					<a4j:commandLink action="#{authorManagedBean.moveAuthorNameUp}"
+						render="authorNameTable"
+						limitRender="true"
+						execute="@this">
+						<h:graphicImage library="img" name="up.gif" />
+						<f:param name="firstname" value="#{authorNameRow.firstname}" />
+						<f:param name="lastname" value="#{authorNameRow.lastname}" />
+					</a4j:commandLink>
+					<a4j:commandLink action="#{authorManagedBean.moveAuthorNameDown}"
+						render="authorNameTable"
+						limitRender="true"
+						execute="@this">
+						<h:graphicImage library="img" name="down.gif" />
+						<f:param name="firstname" value="#{authorNameRow.firstname}" />
+						<f:param name="lastname" value="#{authorNameRow.lastname}" />
+					</a4j:commandLink>
+				</rich:column>
+				<!--     ........  remove name   .......-->
+				<rich:column rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.author.editPanel.nameTablePanel.remove']}" />
+					</f:facet>
+					<a4j:commandLink action="#{authorManagedBean.removeAuthorName}"
+						render="authorNameFormatsModalPanel"
+						immediate="true"
+						limitRender="true"
+						execute="@this"
+						rendered="#{authorNameRow != authorManagedBean.selectedAuthor.name}">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="firstname" value="#{authorNameRow.firstname}" />
+						<f:param name="lastname" value="#{authorNameRow.lastname}" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody" 
+			rendered="#{authorManagedBean.editTabNumber lt 1}"
+			styleClass="scrollableBody"	>
+			<rich:tabPanel 
+				switchType="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{authorManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					header="#{messages['records.author.editPanel.firstTab']}"
+					rendered="#{authorManagedBean.editTabNumber == 0}">
+					<!-- ===========================   tablePanel  ============================= -->
+					<h:panelGrid 
+						rendered="#{(authorManagedBean.editMode != modesManagedBean.viewDetails)}" 
+						columns="5" 
+						columnClasses="width20, width30, width10, width10, width30"
+						width="100%">
+						<!-- ....... Lastname other format.......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.lastname']}*" 
+								for="lastname" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputText 
+							id="lastname"
+							value="#{authorManagedBean.lastnameOtherFormat}" 
+							maxlength="100" 
+							required="true"/>
+						<h:outputText value=""  />
+						<h:outputText value=""  />
+						<a4j:outputPanel ajaxRendered="true" >
+							<rich:message 
+								for="lastname" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Firstname other format.......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.firstname']}*" 
+								for="firstname" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputText 
+							id="firstname"
+							value="#{authorManagedBean.firstnameOtherFormat}" 
+							maxlength="100" 
+							required="true"/>
+						<h:outputText value="" />
+						<h:outputText value=""  />
+						<a4j:outputPanel ajaxRendered="true" >
+							<rich:message 
+								for="firstname" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="2">
+			<a4j:commandButton
+				rendered="#{(authorManagedBean.editMode == modesManagedBean.addFormatName) and (authorManagedBean.editTabNumber == 0) }"
+				action="#{authorManagedBean.addName}"
+				value="#{messages['records.author.nameFormatsPanel.btnAddName']}"
+				render="authorNameFormatsModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(authorManagedBean.editTabNumber == 1)}" 
+				action="#{authorManagedBean.finishWizard}"
+				value="#{messages['records.author.nameFormatsPanel.btnAllRight']}"
+				render="mainPanel, #{authorManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+		</h:panelGrid>
+	</h:panelGrid>	
+</ui:composition>

@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+
+	<h:panelGrid id="monographPickFormPanel">	
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+				rendered="#{(monographManagedBean.customPick) and (monographManagedBean.tableTabNumber == 0) and (monographManagedBean.pickMessageFirstTab != null)}">
+			<h:panelGrid columns="1">
+				<h:outputText value="#{monographManagedBean.pickMessageFirstTab}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+				rendered="#{(monographManagedBean.customPick) and (monographManagedBean.tableTabNumber == 1) and (empty monographManagedBean.monographs)}">
+			<h:panelGrid columns="1">
+				<h:outputText value="#{monographManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{monographManagedBean.title}"
+					styleClass="rf-msg-inf" />
+				<h:outputText value="#{monographManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+				rendered="#{(monographManagedBean.customPick) and (monographManagedBean.tableTabNumber == 1) and (not empty monographManagedBean.monographs)}">
+			<h:panelGrid columns="1">
+				<h:outputText value="#{monographManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{monographManagedBean.title} "
+					styleClass="rf-msg-inf" />
+				<h:outputText value="#{monographManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
+					styleClass="rf-msg-inf" />
+				<h:panelGroup>
+					<h:outputText value="#{monographManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
+						styleClass="rf-msg-inf" />
+					<h:graphicImage library="img" name="pick.png" />
+				</h:panelGroup>
+				<h:outputText value="#{monographManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%"
+			rendered="#{(monographManagedBean.tableTabNumber == 0) and (monographManagedBean.customPick)}">
+
+			<!-- ....... Title .......           -->
+			<a4j:outputPanel ajaxRendered="true">
+				<mytags:outputLabel 
+					value="#{messages['records.monograph.editPanel.title']}*" 
+					for="title" 
+					errorStyleClass="errorMessage"
+					/>
+			</a4j:outputPanel>
+			<a4j:region>
+				<rich:autocomplete 
+		            id="title" 
+					value="#{monographManagedBean.title}"
+					required="true"
+		            autocompleteMethod="#{monographManagedBean.autocomplete}" 
+		            var="_monographRow"
+		            fetchValue="#{_monographRow.controlNumber}" 
+		            minChars="3" 
+		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
+		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+		            onfocus="activeElId = this.id;"
+		            >
+		            <a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+		            <!--     ........  title   .......-->
+					<rich:column 
+						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+						styleClass="rich-table-wide-cell" >
+						<h:outputText value="#{_monographRow.someTitle}" />
+					</rich:column>
+					<a4j:jsFunction 
+						name="choose" 
+						action="#{monographManagedBean.chooseMonograph}" 
+						render="mainPanel, #{monographManagedBean.renderModalPanels}">
+						<a4j:param 
+							name="param1" 
+							assignTo="#{monographManagedBean.monographControlNumber}"/>
+					</a4j:jsFunction> 
+				</rich:autocomplete>
+		    </a4j:region>
+			<h:inputHidden id="controlNumber"/>
+			<h:outputText value="" />
+			<a4j:outputPanel ajaxRendered="true">
+				<rich:message 
+					for="title" 
+					errorClass="errorMessage"
+					infoClass="infoMessage"
+					warnClass="warnMessage"
+					fatalClass="fatalMessage" />
+			</a4j:outputPanel>
+		</h:panelGrid>
+		<h:panelGrid 
+			rendered="#{(monographManagedBean.tableTabNumber == 1) or (not monographManagedBean.customPick)}">
+			<ui:include src="../bibliographicRecords/monographTable.xhtml"/>
+		</h:panelGrid>
+		<h:panelGrid columns="2">
+			<a4j:commandButton 
+				rendered="#{(monographManagedBean.tableTabNumber == 1) and (monographManagedBean.customPick)}"
+				action="#{monographManagedBean.previousTableTab}"
+				value="#{messages['records.monograph.pickPanel.btnPrevious']}"
+				render="monographBrowseModalPanel"
+				limitRender="true" 
+				execute="@form"
+				>
+			</a4j:commandButton>
+			<a4j:commandButton 
+				id="nextBtn"
+				rendered="#{(monographManagedBean.tableTabNumber == 0) and (monographManagedBean.customPick)}"
+				action="#{monographManagedBean.nextTableTab}"
+				value="#{messages['records.monograph.pickPanel.btnNext']}"
+				render="monographBrowseModalPanel"
+				limitRender="true" 
+				execute="@form" 
+				>
+			</a4j:commandButton>
+			<a4j:commandButton 
+				rendered="#{(monographManagedBean.tableTabNumber == 1) and (monographManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formMonograph][privilegesManagedBean.add])}"
+				action="#{monographManagedBean.switchToSimpleAddMode}"
+				value="#{messages['records.monograph.pickPanel.btnNext']}"
+				render="monographSimpleEditModalPanel" 
+				limitRender="true"
+				execute="@this" 
+				immediate="true" />
+		</h:panelGrid>
+	</h:panelGrid>
+
+</ui:composition>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CRIS UNS" default="main" basedir=".">
+	<property file="ant.properties" />
+	<property name="src" value="${basedir}/src" />
+	<property name="bin" value="${basedir}/bin" />
+	<property name="dist" value="${basedir}/dist" />
+	<property name="api" value="${basedir}/doc/api" />
+	<property name="sql" value="${basedir}/sql" />
+	<property name="compile-libs" value="${basedir}/compile-libs" />
+	<property name="runtime-libs" value="${basedir}/runtime-libs" />
+	<property name="webContent" value="${basedir}/WebContent" />
+	<path id="compile.classpath">
+		<fileset dir="${compile-libs}" includes="*.jar" />
+	</path>
+	<target name="check-tomcat" unless="tomcat.dir">
+		<fail> Property "tomcat.dir" is not set. Please use the file
+			"ant.properties" in this directory ${basedir} to set this property.
+			It must point to the directory which contains the following
+			directory: "bin", "conf", "webapps" etc. </fail>
+	</target>
+	<target name="check-environment">
+		<antcall target="check-tomcat" />
+	</target>
+	<target name="init" depends="check-environment">
+		<echo message="java.home = ${java.home}" />
+		<echo message="tomcat.dir = ${tomcat.dir}" />
+	</target>
+
+	
+
+	<!-- Delete all built files -->
+	<target name="clean" depends="init">
+		<delete dir="${bin}" />
+		<delete file="${dist}/bibliography.war" />
+		<delete file="${tomcat.dir}/webapps/${warname}.war" />
+		<delete dir="${tomcat.dir}/webapps/${warname}" />
+		<delete dir="${tomcat.dir}/work/Catalina/localhost/${warname}" />
+	</target>
+	
+	<!-- Delete all built files -->
+	<target name="delete-indexes" depends="init">
+		<delete>
+			<fileset dir="${luceneIndex.dir}" includes="**/*" />
+		</delete>
+	</target>
+
+
+
+	<!-- Compile everything -->
+	<target name="compile" depends="init">
+		<mkdir dir="${bin}" />
+		<javac encoding="UTF-8" srcdir="${src}" destdir="${bin}" classpathref="compile.classpath" />
+		<copy todir="${bin}">
+			<fileset dir="${src}" includes="**/*.properties" />
+			<fileset dir="${src}" includes="**/*.jasper" />
+			<fileset dir="${src}" includes="**/*.docx" />
+			<fileset dir="${src}" includes="**/*.TTF" />
+			<fileset dir="${src}" includes="**/*.ttf" />
+			<fileset dir="${src}" includes="**/fonts.xml" />
+			<fileset dir="${src}" includes="**/*.ftl" />
+		</copy>
+		<copy todir="${bin}">
+			<fileset dir="${src}" includes="META-INF/mytags/*" />
+		</copy>
+	</target>
+	
+
+	<!-- War -->
+	<target name="war" depends="compile">
+		<mkdir dir="${dist}" />
+		<war destfile="${dist}/${warname}.war" webxml="${webContent}/WEB-INF/web.xml">
+			<zipfileset dir="${webContent}">
+				<include name="**/*.pdf" />
+				<include name="**/*.jsp" />
+				<include name="**/*.css" />
+				<include name="**/*.html" />
+				<include name="**/*.xsl" />
+				<include name="**/*.xhtml" />
+				<include name="resources/img/*" />
+				<include name="resources/js/*" />
+			</zipfileset>
+			<classes dir="bin">
+				<include name="**/*.class" />
+				<include name="**/*.properties" />
+				<include name="**/*.TTF" />
+				<include name="**/*.ttf" />
+				<include name="**/fonts.xml" />
+				<include name="**/*.jasper" />
+				<include name="**/*.docx" />
+				<include name="**/*.ftl" />
+				<exclude name="rs/ac/uns/ftn/informatika/bibliography/backup/*"/>
+				<exclude name="rs/ac/uns/ftn/informatika/bibliography/backup/dbmodel/*"/>
+				<exclude name="rs/ac/uns/ftn/informatika/bibliography/Import/knr/*"/>
+				<exclude name="rs/ac/uns/ftn/informatika/bibliography/jsf/mytags/*"/>
+			</classes>
+			<lib dir="${runtime-libs}">
+				<include name="*.jar" />
+			</lib>
+			<webinf dir="${webContent}/WEB-INF">
+				<include name="faces-config.xml" />
+				<include name="oaicat*" />
+			</webinf>
+			<metainf dir="${webContent}/META-INF">
+				<include name="**/*" />
+			</metainf>
+		</war>
+	</target>
+
+	<target name="create-mytags-lib" depends="compile"
+		description="Create deployable tag libraries file">
+		<delete file="${runtime-libs}/mytags.jar"/>
+		<jar jarfile="${runtime-libs}/mytags.jar">
+			<zipfileset dir="${bin}">
+				<include name="rs/ac/uns/ftn/informatika/bibliography/jsf/mytags/*" />
+				<exclude name="rs/ac/uns/ftn/informatika/bibliography/jsf/mytags/faces-config.xml"/>
+			</zipfileset>
+			<metainf dir="${src}/META-INF/mytags">
+				<include name="**/*" />
+			</metainf>
+		</jar>
+		<delete file="${compile-libs}/mytags.jar"/>
+		<copy file="${runtime-libs}/mytags.jar" tofile="${compile-libs}/mytags.jar"/>
+	</target>
+	
+	<!-- Unlock indexes -->
+	<target name="unlock-indexes">
+		<delete file="${luceneIndex.dir}/write.lock" />
+	</target>
+	
+	<!-- Deploy  -->
+	<target name="deploy" depends="unlock-indexes, war">
+		<copy todir="${tomcat.dir}/webapps">
+			<fileset dir="${dist}" includes="${warname}.war" />
+		</copy>
+	</target>
+	
+	<target name="main" depends="clean, deploy" />
+	
+	<!--
+	<target name="drop-tables" depends="init">
+		<sql classpath="${runtime-libs}/mysql-connector-java-5.1.8-bin.jar"
+			driver="${db.driver}" url="${db.connectionString}" userid="${db.username}"
+			password="${db.password}"> 
+			
+			drop table if exists CFCLASSDESCRIPTION;
+
+			drop table if exists CFCLASSTERM;
+
+			drop table if exists CFCLASSSCHEMEDESCRIPTION;
+
+			drop table if exists CFCLASS_CLASS;
+
+			drop table if exists CFCLASSSCHEME_CLASSSCHEME;
+
+			drop table if exists MARC21RECORD_KEYWORDS;
+
+			drop table if exists CFMORGUNIT;
+
+			drop table if exists CFCURRENCYENTNAME;
+
+			drop table if exists CFCURRENCYNAME;
+
+			drop table if exists CFCURRENCY_CLASS;
+
+			drop table if exists CFCURRENCY;
+
+			drop table if exists CFLANGUAGE;
+
+			drop table if exists MARC21RECORD_RESPUBL;
+
+			drop table if exists MARC21RECORD_MARC21RECORD;
+
+			drop table if exists MARC21RECORD_CLASS;
+
+			drop table if exists USER;
+			
+			drop table if exists FILE_STORAGE;
+			
+			drop table if exists PERSON;
+			
+			drop table if exists CFMETRICSDESCRIPTION;
+
+			drop table if exists CFMETRICSNAME;
+			
+			drop table if exists CFMETRICS_CLASS;
+			
+			drop table if exists CFMETRICS;
+
+			drop table if exists MARC21RECORD;
+			
+			drop table if exists COMMISSION;
+						
+			drop table if exists RESULTMAPPING;
+						
+			drop table if exists RESULTTYPEMEASURE;
+
+			drop table if exists CFCLASS;
+
+			drop table if exists CFCLASSSCHEME;
+			
+			drop table if exists COUNTER;
+		</sql>
+	</target>
+	<target name="create-database" depends="drop-tables">
+		<sql classpath="${runtime-libs}/mysql-connector-java-5.1.8-bin.jar"
+			driver="${db.driver}" url="${db.connectionString}" userid="${db.username}"
+			password="${db.password}" src="${sql}/crebas.sql" delimiter=";"/>
+	</target>
+	<target name="prepare-database" depends="create-database">
+		<sql classpath="${runtime-libs}/mysql-connector-java-5.1.8-bin.jar"
+			driver="${db.driver}" url="${db.connectionString}" userid="${db.username}"
+			password="${db.password}"> 
+				insert into USER(EMAIL, PASSWORD, TYPE, LANGUAGE)
+							values('chenejac@uns.ac.rs', 'chenejac', 'administrator', 'sr'); 
+				insert into COUNTER(COUNTERNAME, COUNTERVALUE) 
+							values ('recordid', 0);
+				insert into CFCLASSSCHEME(CFCLASSSCHEMEID) 
+										values ('type'),
+												('institutionsRelation'),
+												('authorInstitutionRelation'),
+												('authorshipType'),
+												('publicationsRelation'),
+												('publicationInstitutionRelation'),
+												('publicationEventRelation'),
+												('patentInstitutionRelation'),
+												('undefsc'),
+												('researchArea'),
+												('position'),
+												('hierarchy'),
+												('value of metric');
+				insert into CFCLASS(CFCLASSSCHEMEID, CFCLASSID, CFSTARTDATE, CFENDDATE)
+													values ('type', 'institution', '1900-01-01 00:00:00','2099-12-31 00:00:00' ),
+															('type', 'organizationUnit', '1900-01-01 00:00:00','2099-12-31 00:00:00' ),
+															('type', 'author', '1900-01-01 00:00:00','2099-12-31 00:00:00' ),
+															('type', 'conference', '1900-01-01 00:00:00','2099-12-31 00:00:00' ),
+															('type', 'proceedings', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'journalNormative', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'journal', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'paperJournal', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'scientificCriticismJournal', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'monograph', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'paperMonograph', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'paperProceedings', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'fullPP', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'abstractPP', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'invTalkFullPP', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'invTalkAbstractPP', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'discussionPP', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'studyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'phdStudyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'phdArtProject', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'masterStudyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'oldMasterStudyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'bachelorStudyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'oldBachelorStudyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'specialisticStudyFinalDocument', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'patent', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('type', 'product', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('institutionsRelation', 'is part of', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('authorInstitutionRelation', 'belongs to', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('authorshipType', 'is author of', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('authorshipType', 'is editor of', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('publicationsRelation', 'is published in', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('publicationInstitutionRelation', 'is defended at', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('publicationEventRelation', 'is output from', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('patentInstitutionRelation', 'is patented at', '1900-01-01 00:00:00','2099-12-31 00:00:00'),
+															('undefsc', 'undefcl', '1900-01-01 00:00:00','2099-12-31 00:00:00'), 
+															('hierarchy', 'belongsTo', '1900-01-01 00:00:00', '2099-12-31 00:00:00'),
+															('value of metric', 'value of IF', '1900-01-01 00:00:00', '2099-12-31 00:00:00');
+			insert into COMMISSION (COMMISSIONID, APPOINTMENTBOARD, APPOINTMENTDATE, MEMBERS, CFCLASSSCHEMEIDSCIENCEAREA, CFCLASSIDSCIENCEAREA) 
+					values (0, null, null, null, 'undefsc', 'undefcl');
+			insert into CFLANGUAGE (CFLANGCODE) 
+								values ('srp'),
+										('eng'),
+										('fre'),
+										('ger'),
+										('rus'),
+										('ita'),
+										('spa'),
+										('hun'),
+										('slo');
+		</sql>
+	</target>
+	
+	<target name="javadoc">
+        <javadoc access="private" author="true" classpath="${compile-libs}\log4j-1.2.11.jar;${compile-libs}\javax.servlet.jsp.jar;${compile-libs}\commons-logging-1.1.jar;${compile-libs}\incubator-activemq-4.0.1.jar;${compile-libs}\servlet-api.jar;${compile-libs}\standard.jar;${compile-libs}\jsf-impl.jar;${compile-libs}\richfaces-impl-3.3.0.GA.jar;${compile-libs}\org-openide-util.jar;${compile-libs}\richfaces-ui-3.3.0.GA.jar;${compile-libs}\gint-utils.jar;${compile-libs}\richfaces-api-3.3.0.GA.jar;${compile-libs}\jstl-1.2.jar;${compile-libs}\jsf-api.jar;${compile-libs}\lucene-core-2.4.0.jar" destdir="${api}" doctitle="CRIS UNS API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="rs.ac.uns.ftn.informatika.bibliography.db,rs.ac.uns.ftn.informatika.bibliography.jsf.converters,rs.ac.uns.ftn.informatika.bibliography.marc21.records.serializers,rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans,rs.ac.uns.ftn.informatika.bibliography.marc21.records,rs.ac.uns.ftn.informatika.bibliography.dto,rs.ac.uns.ftn.informatika.bibliography.textsrv,rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters,rs.ac.uns.ftn.informatika.bibliography.dao,rs.ac.uns.ftn.informatika.bibliography.marc21.records.prefixes,rs.ac.uns.ftn.informatika.bibliography.utils" source="1.6" sourcepath="${src}" splitindex="true" use="true" version="true">
+            <link href="http://java.sun.com/javase/6/docs/api/"/>
+        </javadoc>
+    </target> -->
+	
+	<target name="analyzer" depends="compile">
+			<mkdir dir="analyzer" />
+			<jar destfile="analyzer/Analyzer.jar">
+				<zipfileset dir="bin">
+					<include name="rs/ac/uns/ftn/informatika/bibliography/textsrv/*.class" />
+					<include name="rs/ac/uns/ftn/informatika/bibliography/dto/*.class" />
+					<include name="rs/ac/uns/ftn/informatika/bibliography/utils/Lat*.class" />
+				</zipfileset>
+				<manifest>
+					<attribute name="Main-Class"
+						value="rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils" />
+				</manifest>
+				<zipgroupfileset dir="compile-libs" includes="lucene*.jar" />
+				<zipgroupfileset dir="compile-libs" includes="commons-logg*.jar" />
+				<zipgroupfileset dir="compile-libs" includes="gint*.jar" />
+			</jar>
+		</target>
+	
+	<target name="analyzerYu" depends="compile">
+				<mkdir dir="analyzer" />
+				<jar destfile="analyzer/AnalyzerYu.jar">
+					<zipfileset dir="bin">
+						<include name="rs/ac/uns/ftn/informatika/bibliography/textsrv/*.class" />
+						<include name="rs/ac/uns/ftn/informatika/bibliography/dto/*.class" />
+						<include name="rs/ac/uns/ftn/informatika/bibliography/utils/Lat*.class" />
+						<include name="rs/ac/uns/ftn/informatika/bibliography/utils/Cro*.class" />
+					</zipfileset>
+					<manifest>
+						<attribute name="Main-Class"
+							value="rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils" />
+					</manifest>
+					<zipgroupfileset dir="compile-libs" includes="lucene*.jar" />
+					<zipgroupfileset dir="compile-libs" includes="commons-logg*.jar" />
+				</jar>
+			</target>
+</project>

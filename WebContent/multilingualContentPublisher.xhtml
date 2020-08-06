@@ -1,0 +1,190 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="multilingualContentPublisherFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<rich:panel 
+			id="scrollableBody" 
+			styleClass="scrollableBody"	>
+			<h:panelGrid 
+				rendered="#{(multilingualContentPublisherManagedBean.editMode != modesManagedBean.viewDetails)}" 
+				columns="5" 
+				columnClasses="width20, width30, width10, width10, width30"
+				width="100%">
+				<!-- ....... pubName .......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.multilingualContentPublisher.editPanel.pubName']}*" 
+						for="pubName" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputTextarea 
+					id="pubName"
+					value="#{multilingualContentPublisherManagedBean.pubName}" 
+					rows="3" 
+					required="true"/>
+				<h:outputText value="" />
+				<h:outputText value=""  />
+				<a4j:outputPanel ajaxRendered="true" >
+					<rich:message 
+						for="pubName" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... pubPlace .......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.multilingualContentPublisher.editPanel.pubPlace']}" 
+						for="pubPlace" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="pubPlace"
+					value="#{multilingualContentPublisherManagedBean.pubPlace}" 
+					maxlength="300" />
+				<h:outputText value="" />
+				<h:outputText value=""  />
+				<a4j:outputPanel ajaxRendered="true" >
+					<rich:message 
+						for="pubPlace" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... pubState .......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.multilingualContentPublisher.editPanel.pubState']}" 
+						for="pubState" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="pubState"
+					value="#{multilingualContentPublisherManagedBean.pubState}" 
+					maxlength="300" />
+				<h:outputText value="" />
+				<h:outputText value=""  />
+				<a4j:outputPanel ajaxRendered="true" >
+					<rich:message 
+						for="pubState" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Language.......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.multilingualContentPublisher.editPanel.language']}*" 
+						for="language" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:selectOneMenu 
+					id="language"
+					value="#{multilingualContentPublisherManagedBean.language}" 
+					required="true"	>
+					<ui:include src="./languagesSelectItems.xhtml"/>
+				</h:selectOneMenu>
+				<a4j:commandButton 
+					action="#{multilingualContentPublisherManagedBean.add}"
+					value="#{messages['records.multilingualContentPublisher.editPanel.btnAddPublisher']}"
+					render="multilingualContentPublisherEditModalPanel" 
+					execute="@form" />
+				<h:outputText value=""  />
+				<a4j:outputPanel ajaxRendered="true" >
+					<rich:message 
+						for="language" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+			</h:panelGrid>
+			<!-- .......translated publisher name .......           -->
+			<rich:dataTable id="multilingualContentPublisherTable"
+				value="#{multilingualContentPublisherManagedBean.publisherTranslations}"
+				var="publisherRow"
+				rowKeyVar="publisherKeyVar">
+				<!--     ........  pubName   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContentPublisher.editPanel.pubName']}" />
+					</f:facet>
+					<h:outputText value="#{publisherRow.name}" />
+				</rich:column>
+				<!--     ........  pubPlace   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContentPublisher.editPanel.pubPlace']}" />
+					</f:facet>
+					<h:outputText value="#{publisherRow.place}" />
+				</rich:column>
+				<!--     ........  pubState   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContentPublisher.editPanel.pubState']}" />
+					</f:facet>
+					<h:outputText value="#{publisherRow.state}" />
+				</rich:column>
+				<!--     ........  language   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContentPublisher.editPanel.language']}" />
+					</f:facet>
+					<h:outputText value="#{publisherRow.localizedLanguage}" />
+				</rich:column>
+				<!--     ........  remove    .......-->
+				<rich:column
+					rendered="#{(multilingualContentPublisherManagedBean.editMode != modesManagedBean.viewDetails)}" >
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContentPublisher.editPanel.remove']}" />
+					</f:facet>
+					<a4j:commandLink
+						action="#{multilingualContentPublisherManagedBean.remove}"
+						render="scrollableBody"
+						limitRender="true" 
+						immediate="true" 
+						execute="@this" >
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="ordNum" value="#{publisherKeyVar}" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="1">
+			<a4j:commandButton 
+				action="#{multilingualContentPublisherManagedBean.exit}"
+				value="#{messages['records.multilingualContentPublisher.editPanel.btnExit']}"
+				render="multilingualContentPublisherEditModalPanel"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+		</h:panelGrid>
+	</h:panelGrid>	
+</ui:composition>

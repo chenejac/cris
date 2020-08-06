@@ -1,0 +1,311 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="paperProceedingsTableFormPanel" >
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......Conference .......           -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid 
+			id="conference"
+			columns="2" >
+			<h:panelGroup
+				rendered="#{(paperProceedingsManagedBean.conference != null)}"  >
+				<h2>
+					<h:outputText
+						value="#{messages['records.paperProceedings.tablePanel.conference']}: " />
+					<h:outputText 
+						value="#{paperProceedingsManagedBean.conference.stringRepresentation}" />
+				</h2>
+			</h:panelGroup>
+			<h:outputText 
+				value="" 
+				rendered="#{(paperProceedingsManagedBean.conference != null)}" />
+			<a4j:commandButton
+				action="#{paperProceedingsManagedBean.pickConference}"
+				render="conferenceBrowseModalPanel"
+				value="#{messages['records.paperProceedings.tablePanel.btnPickOtherConference']}"
+				limitRender="true"  
+				rendered="#{(paperProceedingsManagedBean.conference != null)}" 
+				execute="@this" />
+			<h:outputText 
+				value="" 
+				rendered="#{(paperProceedingsManagedBean.conference != null)}" />
+			<a4j:commandButton
+				action="#{paperProceedingsManagedBean.pickConference}"
+				render="conferenceBrowseModalPanel"
+				value="#{messages['records.paperProceedings.tablePanel.btnPickConference']}"
+				limitRender="true" 
+				rendered="#{(paperProceedingsManagedBean.conference == null)}" 
+				execute="@this" />
+			<h:panelGroup
+				rendered="#{(paperProceedingsManagedBean.conference == null)}" >
+				<h2>
+					<h:outputText
+						value="#{messages['records.paperProceedings.tablePanel.pleaseConference']}" />
+				</h2>
+			</h:panelGroup>
+		</h:panelGrid>
+		<!-- .......Proceedings.......           -->
+		<h:panelGrid 
+			id="proceedings"
+			rendered="#{(paperProceedingsManagedBean.conference != null)}"
+			columns="2" >
+			<h:panelGroup 
+				rendered="#{(paperProceedingsManagedBean.conferenceProceedings != null)}" >
+				<h2>
+					<h:outputText
+						value="#{messages['records.paperProceedings.tablePanel.proceedings']}: "  />
+					<h:selectOneMenu 
+						value="#{paperProceedingsManagedBean.proceedings}"
+						style="width:100%"
+						converter="proceedingsSelectConverter"
+						>
+						<f:selectItems
+							value="#{paperProceedingsManagedBean.allProceedingsSelectItems}" />
+						<a4j:ajax 
+			    			event="change" 
+			    			render="@form" 
+			    			limitRender="true" 
+			    			execute="@form" 
+			    			/>
+					</h:selectOneMenu>
+				</h2>
+			</h:panelGroup>
+			<a4j:commandButton
+				action="#{paperProceedingsManagedBean.addProceedings}"
+				render="proceedingsEditModalPanel"
+				value="#{messages['records.paperProceedings.tablePanel.btnAddOtherProceedings']}"
+				limitRender="true" 
+				rendered="#{(paperProceedingsManagedBean.conferenceProceedings != null)}" />
+			<a4j:commandButton
+				action="#{paperProceedingsManagedBean.addProceedings}"
+				render="proceedingsEditModalPanel"
+				value="#{messages['records.paperProceedings.tablePanel.btnAddProceedings']}"
+				limitRender="true" 
+				rendered="#{(paperProceedingsManagedBean.conferenceProceedings == null)}" 
+				execute="@this" />
+			<h:panelGroup
+				rendered="#{(paperProceedingsManagedBean.conferenceProceedings == null)}"  >
+				<h2>
+					<h:outputText
+						value="#{messages['records.paperProceedings.tablePanel.pleaseProceedings']}" />
+				</h2>
+			</h:panelGroup>
+		</h:panelGrid>
+		<h:panelGrid
+			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)||(paperProceedingsManagedBean.proceedings != null)}">
+			<!-- ===========================   searchPanel  ============================= -->
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="10"
+				width="1"
+				rendered="#{(paperProceedingsManagedBean.proceedings==null)}"
+				/>
+			<h:panelGrid 
+				id="paperProceedingsSearchPanel"
+				rendered="#{(paperProceedingsManagedBean.proceedings==null)}" 
+				columns="6">
+				<h:panelGroup>
+					<h2>
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.paperProceedings.searchPanel.header']}: " 
+								for="whereStr" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+					</h2>
+				</h:panelGroup>
+				<h:inputText 
+					id="whereStr"
+					onkeydown="keyDownHandler(event, 'paperProceedingsTableForm:btnFind')"
+					value="#{paperProceedingsManagedBean.whereStr}" 
+					styleClass="searchBox" />
+				<a4j:commandButton 
+					id="btnFind"
+					value="#{messages['records.paperProceedings.searchPanel.btnFind']}"
+					render="paperProceedingsTablePanel" 
+					limitRender="true" 
+					execute="@form" />
+				<a4j:commandButton 
+					id="btnShowAll"
+					action="#{paperProceedingsManagedBean.removeFilter}"
+					value="#{messages['records.paperProceedings.searchPanel.btnShowAll']}"
+					render="paperProceedingsTablePanel, paperProceedingsSearchPanel"
+					execute="@this" 
+					limitRender="true" />
+				<a4j:commandButton 
+					id="btnShowM99PMF"
+					action="#{paperProceedingsManagedBean.populateM99PMF}"
+					value="#{messages['records.paperProceedings.searchPanel.btnShowM99PMF']}"
+					render="paperProceedingsTablePanel, paperProceedingsSearchPanel"
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}" 
+					execute="@this" 
+					limitRender="true" />
+				<a4j:commandButton 
+					id="btnShowM99TF"
+					action="#{paperProceedingsManagedBean.populateM99TF}"
+					value="#{messages['records.paperProceedings.searchPanel.btnShowM99TF']}"
+					render="paperProceedingsTablePanel, paperProceedingsSearchPanel"
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}" 
+					execute="@this" 
+					limitRender="true" />
+			</h:panelGrid>
+			<!-- ===========================   tablePanel  ============================= -->
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="10"
+				width="1"
+				/>
+			<h:panelGrid id="paperProceedingsTablePanel">
+			<h:panelGrid 
+				rendered="#{(not empty paperProceedingsManagedBean.whereStr)||(paperProceedingsManagedBean.proceedings != null)}">
+				<rich:dataTable 
+					id="paperProceedingsTable"
+					value="#{paperProceedingsManagedBean.paperProceedings}"
+					var="paperProceedingsRow" 
+					rows="10"
+					>
+					<!--     ........  reference   .......-->
+					<rich:column
+						style="#{paperProceedingsManagedBean.selectedPaperProceedings.controlNumber == paperProceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+						<f:facet name="header">
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.sort}"
+								render="paperProceedingsTable"
+								limitRender="true" 
+								execute="@this" 
+								immediate="true">
+								<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.reference']}" />
+								<h:graphicImage 
+									library="img" name="up.gif"
+									rendered="#{(paperProceedingsManagedBean.orderBy=='stringRepresentation') and (paperProceedingsManagedBean.direction=='asc')}" />
+								<h:graphicImage 
+									library="img" name="down.gif"
+									rendered="#{(paperProceedingsManagedBean.orderBy=='stringRepresentation') and (paperProceedingsManagedBean.direction=='desc')}" />
+								<f:param name="orderBy" value="stringRepresentation" />
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{paperProceedingsRow.stringRepresentation}" />
+					</rich:column>
+					<!--     ........  paperType   .......-->
+					<rich:column
+						style="#{paperProceedingsManagedBean.selectedPaperProceedings.controlNumber == paperProceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+						<f:facet name="header">
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.sort}"
+								render="paperProceedingsTableForm"
+								limitRender="true" 
+								execute="@this" 
+								immediate="true">
+								<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.paperType']}" />
+								<h:graphicImage library="img" name="up.gif"
+									rendered="#{(paperProceedingsManagedBean.orderBy=='localizedPaperType') and (paperProceedingsManagedBean.direction=='asc')}" />
+								<h:graphicImage library="img" name="down.gif"
+									rendered="#{(paperProceedingsManagedBean.orderBy=='localizedPaperType') and (paperProceedingsManagedBean.direction=='desc')}" />
+								<f:param name="orderBy" value="localizedPaperType" />
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{paperProceedingsRow.localizedPaperType}" />
+					</rich:column>
+					<!--     ........  actions   .......-->
+					<rich:column
+						style="#{paperProceedingsManagedBean.selectedPaperProceedings.controlNumber == paperProceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+						<f:facet name="header">
+							<h:outputText
+								value="#{messages['records.paperProceedings.tablePanel.actions']}" />
+						</f:facet>
+						<a4j:commandLink
+							action="#{paperProceedingsManagedBean.switchToViewDetailsMode}"
+							render="paperProceedingsEditModalPanel" 
+							limitRender="true" 
+							execute="@this"
+							immediate="true">
+							<h:graphicImage library="img" name="details.png" />
+							<f:param name="controlNumber"
+								value="#{paperProceedingsRow.controlNumber}" />
+							<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.update]}"
+							action="#{paperProceedingsManagedBean.switchToSimpleUpdateMode}"
+							render="paperProceedingsSimpleEditModalPanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="edit.png" />
+							<f:param name="controlNumber"
+								value="#{paperProceedingsRow.controlNumber}" />
+							<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.delete]}"
+							action="#{paperProceedingsManagedBean.delete}"
+							onclick="if(!confirmDecision()) return false"
+							render="paperProceedingsTablePanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="delete.png" />
+							<f:param name="controlNumber"
+								value="#{paperProceedingsRow.controlNumber}" />
+							<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
+						</a4j:commandLink>
+					</rich:column>
+				</rich:dataTable>
+				<h:panelGrid columns="1">
+					<h:panelGroup>
+						<rich:dataScroller 
+							id="downDataScroller" 
+							align="left"
+							for="paperProceedingsTable" 
+							render="paperProceedingsTablePanel"
+							renderIfSinglePage="false"/> 
+					</h:panelGroup>
+					<h:panelGroup 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.add]}">
+						<h3>
+							<h:outputText
+									value="#{messages['records.paperProceedings.tablePanel.btnCreate']}: " />
+							<a4j:commandLink 
+								action="#{paperProceedingsManagedBean.switchToSimpleAddMode}"
+								render="paperProceedingsSimpleEditModalPanel"
+								limitRender="true" 
+								execute="@this" 
+								immediate="true" >
+								<h:graphicImage library="img" name="create.png" />
+								<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml"/>
+							</a4j:commandLink>
+						</h3>
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="journalPickFormPanel">	
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+				rendered="#{(journalManagedBean.customPick) and (journalManagedBean.tableTabNumber == 0) and (journalManagedBean.pickMessageFirstTab != null)}">
+			<h:panelGrid columns="1">
+				<h:outputText value="#{journalManagedBean.pickMessageFirstTab}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+				rendered="#{(journalManagedBean.customPick) and (journalManagedBean.tableTabNumber == 1) and (empty journalManagedBean.journals)}">
+			<h:panelGrid columns="1">
+				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{journalManagedBean.name}"
+					styleClass="rf-msg-inf" />
+				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+		<a4j:outputPanel ajaxRendered="true"
+				rendered="#{(journalManagedBean.customPick) and (journalManagedBean.tableTabNumber == 1) and (not empty journalManagedBean.journals)}">
+			<h:panelGrid columns="1">
+				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{journalManagedBean.name}"
+					styleClass="rf-msg-inf" />
+				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
+					styleClass="rf-msg-inf" />
+				<h:panelGroup>
+					<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
+						styleClass="rf-msg-inf" />
+					<h:graphicImage library="img" name="pick.png" />
+				</h:panelGroup>
+				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
+					styleClass="rf-msg-inf" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%"
+			rendered="#{(journalManagedBean.tableTabNumber == 0) and (journalManagedBean.customPick)}">
+			<!-- ....... name .......           -->
+			<a4j:outputPanel ajaxRendered="true">
+				<mytags:outputLabel 
+					value="#{messages['records.journal.editPanel.name']}*" 
+					for="name" 
+					errorStyleClass="errorMessage"
+					/>
+			</a4j:outputPanel>
+			<a4j:region>
+				<rich:autocomplete 
+		            id="name" 
+					value="#{journalManagedBean.name}"
+					required="true" 
+					autocompleteMethod="#{journalManagedBean.autocomplete}" 
+		            var="_journalRow"
+		            fetchValue="#{_journalRow.controlNumber}" 
+		            minChars="3" 
+		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
+		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+			        onfocus="activeElId = this.id;"   
+		            >
+		            <a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+		            <!--     ........  name   .......-->
+					<rich:column 
+						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+						styleClass="rich-table-wide-cell" >
+						<h:outputText value="#{_journalRow.someName}" />
+					</rich:column>
+					<a4j:jsFunction 
+						name="choose" 
+						action="#{journalManagedBean.chooseJournal}" 
+						render="mainPanel, #{journalManagedBean.renderModalPanels}">
+						<a4j:param 
+							name="param1" 
+							assignTo="#{journalManagedBean.journalControlNumber}"/>
+					</a4j:jsFunction> 
+				</rich:autocomplete>
+		    </a4j:region>
+			<h:inputHidden id="controlNumber"/>
+			<h:outputText value="" />
+			<a4j:outputPanel ajaxRendered="true">
+				<rich:message 
+					for="name" 
+					errorClass="errorMessage"
+					infoClass="infoMessage"
+					warnClass="warnMessage"
+					fatalClass="fatalMessage" />
+			</a4j:outputPanel>
+		</h:panelGrid>
+		<h:panelGrid 
+			rendered="#{(journalManagedBean.tableTabNumber == 1) or (not journalManagedBean.customPick)}">
+			<ui:include src="../bibliographicRecords/journalTable.xhtml"/>
+		</h:panelGrid>
+		<h:panelGrid columns="2">
+			<a4j:commandButton 
+				rendered="#{(journalManagedBean.tableTabNumber == 1) and (journalManagedBean.customPick)}"
+				action="#{journalManagedBean.previousTableTab}"
+				value="#{messages['records.journal.pickPanel.btnPrevious']}"
+				render="journalBrowseModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				id="nextBtn"
+				rendered="#{(journalManagedBean.tableTabNumber == 0) and (journalManagedBean.customPick)}"
+				action="#{journalManagedBean.nextTableTab}"
+				value="#{messages['records.journal.pickPanel.btnNext']}"
+				render="journalBrowseModalPanel"
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(journalManagedBean.tableTabNumber == 1) and (journalManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.add])}"
+				action="#{journalManagedBean.switchToAddMode}"
+				value="#{messages['records.journal.pickPanel.btnNext']}"
+				render="journalEditModalPanel" 
+				limitRender="true"
+				execute="@this" 
+				immediate="true" />	
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

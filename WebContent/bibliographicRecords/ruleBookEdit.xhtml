@@ -1,0 +1,795 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="ruleBookEditFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......RuleBook.......           -->
+		<rich:panel id="ruleBookPreview"
+			header="#{messages['records.ruleBook.editPanel.preview']}"
+			rendered="#{ruleBookManagedBean.editTabNumber == 2}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{ruleBookManagedBean.selectedRuleBook}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody"
+			rendered="#{ruleBookManagedBean.editTabNumber lt 2}"
+			styleClass="scrollableBody">
+			<rich:tabPanel 
+				switchType="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{ruleBookManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					header="#{messages['records.ruleBook.editPanel.firstTab']}"
+					rendered="#{ruleBookManagedBean.editTabNumber == 0}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... ruleBookUserCode .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.ruleBookUserCode']}*" 
+								for="ruleBookUserCode" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputText 
+							id="ruleBookUserCode"
+							readonly="#{(ruleBookManagedBean.editMode != modesManagedBean.add)}" 
+							value="#{ruleBookManagedBean.selectedRuleBook.ruleBookUserCode}"
+							maxlength="50"
+							style="width:100% !important;"
+							required="true"/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="ruleBookUserCode" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!--  ...... language ..... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.nameLanguage']}*" 
+								for="language" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="language"
+							disabled="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{ruleBookManagedBean.selectedRuleBook.name.language}" 
+							required="true"	>
+							<ui:include src="../languagesSelectItems.xhtml"/>
+						</h:selectOneMenu>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="language" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Name .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.name']}*" 
+								for="name" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="name"
+							readonly="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{ruleBookManagedBean.selectedRuleBook.name.content}"
+							rows="3" 
+							style="width:100% !important;"
+							required="#{empty ruleBookManagedBean.selectedRuleBook.nameTranslations}"/>
+						<a4j:commandButton 
+							action="#{ruleBookManagedBean.nameTranslations}"
+							value="#{messages['records.ruleBook.editPanel.btnNameTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="name" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Description .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.description']}" 
+								for="description" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="description"
+							readonly="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{ruleBookManagedBean.selectedRuleBook.description.content}"
+							style="width:100% !important;"
+							rows="3"/>
+						<a4j:commandButton 
+							action="#{ruleBookManagedBean.descriptionTranslations}"
+							value="#{messages['records.ruleBook.editPanel.btnDescriptionTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="description" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... START DATE .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.startDate']}*" 
+								for="startDate" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="startDate"
+							locale="en/US"
+							disabled="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{ruleBookManagedBean.startDate}"
+							datePattern="d/M/yyyy"
+							required="true"
+							firstWeekDay="1"
+							enableManualInput="false"
+							defaultTime="00:00"
+						/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="startDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... END DATE .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.endDate']}*" 
+								for="endDate" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="endDate"
+							locale="en/US"
+							disabled="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{ruleBookManagedBean.endDate}"
+							datePattern="d/M/yyyy"
+							required="true"
+							firstWeekDay="1"
+							enableManualInput="false"
+							defaultTime="23:59"
+						/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="endDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... resultsTypeGroup .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.resultsTypeGroup']}*" 
+								for="resultsTypeGroup" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="resultsTypeGroup"
+							readonly="true" 
+							value="#{ruleBookManagedBean.selectedRuleBook.resultsTypeGroup}"
+							style="width:100% !important;"
+							rows="3"/>
+						<a4j:commandButton 
+								action="#{ruleBookManagedBean.pickResultsTypeGroup}"
+								render="resultsTypeGroupBrowseModalPanel, ruleBookEditModalPanel"
+								value="#{messages['records.ruleBook.editPanel.btnResultsTypeGroup']}"
+								rendered="#{(ruleBookManagedBean.editMode != modesManagedBean.viewDetails)}" 
+								execute="@form" />
+						<h:outputText 
+							value=""
+							rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"  
+							/>
+						<h:outputText 
+							value=""  
+							/>
+						<a4j:outputPanel 
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="resultsTypeGroup" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%" 
+					rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) or (ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}">
+						<!-- ....... File    -->      
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.ruleBook.editPanel.file']}" 
+								for="file" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:panelGroup
+							id="fileOrFileUpload" 
+							>
+							<h:inputTextarea 
+								id="file"
+								rendered="#{ruleBookManagedBean.selectedRuleBook.file != null}"
+								readonly="true"
+								value="#{ruleBookManagedBean.selectedRuleBook.file.fileName}"
+								rows="3" 
+								style="width:100% !important;">
+							</h:inputTextarea>
+							<rich:fileUpload 
+								id="fileUpload"
+								rendered="#{(ruleBookManagedBean.selectedRuleBook.file == null) and (ruleBookManagedBean.editMode == modesManagedBean.update)}"
+								fileUploadListener="#{ruleBookManagedBean.uploadListener}"
+				                immediateUpload="false"
+				                listHeight="50"
+				                listWidth="300"
+				                acceptedTypes="pdf, doc, docx, odt" 
+				                allowFlash="auto"
+				                style="width:100% !important;"
+				                >
+					             <h:outputText 
+					        		rendered="#{(ruleBookManagedBean.selectedRuleBook.file == null) and (ruleBookManagedBean.editMode != modesManagedBean.update)}"
+									value=""
+									style="width:100% !important;"
+								 /> 
+				                <a4j:ajax event="uploadcomplete" render="fileOrFileUpload, deleteFile, downloadFile" execute="@form" />
+				            </rich:fileUpload>
+				        </h:panelGroup> 
+				        <h:panelGroup
+							id="deleteFile" 
+							>
+				       		<a4j:commandButton 
+								rendered="#{(ruleBookManagedBean.selectedRuleBook.file != null) and (ruleBookManagedBean.editMode == modesManagedBean.update)}"
+								action="#{ruleBookManagedBean.deleteFile}"
+								value="#{messages['records.ruleBook.editPanel.btnFileDelete']}"
+								render="fileOrFileUpload, deleteFile, downloadFile" 
+								limitRender="true"
+								execute="@this"/>
+							<h:outputText 
+				        		rendered="#{(ruleBookManagedBean.selectedRuleBook.file != null) and (ruleBookManagedBean.editMode != modesManagedBean.update)}"
+								value=""
+							 />   
+				        	<h:outputText 
+				        		rendered="#{ruleBookManagedBean.selectedRuleBook.file == null}"
+								value=""
+							 /> 
+						</h:panelGroup>
+						<h:panelGroup
+							id="downloadFile" 
+							>
+				       		<h:outputLink 
+								value="#{ruleBookManagedBean.selectedRuleBook.fileURL}"
+								target="_blank" 
+								rendered="#{ruleBookManagedBean.selectedRuleBook.file != null}">
+								<h:graphicImage library="img" name="download32.png" id="download32" alt="none"/>
+							</h:outputLink>
+							<h:outputText 
+									value=""
+									rendered="#{ruleBookManagedBean.selectedRuleBook.file == null}"
+								 /> 
+						</h:panelGroup>
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="fileUpload"
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel> 
+					</h:panelGrid>
+					<rich:panel 
+						header="#{messages['records.ruleBook.editPanel.ruleBookResultsTypes.header']}"
+						rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) or (ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+						styleClass="scrollableBody">
+						<h:panelGrid id="ruleBookResultsTypeMeasuresPanel" columns="1">		
+							<h:inputText id="generalRuleBookResultsTypeMeasures" rendered="false" value="" />
+							<a4j:outputPanel ajaxRendered="true">
+								<rich:message 
+									for="generalRuleBookResultsTypeMeasures"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage"/>
+							</a4j:outputPanel>
+							<h:panelGroup rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMeasures)}">
+					       		<!--  save RuleBook Result Type Measures list-->
+								<a4j:commandButton 
+										rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMeasures)}" 
+										action="#{ruleBookManagedBean.updateAllRuleBookResultsTypeMeasures}"
+										value="#{messages['records.ruleBook.editPanel.btnSaveRuleBookResultsTypes']}"
+										render="ruleBookResultsTypeMeasuresPanel"
+										limitRender="true"
+										immediate="true" 
+										execute="@this"/>
+										
+								<!--  add RuleBook Result Type Measures list-->
+								<a4j:commandButton 
+										rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMeasures)}" 
+										action="#{ruleBookManagedBean.switchResultsTypeMeasureToAddMode}"
+										value="#{messages['records.ruleBook.editPanel.btnAddRuleBookResultsTypes']}"
+										render="resultsTypeMeasureEditModalPanel ruleBookResultsTypeMeasuresPanel"
+										limitRender="true"
+										immediate="true" 
+										execute="@form"/>
+							</h:panelGroup>
+							<!-- ===========================   tablePanel  ============================= -->
+							<rich:dataTable 
+								id="ruleBookResultTypeWithResultsTypeMeasureTable"
+								value="#{ruleBookManagedBean.allResultsTypeMeasures}"
+								var="resultsTypeMeasureRow"
+								rows="20"
+								>
+								<!--     ........  results type   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypes.resultsType']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{resultsTypeMeasureRow.resultsType}" />
+								</rich:column>
+								<!--     ........  sciences groups   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypes.sciencesGroup']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{resultsTypeMeasureRow.sciencesGroup}" />
+								</rich:column>
+								
+								<!--     ........  quantitative measure   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypes.quantitativeMeasure']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{resultsTypeMeasureRow.quantitativeMeasure}" />
+								</rich:column>
+								
+								<!--     ........  remove ruleBookResultType Measure   .......-->
+								<rich:column
+									rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMeasures)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypes.remove']}" />
+									</f:facet>
+									<a4j:commandLink 
+										action="#{ruleBookManagedBean.deleteResultsTypeMeasure}"
+										render="ruleBookResultsTypeMeasuresPanel" 
+										execute="@this"
+										>
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param id="sciencesGroupClassId" name="sciencesGroupClassId" value="#{resultsTypeMeasureRow.sciencesGroup.classId}"/>
+										<f:param id ="resultsTypeClassId" name="resultsTypeClassId" value="#{resultsTypeMeasureRow.resultsType.classId}"/>
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<rich:dataScroller 
+										id="downDataScrollerRuleBookResultsTypeMeasures" 
+										align="left"
+										for="ruleBookResultTypeWithResultsTypeMeasureTable" 
+										render="ruleBookResultsTypeMeasuresPanel"
+										renderIfSinglePage="false" /> 
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGrid>
+					</rich:panel>
+					<rich:panel 
+						header="#{messages['records.ruleBook.editPanel.ruleBookEntityTypes.header']}"
+						rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) or (ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+						styleClass="scrollableBody">
+						<h:panelGrid id="ruleBookEntityTypesPanel" columns="1">		
+							<h:inputText id="generalRuleBookEntityTypes" rendered="false" value="" />
+							<a4j:outputPanel ajaxRendered="true">
+								<rich:message 
+									for="generalRuleBookEntityTypes"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage"/>
+							</a4j:outputPanel>
+							<h:panelGroup>
+								<!--  add RuleBook Entity Type list-->
+								<a4j:commandButton 
+										rendered="#{ruleBookManagedBean.editMode == modesManagedBean.update}"
+										action="#{ruleBookManagedBean.switchRuleBookEntityTypeToAddMode}"
+										value="#{messages['records.ruleBook.editPanel.btnAddRuleBookEntityTypes']}"
+										render="ruleBookEntityTypeEditModalPanel ruleBookEntityTypesPanel"
+										limitRender="true"
+										immediate="true" 
+										execute="@form"/>
+							</h:panelGroup>
+							<!-- ===========================   tablePanel  ============================= -->
+							<rich:dataTable 
+								id="ruleBookEntityTypesTable"
+								value="#{ruleBookManagedBean.allRuleBookEntityTypes}"
+								var="ruleBookEntityTypeRow"
+								rows="10"
+								>
+								<!--     ........  entity type   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookEntityTypes.entityType']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookEntityTypeRow.entityType}" />
+								</rich:column>
+								<!--     ........  remove entity type   .......-->
+								<rich:column
+									rendered="#{ruleBookManagedBean.editMode == modesManagedBean.update}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookEntityTypes.remove']}" />
+									</f:facet>
+									<a4j:commandLink 
+										action="#{ruleBookManagedBean.deleteRuleBookEntityTypeToDatabase}"
+										render="ruleBookEntityTypesPanel, entityResultsTypePanel, ruleBookResultsTypeMappingPanel" 
+										execute="@this"
+										>
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param id="entityTypeClassId" name="entityTypeClassId" value="#{ruleBookEntityTypeRow.entityType.classId}"/>
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<rich:dataScroller 
+										id="downDataScrollerRuleBookEntityTypes" 
+										align="left"
+										for="ruleBookEntityTypesTable" 
+										render="ruleBookEntityTypesPanel"
+										renderIfSinglePage="false" /> 
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGrid>
+					</rich:panel>
+					<rich:panel 
+						header="#{messages['records.ruleBook.editPanel.entityResultsTypes.header']}"
+						rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) or (ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+						styleClass="scrollableBody">
+						<h:panelGrid id="entityResultsTypePanel" columns="1">		
+							<h:inputText id="generalEntityResultsTypes" rendered="false" value="" />
+							<a4j:outputPanel ajaxRendered="true">
+								<rich:message 
+									for="generalEntityResultsTypes"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage"/>
+							</a4j:outputPanel>
+							<h:panelGroup rendered="#{(ruleBookManagedBean.visibleEntityResultsTypes)}">
+								<!--  add Entity Results Type list-->
+								<a4j:commandButton 
+										rendered="#{(ruleBookManagedBean.visibleEntityResultsTypes)}" 
+										action="#{ruleBookManagedBean.switchEntityResultsTypeToAddMode}"
+										value="#{messages['records.ruleBook.editPanel.btnAddEntityResultsTypes']}"
+										render="entityResultsTypeEditModalPanel entityResultsTypePanel"
+										limitRender="true"
+										immediate="true" 
+										execute="@form"/>
+							</h:panelGroup>
+							<!-- ===========================   tablePanel  ============================= -->
+							<rich:dataTable 
+								id="entityResultsTypeTable"
+								value="#{ruleBookManagedBean.allEntityResultsTypes}"
+								var="entityResultsTypeRow"
+								rows="20"
+								>
+								<!--     ........  entity type   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.entityResultsType.entityType']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{entityResultsTypeRow.entityType}" />
+								</rich:column>
+								
+								<!--     ........  results type   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.entityResultsType.resultsType']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{entityResultsTypeRow.resultsType}" />
+								</rich:column>
+								
+								
+								<!--     ........  remove Entity Results Type   .......-->
+								<rich:column
+									rendered="#{(ruleBookManagedBean.visibleEntityResultsTypes)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.entityResultsType.remove']}" />
+									</f:facet>
+									<a4j:commandLink 
+										action="#{ruleBookManagedBean.deleteEntityResultsTypeToDatabase}"
+										render="entityResultsTypePanel" 
+										execute="@this"
+										>
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param id ="ruleBookEntityTypeClassId" name="ruleBookEntityTypeClassId" value="#{entityResultsTypeRow.entityType.classId}"/>
+										<f:param id ="ruleBookResultsTypeClassId" name="ruleBookResultsTypeClassId" value="#{entityResultsTypeRow.resultsType.classId}"/>
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<rich:dataScroller 
+										id="downDataScrollerEntityResultsType" 
+										align="left"
+										for="entityResultsTypeTable" 
+										render="entityResultsTypePanel"
+										renderIfSinglePage="false" /> 
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGrid>
+					</rich:panel>
+					<rich:panel 
+						header="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMappings.header']}"
+						rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) or (ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}"
+						styleClass="scrollableBody">
+						<h:panelGrid id="ruleBookResultsTypeMappingPanel" columns="1">		
+							<h:inputText id="generalRuleBookResultsTypeMappings" rendered="false" value="" />
+							<a4j:outputPanel ajaxRendered="true">
+								<rich:message 
+									for="generalRuleBookResultsTypeMappings"
+									errorClass="errorMessage"
+									infoClass="infoMessage"
+									warnClass="warnMessage"
+									fatalClass="fatalMessage"/>
+							</a4j:outputPanel>
+							<h:panelGroup rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMappings)}">
+								<!--  add RuleBook Results Type Mapping list-->
+								<a4j:commandButton 
+										rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMappings)}" 
+										action="#{ruleBookManagedBean.switchRuleBookResultsTypeMappingToAddMode}"
+										value="#{messages['records.ruleBook.editPanel.btnAddRuleBookResultsTypeMappings']}"
+										render="ruleBookResultsTypeMappingEditModalPanel ruleBookResultsTypeMappingPanel"
+										limitRender="true"
+										immediate="true" 
+										execute="@form"/>
+							</h:panelGroup>
+							<!-- ===========================   tablePanel  ============================= -->
+							<rich:dataTable 
+								id="ruleBookResultsTypeMappingTable"
+								value="#{ruleBookManagedBean.allRuleBookResultsTypeMappings}"
+								var="ruleBookResultsTypeMappingRow"
+								rows="20"
+								>
+								
+								<!--     ........  researcher role   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.researcherRole']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookResultsTypeMappingRow.researcherRole}" />
+								</rich:column>
+								
+								<!--     ........  entity type   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.entityType']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookResultsTypeMappingRow.entityType}" />
+								</rich:column>
+								
+								<!--     ........  entity source type   .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.entitySourceType']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookResultsTypeMappingRow.entitySourceType}" />
+								</rich:column>
+								
+								<!--     ........  results type for researcher role  .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.resultsTypeForResearcherRole']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookResultsTypeMappingRow.resultsTypeForResearcherRole}" />
+								</rich:column>
+								
+								<!--     ........  results type of observed entity type  .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.resultsTypeOfObsEntity']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookResultsTypeMappingRow.resultsTypeOfObsEntity}" />
+								</rich:column>
+								
+								<!--     ........  results type of observed entity type source .......-->
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.resultsTypeOfObsEntitySource']}" />
+									</f:facet>
+									<h:outputText 
+										value="#{ruleBookResultsTypeMappingRow.resultsTypeOfObsEntitySource}" />
+								</rich:column>
+								
+								<!--     ........  remove RuleBook Results Type Mapping   .......-->
+								<rich:column
+									rendered="#{(ruleBookManagedBean.visibleRuleBookResultsTypeMappings)}">
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['records.ruleBook.editPanel.ruleBookResultsTypeMapping.remove']}" />
+									</f:facet>
+									<a4j:commandLink 
+										action="#{ruleBookManagedBean.deleteRuleBookResultsTypeMappingToDatabase}"
+										render="ruleBookResultsTypeMappingPanel" 
+										execute="@this"
+										>
+										<h:graphicImage library="img" name="delete.png" />
+										<f:param id ="ruleBookResultsTypeMappingMappingId" name="ruleBookResultsTypeMappingMappingId" value="#{ruleBookResultsTypeMappingRow.mappingId}"/>
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<rich:dataScroller 
+										id="downDataScrollerRuleBookResultsTypeMapping" 
+										align="left"
+										for="ruleBookResultsTypeMappingTable" 
+										render="ruleBookResultsTypeMappingPanel"
+										renderIfSinglePage="false" /> 
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGrid>
+					</rich:panel>
+				</rich:tab>
+				<rich:tab 
+					name="tab1"
+					header="#{messages['records.ruleBook.editPanel.secondTab']}"
+					rendered="#{(ruleBookManagedBean.editTabNumber == 1) and (ruleBookManagedBean.editMode == modesManagedBean.add)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:panelGrid columns="2">
+							<h:graphicImage library="img" name="info.png" />
+							<h:outputText value="#{ruleBookManagedBean.pickSimilarMessage}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid>
+					</a4j:outputPanel>
+					<h:graphicImage 
+						library="img"
+						name="spacer.gif" 
+						alt="" 
+						height="10"
+						width="1"
+						/>
+					<rich:dataTable 
+						id="ruleBookTable" 
+						value="#{ruleBookManagedBean.similarRuleBooks}"
+						var="ruleBookRow" >
+						<!--     ........  name   .......-->
+						<rich:column >
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.ruleBook.tablePanel.name']}" />
+							</f:facet>
+							<h:outputText value="#{ruleBookRow}" />
+						</rich:column>
+						<!--     ........  chooseSimilar   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.ruleBook.tablePanel.chooseSimilar']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{ruleBookManagedBean.chooseSimilar}"
+								render="mainPanel, #{ruleBookManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{ruleBookRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client" >
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.ruleBook.tablePanel.btnPick']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</rich:tab>
+				<rich:tab 
+					name="tab2"
+					header="#{messages['records.ruleBook.editPanel.thirdTab']}"
+					rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:inputTextarea
+							value="#{ruleBookManagedBean.selectedRuleBook.record.MARC21Record.printableString}"
+							readonly="true" cols="60" styleClass="marc21TextArea" />
+					</a4j:outputPanel>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid>
+			<a4j:commandButton
+				rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) and  ((ruleBookManagedBean.editTabNumber == 0) or (ruleBookManagedBean.editTabNumber == 1))}"
+				action="#{ruleBookManagedBean.update}"
+				value="#{messages['records.ruleBook.editPanel.btnUpdate']}"
+				render="ruleBookEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.add) and ((ruleBookManagedBean.editTabNumber == 0) or (ruleBookManagedBean.editTabNumber == 1))}"
+				action="#{ruleBookManagedBean.add}"
+				value="#{messages['records.ruleBook.editPanel.btnCreate']}"
+				render="ruleBookEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(ruleBookManagedBean.editTabNumber == 2)}" 
+				action="#{ruleBookManagedBean.finishWizard}"
+				value="#{messages['records.ruleBook.editPanel.btnAllRight']}"
+				render="mainPanel, #{ruleBookManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this"/>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

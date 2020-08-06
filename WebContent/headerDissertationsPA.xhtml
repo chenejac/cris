@@ -1,0 +1,63 @@
+	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+<h:form id="header-form">
+	<f:subview id="header-subview">
+		<div class="bibliography-menu">
+			<rich:toolbar>
+				<rich:toolbarGroup location="left" >
+					<rich:menuItem 
+						rendered="true"
+						action="#{searchDissertationsPAManagedBean.searchPageEnter}" 
+						label="#{messages['search.searchDissertationsPAPanel.header']}">
+					</rich:menuItem>
+					<h:commandLink action="#{searchDissertationsPAManagedBean.serbianLanguage}" >
+						<h:graphicImage library="img" name="serbian.png" />
+					</h:commandLink>
+					<h:commandLink action="#{searchDissertationsPAManagedBean.englishLanguage}" >
+						<h:graphicImage library="img" name="english.png" />
+					</h:commandLink>
+				</rich:toolbarGroup>	
+				<rich:toolbarGroup location="right">
+					<h:outputText 
+						rendered="true"
+						style="width:0px;"/>
+					<h:outputText 
+						rendered="true"
+						style="width:0px"/>
+					<h:outputText 
+						rendered="true"
+						style="width:0px"/>
+					<h:outputText 
+						value="#{messages['administration.email.emailMe']}" />
+					<h:outputLink 
+						value="mailto:#{messages['administration.email.cris']}?subject=#{messages['administration.email.someSubject']}">
+						<h:graphicImage 
+							library="img"
+							name="email.png" />
+					</h:outputLink>
+					<h:outputText 
+						value="#{messages['administration.help.helpMe']}" />
+					<h:outputLink 
+						value="/UputstvoPretragaDisertacija_#{searchDissertationsPAManagedBean.language}.pdf"
+						target="_blank" >
+						<h:graphicImage 
+							library="img"
+							name="help.png" />
+					</h:outputLink>
+				</rich:toolbarGroup>
+			</rich:toolbar>
+		</div>
+	</f:subview>
+</h:form>
+<a4j:log mode="popup" level="DEBUG" style="width: 800px; height: 300px;" >
+</a4j:log>
+<ui:debug hotkey="K" rendered="#{initParam['facelets.DEVELOPMENT']}" />
+
+</ui:composition>

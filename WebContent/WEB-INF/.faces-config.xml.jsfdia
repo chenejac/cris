@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="loginPage::#administration#login.xhtml"
+    NAME="output" PATH="/administration/login.xhtml"
+    TARGET="rules:#administration#login.xhtml" TITLE="loginPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="registrationPage::#administration#registration.xhtml"
+    NAME="output" PATH="/administration/registration.xhtml"
+    TARGET="rules:#administration#registration.xhtml"
+    TITLE="registrationPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:2" PATH="*" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:2" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="changePasswordPage::#administration#changePassword.xhtml"
+    NAME="output" PATH="/administration/changePassword.xhtml"
+    TARGET="rules:#administration#changePassword.xhtml"
+    TITLE="changePasswordPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:3" PATH="*" SHAPE="32,353,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:3" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="coauthorsPage::#administration#loggedUserCoauthors.xhtml"
+    NAME="output" PATH="/administration/loggedUserCoauthors.xhtml"
+    TARGET="rules:#administration#loggedUserCoauthors.xhtml"
+    TITLE="coauthorsPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:4" PATH="*" SHAPE="32,465,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:4" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="changeLoggedUserBasicDataPage::#administration#changeLoggedUserBasicData.xhtml"
+    NAME="output" PATH="/administration/changeLoggedUserBasicData.xhtml"
+    TARGET="rules:#administration#changeLoggedUserBasicData.xhtml"
+    TITLE="changeLoggedUserBasicDataPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:5" PATH="*" SHAPE="32,689,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:5" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="changeLoggedUserAdvancedDataPage::#administration#changeLoggedUserAdvancedData.xhtml"
+    NAME="output"
+    PATH="/administration/changeLoggedUserAdvancedData.xhtml"
+    TARGET="rules:#administration#changeLoggedUserAdvancedData.xhtml"
+    TITLE="changeLoggedUserAdvancedDataPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:6" PATH="*" SHAPE="32,801,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:6" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="addLoggedUserFormatNamePage::#administration#addLoggedUserFormatName.xhtml"
+    NAME="output" PATH="/administration/addLoggedUserFormatName.xhtml"
+    TARGET="rules:#administration#addLoggedUserFormatName.xhtml"
+    TITLE="addLoggedUserFormatNamePage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:7" PATH="*" SHAPE="32,1137,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:7" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paperProceedingsPage::#bibliographicRecords#paperProceedings.xhtml"
+    NAME="output" PATH="/bibliographicRecords/paperProceedings.xhtml"
+    TARGET="rules:#bibliographicRecords#paperProceedings.xhtml"
+    TITLE="paperProceedingsPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:8" PATH="*" SHAPE="32,913,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:8" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paperJournalPage::#bibliographicRecords#paperJournal.xhtml"
+    NAME="output" PATH="/bibliographicRecords/paperJournal.xhtml"
+    TARGET="rules:#bibliographicRecords#paperJournal.xhtml"
+    TITLE="paperJournalPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:9" PATH="*" SHAPE="32,1025,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:9" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="monographPage::#bibliographicRecords#monograph.xhtml"
+    NAME="output" PATH="/bibliographicRecords/monograph.xhtml"
+    TARGET="rules:#bibliographicRecords#monograph.xhtml"
+    TITLE="monographPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:10" PATH="*" SHAPE="32,1249,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:10" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paperMonographPage::#bibliographicRecords#paperMonograph.xhtml"
+    NAME="output" PATH="/bibliographicRecords/paperMonograph.xhtml"
+    TARGET="rules:#bibliographicRecords#paperMonograph.xhtml"
+    TITLE="paperMonographPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:11" PATH="*" SHAPE="32,1361,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:11" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="studyFinalDocumentPage::#bibliographicRecords#studyFinalDocument.xhtml"
+    NAME="output" PATH="/bibliographicRecords/studyFinalDocument.xhtml"
+    TARGET="rules:#bibliographicRecords#studyFinalDocument.xhtml"
+    TITLE="studyFinalDocumentPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:12" PATH="*" SHAPE="32,1585,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:12" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="patentPage::#bibliographicRecords#patent.xhtml" NAME="output"
+    PATH="/bibliographicRecords/patent.xhtml"
+    TARGET="rules:#bibliographicRecords#patent.xhtml" TITLE="patentPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:13" PATH="*" SHAPE="32,1473,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:13" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="productPage::#bibliographicRecords#product.xhtml" NAME="output"
+    PATH="/bibliographicRecords/product.xhtml"
+    TARGET="rules:#bibliographicRecords#product.xhtml"
+    TITLE="productPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:14" PATH="*" SHAPE="32,1697,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:14" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="positionPage::#cerif#position.xhtml"
+    NAME="output" PATH="/cerif/position.xhtml"
+    TARGET="rules:#cerif#position.xhtml" TITLE="positionPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:15" PATH="*" SHAPE="32,1809,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:15" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="bibliographyPage::#bibliographicRecords#bibliography.xhtml"
+    NAME="output" PATH="/bibliographicRecords/bibliography.xhtml"
+    TARGET="rules:#bibliographicRecords#bibliography.xhtml"
+    TITLE="bibliographyPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:16" PATH="*" SHAPE="32,1921,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:16" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationPage::#bibliographicRecords#evaluationReport.xhtml"
+    NAME="output" PATH="/bibliographicRecords/evaluationReport.xhtml"
+    TARGET="rules:#bibliographicRecords#evaluationReport.xhtml"
+    TITLE="evaluationPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:17" PATH="*" SHAPE="32,2033,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:17" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="searchPage::#search.xhtml" NAME="output"
+    PATH="/search.xhtml" TARGET="rules:#search.xhtml" TITLE="searchPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:18" PATH="*" SHAPE="32,2369,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:18" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="searchDissertationsPage::#searchDissertations.xhtml"
+    NAME="output" PATH="/searchDissertations.xhtml"
+    TARGET="rules:#searchDissertations.xhtml"
+    TITLE="searchDissertationsPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#monograph.xhtml"
+  PATH="/bibliographicRecords/monograph.xhtml" SHAPE="240,1265,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#bibliography.xhtml"
+  PATH="/bibliographicRecords/bibliography.xhtml" SHAPE="240,1937,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#bibliographicRecords#studyFinalDocument.xhtml"
+  PATH="/bibliographicRecords/studyFinalDocument.xhtml"
+  SHAPE="240,1489,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#product.xhtml"
+  PATH="/bibliographicRecords/product.xhtml" SHAPE="240,1713,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="240,2385,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#administration#login.xhtml"
+  PATH="/administration/login.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#administration#changeLoggedUserBasicData.xhtml"
+  PATH="/administration/changeLoggedUserBasicData.xhtml"
+  SHAPE="240,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#administration#changePassword.xhtml"
+  PATH="/administration/changePassword.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#paperProceedings.xhtml"
+  PATH="/bibliographicRecords/paperProceedings.xhtml"
+  SHAPE="240,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#search.xhtml" PATH="/search.xhtml"
+  SHAPE="240,2161,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#patent.xhtml"
+  PATH="/bibliographicRecords/patent.xhtml" SHAPE="240,1601,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#paperJournal.xhtml"
+  PATH="/bibliographicRecords/paperJournal.xhtml" SHAPE="240,1153,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cerif#position.xhtml"
+  PATH="/cerif/position.xhtml" SHAPE="240,1825,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#administration#addLoggedUserFormatName.xhtml"
+  PATH="/administration/addLoggedUserFormatName.xhtml"
+  SHAPE="240,705,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#administration#registration.xhtml"
+  PATH="/administration/registration.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#paperMonograph.xhtml"
+  PATH="/bibliographicRecords/paperMonograph.xhtml" SHAPE="240,1377,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#administration#changeLoggedUserAdvancedData.xhtml"
+  PATH="/administration/changeLoggedUserAdvancedData.xhtml"
+  SHAPE="240,481,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#evaluationReport.xhtml"
+  PATH="/bibliographicRecords/evaluationReport.xhtml"
+  SHAPE="240,2049,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:19" PATH="*" SHAPE="32,2481,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:19" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="searchDissertationsPAPage::#searchDissertationsPA.xhtml"
+    NAME="output" PATH="/searchDissertationsPA.xhtml"
+    TARGET="rules:#searchDissertationsPA.xhtml"
+    TITLE="searchDissertationsPAPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#viewExpired.xhtml" PATH="/viewExpired.xhtml"
+  SHAPE="240,2497,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#normativeRecords#institution.xhtml"
+  PATH="/normativeRecords/institution.xhtml" SHAPE="240,2273,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:20" PATH="*" SHAPE="32,2593,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:20" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="searchAndrejevicPage::#searchAndrejevic.xhtml" NAME="output"
+    PATH="/searchAndrejevic.xhtml"
+    TARGET="rules:#searchAndrejevic.xhtml" TITLE="searchAndrejevicPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#interoperability#import.xhtml"
+  PATH="/interoperability/import.xhtml" SHAPE="240,2609,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:21" PATH="*" SHAPE="32,2705,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:21" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="apvRegisteredResearchersPage::#apvRegisteredResearchers.xhtml"
+    NAME="output" PATH="/apvRegisteredResearchers.xhtml"
+    TARGET="rules:#apvRegisteredResearchers.xhtml"
+    TITLE="apvRegisteredResearchersPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#evaluation#evaluationJournal.xhtml"
+  PATH="/evaluation/evaluationJournal.xhtml" SHAPE="240,2721,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:22" PATH="*" SHAPE="32,2817,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:22" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="institutionPage::#normativeRecords#institution.xhtml"
+    NAME="output" PATH="/normativeRecords/institution.xhtml"
+    TARGET="rules:#normativeRecords#institution.xhtml"
+    TITLE="institutionPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#administration#loggedUserCoauthors.xhtml"
+  PATH="/administration/loggedUserCoauthors.xhtml" SHAPE="240,593,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:23" PATH="*" SHAPE="32,2929,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:23" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="importPage::#interoperability#import.xhtml"
+    NAME="output" PATH="/interoperability/import.xhtml"
+    TARGET="rules:#interoperability#import.xhtml" TITLE="importPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:24" PATH="*" SHAPE="32,3041,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:24" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paperJournalImportPage::#interoperability#paperJournalImport.xhtml"
+    NAME="output" PATH="/interoperability/paperJournalImport.xhtml"
+    TARGET="rules:#interoperability#paperJournalImport.xhtml"
+    TITLE="paperJournalImportPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#searchAndrejevic.xhtml"
+  PATH="/searchAndrejevic.xhtml" SHAPE="240,2945,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:25" PATH="*" SHAPE="32,3153,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:25" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paperProceedingsImportPage::#interoperability#paperProceedingsImport.xhtml"
+    NAME="output" PATH="/interoperability/paperProceedingsImport.xhtml"
+    TARGET="rules:#interoperability#paperProceedingsImport.xhtml"
+    TITLE="paperProceedingsImportPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#apvRegisteredResearchers.xhtml"
+  PATH="/apvRegisteredResearchers.xhtml" SHAPE="240,3057,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:26" PATH="*" SHAPE="32,3265,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:26" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="indexPage::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="indexPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#searchDissertations.xhtml"
+  PATH="/searchDissertations.xhtml" SHAPE="240,2833,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:27" PATH="*" SHAPE="32,3377,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:27" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="jobAdsIndexPage::#jobAdsIndex.xhtml"
+    NAME="output" PATH="/jobAdsIndex.xhtml"
+    TARGET="rules:#jobAdsIndex.xhtml" TITLE="jobAdsIndexPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#evaluation#evaluationStrucnoVeceTT.xhtml"
+  PATH="/evaluation/evaluationStrucnoVeceTT.xhtml" SHAPE="240,3393,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#evaluation#evaluationStrucnoVecePM.xhtml"
+  PATH="/evaluation/evaluationStrucnoVecePM.xhtml" SHAPE="240,3281,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:28" PATH="*" SHAPE="32,3489,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:28" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="viewExpired::#viewExpired.xhtml"
+    NAME="output" PATH="/viewExpired.xhtml"
+    TARGET="rules:#viewExpired.xhtml" TITLE="viewExpired" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#testAuthorEvaluatedRecord.xhtml"
+  PATH="/testAuthorEvaluatedRecord.xhtml" SHAPE="240,3505,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:29" PATH="*" SHAPE="32,3601,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:29" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationOldJournalPage::#evaluation#evaluationOldJournal.xhtml"
+    NAME="output" PATH="/evaluation/evaluationOldJournal.xhtml"
+    TARGET="rules:#evaluation#evaluationOldJournal.xhtml"
+    TITLE="evaluationOldJournalPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:30" PATH="*" SHAPE="32,3713,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:30" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationConferenceRecordsPage::#evaluation#evaluationConference.xhtml"
+    NAME="output" PATH="/evaluation/evaluationConference.xhtml"
+    TARGET="rules:#evaluation#evaluationConference.xhtml"
+    TITLE="evaluationConferenceRecordsPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:31" PATH="*" SHAPE="32,3825,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:31" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationJournalPage::#evaluation#evaluationJournal.xhtml"
+    NAME="output" PATH="/evaluation/evaluationJournal.xhtml"
+    TARGET="rules:#evaluation#evaluationJournal.xhtml"
+    TITLE="evaluationJournalPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#jobAdsIndex.xhtml" PATH="/jobAdsIndex.xhtml"
+  SHAPE="240,3729,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#normativeRecords#jobAd.xhtml"
+  PATH="/normativeRecords/jobAd.xhtml" SHAPE="240,4065,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#evaluation#evaluationAllRecords.xhtml"
+  PATH="/evaluation/evaluationAllRecords.xhtml" SHAPE="240,3841,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:32" PATH="*" SHAPE="32,4049,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:32" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationStrucnoVecePMPage::#evaluation#evaluationStrucnoVecePM.xhtml"
+    NAME="output" PATH="/evaluation/evaluationStrucnoVecePM.xhtml"
+    TARGET="rules:#evaluation#evaluationStrucnoVecePM.xhtml"
+    TITLE="evaluationStrucnoVecePMPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:33" PATH="*" SHAPE="32,4161,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:33" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationStrucnoVeceTTPage::#evaluation#evaluationStrucnoVeceTT.xhtml"
+    NAME="output" PATH="/evaluation/evaluationStrucnoVeceTT.xhtml"
+    TARGET="rules:#evaluation#evaluationStrucnoVeceTT.xhtml"
+    TITLE="evaluationStrucnoVeceTTPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:34" PATH="*" SHAPE="32,4273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:34" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationOldTechnologyFacultyPage::#evaluation#evaluationOldTechnologyFaculty.xhtml"
+    NAME="output"
+    PATH="/evaluation/evaluationOldTechnologyFaculty.xhtml"
+    TARGET="rules:#evaluation#evaluationOldTechnologyFaculty.xhtml"
+    TITLE="evaluationOldTechnologyFacultyPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:35" PATH="*" SHAPE="32,4385,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:35" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationTechnologyFacultyPage::#evaluation#evaluationTechnologyFaculty.xhtml"
+    NAME="output" PATH="/evaluation/evaluationTechnologyFaculty.xhtml"
+    TARGET="rules:#evaluation#evaluationTechnologyFaculty.xhtml"
+    TITLE="evaluationTechnologyFacultyPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:36" PATH="*" SHAPE="32,4497,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:36" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="testAuthorEvaluatedRecordPage::#testAuthorEvaluatedRecord.xhtml"
+    NAME="output" PATH="/testAuthorEvaluatedRecord.xhtml"
+    TARGET="rules:#testAuthorEvaluatedRecord.xhtml"
+    TITLE="testAuthorEvaluatedRecordPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:37" PATH="*" SHAPE="32,4609,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:37" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="evaluationAllRecordsPage::#evaluation#evaluationAllRecords.xhtml"
+    NAME="output" PATH="/evaluation/evaluationAllRecords.xhtml"
+    TARGET="rules:#evaluation#evaluationAllRecords.xhtml"
+    TITLE="evaluationAllRecordsPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:38" PATH="*" SHAPE="32,4721,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:38" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="jobAdPage::#normativeRecords#jobAd.xhtml"
+    NAME="output" PATH="/normativeRecords/jobAd.xhtml"
+    TARGET="rules:#normativeRecords#jobAd.xhtml" TITLE="jobAdPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#specVerLst.xhtml"
+  PATH="/bibliographicRecords/specVerLst.xhtml" SHAPE="240,4625,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#prepareUNSPromotion.xhtml"
+  PATH="/prepareUNSPromotion.xhtml" SHAPE="240,4737,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cerif#resultsTypeGroup.xhtml"
+  PATH="/cerif/resultsTypeGroup.xhtml" SHAPE="240,4289,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#bibliographicRecords#ruleBook.xhtml"
+  PATH="/bibliographicRecords/ruleBook.xhtml" SHAPE="240,4513,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#evaluation#evaluationTechnologyFaculty.xhtml"
+  PATH="/evaluation/evaluationTechnologyFaculty.xhtml"
+  SHAPE="240,3953,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cerif#sciencesGroup.xhtml"
+  PATH="/cerif/sciencesGroup.xhtml" SHAPE="240,4177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cerif#resultsType.xhtml"
+  PATH="/cerif/resultsType.xhtml" SHAPE="240,4401,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:39" PATH="*" SHAPE="32,4833,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:39" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sciencesGroupPage::#cerif#sciencesGroup.xhtml" NAME="output"
+    PATH="/cerif/sciencesGroup.xhtml"
+    TARGET="rules:#cerif#sciencesGroup.xhtml" TITLE="sciencesGroupPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#searchDissertationsPA.xhtml"
+  PATH="/searchDissertationsPA.xhtml" SHAPE="240,3169,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:40" PATH="*" SHAPE="32,4945,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:40" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="resultsTypeGroupPage::#cerif#resultsTypeGroup.xhtml"
+    NAME="output" PATH="/cerif/resultsTypeGroup.xhtml"
+    TARGET="rules:#cerif#resultsTypeGroup.xhtml"
+    TITLE="resultsTypeGroupPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#reportsGenerator.xhtml"
+  PATH="/reportsGenerator.xhtml" SHAPE="240,4961,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:41" PATH="*" SHAPE="32,5057,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:41" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="resultsTypePage::#cerif#resultsType.xhtml"
+    NAME="output" PATH="/cerif/resultsType.xhtml"
+    TARGET="rules:#cerif#resultsType.xhtml" TITLE="resultsTypePage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:42" PATH="*" SHAPE="32,5169,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:42" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="ruleBookPage::#bibliographicRecords#ruleBook.xhtml"
+    NAME="output" PATH="/bibliographicRecords/ruleBook.xhtml"
+    TARGET="rules:#bibliographicRecords#ruleBook.xhtml"
+    TITLE="ruleBookPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#evaluation#evaluationOldJournal.xhtml"
+  PATH="/evaluation/evaluationOldJournal.xhtml" SHAPE="240,4849,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#evaluation#evaluationOldTechnologyFaculty.xhtml"
+  PATH="/evaluation/evaluationOldTechnologyFaculty.xhtml"
+  SHAPE="240,5073,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:43" PATH="*" SHAPE="32,5281,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:43" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="specVerLstPage::#bibliographicRecords#specVerLst.xhtml"
+    NAME="output" PATH="/bibliographicRecords/specVerLst.xhtml"
+    TARGET="rules:#bibliographicRecords#specVerLst.xhtml"
+    TITLE="specVerLstPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#evaluation#evaluationConference.xhtml"
+  PATH="/evaluation/evaluationConference.xhtml" SHAPE="240,5185,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:44" PATH="*" SHAPE="32,5393,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:44" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="promotionPage::#prepareUNSPromotion.xhtml"
+    NAME="output" PATH="/prepareUNSPromotion.xhtml"
+    TARGET="rules:#prepareUNSPromotion.xhtml" TITLE="promotionPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#interoperability#paperJournalImport.xhtml"
+  PATH="/interoperability/paperJournalImport.xhtml" SHAPE="240,3057,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:45" PATH="*" SHAPE="32,5505,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:45" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="reportsGeneratorPage::#reportsGenerator.xhtml" NAME="output"
+    PATH="/reportsGenerator.xhtml"
+    TARGET="rules:#reportsGenerator.xhtml" TITLE="reportsGeneratorPage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#interoperability#paperProceedingsImport.xhtml"
+  PATH="/interoperability/paperProceedingsImport.xhtml"
+  SHAPE="240,3617,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

@@ -1,0 +1,620 @@
+a:active,a:link,a:visited {
+	color: #004488 !important;
+	text-decoration: none !important;
+}
+
+a:hover {
+	text-decoration: underline !important;
+}
+
+h1 {
+	color: #004488 !important;
+	font-size: 20px !important;
+	font-weight: bold !important;
+	vertical-align: middle !important;
+}
+
+h2 {
+	color: #004488 !important;
+	font-size: 18px !important;
+	font-weight: bold !important;
+	vertical-align: middle !important;
+}
+
+h3 {
+	color: #004488 !important;
+	font-size: 16px !important;
+	font-weight: normal !important;
+	vertical-align: middle !important;
+}
+
+body {
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 14px !important;
+	background-color: white !important;
+	margin: 3px !important;
+	height: 100% !important;
+}
+
+html{
+	height: 100% !important;
+}
+
+p {
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+}
+
+.hidelink {
+	padding-top: 2px !important;
+	padding-right: 1px !important;
+	cursor: pointer !important;
+}
+
+input,select {
+	font-family:  Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 14px !important;
+	margin: 2px !important;
+}
+
+.rf-au-inp-input{
+	width:100% !important;
+}
+
+.rf-au-lst-scrl{
+    max-height:300px !important;
+    width:100% !important;
+}
+
+input[type="text"], input[type="password"], textarea, select{
+	width:250px;
+}
+
+input[type="text"][disabled],input[type="text"][readonly],select[disabled],select[readonly],checkbox[disabled],checkbox[readonly],textarea[disabled],textarea[readonly]
+	{
+	border: #999999 1px solid !important;
+	color: #878787 !important;
+	cursor: default !important;
+	margin: 3px !important;
+	width:250px;
+}
+
+input[type="button"][disabled],input[type="reset"][disabled],input[type="submit"][disabled]
+	{
+	border: #CCCCCC 1px solid !important;
+	color: #AAAAAA !important;
+	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
+	background-repeat: repeat !important;
+	background-position: top left !important;
+	cursor: default !important;
+	margin: 3px !important;
+	min-width:200px;
+}
+
+input[type="button"],input[type="reset"],input[type="submit"] {
+	margin: 3px !important;
+	border: #99BBCC 2px solid !important;
+	background-image: url(../resources/img/light_blue_gradient_bg.gif) !important;
+	background-repeat: repeat !important;
+	background-position: top left !important;
+	cursor: pointer !important;
+	min-width:200px;
+}
+
+.tableControl,.actionButtons {
+	width: 100% !important;
+}
+
+.tableControl {
+	text-align: right !important;
+}
+
+.rf-msg {
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 14px !important;
+	padding: 5px !important;
+}
+
+.rf-msg-err {
+	color: red !important;
+}
+
+.rf-msg-ftl {
+	color: red !important;
+}
+
+.rf-msg-wrn {
+	color: blue !important;
+}
+
+.rf-msg-inf{
+	color: blue !important;
+}
+
+.rf-msg-inf-custom {
+	color: blue !important;
+	font-size: 14px !important;
+}
+
+.rf-tb {
+	height: 35px !important;
+	padding: 0px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: bold !important;
+	border: 0px !important;
+	background-color: #FFFFFF !important;
+	background-position: top left !important;
+	background-repeat: repeat !important;
+	background-image: url(../resources/img/titlebar_bg.gif) !important;
+	width: 100% !important;
+}
+
+.rf-tb-itm,.rf-ddm-itm-lbl  {
+	font-weight: bold !important;
+	font-size: 16px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	color: #004488 !important;
+	white-space: nowrap !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+}
+
+.rf-p {
+	margin: 10px !important;
+	min-width: 350px !important;
+	width: auto !important;
+	border-color: #CCCCCC !important;
+	background-color: #FFFFFF !important;
+	background-image: url(../resources/img/white_bottom_gradient.gif) !important;
+	background-repeat: repeat-x !important;
+	background-position: bottom left !important;
+}
+
+#mainPanel {
+	width: 100% !important;
+}
+
+.rf-p-hdr {
+	border: 0px !important;
+	padding-top: 5px !important;
+	padding-left: 10px !important;
+	padding-bottom: 0px !important;
+	height: 20px !important;
+	color: #333333 !important;
+	font-weight: bold !important;
+	font-size: 16px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	background-color: #FFFFFF !important;
+	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
+	background-repeat: repeat !important;
+	background-position: top left !important;
+}
+
+.panel-header {
+	border: 0px !important;
+	padding-top: 5px !important;
+	padding-left: 10px !important;
+	padding-bottom: 0px !important;
+	height: 20px !important;
+	color: #333333 !important;
+	font-weight: bold !important;
+	font-size: 16px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+}
+
+.rf-dt {
+	border-color: #CCCCCC !important;
+	background-image: url(../resources/img/blue_white_bottom_gradient.gif) !important;
+	background-repeat: repeat-x !important;
+	background-position: bottom left !important;
+}
+
+.rf-dt-c {
+	min-width: 80px !important;
+}
+
+.rich-table-wide-cell {
+	min-width: 200px !important;
+}
+
+
+.rf-dt-hdr-c,.rf-dt-shdr-c {
+	color: black !important;
+	font-size: 14px !important;
+	font-weight: normal !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	height: 20px !important;
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+	min-width: 80px !important;
+	background-color: #BCD7F1 !important; 
+	background-repeat: repeat !important; 
+	background-position: top left !important;
+}
+
+.rich-table-subheadercell-wrap {
+	white-space: normal !important;
+	text-align: left !important;
+}
+
+.rf-ds-btn {
+	font-size: 14px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	height: 20px !important;
+	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
+	background-repeat: repeat !important;
+	background-position: top left !important;
+}
+
+#header {
+	position: fixed !important;
+	top: 0px !important;
+	left: 0px !important;
+	width: 100% !important;
+	text-align: left !important; 
+	z-index: 20 !important;
+}
+
+#center {
+	position: absolute !important;
+	top: 0px !important;
+	left: 0px !important;
+	margin-top: 30px !important;
+	margin-bottom: 30px !important;
+	margin-left: 1% !important;
+	margin-right: 1% !important;
+	text-align: left !important; 
+	width: 98% !important;
+	overflow: auto !important;
+}
+
+
+
+.bibliography-header {
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 16px !important;
+	padding-left: 10px !important;
+	border: 1px !important;
+	height: 35px !important;
+	left: 0px !important;
+	width: 100% !important;
+	position: absolute !important;
+	border-color: #CCCCCC !important;
+	background-color: #EFEFEF !important;
+}
+
+.bibliography-menu {
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 16px !important;
+	width: 100% !important;
+	left: 0px !important;
+	border: 1px !important;
+	/* margin-top: 35px !important; */
+	position: absolute !important;
+}
+
+.footer {
+	position: fixed !important;
+	bottom: 0px !important;
+	left: 0px !important;
+	width: 90% !important;
+	margin: 0%
+	height: 65px !important;
+	text-align: left !important;
+	border-color: #CCCCCC !important;
+	background-color: #EFEFEF !important;
+}
+
+.bibliography-footer {
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 16px !important;
+	border: 1px !important;
+	margin-bottom: 5px !important;
+	position: absolute !important;
+}
+
+.body {
+	position: fixed !important;
+	top: 85px !important;
+	left: 0px !important;
+	bottom: 65px !important;
+	width: 100% !important;
+	
+}
+
+.bibliography-body {
+	border: 1px !important;
+	margin-bottom: 5px !important;
+	margin-top: 5px !important;
+	position: absolute !important;
+}
+
+.columnHeader:hover {
+	color: #FF6600 !important;
+}
+
+.message {
+	border: 1px solid #FFCC00 !important;
+	padding: 5px !important;
+	margin-top: 5px !important;
+	margin-bottom: 5px !important;
+	background-color: #F0F8FF !important;
+	font-size: 14px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+}
+
+.name {
+	vertical-align: top !important;
+	font-weight: bold !important;
+	width: 115px !important;
+	float: left !important;
+	padding: 5px !important;
+	margin-top: 3px !important;
+	clear: left !important;
+}
+
+.value {
+	float: left !important;
+	padding: 5px !important;
+}
+
+.error {
+	margin-left: 20px !important;
+	margin-top: 5px !important;
+	float: left !important;
+	padding: 5px !important;
+	border: 1px solid red !important;
+}
+
+.errors {
+	color: red !important;
+}
+
+.errors input {
+	border: 1px solid red !important;
+}
+
+.errors textarea {
+	border: 1px solid red !important;
+}
+
+.required {
+	color: red !important;
+	padding-left: 2px !important;
+}
+
+.rf-ddm-lbl,.rf-ddm-itm-lbl{
+	font-size: 16px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: bold !important;
+}
+
+.rf-ddm-lbl-unsel, .rf-ddm-itm-unsel {
+	font-size: 16px !important; 
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: bold !important;
+}
+
+div.progressbar {
+	visibility: hidden;
+	position: absolute;
+	left: 750px;
+	top: 120px;
+	z-index: 1000;
+}
+
+.transparent {
+	filter: alpha(opacity = 0);
+	-moz-opacity: 0;
+	opacity: 0;
+	background-color: #ffffff;
+	display: none;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	z-index: 900;
+}
+
+.error textarea {
+	background-color: #CFCFCF !important;
+}
+
+.marc21TextArea {
+	height: 450px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-size: 12pt !important;
+}
+
+.container {
+	position: relative !important;
+}
+
+.container .sideMenu {
+	position: relative !important;
+	width: 20% !important;
+	float: left !important;
+}
+
+.container .tooglePanels {
+	position: relative !important;
+	margin-left: 25% !important;
+}
+
+.tooltip {
+	background-color: #{richSkin.generalBackgroundColor} !important;
+	border-width: 2px !important;
+	padding: 10px !important;
+}
+
+.tooltipSpan {
+	white-space: nowrap !important;
+}
+
+img {
+	border-style: none !important;
+	vertical-align: middle !important;
+}
+
+.scrollableBody {
+	overflow: auto !important;
+	border-style: hidden !important;
+	margin: 1 1 1 1 !important;
+	border-width: 0 !important;
+}
+
+.searchBox {
+	width:300px !important;
+}
+
+.inputTextarea {
+	width:500px !important;
+}
+
+.width4 {
+	width: 4% !important;
+}
+
+.width5 {
+	width: 5% !important;
+}
+
+.width10 {
+	width: 10% !important;
+}
+
+.width15 {
+	width: 15% !important;
+}
+
+.width20 {
+	width: 20% !important;
+}
+
+.width25 {
+	width: 25% !important;
+}
+
+.width30 {
+	width: 30% !important;
+}
+
+.width35 {
+	width: 35% !important;
+}
+
+.width40 {
+	width: 40% !important;
+}
+
+.width45 {
+	width: 45% !important;
+}
+
+.width50 {
+	width: 50% !important;
+}
+
+.width60 {
+	width: 60% !important;
+}
+
+.width70 {
+	width: 70% !important;
+}
+
+.width75 {
+	width: 75% !important;
+}
+
+.width80 {
+	width: 80% !important;
+}
+
+.width90 {
+	width: 90% !important;
+}
+
+.width98 {
+	width: 98% !important;
+}
+
+.width100 {
+	width: 100% !important;
+}
+
+.outputTextAsHeader{
+	font-size: 16px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: bold !important;
+}
+
+.preview {
+	font-size: 14pt !important;
+}
+
+.reference {
+	white-space: pre !important;
+	color: red !important;
+}
+
+label.errorMessage {
+	color: red !important;
+}
+
+.noLinkDecoration{
+	color: #000000 !important;
+	text-decoration: none !important;
+}
+
+.rf-dg-c {
+	width:33% !important;
+}
+
+.selected-job-competition {
+	background-color: #A1A1A1 !important;
+}
+
+.unselected-job-competition {
+	background-color: #FFFFFF !important;
+}
+
+#footer {
+	position:fixed !important;  
+	bottom: 0px !important;
+	width: 98% !important;
+	margin: 0%;
+}
+
+#footer-form {
+	/* position:fixed !important;   */
+	bottom: 0px !important;
+	width: 98% !important;
+	/* margin: 50px 0 0 0; */
+}
+
+.footerToolbar{
+	width:100% !important;	
+}
+
+.footerText,.footerLink{
+	font-size: 10px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: normal !important;
+}
+
+.footerLink{
+	font-size: 10px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: normal !important;
+	text-decoration: underline; 
+	color:blue;
+}
+
+.evaluationResultsText{
+	font-size: 14px !important;
+}
+
+

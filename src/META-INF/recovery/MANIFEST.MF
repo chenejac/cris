@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 24.65-b04 (Oracle Corporation)
+Main-Class: rs.ac.uns.ftn.informatika.bibliography.backup.RecoveryApp
+Class-Path: lib/activation.jar lib/bcprov-jdk14-124.jar lib/cglib-node
+ p-2.2.jar lib/cjftransform-1.0.1.jar lib/com.fasterxml.jackson.core.j
+ ar lib/commons-beanutils-1.8.3.jar lib/commons-betwixt-0.8.jar lib/co
+ mmons-codec-1.3.jar lib/commons-collections-3.2.1.jar lib/commons-dig
+ ester-2.1.jar lib/commons-el.jar lib/commons-fileupload-1.2.2.jar lib
+ /commons-io-2.0.1.jar lib/commons-lang-2.2.jar lib/commons-lang3-3.4.
+ jar lib/commons-logging-1.2.jar lib/contextSet.jar lib/cql-java.jar l
+ ib/cssparser-0.9.5.jar lib/docx4j-3.2.1.jar lib/docx4j-ImportXHTML-3.
+ 2.1.jar lib/dom4j-1.6.1.jar lib/fontbox-1.8.13.jar lib/freemarker.jar
+  lib/geoip-api-1.3.1.jar lib/gint-utils.jar lib/guava-mini-0.1.jar li
+ b/guava-r09.jar lib/hamcrest-all-1.1.jar lib/harvester2.jar lib/httpa
+ syncclient-4.1.4.jar lib/httpclient-4.5.6.jar lib/httpcore-4.4.10.jar
+  lib/httpcore-nio-4.4.10.jar lib/iText-2.1.7.jar lib/ictclas4j-1.0.1.
+ jar lib/incubator-activemq-4.0.1.jar lib/jackson-annotations-2.8.5.ja
+ r lib/jackson-databind-2.5.4.jar lib/jasperreports-6.0.4.jar lib/jaxb
+ -xmldsig-core-1.0.0.jar lib/jbibtex-1.0.17.jar lib/jcommander-1.48.ja
+ r lib/jna-4.0.0.jar lib/json-20180813.jar lib/jsoup-1.7.3.jar lib/jst
+ l-api-1.2.jar lib/jstl-impl-1.2.jar lib/kumo-updated.jar lib/lambdaj-
+ 2.3.3.jar lib/language-en-2.5.jar lib/language-zh-2.5.jar lib/languag
+ etool-core-2.5.jar lib/log4j-1.2.16.jar lib/log4j-over-slf4j-1.7.12.j
+ ar lib/lucene-core-2.4.0.jar lib/lucene-snowball-2.4.0.jar lib/mail.j
+ ar lib/morfologik-fsa-1.9.0.jar lib/morfologik-speller-1.9.0.jar lib/
+ morfologik-stemming-1.9.0.jar lib/myfaces-api-2.1.1.jar lib/myfaces-i
+ mpl-2.1.1.jar lib/mysql-connector-java-5.1.8-bin.jar lib/mytags.jar l
+ ib/oaicat.jar lib/objectprofiler.jar lib/objenesis-1.2.jar lib/ooxml-
+ schemas-1.0.jar lib/opennlp-chunk-models-1.5.jar lib/opennlp-maxent-3
+ .0.3.jar lib/opennlp-postag-models-1.5.jar lib/opennlp-tokenize-model
+ s-1.5.jar lib/opennlp-tools-1.5.3.jar lib/org-openide-util.jar lib/pd
+ fbox-1.8.13.jar lib/poi-3.5-FINAL-20090928.jar lib/poi-ooxml-3.5-FINA
+ L-20090928.jar lib/poi-scratchpad-3.5-FINAL-20090928.jar lib/richface
+ s-components-api-4.1.0.Final.jar lib/richfaces-components-ui-4.1.0.Fi
+ nal.jar lib/richfaces-core-api-4.1.0.Final.jar lib/richfaces-core-imp
+ l-4.1.0.Final.jar lib/rtree-0.7.5.jar lib/rxjava-1.1.1.jar lib/sac-1.
+ 3.jar lib/segment-1.4.2.jar lib/slf4j-api-1.7.12.jar lib/slf4j-simple
+ -1.7.12.jar lib/standard.jar lib/tika-core-1.4.jar lib/tomahawk20-1.1
+ .11.jar lib/unirest-java-1.4.9.jar lib/xalan.jar lib/xhtmlrenderer-3.
+ 0.0.jar lib/xmlbeans-2.3.0.jar
+

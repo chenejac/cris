@@ -1,0 +1,243 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<a4j:outputPanel ajaxRendered="true">
+		<h:panelGrid columns="2"
+			rendered="#{(not journalManagedBean.customPick) and (journalManagedBean.pickMessage!=null)}">
+			<h:graphicImage library="img" name="info.png" />
+			<h:outputText value="#{journalManagedBean.pickMessage}"
+				styleClass="rf-msg-inf" />
+		</h:panelGrid>
+	</a4j:outputPanel>
+	<!-- ===========================   searchPanel  ============================= -->
+	<h:graphicImage 
+		library="img"
+		name="spacer.gif" 
+		alt="" 
+		height="10"
+		width="1"
+		/>
+	<h:panelGrid 
+		id="journalSearchPanel" 
+		columns="4"
+		rendered="#{not journalManagedBean.customPick}">
+		<h:panelGroup>
+			<h2>
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.journal.searchPanel.header']}: " 
+						for="whereStr" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+			</h2>
+		</h:panelGroup>
+		<h:inputText 
+			id="whereStr"
+			onkeydown="keyDownHandler(event, 'journalPickForm:btnFind')"
+			value="#{journalManagedBean.whereStr}" 
+			styleClass="searchBox" />
+		<a4j:commandButton 
+			id="btnFind"
+			value="#{messages['records.journal.searchPanel.btnFind']}"
+			render="journalTablePanel" 
+			limitRender="true" 
+			execute="@form" />
+		<a4j:commandButton 
+			id="btnShowAll"
+			action="#{journalManagedBean.removeFilter}"
+			value="#{messages['records.journal.searchPanel.btnShowAll']}"
+			render="journalTablePanel, journalSearchPanel"
+			limitRender="true" 
+			execute="@this"/>
+	</h:panelGrid>
+	<rich:panel 
+		id="scrollableBody"
+		styleClass="scrollableBody" 
+		rendered="#{(not empty journalManagedBean.journals) or (not journalManagedBean.customPick)}" >
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="journalTablePanel">
+			<rich:dataTable 
+				id="journalTable"
+				value="#{journalManagedBean.journals}" 
+				var="journalRow"
+				rows="10" 
+				>
+				<!--     ........  name   .......-->
+				<rich:column
+					style="#{journalManagedBean.selectedJournal.controlNumber == journalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{journalManagedBean.sort}"
+							render="journalTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true">
+							<h:outputText
+								value="#{messages['records.journal.tablePanel.name']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(journalManagedBean.orderBy=='someName') and (journalManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(journalManagedBean.orderBy=='someName') and (journalManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="someName" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{journalRow.someName}" />
+				</rich:column>
+				<!--     ........  issn  .......-->
+				<rich:column
+					style="#{journalManagedBean.selectedJournal.controlNumber == journalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{journalManagedBean.sort}"
+							render="journalTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true">
+							<h:outputText
+								value="#{messages['records.journal.tablePanel.issn']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(journalManagedBean.orderBy=='issn') and (journalManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(journalManagedBean.orderBy=='issn') and (journalManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="issn" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{journalRow.issn}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+					style="#{journalManagedBean.selectedJournal.controlNumber == journalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.journal.tablePanel.actions']}" />
+					</f:facet>
+					<a4j:commandLink 
+						action="#{journalManagedBean.switchToViewDetailsMode}"
+						render="journalEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber"
+							value="#{journalRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/journalToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.update]}"
+						action="#{journalManagedBean.switchToUpdateMode}"
+						render="journalEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{journalRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/journalToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.delete]}"
+						action="#{journalManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="journalBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{journalRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/journalToolTip.xhtml"/>
+					</a4j:commandLink>
+					<a4j:commandLink 
+						action="#{journalManagedBean.chooseJournal}"
+						rendered="#{journalManagedBean.tableMode == modesManagedBean.pick}"
+						render="mainPanel, #{journalManagedBean.renderModalPanels}"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="controlNumber"
+							value="#{journalRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/journalToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						render="relatedRecordsEditModalPanel"
+					    execute="@this" 
+					    limitRender="true">
+					    <h:graphicImage id="relatedRecords" library="img" name="publications.png" />
+					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+					        value="#{journalRow}" />
+					    <ui:include src="../bibliographicRecords/journalToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.delete]}"
+						value="#{messages['records.journal.tablePanel.btnChooseDuplicate']}"
+						action="#{journalManagedBean.chooseDuplicateJournal}"
+						render="journalTablePanel" 
+						limitRender="true" 
+						execute="@this" >
+						<f:param name="controlNumber" value="#{journalRow.controlNumber}" />
+					</a4j:commandButton>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.delete]}"
+						value="#{messages['records.journal.tablePanel.btnReplaceDuplicate']}"
+						action="#{journalManagedBean.replaceDuplicateJournals}"
+						render="journalBrowseModalPanel" 
+						limitRender="true"
+						execute="@this" >
+						<f:param name="controlNumber" value="#{journalRow.controlNumber}" />
+						<rich:tooltip followMouse="true" direction="topRight"
+							showDelay="1000" styleClass="tooltip" mode="ajax">
+							<span class="tooltipSpan"> 
+								<h:panelGrid columns="1">
+									<h:outputText
+										value="#{journalManagedBean.duplicateJournalsAsString}" />
+								</h:panelGrid> 
+							</span>
+						</rich:tooltip>
+					</a4j:commandButton>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScroller" 
+						align="left"
+						for="journalTable" 
+						render="journalTablePanel"
+						renderIfSinglePage="false" /> 
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{(journalManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.add])}">
+					<h3>
+						<h:outputText
+							value="#{messages['records.journal.tablePanel.btnCreate']}: "
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.add]}" />
+						<a4j:commandLink 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formJournal][privilegesManagedBean.add]}"
+							action="#{journalManagedBean.switchToAddMode}"
+							render="journalEditModalPanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="create.png" />
+							<ui:include src="../bibliographicRecords/journalToolTip.xhtml"/>
+						</a4j:commandLink>
+					</h3>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<rich:panel 
+		id="scrollableBody"
+		styleClass="scrollableBody" 
+		rendered="#{(not empty positionManagedBean.positions) or (not positionManagedBean.customPick)}" >
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="positionTablePanel">
+			<rich:dataTable 
+				id="positionTable"
+				value="#{positionManagedBean.positions}" 
+				var="positionRow"
+				rows="10" 
+				>
+				<!--     ........  term   .......-->
+				<rich:column
+					style="#{positionManagedBean.selectedPosition.classId == positionRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{positionManagedBean.sort}"
+							render="positionTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true">
+							<h:outputText
+								value="#{messages['cerif.position.tablePanel.term']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(positionManagedBean.orderBy=='someTerm') and (positionManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(positionManagedBean.orderBy=='someTerm') and (positionManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="someTerm" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{positionRow.someTerm}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+					style="#{positionManagedBean.selectedPosition.classId == positionRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['cerif.position.tablePanel.actions']}" />
+					</f:facet>
+					<a4j:commandLink 
+						action="#{positionManagedBean.switchToViewDetailsMode}"
+						render="positionEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="classId"
+							value="#{positionRow.classId}" />
+						<ui:include src="../cerif/positionToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.update]}"
+						action="#{positionManagedBean.switchToUpdateMode}"
+						render="positionEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="classId"
+							value="#{positionRow.classId}" />
+						<ui:include src="../cerif/positionToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.delete]}"
+						action="#{positionManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="positionBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="classId"
+							value="#{positionRow.classId}" />
+						<ui:include src="../cerif/positionToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						action="#{positionManagedBean.choosePosition}"
+						rendered="#{positionManagedBean.tableMode == modesManagedBean.pick}"
+						render="mainPanel, #{positionManagedBean.renderModalPanels}"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="classId"
+							value="#{positionRow.classId}" />
+						<ui:include src="../cerif/positionToolTip.xhtml" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScroller" 
+						align="left"
+						for="positionTable" 
+						render="positionTablePanel"
+						renderIfSinglePage="false" /> 
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.add])}">
+					<h3>
+						<h:outputText
+							value="#{messages['cerif.position.tablePanel.btnCreate']}: "
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.add]}" />
+						<a4j:commandLink 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.add]}"
+							action="#{positionManagedBean.switchToAddMode}"
+							render="positionEditModalPanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="create.png" />
+							<ui:include src="../cerif/positionToolTip.xhtml" />
+						</a4j:commandLink>
+					</h3>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

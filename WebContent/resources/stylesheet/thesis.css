@@ -1,0 +1,205 @@
+body {
+	background-color: #ffffff  !important;
+	color: #333333 !important;
+	
+}
+
+body a:link {
+	color: #b20202 !important;
+	text-decoration:underline !important;
+}
+
+body a:visited {
+	color: #666666 !important;
+	text-decoration:underline !important;
+}
+
+body a:active{
+	color: #b20202 !important;
+	text-decoration:underline !important;
+}
+
+.thesisTable {
+	width: 801px !important;
+}
+
+.tdLogo {
+	width: 779px !important;
+}
+
+.logoPhDImage{
+	width: 801px !important;
+}
+
+.innerTable { /* za tabele koje su unutar neke druge tabele*/
+	border: 0 !important;
+}
+
+.fullWidth {
+	width: 100% !important;
+}
+
+.noSpacing {
+	border-collapse: collapse !important;
+}
+
+.smallSpacing {
+	border-collapse: 2px !important;
+}
+
+.noPadding { /* cellpadding */
+	padding:  1px !important;
+}
+
+.smallPadding { /* cellpadding */
+	padding:  2px !important;
+}
+
+.normal {
+	font-size: 13px;
+}
+
+.indent {
+	padding-left: 7px;
+}
+
+.blueColumn {
+	background-color: #00cccc;
+	width: 2px;
+	height: auto;
+}
+
+.notificationFont { /* za pretrazivanje i za obavestenje */
+	color: #333333 !important;
+	font-family: sans-serif, Arial !important;
+	font-size: 13px !important;
+}
+
+.sectionTitle {
+	background-color: #4c699a !important;
+	white-space: nowrap !important;
+	vertical-align: top !important;
+	text-align: center !important;
+}
+
+.sectionTitleFont { /* za naslov: Doktorske disertacije ..., poslednja izmena, arhiva*/
+	color: #ffffff !important;
+	font-size: 13px !important;
+	font-family: Verdana !important;
+	font-weight: bold !important;
+}
+
+.redFont {
+	font-weight: bold !important;
+	color: red !important;
+}
+
+.candidates, .candidates td, .candidates th {
+	border: 1px solid black !important;
+}
+
+.candidates td {
+	vertical-align: top !important;
+	text-align: center !important;
+	font-family: sans-serif, Arial !important;
+	font-size: x-small !important;
+	color: #333333 !important;
+}
+
+.candidates th {
+	vertical-align: top !important;
+	text-align: center !important;
+	font-family: sans-serif, Arial !important;
+	font-size: x-small !important;
+	font-weight: bold !important;
+	color: #333333 !important;
+	background-color: #bdccd9 !important;
+}
+
+.fullName {
+	width: 71px !important;
+	height: 33px !important;
+}
+
+.institution {
+	width: 81px !important;
+	height: 33px !important;
+}
+
+.researchArea {
+	width: 94px !important;
+	height: 33px !important;
+}
+
+.title {
+	width: 342px !important;
+	height: 33px !important;
+}
+
+.publicPeriod {
+	width: 81px !important;
+	height: 33px !important;
+}
+
+.documents {
+	width: 71px !important;
+	height: 33px !important;
+}
+
+.doubleSemicolon {
+	color: #4c669a !important;
+	font-family: Verdana, Arial !important;
+	font-size: 1 !important;
+	font-weight: bold !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

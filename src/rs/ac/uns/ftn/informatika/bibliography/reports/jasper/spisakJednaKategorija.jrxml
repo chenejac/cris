@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tabela61_spisak" pageWidth="555" pageHeight="817" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c6bd22a5-9b9f-413e-95a0-ef66a6699ee6">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CRIS\\workspace\\bibliography\\src\\rs\\ac\\uns\\ftn\\informatika\\bibliography\\reports\\jasper\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="resultType" class="java.lang.String"/>
+	<parameter name="organisation" class="java.lang.String"/>
+	<field name="result" class="java.lang.String"/>
+	<variable name="titleVariable" class="java.lang.String">
+		<variableExpression><![CDATA["Списак резултата категорије "+$P{resultType}+" на "+$P{organisation}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="47165554-11b4-4ca6-a621-7670e59fdae8" positionType="Float" stretchType="RelativeToBandHeight" x="24" y="9" width="496" height="15" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Left" markup="html">
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{result}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

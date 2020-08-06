@@ -1,0 +1,955 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="authorEditFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......Author.......           -->
+		<rich:panel id="authorPreview"
+			header="#{messages['records.author.editPanel.preview']}"
+			rendered="#{authorManagedBean.editTabNumber == 2}" >
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{(authorManagedBean.selectedAuthor)}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody" 
+			rendered="#{authorManagedBean.editTabNumber lt 2}"
+			styleClass="scrollableBody"	>
+			<rich:panel id="authorFullPreview"
+				header="#{messages['records.author.editPanel.preview']}"
+				rendered="#{(authorManagedBean.editMode == modesManagedBean.import) and (authorManagedBean.editTabNumber == 1)}">
+				<a4j:outputPanel ajaxRendered="true">
+					<h:panelGrid columns="1">
+						<h:outputText
+							value="#{authorManagedBean.selectedAuthor.HTMLRepresentation}"
+							styleClass="preview" 
+							escape="false"/>
+					</h:panelGrid>
+				</a4j:outputPanel>
+				<a4j:commandLink 
+					render="relatedRecordsEditModalPanel"
+				    execute="@this" 
+				    limitRender="true">
+				    <h:graphicImage library="img" name="publications.png" />
+				    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+				        value="#{authorManagedBean.selectedAuthor}" />
+				    <rich:tooltip followMouse="true" direction="topRight"
+						showDelay="1000" styleClass="tooltip" mode="client">
+						<span class="tooltipSpan"> 
+							<h:panelGrid columns="2">
+								<h:graphicImage library="img" name="publicationsToolTip.png" />
+								<h:outputText
+									value="#{messages['records.author.tablePanel.btnPublications']}" />
+							</h:panelGrid> 
+						</span>
+					</rich:tooltip>
+				</a4j:commandLink>
+			</rich:panel>
+			<rich:tabPanel 
+				switchType="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{authorManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					header="#{messages['records.author.editPanel.firstTab']}"
+					rendered="#{authorManagedBean.editTabNumber == 0}">
+					<!-- ===========================   tablePanel  ============================= -->
+					<a4j:outputPanel ajaxRendered="true">
+						<h:panelGrid columns="2"
+							rendered="#{(authorManagedBean.pleaseInstitution) and (authorManagedBean.editMode == modesManagedBean.update)}" >
+							<h:outputText value="#{authorManagedBean.pleaseInstitutionMessage}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid>
+						<!-- <h:panelGrid columns="2"
+							rendered="#{(not empty authorManagedBean.otherName)}" >
+							<h:outputText value="#{messages['records.author.editPanel.pleaseOtherName']}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid> -->
+					</a4j:outputPanel>
+					<rich:panel id="authorNameTablePanel"
+						header="#{messages['records.author.editPanel.nameTablePanel.header']}"
+						rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.import)}">
+						<rich:dataTable id="authorNameTable"
+							value="#{authorManagedBean.selectedAuthor.allNames}"
+							var="authorNameRow">
+							<!--     ........  name   .......-->
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText
+										value="#{messages['records.author.editPanel.nameTablePanel.name']}" />
+								</f:facet>
+								<h:outputText value="#{authorNameRow}" />
+							</rich:column>
+							<!--     ........  change position   .......-->
+						<rich:column rendered="#{(authorManagedBean.editMode != modesManagedBean.viewDetails)}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.editPanel.nameTablePanel.changePosition']}" />
+							</f:facet>
+							<a4j:commandLink action="#{authorManagedBean.moveAuthorNameUp}"
+								render="authorNameTable"
+								limitRender="true"
+								execute="@this">
+								<h:graphicImage library="img" name="up.gif" />
+								<f:param name="firstname" value="#{authorNameRow.firstname}" />
+								<f:param name="lastname" value="#{authorNameRow.lastname}" />
+							</a4j:commandLink>
+							<a4j:commandLink action="#{authorManagedBean.moveAuthorNameDown}"
+								render="authorNameTable"
+								limitRender="true"
+								execute="@this">
+								<h:graphicImage library="img" name="down.gif" />
+								<f:param name="firstname" value="#{authorNameRow.firstname}" />
+								<f:param name="lastname" value="#{authorNameRow.lastname}" />
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  remove name   .......-->
+						<rich:column rendered="#{(authorManagedBean.editMode != modesManagedBean.viewDetails)}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.editPanel.nameTablePanel.remove']}" />
+							</f:facet>
+							<a4j:commandLink action="#{authorManagedBean.removeAuthorName}"
+								render="authorNameTable"
+								immediate="true"
+								limitRender="true"
+								execute="@this"
+								rendered="#{authorNameRow != authorManagedBean.selectedAuthor.name}">
+								<h:graphicImage library="img" name="delete.png" />
+								<f:param name="firstname" value="#{authorNameRow.firstname}" />
+								<f:param name="lastname" value="#{authorNameRow.lastname}" />
+							</a4j:commandLink>
+						</rich:column>
+						</rich:dataTable>
+						<h:graphicImage 
+							library="img"
+							name="spacer.gif" 
+							alt="" 
+							height="20"
+							width="1"
+							/>
+					</rich:panel>
+					<h:panelGrid 
+						columns="5" 
+						columnClasses="width20, width30, width10, width10, width30">
+						<!-- ....... Lastname other format.......           -->
+						<a4j:outputPanel 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.lastname']}*" 
+								for="lastnameOtherFormat" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="lastnameOtherFormat"
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value="#{authorManagedBean.lastnameOtherFormat}" 
+							maxlength="100" 
+							required="false" />
+						<h:outputText 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value=""  
+							/>
+						<h:outputText 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value=""  
+							/>
+						<a4j:outputPanel 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="lastnameOtherFormat" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<a4j:outputPanel 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.firstname']}*" 
+								for="firstnameOtherFormat" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="firstnameOtherFormat"
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value="#{authorManagedBean.firstnameOtherFormat}" 
+							maxlength="100" 
+							required="false"
+							/>
+						<a4j:commandButton 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							action="#{authorManagedBean.addAuthorName}"
+							value="#{messages['records.author.editPanel.btnAddName']}"
+							render="authorNameTablePanel" 
+							execute="lastnameOtherFormat, firstnameOtherFormat" />
+						<h:outputText 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value="" 
+							/>
+						<a4j:outputPanel 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="firstnameOtherFormat" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						
+						
+						
+						<!-- ....... Lastname .......           -->
+						<a4j:outputPanel 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.lastname']}*" 
+								for="lastname" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="lastname"
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							readonly="#{authorManagedBean.editMode == modesManagedBean.update}"
+							value="#{authorManagedBean.selectedAuthor.name.lastname}" 
+							maxlength="100" 
+							required="true" />
+						<h:outputText 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							value=""  
+							/>
+						<h:outputText 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							value=""  
+							/>
+						<a4j:outputPanel 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="lastname" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!--    Firstname 			-->
+						<a4j:outputPanel 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.firstname']}*" 
+								for="firstname" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="firstname"
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							readonly="#{authorManagedBean.editMode == modesManagedBean.update}"
+							value="#{authorManagedBean.selectedAuthor.name.firstname}" 
+							maxlength="100" 
+							required="true"
+							/>
+						<h:outputText 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							value=""  
+							/>
+						<h:outputText 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							value="" 
+							/>
+						<a4j:outputPanel 
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update)}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="firstname" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						
+						<!-- ....... Other name.......           -->
+						<a4j:outputPanel 
+							rendered="#{((authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update))}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.otherName']}" 
+								for="otherName" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="otherName"
+							rendered="#{((authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update))}"
+							readonly="#{(not userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]) and (not empty authorManagedBean.selectedAuthor.name.otherName)}"
+							value="#{authorManagedBean.selectedAuthor.name.otherName}" 
+							maxlength="100" 
+							/>
+						<h:outputText 
+							rendered="#{((authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update))}"
+							value=""  
+							/>
+						<h:outputText 
+							rendered="#{((authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update))}"
+							value="#{messages['records.author.editPanel.otherNameExplanation']}" 
+							/>
+						<a4j:outputPanel 
+							rendered="#{((authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.update))}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="otherName" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Address.......            -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.address']}" 
+								for="address" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="address"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							value="#{authorManagedBean.selectedAuthor.address}"
+							maxlength="200"  
+							readonly="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="address" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						
+						<!-- ....... City .......            -->   
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.city']}" 
+								for="city" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="city"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							value="#{authorManagedBean.selectedAuthor.city}"
+							maxlength="200"  
+							readonly="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="city" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Year of birth.......           -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.yearOfBirth']}" 
+								for="yearOfBirth" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="yearOfBirth"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							readonly="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{authorManagedBean.selectedAuthor.yearOfBirth}"
+							maxlength="4"  
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="yearOfBirth" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Institution.......           -->
+						<a4j:outputPanel 
+							rendered="#{(authorManagedBean.pleaseInstitution)}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.institution']}" 
+								for="institution" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<a4j:region
+					        rendered="#{(authorManagedBean.pleaseInstitution) and (authorManagedBean.editMode != modesManagedBean.viewDetails)}" >
+							<rich:autocomplete
+					            id="institution"
+					            value="#{authorManagedBean.selectedAuthor.institution.someName}" 
+								mode="cachedAjax"
+								autocompleteMethod="#{institutionManagedBean.autocompleteUNS}" 
+					            var="_institutionRow"
+					            fetchValue="#{_institutionRow.controlNumber}" 
+					            minChars="3" 
+					            selectFirst="false"
+					            style="width:100% !important;"
+				         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
+					            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+					            onfocus="activeElId = this.id;"
+					            onblur="activeElId = null;"
+					            >
+					            <a4j:attachQueue 
+					            	ignoreDupResponses="true" 
+					            	requestDelay="5000" 
+					            	/>
+					            <!--   ........  IME Institucije   .......   -->
+								<rich:column 
+									style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+									styleClass="rich-table-wide-cell" >
+									<h:outputText value="#{_institutionRow.someName}" />
+								</rich:column>
+								<a4j:jsFunction 
+									name="choose" 
+									action="#{institutionManagedBean.chooseInstitution}" 
+									render="#{authorManagedBean.renderModalPanels}">
+								<a4j:param 
+									name="param1" 
+									assignTo="#{institutionManagedBean.institutionControlNumber}"/>
+								</a4j:jsFunction> 
+							</rich:autocomplete>
+						</a4j:region>
+						<h:inputTextarea  
+							rendered="#{(authorManagedBean.pleaseInstitution) and (authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							readonly="true"
+							value="#{authorManagedBean.selectedAuthor.institution.name.content}" 
+							rows="3"
+							/>
+						<h:inputHidden 
+							id="controlNumber"
+							rendered="#{(authorManagedBean.pleaseInstitution)}"/>
+						<h:outputText 
+							rendered="#{(authorManagedBean.pleaseInstitution)}"
+							value=""  
+							/>
+						<a4j:outputPanel 
+							rendered="#{(authorManagedBean.pleaseInstitution)}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="institution" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... OrganizationUnit.......           -->
+						<a4j:outputPanel 
+							ajaxRendered="true"
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.import)}" >
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.organizationUnit']}" 
+								for="organizationUnit" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="organizationUnit"
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.import)}"
+							readonly="true" 
+							value="#{authorManagedBean.selectedAuthor.organizationUnit}"
+							rows="3" 
+							required="true" />
+						<a4j:commandButton
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.import)}"
+							action="#{authorManagedBean.pickOrganizationUnit}"
+							render="institutionBrowseModalPanel"
+							value="#{messages['records.author.editPanel.btnPickOrganizationUnit']}" 
+							execute="@form" />
+						<h:outputText value=""
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}" />
+						<h:outputText
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.import)}" 
+							value=""  
+							/>
+						<a4j:outputPanel 
+							ajaxRendered="true"
+							rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.import)}" 
+							>
+							<rich:message 
+								for="organizationUnit" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Title ...... -->          
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.title']}" 
+								for="title" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="title"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							value="#{authorManagedBean.selectedAuthor.title}"
+							maxlength="100"  
+							readonly="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="title" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						
+						<!-- ....... TitleYear.......            -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.titleInstitution.year']}" 
+								for="titleYear" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputText 
+							id="titleYear"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							value="#{authorManagedBean.selectedAuthor.titleInstitution.year}"
+							maxlength="10"  
+							readonly="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="titleYear" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						   
+						<!-- ....... TitleInstituion.......            -->
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.titleInstitution.institution']}" 
+								for="titleInstitution" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="titleInstitution"
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							value="#{authorManagedBean.selectedAuthor.titleInstitution.institution.name.content}"
+							readonly="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}"
+							rows="3"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<h:outputText 
+							value=""  
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							/>
+						<a4j:outputPanel 
+							rendered="#{userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.editFullData]}"
+							ajaxRendered="true" 
+							>
+							<rich:message 
+								for="titleInstitution" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						
+						<!-- ....... Position.......           -->
+						<a4j:outputPanel 
+							ajaxRendered="true"
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}" >
+							<mytags:outputLabel 
+								value="#{messages['records.author.editPanel.position']}" 
+								for="position" 
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="position"
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value="#{authorManagedBean.selectedAuthor.currentPosition.position}"
+							readonly="#{authorManagedBean.selectedAuthor.controlNumber==null}"
+							converter="positionSelectConverter"
+							>
+							<f:selectItems value="#{positionManagedBean.allList}"/>
+						</h:selectOneMenu>  
+						<rich:calendar 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value="#{authorManagedBean.selectedAuthor.currentPosition.startDate.time}"
+							enableManualInput="true"
+							datePattern="dd/MM/yyyy"
+							firstWeekDay="1"
+							required="true"
+							dayDisableFunction="disablementFutureDate"
+							dayClassFunction="disablementFutureStyleClass"
+							showFooter="false"
+							showWeekDaysBar="false"
+							showWeeksBar="false" 
+							inputStyle="width:120px" />
+						<a4j:commandButton 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							action="#{authorManagedBean.authorPositions}"
+							value="#{messages['records.author.editPanel.btnFormerPositions']}"
+							render="authorPositionEditModalPanel" 
+							execute="@this"/>
+						<h:outputText 
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}"
+							value="" />
+						<a4j:outputPanel 
+							ajaxRendered="true"
+							rendered="#{authorManagedBean.editMode == modesManagedBean.import}">
+							<rich:message 
+								for="position" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						
+						   
+						
+					</h:panelGrid> 
+				</rich:tab>
+				<rich:tab 
+					name="tab1"
+					header="#{messages['records.author.editPanel.secondTab']}"
+					rendered="#{(authorManagedBean.editTabNumber == 1) and ((authorManagedBean.editMode == modesManagedBean.add) or (authorManagedBean.editMode == modesManagedBean.register) or (authorManagedBean.editMode == modesManagedBean.import))}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:panelGrid columns="2">
+							<h:graphicImage library="img" name="info.png" />
+							<h:outputText value="#{authorManagedBean.pickSimilarMessage}"
+								styleClass="rf-msg-inf" />
+						</h:panelGrid>
+					</a4j:outputPanel>
+					<h:graphicImage 
+						library="img"
+						name="spacer.gif" 
+						alt="" 
+						height="10"
+						width="1"
+						/>
+					<rich:dataTable 
+						id="authorTable" 
+						value="#{authorManagedBean.similarAuthors}"
+						var="authorRow" >
+						<!--     ........  names   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="#{messages['records.author.tablePanel.names']}" />
+							</f:facet>
+							<h:outputText value="#{authorRow.names}" />
+						</rich:column>
+						<!--     ........  year of birth   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.yearOfBirth']}" />
+							</f:facet>
+							<h:outputText value="#{authorRow.yearOfBirth}" />
+						</rich:column>
+						<!--     ........  institution   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.institution']}" />
+							</f:facet>
+							<h:outputText value="#{authorRow.institutionName}" />
+						</rich:column>
+						<!--     ........  title   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.title']}" />
+							</f:facet>
+							<h:outputText value="#{authorRow.title}" />
+						</rich:column>
+						<!--     ........  position   .......-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.position']}" />
+							</f:facet>
+							<h:outputText value="#{authorRow.currentPositionName}" />
+						</rich:column>
+						<!--     ........  chooseSimilar   .......
+						or ((authorManagedBean.editMode == modesManagedBean.import) and (userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData]))}"
+						and (userManagedBean.loggedIn) and (not userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}"
+						-->
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.chooseSimilar']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{authorManagedBean.chooseSimilar}"
+								render="mainPanel, #{authorManagedBean.renderModalPanels}"
+								rendered="#{(authorManagedBean.editMode != modesManagedBean.import)}" 
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.author.tablePanel.btnPick']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+							<a4j:commandLink 
+								action="#{authorManagedBean.examineData}"
+								render="mainPanel, #{authorManagedBean.renderModalPanels}"
+								rendered="#{(authorManagedBean.editMode == modesManagedBean.import)}" 
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.author.tablePanel.btnExamine']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+							<a4j:commandLink 
+								render="relatedRecordsEditModalPanel"
+							    execute="@this" 
+							    limitRender="true">
+							    <h:graphicImage library="img" name="publications.png" />
+							    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+							        value="#{authorRow}" />
+							    <rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="publicationsToolTip.png" />
+											<h:outputText
+												value="#{messages['records.author.tablePanel.btnPublications']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  examineThis   
+						#{(authorManagedBean.editMode == modesManagedBean.import) and (userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}
+						.......-->
+						<rich:column 
+							rendered="false">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.examine']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{authorManagedBean.examineData}"
+								render="mainPanel, #{authorManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.author.tablePanel.btnExamine']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+						<!--     ........  mergeWithThis   .......-->
+						<rich:column 
+							rendered="false">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['records.author.tablePanel.merge']}" />
+							</f:facet>
+							<a4j:commandLink 
+								action="#{authorManagedBean.mergeData}"
+								render="mainPanel, #{authorManagedBean.renderModalPanels}"
+								limitRender="true"
+								immediate="true"
+								execute="@this">
+								<h:graphicImage library="img" name="pick.png" />
+								<f:param name="controlNumber" value="#{authorRow.controlNumber}" />
+								<rich:tooltip followMouse="true" direction="topRight"
+									showDelay="1000" styleClass="tooltip" mode="client">
+									<span class="tooltipSpan"> 
+										<h:panelGrid columns="2">
+											<h:graphicImage library="img" name="pickToolTip.png" />
+											<h:outputText
+												value="#{messages['records.author.tablePanel.btnMerge']}" />
+										</h:panelGrid> 
+									</span>
+								</rich:tooltip>
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</rich:tab>
+				<rich:tab 
+					name="tab2"
+					header="#{messages['records.author.editPanel.thirdTab']}"
+					rendered="#{(authorManagedBean.editMode == modesManagedBean.viewDetails)}">
+					<a4j:outputPanel ajaxRendered="true">
+						<h:inputTextarea 
+							readonly="true" 
+							value="#{authorManagedBean.selectedAuthor.record.MARC21Record.printableString}"
+							cols="60" 
+							styleClass="marc21TextArea" />
+					</a4j:outputPanel>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="2">
+			<a4j:commandButton
+				rendered="#{((authorManagedBean.editMode == modesManagedBean.update) or ((authorManagedBean.editMode == modesManagedBean.import) and (not empty authorManagedBean.selectedAuthor.controlNumber))) and ((authorManagedBean.editTabNumber == 0) or (authorManagedBean.editTabNumber == 1))}"
+				action="#{authorManagedBean.update}"
+				value="#{messages['records.author.editPanel.btnUpdate']}"
+				render="authorEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton
+				rendered="#{((authorManagedBean.editMode == modesManagedBean.add) or ((authorManagedBean.editMode == modesManagedBean.import) and (empty authorManagedBean.selectedAuthor.controlNumber))) and ((authorManagedBean.editTabNumber == 0) or (authorManagedBean.editTabNumber == 1))}"
+				action="#{authorManagedBean.add}"
+				value="#{messages['records.author.editPanel.btnCreate']}"
+				render="mainPanel, #{authorManagedBean.renderModalPanels}" 
+				limitRender="true" />
+			<a4j:commandButton
+				rendered="#{(authorManagedBean.editMode == modesManagedBean.import) and (authorManagedBean.editTabNumber == 5)}"
+				action="#{authorManagedBean.examineData}"
+				value="#{messages['records.author.editPanel.btnExamine']}"
+				render="authorEditModalPanel" 
+				limitRender="true" 
+				execute="@this" />
+			<a4j:commandButton 
+				rendered="#{(authorManagedBean.editTabNumber == 2)}" 
+				action="#{authorManagedBean.finishWizard}"
+				value="#{messages['records.author.editPanel.btnAllRight']}"
+				render="mainPanel, #{authorManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+		</h:panelGrid>
+	</h:panelGrid>	
+</ui:composition>

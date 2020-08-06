@@ -1,0 +1,276 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<a4j:outputPanel ajaxRendered="true"
+		rendered="#{(not conferenceManagedBean.customPick) and (conferenceManagedBean.pickMessage!=null)}" >
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="info.png" />
+			<h:outputText value="#{conferenceManagedBean.pickMessage}"
+				styleClass="rf-msg-inf" />
+		</h:panelGrid>
+	</a4j:outputPanel>
+	<!-- ===========================   searchPanel  ============================= -->
+	<h:graphicImage 
+		library="img"
+		name="spacer.gif" 
+		alt="" 
+		height="10"
+		width="1"
+		/>
+	<h:panelGrid id="conferenceSearchPanel" columns="4"
+		rendered="#{not conferenceManagedBean.customPick}">
+		<h:panelGroup>
+			<h2>
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.conference.searchPanel.header']}: " 
+						for="whereStr" 
+						errorStyleClass="errorMessage" />
+				</a4j:outputPanel>
+			</h2>
+		</h:panelGroup>
+		<h:inputText 
+			id="whereStr"
+			onkeydown="keyDownHandler(event, 'conferencePickForm:btnFind')"
+			value="#{conferenceManagedBean.whereStr}" 
+			styleClass="searchBox" />
+		<a4j:commandButton 
+			id="btnFind"
+			value="#{messages['records.conference.searchPanel.btnFind']}"
+			render="conferenceTablePanel" 
+			limitRender="true" 
+			execute="@form" />
+		<a4j:commandButton 
+			id="btnShowAll"
+			action="#{conferenceManagedBean.removeFilter}"
+			value="#{messages['records.conference.searchPanel.btnShowAll']}"
+			render="conferenceTablePanel, conferenceSearchPanel"
+			limitRender="true"
+			immediate="true" 
+			execute="@this" />
+	</h:panelGrid>
+	<rich:panel 
+		id="scrollableBody" 
+		styleClass="scrollableBody"
+		rendered="#{(not empty conferenceManagedBean.conferences) or (not conferenceManagedBean.customPick)}">
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="conferenceTablePanel">
+			<rich:dataTable id="conferenceTable"
+				value="#{conferenceManagedBean.conferences}" 
+				var="conferenceRow"
+				rows="10" 
+				>
+				<!--     ........  name   .......-->
+				<rich:column
+					style="#{conferenceManagedBean.selectedConference.controlNumber == conferenceRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; "
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{conferenceManagedBean.sort}"
+							render="conferenceTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.conference.tablePanel.name']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='someName') and (conferenceManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='someName') and (conferenceManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="someName" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{conferenceRow.someName}" />
+				</rich:column>
+				<!--     ........  place   .......-->
+				<rich:column
+					style="#{conferenceManagedBean.selectedConference.controlNumber == conferenceRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{conferenceManagedBean.sort}"
+							render="conferenceTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.conference.tablePanel.place']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='place') and (conferenceManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='place') and (conferenceManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="place" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{conferenceRow.place}" />
+				</rich:column>
+				<!--     ........  year  .......-->
+				<rich:column
+					style="#{conferenceManagedBean.selectedConference.controlNumber == conferenceRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{conferenceManagedBean.sort}"
+							render="conferenceTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.conference.tablePanel.year']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='year') and (conferenceManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='year') and (conferenceManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="year" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{conferenceRow.year}" />
+				</rich:column>
+				<!--     ........  number   .......-->
+				<rich:column
+					style="#{conferenceManagedBean.selectedConference.controlNumber == conferenceRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{conferenceManagedBean.sort}"
+							render="conferenceTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true" >
+							<h:outputText
+								value="#{messages['records.conference.tablePanel.number']}" />
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='number') and (conferenceManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(conferenceManagedBean.orderBy=='number') and (conferenceManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="number" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{conferenceRow.number}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+					style="#{conferenceManagedBean.selectedConference.controlNumber == conferenceRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; ">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.conference.tablePanel.actions']}" />
+					</f:facet>
+					<a4j:commandLink 
+						action="#{conferenceManagedBean.switchToViewDetailsMode}"
+						render="conferenceEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
+						<ui:include src="../normativeRecords/conferenceToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.update]}"
+						action="#{conferenceManagedBean.switchToUpdateMode}"
+						render="conferenceEditModalPanel" 
+						limitRender="true"
+						execute="@this" 
+						immediate="true" >
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
+						<ui:include src="../normativeRecords/conferenceToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.delete]}"
+						action="#{conferenceManagedBean.delete}"
+						render="conferenceBrowseModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						onclick="if(!confirmDecision()) return false" >
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
+						<ui:include src="../normativeRecords/conferenceToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{conferenceManagedBean.tableMode == modesManagedBean.pick}" 
+						action="#{conferenceManagedBean.chooseConference}"
+						render="mainPanel, #{conferenceManagedBean.renderModalPanels}"
+						immediate="true" 
+						execute="@this" > 
+						<h:graphicImage library="img" name="pick.png" />
+						<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
+						<ui:include src="../normativeRecords/conferenceToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						render="relatedRecordsEditModalPanel"
+					    execute="@this" 
+					    limitRender="true">
+					    <h:graphicImage library="img" name="publications.png" />
+					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
+					        value="#{conferenceRow}" />
+					    <ui:include src="../normativeRecords/conferenceToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.delete]}"
+						value="#{messages['records.conference.tablePanel.btnChooseDuplicate']}"
+						action="#{conferenceManagedBean.chooseDuplicateConference}"
+						render="conferenceTablePanel"
+						limitRender="true" 
+						execute="@this" >
+						<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
+					</a4j:commandButton>
+					<a4j:commandButton 
+						rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.delete]}"
+						value="#{messages['records.conference.tablePanel.btnReplaceDuplicate']}"
+						action="#{conferenceManagedBean.replaceDuplicateConferences}"
+						render="conferenceBrowseModalPanel" 
+						limitRender="true"
+						execute="@this" >
+						<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
+						<rich:tooltip followMouse="true" direction="topRight"
+							showDelay="1000" styleClass="tooltip" mode="ajax">
+							<span class="tooltipSpan"> 
+								<h:panelGrid columns="1">
+									<h:outputText
+										value="#{conferenceManagedBean.duplicateConferencesAsString}" />
+								</h:panelGrid> 
+							</span>
+						</rich:tooltip>
+					</a4j:commandButton>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScroller" 
+						align="left"
+						for="conferenceTable" 
+						render="conferenceTablePanel"
+						renderIfSinglePage="false" /> 
+				</h:panelGroup>
+				<h:panelGroup 
+					rendered="#{(conferenceManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.add])}" >
+					<h3>
+						<h:outputText
+							value="#{messages['records.conference.tablePanel.btnCreate']}: " />
+						<a4j:commandLink 
+							action="#{conferenceManagedBean.switchToAddMode}"
+							render="conferenceEditModalPanel" 
+							limitRender="true"
+							execute="@this" 
+							immediate="true">
+							<h:graphicImage library="img" name="create.png" />
+							<ui:include src="../normativeRecords/conferenceToolTip.xhtml" />
+						</a4j:commandLink>
+					</h3>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

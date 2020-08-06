@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+<f:selectItem 
+	itemValue="#{null}"
+	itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.pleaseSelect']}" />
+<f:selectItem 
+	itemValue="MGS"
+	itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.oldMaster']}" />
+<f:selectItem 
+	itemValue="OAS"
+	itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.bachelor']}" />
+<f:selectItem 
+	itemValue="MAS"
+	itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.master']}" />
+<f:selectItem 
+	itemValue="OAS-MAS"
+	itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.bachelorMaster']}" />
+
+</ui:composition>

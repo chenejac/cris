@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+     
+<h:form id="footer-form">
+	<f:subview id="footer-subview">
+		<div class="dosirduns-menu">
+			<rich:toolbar 
+				styleClass="footerToolbar"
+				>
+				<h:outputText 
+					value="This application is a result of the project"
+					styleClass="footerText" 
+				/>
+				<h:outputLink 
+					value="http://dosird.uns.ac.rs"
+					target="_blank">
+					<h:outputText 
+						value="Development Of Software Infrastructure for Research Domain of the University of Novi Sad (DOSIRD UNS)" 
+						styleClass="footerLink" 
+					/>
+				</h:outputLink>
+				<!--<h:outputText 
+					value=" More information about open source digital library of PhD dissertations can be found here "
+					styleClass="footerText" 
+				/>
+				<h:outputLink 
+					value="http://opendlt.uns.ac.rs"
+					target="_blank">
+					<h:outputText 
+						value="openDLT" 
+						styleClass="footerLink" 
+					/>
+				</h:outputLink>
+			--></rich:toolbar>
+		</div>
+	</f:subview>
+</h:form>
+
+</ui:composition>

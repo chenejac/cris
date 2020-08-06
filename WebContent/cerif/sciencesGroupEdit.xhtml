@@ -1,0 +1,229 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+     
+	<h:panelGrid id="sciencesGroupEditFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<!-- .......Sciences Group.......           -->
+		<rich:panel id="Preview"
+			header="#{messages['cerif.sciencesGroup.editPanel.preview']}"
+			rendered="#{sciencesGroupManagedBean.editTabNumber == 1}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{sciencesGroupManagedBean.selectedSciencesGroup}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<rich:panel 
+			id="scrollableBody"
+			rendered="#{sciencesGroupManagedBean.editTabNumber lt 1}"
+			styleClass="scrollableBody">
+			<rich:tabPanel 
+				switchType="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
+				activeItem="#{sciencesGroupManagedBean.activeEditTab}" >
+				<rich:tab 
+					name="tab0"
+					header="#{messages['cerif.sciencesGroup.editPanel.firstTab']}"
+					rendered="#{sciencesGroupManagedBean.editTabNumber == 0}">
+					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
+						<!-- ....... classId .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.sciencesGroup.editPanel.classId']}*" 
+								for="classId" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputText 
+							id="classId"
+							readonly="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails) or (sciencesGroupManagedBean.editMode == modesManagedBean.update)}" 
+							value="#{sciencesGroupManagedBean.selectedSciencesGroup.classId}"
+							maxlength="30"
+							required="true"/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="classId" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!--  ...... language ..... -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.sciencesGroup.editPanel.termLanguage']}*" 
+								for="language" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:selectOneMenu 
+							id="language"
+							disabled="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{sciencesGroupManagedBean.selectedSciencesGroup.originalLanguage}" 
+							required="true"	>
+							<ui:include src="../languagesSelectItems.xhtml"/>
+						</h:selectOneMenu>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="language" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Term .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.sciencesGroup.editPanel.term']}*" 
+								for="term" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="term"
+							readonly="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{sciencesGroupManagedBean.selectedSciencesGroup.term.content}"
+							rows="3" 
+							required="#{empty sciencesGroupManagedBean.selectedSciencesGroup.termTranslations}"/>
+						<a4j:commandButton 
+							action="#{sciencesGroupManagedBean.termTranslations}"
+							value="#{messages['cerif.sciencesGroup.editPanel.btnTermTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="term" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... Description .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.sciencesGroup.editPanel.description']}" 
+								for="description" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<h:inputTextarea 
+							id="description"
+							readonly="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails)}" 
+							value="#{sciencesGroupManagedBean.selectedSciencesGroup.description.content}"
+							rows="3"/>
+						<a4j:commandButton 
+							action="#{sciencesGroupManagedBean.descriptionTranslations}"
+							value="#{messages['cerif.sciencesGroup.editPanel.btnDescriptionTranslations']}"
+							render="multilingualContentEditModalPanel" 
+							execute="@this"/>
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="description" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... START DATE .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.sciencesGroup.editPanel.startDate']}" 
+								for="startDate" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="startDate"
+							locale="en/US"
+							disabled="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{sciencesGroupManagedBean.startDate}"
+							datePattern="d/M/yyyy"
+							required="true"
+							firstWeekDay="1"
+							enableManualInput="false"
+							defaultTime="00:00"
+						/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="startDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+						<!-- ....... END DATE .......           -->
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['cerif.sciencesGroup.editPanel.endDate']}" 
+								for="endDate" 
+								errorStyleClass="errorMessage" />
+						</a4j:outputPanel>
+						<rich:calendar 
+							id="endDate"
+							locale="en/US"
+							disabled="#{(sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails)}"
+							value="#{sciencesGroupManagedBean.endDate}"
+							datePattern="d/M/yyyy"
+							required="true"
+							firstWeekDay="1"
+							enableManualInput="false"
+							defaultTime="23:59"
+						/>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:outputPanel ajaxRendered="true">
+							<rich:message 
+								for="endDate" 
+								errorClass="errorMessage"
+								infoClass="infoMessage"
+								warnClass="warnMessage"
+								fatalClass="fatalMessage" />
+						</a4j:outputPanel>
+					</h:panelGrid>
+				</rich:tab>
+			</rich:tabPanel>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid>
+			<a4j:commandButton
+				rendered="#{(sciencesGroupManagedBean.editMode == modesManagedBean.update) and (sciencesGroupManagedBean.editTabNumber == 0)}"
+				action="#{sciencesGroupManagedBean.update}"
+				value="#{messages['cerif.sciencesGroup.editPanel.btnUpdate']}"
+				render="sciencesGroupEditModalPanel" 
+				limitRender="true" 
+				execute="@form"/>
+			<a4j:commandButton
+				rendered="#{(sciencesGroupManagedBean.editMode == modesManagedBean.add) and (sciencesGroupManagedBean.editTabNumber == 0)}"
+				action="#{sciencesGroupManagedBean.add}"
+				value="#{messages['cerif.sciencesGroup.editPanel.btnCreate']}"
+				render="sciencesGroupEditModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{(sciencesGroupManagedBean.editTabNumber == 1)}" 
+				action="#{sciencesGroupManagedBean.finishWizard}"
+				value="#{messages['cerif.sciencesGroup.editPanel.btnAllRight']}"
+				render="mainPanel, #{sciencesGroupManagedBean.renderModalPanels}"
+				limitRender="true"
+				immediate="true" 
+				execute="@this"/>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

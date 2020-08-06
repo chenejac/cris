@@ -1,0 +1,787 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+
+	<h:panelGrid id="userEditBasicDataFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"
+				escape="false" />
+		</a4j:outputPanel>
+		<!-- .......User.......           -->
+		<rich:panel id="userPreview"
+			header="#{messages['administration.user.editPanel.preview']}">
+			<a4j:outputPanel ajaxRendered="true">
+				<h:panelGrid columns="1">
+					<h:outputText 
+						value="#{userManagedBean.selectedUser}"
+						styleClass="preview" />
+				</h:panelGrid>
+			</a4j:outputPanel>
+		</rich:panel>
+		<h:panelGrid rendered="#{userManagedBean.editTabNumber == 0}">
+			<h:panelGrid columns="1"  width="100%"
+				rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData) and (userManagedBean.editMode != modesManagedBean.viewDetails) and (userManagedBean.editMode != modesManagedBean.addFormatName)}">
+				<!--  pick Author -->
+				<a4j:commandButton 
+					action="#{userManagedBean.pickAuthor}"
+					render="#{authorManagedBean.renderModalPanels}"
+					value="#{messages['administration.user.editPanel.btnPickAuthor']}" 
+					execute="@this"/>
+			</h:panelGrid>
+		</h:panelGrid>
+		<h:panelGrid rendered="#{userManagedBean.editTabNumber == 0}">
+			<h:panelGrid columns="3" columnClasses="width15, width60, width25" width="100%"
+				rendered="#{(not empty userManagedBean.selectedUser.author.controlNumber)}">
+				<!-- ....... Middle name.......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.middleName']}*" 
+						for="middleName" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="middleName"
+					value="#{userManagedBean.selectedUser.author.name.otherName}"
+					maxlength="200" 
+					required="true"
+			 	/>
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="middleName" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Sex .......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.sex']}*" 
+						for="sex" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:selectOneRadio
+					 id="sex"
+					 value="#{userManagedBean.selectedUser.author.sex}"
+					 required="true"
+					 >
+					 <f:selectItem itemLabel="#{messages['administration.user.editPanel.sex.male']}" itemValue="m"/>
+					 <f:selectItem itemLabel="#{messages['administration.user.editPanel.sex.female']}" itemValue="f"/>
+				</h:selectOneRadio>
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="sex" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Date of birth.......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.dateOfBirth)}">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.dateOfBirth']}*" 
+						for="dateOfBirth" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<rich:calendar 
+					id="dateOfBirth"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.dateOfBirth)}"
+					value="#{userManagedBean.dateOfBirth}"
+					enableManualInput="true"
+					datePattern="dd/MM/yyyy"
+					firstWeekDay="1"
+					required="true"
+					dayDisableFunction="disablementFutureDate"
+					dayClassFunction="disablementFutureStyleClass"
+					showFooter="false"
+					showWeekDaysBar="false"
+					showWeeksBar="false" 
+					inputStyle="width:120px" />
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.dateOfBirth)}">
+					<rich:message 
+						for="dateOfBirth" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Place of birth.......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.placeOfBirth']}*" 
+						for="placeOfBirth" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="placeOfBirth"
+					value="#{userManagedBean.selectedUser.author.placeOfBirth}"
+					maxlength="200" 
+					required="true"
+					/>
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="placeOfBirth" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... State .......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.state']}*" 
+						for="state" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="state"
+					value="#{userManagedBean.selectedUser.author.state}"
+					maxlength="200" 
+					required="true"
+				/>
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="state" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... jmbg .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true" 
+					rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.selectedUser.author.institution.controlNumber)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.jmbg']}" 
+						for="jmbg" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="jmbg"
+					rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.selectedUser.author.institution.controlNumber)}" 
+					value="#{userManagedBean.selectedUser.author.jmbg}"
+					maxlength="15" 
+				/>
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.selectedUser.author.institution.controlNumber)}" >
+					<rich:message 
+						for="jmbg" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... directPhones .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.directPhones)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.directPhones']}" 
+						for="directPhones" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="directPhones"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.directPhones)}"
+					value="#{userManagedBean.selectedUser.author.directPhones}"
+					maxlength="200" 
+				/>
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.directPhones)}" >
+					<rich:message 
+						for="directPhones" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... localPhones .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.selectedUser.author.institution.controlNumber)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.localPhones']}" 
+						for="localPhones" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="localPhones"
+					rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.selectedUser.author.institution.controlNumber)}"
+					value="#{userManagedBean.selectedUser.author.localPhones}"
+					maxlength="200" 
+					/>
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.selectedUser.author.institution.controlNumber)}">
+					<rich:message 
+						for="localPhones" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Address .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.address)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.address']}" 
+						for="address" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="address"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.address)}"
+					value="#{userManagedBean.selectedUser.author.address}"
+					maxlength="200" 
+					/>
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.address)}">
+					<rich:message 
+						for="address" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... city .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.city)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.city']}" 
+						for="city" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="city"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.city)}"
+					value="#{userManagedBean.selectedUser.author.city}"
+					maxlength="200" 
+					/>
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.city)}">
+					<rich:message 
+						for="city" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... ScopusID .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.scopusID)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.scopusID']}" 
+						for="scopusID" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="scopusID"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.scopusID)}"
+					value="#{userManagedBean.selectedUser.author.scopusID}"
+					maxlength="200" 
+					validatorMessage="#{messages['administration.user.editPanel.scopusID.format']}"
+					 >
+					<f:validateRegex pattern="[0-9]{10,11}" />
+				</h:inputText>
+						
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.scopusID)}">
+					<rich:message 
+						for="scopusID" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... ORCID .......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.ORCID)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.ORCID']}" 
+						for="ORCID" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="ORCID"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.ORCID)}"
+					value="#{userManagedBean.selectedUser.author.ORCID}"
+					maxlength="200" 
+					validatorMessage="#{messages['administration.user.editPanel.ORCID.format']}"
+					 >
+					<f:validateRegex pattern="https://orcid\.org/0000-000(1-[5-9]|2-[0-9]|3-[0-4])[0-9]{3}-[0-9]{3}[0-9X]" />
+				</h:inputText>
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.loggedIn) or (empty userManagedBean.selectedUser.author.ORCID)}">
+					<rich:message 
+						for="ORCID" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+			</h:panelGrid>	
+			<a4j:status for="institution_region" onstart="onStart()" onstop="onStop()" />
+			<a4j:region 
+				id="institution_region"
+				renderRegionOnly="true" 
+				rendered="#{(not empty userManagedBean.selectedUser.author.controlNumber)}" >
+				<h:panelGrid columns="3" columnClasses="width15, width80, width5" width="100%">
+					<!-- ....... Institution.......           -->
+					<a4j:outputPanel ajaxRendered="true">
+						<mytags:outputLabel 
+							value="#{messages['administration.user.editPanel.institution']}*" 
+							for="institution" 
+							errorStyleClass="errorMessage"
+							/>
+					</a4j:outputPanel>
+					<h:selectOneMenu 
+						id="institution"
+						value="#{userManagedBean.institution}"
+						required="true"
+						converter="institutionSelectConverter"
+						>
+						<a4j:ajax event="change" render="otherInstitutionGrid" limitRender="true" execute="@this" />
+						<f:selectItems value="#{institutionManagedBean.allList}"/>
+					</h:selectOneMenu> 
+					<a4j:outputPanel ajaxRendered="true">
+						<rich:message 
+							for="institution" 
+							errorClass="errorMessage"
+							infoClass="infoMessage"
+							warnClass="warnMessage"
+							fatalClass="fatalMessage" />
+					</a4j:outputPanel>
+					<!-- ....... Organization unit.......           -->
+					<a4j:outputPanel 
+						ajaxRendered="true"
+						rendered="#{not userManagedBean.jobAd}" >
+						<mytags:outputLabel 
+							value="#{messages['administration.user.editPanel.organizationUnit']}" 
+							for="organizationUnit" 
+							errorStyleClass="errorMessage"
+							/>
+					</a4j:outputPanel>
+					<h:selectOneMenu 
+						id="organizationUnit"
+						rendered="#{not userManagedBean.jobAd}"
+						value="#{userManagedBean.selectedUser.author.organizationUnit}"
+						converter="organizationUnitSelectConverter"
+						>
+						<f:selectItems value="#{organizationUnitManagedBean.allList}"/>
+					</h:selectOneMenu>  
+					<a4j:outputPanel 
+						ajaxRendered="true"
+						rendered="#{not userManagedBean.jobAd}" >
+						<rich:message 
+							for="organizationUnit" 
+							errorClass="errorMessage"
+							infoClass="infoMessage"
+							warnClass="warnMessage"
+							fatalClass="fatalMessage" />
+					</a4j:outputPanel>
+				</h:panelGrid>
+				<h:panelGrid 
+					id="otherInstitutionGrid"
+					columns="3" 
+					columnClasses="width15, width60, width25" 
+					width="100%"
+					>
+					<!-- ....... Institution name .......           -->
+					<a4j:outputPanel 
+						ajaxRendered="true"
+						rendered="#{(userManagedBean.jobAd) and (not empty userManagedBean.selectedUser.author.institution) and (userManagedBean.selectedUser.author.institution.controlNumber == 'otherInstitution')}" >
+						<mytags:outputLabel 
+							value="#{messages['administration.user.editPanel.institution.otherInstitution']}*" 
+							for="otherInstitution" 
+							errorStyleClass="errorMessage"
+							/>
+					</a4j:outputPanel>
+					<h:inputText 
+						id="otherInstitution"
+						value="#{userManagedBean.selectedUser.author.institution.name.content}"
+						maxlength="200" 
+						required="true"
+						rendered="#{(userManagedBean.jobAd) and (not empty userManagedBean.selectedUser.author.institution) and (userManagedBean.selectedUser.author.institution.controlNumber == 'otherInstitution')}"
+					/>
+					<a4j:outputPanel 
+						ajaxRendered="true"
+						rendered="#{(userManagedBean.jobAd) and (not empty userManagedBean.selectedUser.author.institution) and (userManagedBean.selectedUser.author.institution.controlNumber == 'otherInstitution')}"
+						>
+						<rich:message 
+							for="otherInstitution" 
+							errorClass="errorMessage"
+							infoClass="infoMessage"
+							warnClass="warnMessage"
+							fatalClass="fatalMessage" />
+					</a4j:outputPanel>
+				</h:panelGrid>
+			</a4j:region>
+			<h:panelGrid columns="6" columnClasses="width15, width20, width20, width20, width15, width5" width="100%"
+				rendered="#{(userManagedBean.loggedIn)}">
+				<!-- ....... Position.......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.currentPosition']}}" 
+						for="position" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:selectOneMenu 
+					id="position"
+					value="#{userManagedBean.selectedUser.author.currentPosition.position}"
+					converter="positionSelectConverter"
+					>
+					<f:selectItems value="#{positionManagedBean.allList}"/>
+				</h:selectOneMenu>  
+				<rich:calendar 
+					value="#{userManagedBean.selectedUser.author.currentPosition.startDate.time}"
+					enableManualInput="true"
+					datePattern="dd/MM/yyyy"
+					firstWeekDay="1"
+					dayDisableFunction="disablementFutureDate"
+					dayClassFunction="disablementFutureStyleClass"
+					showFooter="false"
+					showWeekDaysBar="false"
+					showWeeksBar="false" 
+					inputStyle="width:120px" />
+				<h:inputText 
+					value="#{userManagedBean.selectedUser.author.currentPosition.researchArea}"
+					maxlength="200" 
+					/>
+				<a4j:commandButton 
+					action="#{userManagedBean.authorPositions}"
+					value="#{messages['administration.user.editPanel.btnFormerPositions']}"
+					render="authorPositionEditModalPanel" 
+					execute="@this"/>
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="position" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Title.......   -->        
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.title']}" 
+						for="title" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="title"
+					value="#{userManagedBean.selectedUser.author.title}"
+					maxlength="100"
+					/>
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="title" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... URI.......   -->        
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.uri']}" 
+						for="uri" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputTextarea 
+					id="uri"
+					value="#{userManagedBean.selectedUser.author.uri}"
+					rows="3"
+					 />
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="uri" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Language.......        
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.language']}*" 
+						for="language" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:selectOneMenu 
+					id="language"
+					value="#{userManagedBean.selectedUser.language}"
+					required="true" >
+					<f:selectItem itemValue="sr"
+						itemLabel="#{messages['administration.user.editPanel.language.serbian']}" />
+					<f:selectItem itemValue="en"
+						itemLabel="#{messages['administration.user.editPanel.language.english']}" />
+				</h:selectOneMenu>
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message 
+						for="language" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>    -->
+				<!-- ....... Type.......           -->
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" >
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.type']}*" 
+						for="type" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:selectOneMenu 
+					id="type"
+					value="#{userManagedBean.selectedUser.type}"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					required="true">
+					<f:selectItem itemValue="author"
+						itemLabel="#{messages['administration.user.editPanel.type.author']}" />
+					<f:selectItem itemValue="administrator"
+						itemLabel="#{messages['administration.user.editPanel.type.administrator']}" />
+				</h:selectOneMenu>
+				<h:outputText 
+					value="" 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" />
+				<h:outputText 
+					value="" 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" />
+				<h:outputText 
+					value="" 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" />
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}">
+					<rich:message 
+						for="type" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+			</h:panelGrid>
+			<h:panelGrid columns="3" columnClasses="width15, width60, width25" width="100%"
+				rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData)}">
+				<!-- ....... Email.......           -->
+				<a4j:outputPanel 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.email']}*" 
+						for="email" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputText 
+					id="email"
+					value="#{userManagedBean.selectedUser.email}" 
+					maxlength="50"
+					required="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" 
+					validatorMessage="#{messages['administration.user.editPanel.email.format']}">
+					<f:validateRegex pattern="^[\w\-]([\.\w\-])+[\w\-]+@([\w\-]+\.)+[a-zA-Z]{2,4}$" />
+				</h:inputText>
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" >
+					<rich:message 
+						for="email" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Password.......           -->
+				<a4j:outputPanel 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.password']}*" 
+						for="newPassword" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputSecret 
+					id="newPassword"
+					value="#{userManagedBean.newPassword}" 
+					maxlength="10"
+					redisplay="true" 
+					required="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}">
+					<rich:message 
+						for="newPassword" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Repeated Password.......           -->
+				<a4j:outputPanel 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['administration.user.editPanel.repeatedPassword']}*" 
+						for="repeatedNewPassword" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputSecret 
+					id="repeatedNewPassword"
+					value="#{userManagedBean.repeatedNewPassword}" 
+					maxlength="10"
+					redisplay="true" 
+					required="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<h:outputText 
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}"
+					value="" />
+				<a4j:outputPanel 
+					ajaxRendered="true"
+					rendered="#{(userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData)}">
+					<rich:message 
+						for="repeatedNewPassword" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+			</h:panelGrid>
+		</h:panelGrid>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="2">
+			<a4j:commandButton
+				rendered="#{((userManagedBean.editMode == modesManagedBean.update) or (userManagedBean.editMode == modesManagedBean.updateUserBasicData) or (userManagedBean.editMode == modesManagedBean.updateUserAdvancedData) or (userManagedBean.editMode == modesManagedBean.addFormatName)) and (userManagedBean.editTabNumber == 0)}"
+				action="#{userManagedBean.update}"
+				value="#{messages['administration.user.editPanel.btnUpdate']}"
+				render="userEditBasicDataModalPanel" 
+				limitRender="true" 
+				execute="@form"/>
+			<a4j:commandButton
+				rendered="#{(userManagedBean.editMode == modesManagedBean.add) and (userManagedBean.editTabNumber == 0)}"
+				action="#{userManagedBean.add}"
+				value="#{messages['administration.user.editPanel.btnCreate']}"
+				render="userEditBasicDataModalPanel" 
+				limitRender="true" 
+				execute="@form" />
+			<h:outputText rendered="#{(userManagedBean.editMode == modesManagedBean.viewDetails) and (userManagedBean.editTabNumber == 0)}" 
+				value=""/>
+			<a4j:commandButton 
+				rendered="#{((userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.addFormatName)) and (userManagedBean.editTabNumber == 0)}"
+				action="#{userManagedBean.switchToEditNoneMode}"
+				value="#{messages['administration.user.editPanel.btnCancel']}"
+				render="userEditBasicDataModalPanel"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+			<!-- <a4j:commandButton 
+				rendered="#{(userManagedBean.editMode == modesManagedBean.register) and (userManagedBean.editTabNumber == 0)}" 
+				action="#{userManagedBean.nextEditTab}"
+				value="#{messages['administration.user.editPanel.btnNext']}"
+				render="mainPanel, #{userManagedBean.renderModalPanels}, userEditModalPanel" 
+				execute="@form"/>  -->
+			<a4j:commandButton 
+				rendered="#{(userManagedBean.editMode == modesManagedBean.register) and (userManagedBean.editTabNumber == 0)}" 
+				action="#{userManagedBean.register}"
+				value="#{messages['administration.user.editPanel.btnRegister']}"
+				render="userEditBasicDataModalPanel" 
+				execute="@form" />
+			<a4j:commandButton 
+				rendered="#{((userManagedBean.editMode == modesManagedBean.register) or (userManagedBean.editMode == modesManagedBean.updateUserBasicData) or (userManagedBean.editMode == modesManagedBean.updateUserAdvancedData) or (userManagedBean.editMode == modesManagedBean.addFormatName)) and (userManagedBean.editTabNumber == 0)}"
+				action="#{userManagedBean.exit}"
+				value="#{messages['administration.user.editPanel.btnCancel']}"
+				immediate="true" 
+				execute="@this"/>
+			<a4j:commandButton 
+				rendered="#{(userManagedBean.editTabNumber ge 2)}" 
+				action="#{userManagedBean.finishWizard}"
+				value="#{messages['administration.user.editPanel.btnAllRight']}"
+				immediate="true"
+				execute="@this"/>
+			<h:outputText 
+				rendered="#{(userManagedBean.editTabNumber ge 2)}" 
+				value="" />
+		</h:panelGrid>
+	</h:panelGrid>
+
+</ui:composition>

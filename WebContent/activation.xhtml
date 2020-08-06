@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich">
+	<f:view 
+		contentType="text/html; charset=iso-8859-1" 
+		beforePhase="#{userManagedBean.performActivation}"/>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+	</h:head>
+	<h:body>
+		<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+		<h:outputScript library="js" name="functions.js" target="head"/>
+		<f:loadBundle
+			basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+			var="messages" />
+		<div id="header">
+   			<ui:insert name="header">
+				<ui:include src="./header.xhtml"/>
+			</ui:insert>
+		</div>
+	    <div id="center">
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="80"
+				width="1"
+				/>
+			<h:panelGroup 
+	    		rendered="#{not empty userManagedBean.selectedUser}">
+				<h:outputText 
+					value="#{messages['administration.activation.success']}" 
+					styleClass="rf-msg-inf" />
+			</h:panelGroup>
+			<h:panelGroup 
+				rendered="#{empty userManagedBean.selectedUser}">
+				<h:outputText 
+					value="#{messages['administration.activation.error']}"
+					styleClass="rf-msg-inf" />
+			</h:panelGroup>
+		</div>
+		
+		<div id="footer">
+   			<ui:insert name="footer">
+   				<ui:include src="./footer.xhtml"/>
+   			</ui:insert>
+   		</div>	
+	</h:body>
+</html>

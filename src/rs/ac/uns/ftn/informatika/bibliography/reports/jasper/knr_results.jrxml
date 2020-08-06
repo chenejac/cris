@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="knr_results" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<field name="resultType" class="rs.ac.uns.ftn.informatika.bibliography.dto.ResultTypeDTO"/>
+	<field name="publication" class="rs.ac.uns.ftn.informatika.bibliography.dto.PublicationDTO"/>
+	<group name="resultType" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{resultType}]]></groupExpression>
+		<groupHeader>
+			<band height="41" splitType="Prevent">
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="14" width="539" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial1" size="12" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Списак резултата "+$F{resultType}.getClassId()+" - "+$F{resultType}.getSomeTerm()]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Prevent">
+			<staticText>
+				<reportElement style="table_CH" x="0" y="0" width="539" height="20" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[7. Продукција - резултати]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Prevent">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="47" y="0" width="492" height="20"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial1" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$V{resultType_COUNT}+". "+$F{publication}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

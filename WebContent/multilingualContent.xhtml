@@ -1,0 +1,183 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="multilingualContentFormPanel">
+		<h:inputText id="general" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="general"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<rich:panel 
+			id="scrollableBody" 
+			styleClass="scrollableBody"	>
+			<h:panelGrid 
+				rendered="#{(multilingualContentManagedBean.editMode != modesManagedBean.viewDetails)}" 
+				columns="5" 
+				columnClasses="width20, width30, width10, width10, width30"
+				width="100%">
+				<!-- ....... content .......   -->        
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{multilingualContentManagedBean.contentHeader}*" 
+						for="#{multilingualContentManagedBean.htmlContent=='true'?'htmlContent':'content'}" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:inputTextarea 
+					id="content"
+					value="#{multilingualContentManagedBean.content}" 
+					rows="3" 
+					required="true"
+					rendered="#{not multilingualContentManagedBean.htmlContent}"/>
+				<rich:editor 
+					id="htmlContent"
+					value="#{multilingualContentManagedBean.content}"
+					rendered="#{multilingualContentManagedBean.htmlContent}"
+					toolbar="CustomToolbar"
+					skin="office2003"
+					height="200"
+					width="500"
+					>
+					<!--config="#{messages['administration.user.richedit']}"-->
+					
+					
+					<f:facet name="config">
+							
+							forcePasteAsPlainText : true,
+							font_names : 'Arial;Times New Roman',
+							font_defaultLabel:  'Arial',
+							fontSize_defaultLabel: '12px',
+					        toolbar_CustomToolbar:
+					        [
+					
+					        { name: 'document', items : [ 'NewPage','Preview','Print','-','Templates' ] },
+					
+					        { name: 'clipboard', items : [ 'Cut','Copy','Paste','-','Undo','Redo' ] },
+					        
+					        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker','/' ] },
+					        					        
+					        
+					        { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-',
+					          							     '/','BidiLtr','BidiRtl' ] },
+					        
+					        { name: 'links', items : [ 'Link','Unlink','Anchor', '-' ] },        
+					
+					        '/',
+					        				
+					        { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+					        
+					        { name: 'colors', items : [ 'TextColor','BGColor' ] },
+					        
+					        { name: 'tools', items : [ 'Maximize' ] },
+					        
+					        { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Subscript','Superscript','-','RemoveFormat' ] },
+					        
+					        { name: 'insert', items : ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ] },
+					
+					        ]
+				
+				    
+          			</f:facet>
+				</rich:editor>
+				
+				
+				<h:outputText value="" />
+				<h:outputText value=""  />
+				<a4j:outputPanel ajaxRendered="true" >
+					<rich:message 
+						for="#{multilingualContentManagedBean.htmlContent=='true'?'htmlContent':'content'}" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+				<!-- ....... Language.......           -->
+				<a4j:outputPanel ajaxRendered="true">
+					<mytags:outputLabel 
+						value="#{messages['records.multilingualContent.editPanel.language']}*" 
+						for="language" 
+						errorStyleClass="errorMessage"
+						/>
+				</a4j:outputPanel>
+				<h:selectOneMenu 
+					id="language"
+					value="#{multilingualContentManagedBean.language}" 
+					required="true"	>
+					<ui:include src="./languagesSelectItems.xhtml"/>
+				</h:selectOneMenu>
+				<a4j:commandButton 
+					action="#{multilingualContentManagedBean.add}"
+					value="#{messages['records.multilingualContent.editPanel.btnAddContent']}"
+					render="multilingualContentEditModalPanel" 
+					execute="@form" />
+				<h:outputText value=""  />
+				<a4j:outputPanel ajaxRendered="true" >
+					<rich:message 
+						for="language" 
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage" />
+				</a4j:outputPanel>
+			</h:panelGrid>
+			<!-- .......translated contents.......           -->
+			<rich:dataTable id="multilingualContentTable"
+				value="#{multilingualContentManagedBean.contents}"
+				var="contentRow"
+				rowKeyVar="contentKeyVar">
+				<!--     ........  content   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{multilingualContentManagedBean.contentHeader}" />
+					</f:facet>
+					<h:outputText value="#{contentRow.content}" escape="false"/>
+				</rich:column>
+				<!--     ........  language   .......-->
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContent.editPanel.language']}" />
+					</f:facet>
+					<h:outputText value="#{contentRow.localizedLanguage}" />
+				</rich:column>
+				<!--     ........  remove  .......-->
+				<rich:column
+					rendered="#{(multilingualContentManagedBean.editMode != modesManagedBean.viewDetails)}" >
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.multilingualContent.editPanel.remove']}" />
+					</f:facet>
+					<a4j:commandLink
+						action="#{multilingualContentManagedBean.remove}"
+						render="scrollableBody"
+						limitRender="true" 
+						immediate="true" 
+						execute="@this" >
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="ordNum" value="#{contentKeyVar}" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</rich:panel>
+		<!--================= Update, Create, Cancel buttons ====================  -->
+		<h:panelGrid columns="1">
+			<a4j:commandButton 
+				action="#{multilingualContentManagedBean.exit}"
+				value="#{messages['records.multilingualContent.editPanel.btnExit']}"
+				render="multilingualContentEditModalPanel"
+				limitRender="true"
+				immediate="true" 
+				execute="@this" />
+		</h:panelGrid>
+	</h:panelGrid>	
+</ui:composition>

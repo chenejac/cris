@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+<rich:tooltip followMouse="true" direction="topRight"
+	showDelay="1000" styleClass="tooltip" mode="client">
+	<span class="tooltipSpan"> 
+		<h:panelGrid columns="2">
+			<h:graphicImage library="img" name="details.png" />
+			<h:outputText
+				value="#{messages['records.conference.tablePanel.btnDetails']}" />
+			<h:graphicImage library="img" name="editToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.update]}" />
+			<h:outputText
+				value="#{messages['records.conference.tablePanel.btnEdit']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.update]}" />
+			<h:graphicImage library="img" name="deleteToolTip.png"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.delete]}" />
+			<h:outputText
+				value="#{messages['records.conference.tablePanel.btnDelete']}"
+				rendered="#{userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.delete]}" />
+			<h:graphicImage library="img" name="pickToolTip.png"
+				rendered="#{conferenceManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:outputText
+				value="#{messages['records.conference.tablePanel.btnPick']}"
+				rendered="#{conferenceManagedBean.tableMode == modesManagedBean.pick}" />
+			<h:graphicImage library="img" name="publicationsToolTip.png" />
+			<h:outputText
+				value="#{messages['records.conference.tablePanel.btnPublications']}" />
+			<h:graphicImage library="img" name="createToolTip.png"
+				rendered="#{(not conferenceManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.add])}" />
+			<h:outputText
+				value="#{messages['records.conference.tablePanel.btnCreate']}"
+				rendered="#{(not conferenceManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.add])}" />
+		</h:panelGrid> 
+	</span>
+</rich:tooltip>
+				
+</ui:composition>
