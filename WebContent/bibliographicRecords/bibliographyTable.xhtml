@@ -391,7 +391,14 @@
 							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (not empty bibliographyRow.fileURL)}"
 							>
 							<h:graphicImage library="img" name="download.png" width="24" height="24"/>
-						</h:outputLink> 
+						</h:outputLink>
+					<h:outputLink
+							value="#{bibliographyRow.supplementURL}"
+							target="_blank"
+							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (not empty bibliographyRow.supplementURL)}"
+							>
+							<h:graphicImage library="img" name="downloadZip.png" width="24" height="24"/>
+						</h:outputLink>  
 					<a4j:commandLink 
 						rendered="#{(bibliographyRow.class.simpleName=='PatentDTO') and (userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.update])}"
 						action="#{bibliographyManagedBean.switchToUpdateMode}"

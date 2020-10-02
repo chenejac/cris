@@ -331,6 +331,13 @@
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and (not empty studyFinalDocumentRow.fileURL)}"
 							>
 							<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+						</h:outputLink>
+						<h:outputLink
+							value="#{studyFinalDocumentRow.supplementURL}"
+							target="_blank"
+							rendered="#{(studyFinalDocumentRow.record.archived != 100) and (not empty studyFinalDocumentRow.supplementURL)}"
+							>
+							<h:graphicImage library="img" name="downloadZip.png" width="24" height="24"/>
 						</h:outputLink>  
 					</rich:column>
 				</rich:dataTable>

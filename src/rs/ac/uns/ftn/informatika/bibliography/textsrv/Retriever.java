@@ -248,6 +248,8 @@ public class Retriever {
 						}
 						if(doc.getField("FILELICENSE") != null)
 							((PublicationDTO)rec.getDto()).setFileLicense(doc.getField("FILELICENSE").stringValue());
+						if (doc.getField("SUPPLEMENTURL") != null)
+							((PublicationDTO)rec.getDto()).setSupplementURL(doc.getField("SUPPLEMENTURL").stringValue());
 						if (doc.getField("WCIURL") != null){
 							((PublicationDTO)rec.getDto()).setWordCloudImageURL(doc.getField("WCIURL").stringValue());
 						}

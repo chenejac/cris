@@ -91,6 +91,16 @@
 				value="#{messages['records.studyFinalDocument.tablePanel.btnDownload']}" 
 				/>
 			<h:graphicImage 
+				rendered="#{studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none}"
+				library="img" 
+				name="downloadZip.png" 
+				width="24"
+				height="24" />
+			<h:outputText
+				rendered="#{studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none}"
+				value="#{messages['records.studyFinalDocument.tablePanel.btnDownloadZip']}" 
+				/>
+			<h:graphicImage 
 				library="img" 
 				name="createToolTip.png"
 				rendered="#{(studyFinalDocumentManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.add])}" />

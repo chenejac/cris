@@ -9,7 +9,6 @@ import java.io.StringWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.pdfbox.exceptions.CryptographyException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
@@ -27,7 +26,7 @@ public class PdfDocTextExtractor implements DocTextExtractor {
    * 
    * @param file The file to be processed
    * @return The extracted text
-   * @throws IOException
+   * @throws IOException if file is encrypted
    */
   public String extractText(File file) throws IOException {
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(
@@ -47,14 +46,17 @@ public class PdfDocTextExtractor implements DocTextExtractor {
 //		System.out.println("Used Memory2: " +  (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
 		String retVal = null;
 		try{
-			if (pdfDoc.isEncrypted())
-				try {
-					pdfDoc. decrypt(""); // probamo praznu lozinku za svaki slucaj
+			if (pdfDoc.isEncrypted()) {
+				log.warn("PDF file encrypted");
+				throw new IOException();
+			}
+//				try {
+//					pdfDoc.decrypt(""); // try empty password
 //				} catch (InvalidPasswordException ex) {
 //					log.warn(ex);
-				} catch (CryptographyException ex) {
-					log.warn(ex);
-				}
+//				} catch (CryptographyException ex) {
+//					log.warn(ex);
+//				}
 	
 			StringWriter sw = new StringWriter();
 			//if (stripper == null)

@@ -159,6 +159,13 @@
 												>
 												<h:graphicImage library="img" name="download.png" width="24" height="24"/>
 											</h:outputLink>
+											<h:outputLink
+												rendered="#{(not empty resultQuery.publication.supplementURL) and (not empty resultQuery.publication.fileLicense) and (resultQuery.publication.fileLicense != 'Usage forbidden')}"
+												value="#{resultQuery.publication.supplementURL.concat('&amp;searchingMode=basic(recommendation list)').concat('&amp;position=').concat(rowKeyVar+1).concat('&amp;recommendationScore=').concat(resultQuery.publication.recommendationScore).concat('&amp;relevanceScore=').concat(resultQuery.publication.relevanceScore).concat('&amp;mixedScore=').concat(resultQuery.publication.mixedScore)}"
+												target="_blank"
+												>
+												<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+											</h:outputLink>
 								     		<rich:panel
 												rendered="true"
 												id="details"
@@ -855,6 +862,13 @@
 												>
 												<h:graphicImage library="img" name="download.png" width="24" height="24"/>
 											</h:outputLink>
+											<h:outputLink
+												rendered="#{(not empty resultQuery.supplementURL) and (not empty resultQuery.fileLicense) and (resultQuery.fileLicense != 'Usage forbidden')}"
+												value="#{resultQuery.supplementURL.concat('&amp;searchingMode=basic(recommendation list)').concat('&amp;position=').concat(rowKeyVar+1).concat('&amp;recommendationScore=').concat(resultQuery.recommendationScore).concat('&amp;relevanceScore=').concat(resultQuery.relevanceScore).concat('&amp;mixedScore=').concat(resultQuery.mixedScore)}"
+												target="_blank"
+												>
+												<h:graphicImage library="img" name="downloadZip.png" width="24" height="24"/>
+											</h:outputLink>
 											<!--<h:outputLink
 												rendered="#{((searchDissertationsManagedBean.sortMethod == 'recommendationScore') or (searchDissertationsManagedBean.sortMethod == 'mixedRelevance')) and (resultQuery.recommendationScore != 0) and (not empty resultQuery.fileURL) and (not empty resultQuery.fileLicense) and (resultQuery.fileLicense != 'Usage forbidden')}"
 												value="#{resultQuery.fileURL.concat('&amp;recommendation=true')concat('&amp;searchMode=').concat(((searchDissertationsManagedBean.advanced)?'advanced (sort method - )'?''basic (sort method - )')).concat(searchDissertationsManagedBean.sortMethod).concat('&amp;position=').concat(rowKeyVar+1).concat('&amp;recommendationScore=').concat(resultQuery.recommendationScore)}}"
@@ -918,11 +932,11 @@
 															<h:graphicImage library="img" name="download.png" width="24" height="24"/>
 														</h:outputLink>
 														<h:outputLink
-															rendered="#{(not empty resultQuery.fileLicense) and (resultQuery.fileLicense != 'Usage forbidden')}"
+															rendered="#{(not empty resultQuery.supplementURL) and (not empty resultQuery.fileLicense) and (resultQuery.fileLicense != 'Usage forbidden')}"
 															value="#{resultQuery.supplementURL.concat('&amp;searchingMode=').concat(searchDissertationsManagedBean.advancedString).concat('(sort method - ').concat(searchDissertationsManagedBean.sortMethod).concat(')&amp;position=').concat(rowKeyVar+1).concat('&amp;recommendationScore=').concat(resultQuery.recommendationScore).concat('&amp;relevanceScore=').concat(resultQuery.relevanceScore).concat('&amp;mixedScore=').concat(resultQuery.mixedScore)}"
 															target="_blank"
 															>
-															<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+															<h:graphicImage library="img" name="downloadZip.png" width="24" height="24"/>
 														</h:outputLink>
 									     			</rich:tab>
 									     			<rich:tab

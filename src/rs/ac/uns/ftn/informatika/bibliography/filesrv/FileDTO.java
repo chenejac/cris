@@ -95,8 +95,11 @@ public class FileDTO implements Serializable{
             } 
             if("png".equals(extension)){
                 mime="image/png";
-            } 
-        }
+            }
+			if("zip".equals(extension)){
+				mime="application/zip";
+			}
+		}
     }
     
     public String getFileNameClient() {

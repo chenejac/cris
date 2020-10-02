@@ -244,8 +244,6 @@ public class Indexer {
 	 * 
 	 * @param rec
 	 *            Source mARC21Record
-	 * @param type
-	 *            Type of the mARC21Record
 	 * @return A new Lucene document
 	 */
 	protected Document getDocument(Record rec) {
@@ -420,6 +418,7 @@ public class Indexer {
 		notIndexed.add("FILENAME");
 		notIndexed.add("FILEID");
 		notIndexed.add("FILELICENSE");
+		notIndexed.add("SUPPLEMENTURL");
 		notIndexed.add("PRELIMINARYTHESESURL");
 		notIndexed.add("PRELIMINARYSUPPLEMENTURL");
 		notIndexed.add("REPORTURL");
