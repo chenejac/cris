@@ -420,8 +420,8 @@ private static Connection conn = null;
 //		ispisiRangRadiProvere("e:/CRIS/evaluacija/imports/sci-2015/", "2015");
 		try{
 			wosImport(folderPath, year);
-			printListByCategory("e:/CRIS/evaluacija/imports/sci-2018/");
-			printNewJournals();
+			printListByCategory("e:/CRIS/evaluacija/imports/sci-2019/");
+//			printNewJournals();
 			
 		}catch(Exception e){
 			e.printStackTrace();

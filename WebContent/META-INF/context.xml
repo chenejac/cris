@@ -1,12 +1,12 @@
 <Context path="/bibliography" reloadable="true"
 	docBase="D:/USERS/Dragan/bibliography/apache-tomcat-7.0.19/webapps/bibliography"
-	debug="5" crossContext="false">
+	crossContext="false">
 	<Manager pathname="" />
 	<Resource name="jdbc/cris" auth="Container" type="javax.sql.DataSource"
-		maxActive="40" maxIdle="10" maxWait="10000" username="root" password="root"
+		maxActive="40" maxIdle="10" maxWaitMillis="10000" username="root" password="root"
 		driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://localhost/cris?autoReconnectForPool=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"
-		removeAbandoned="true" removeAbandonedTimeout="300" defaultAutoCommit="false" />
+			  removeAbandonedOnBorrow="true" removeAbandonedOnMaintenance="true" removeAbandonedTimeout="300" defaultAutoCommit="false" />
 	<Resource name="jms/ConnectionFactory" auth="Container"
 		type="org.apache.activemq.ActiveMQConnectionFactory" description="JMS Connection Factory"
 		factory="org.apache.activemq.jndi.JNDIReferenceFactory" brokerURL="vm://localhost?broker.persistent=false"

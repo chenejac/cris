@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Ant-Version: Apache Ant 1.7.1
-Created-By: 24.65-b04 (Oracle Corporation)
+Ant-Version: Apache Ant 1.10.5
+Created-By: 1.8.0_45-b15 (Oracle Corporation)
 Main-Class: rs.ac.uns.ftn.informatika.bibliography.backup.RecoveryApp
 Class-Path: lib/activation.jar lib/bcprov-jdk14-124.jar lib/cglib-node
  p-2.2.jar lib/cjftransform-1.0.1.jar lib/com.fasterxml.jackson.core.j

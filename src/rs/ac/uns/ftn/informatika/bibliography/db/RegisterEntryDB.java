@@ -37,8 +37,8 @@ public class RegisterEntryDB {
 	 *            Database connection
 	 * @param dissertation
 	 *            The dissertation
-	 * @param user
-	 *            The creator
+	 * @param translateToCyrillic
+	 *            whether it should be translated to cyrillic alphabet or not
 	 * @return The retrieved register entry ; null if not found or an error occured.
 	 */
 	public RegisterEntryDTO getRegisterEntry(Connection conn, StudyFinalDocumentDTO dissertation, boolean translateToCyrillic) {
@@ -1845,16 +1845,16 @@ public class RegisterEntryDB {
 			stmt.setDate(1, new java.sql.Date(dateFrom.getTime()));
 			stmt.setDate(2, new java.sql.Date(dateTo.getTime()));	
 			stmt.setString(3, universityId);
-			if(institutionString == null)
+			if((institutionString == null) || (institutionString.trim().length() == 0))
 				institutionString = "%";
 			stmt.setString(4, institutionString);
 			
 			ResultSet rset = stmt.executeQuery();
-			while (rset.next()) {		
+			while (rset.next()) {
 				int i=1;
 				
 				String id = rset.getString(i++);
-				
+
 				String authorName = rset.getString(i++);
 				String authorLastName = rset.getString(i++);
 				String fatherName = rset.getString(i++);
@@ -2211,7 +2211,7 @@ public class RegisterEntryDB {
 		try{
 			PreparedStatement stmt = conn.prepareStatement("SELECT DISSERTATIONID FROM REGISTERENTRY  " +
 						"where PROMOTIONDATE is not null and UNIVERSITYID like ? "+ 
-						"and  (REGISTERENTRYID like '-1' or REGISTERENTRYID like '-2') "+ 
+						"and  (REGISTERENTRYID like '-1' or REGISTERENTRYID like '-2')"  +
 						"and PROMOTIONDATE is not null and PROMOTIONDATE <= (SELECT MIN(PROMOTIONDATE) FROM REGISTERENTRY " +
 						"WHERE UNIVERSITYID like ? and PROMOTIONDATE is not null and  (REGISTERENTRYID like '-1' or REGISTERENTRYID like '-2')) ");
 			stmt.setString(1, universityId);

@@ -52,7 +52,11 @@ public class MaticnaKnjigaReportUtils {
 			Collections.sort(data, new GenericComparator<MaticnaKnjigaItemBean>(
 					sortAttributes, sortDirections));
 			
-			generateReport("maticna_knjiga_disertacija" + ".jasper", data);
+			try {
+				generateReport("maticna_knjiga_disertacija" + ".jasper", data);
+			} catch (Throwable t){
+				t.printStackTrace();
+			}
 		}
 		
 	}
@@ -102,10 +106,10 @@ public class MaticnaKnjigaReportUtils {
 				}	
 				
 				ServletOutputStream servletOutputStream = response.getOutputStream();
-				JRPdfExporter pdfExporter = new JRPdfExporter();
+				//JRPdfExporter pdfExporter = new JRPdfExporter();
 				response.setContentType("application/pdf");			
 				JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);	
-				pdfExporter.exportReport();		
+				// pdfExporter.exportReport();
 				servletOutputStream.flush();
 				servletOutputStream.close();
 				

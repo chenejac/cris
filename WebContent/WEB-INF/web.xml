@@ -91,7 +91,7 @@
   </init-param>
   <init-param>
    <param-name>subreportDir</param-name>
-   <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/classes/rs/ac/uns/ftn/informatika/bibliography/reports/jasper/</param-value>
+   <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/classes/rs/ac/uns/ftn/informatika/bibliography/reports/jasper/</param-value>
   </init-param>
   <init-param>
    <param-name>contextSetPath</param-name>
@@ -130,7 +130,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicat.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicat.properties</param-value>
  </init-param>
  <load-on-startup>7</load-on-startup>
  </servlet>
@@ -149,7 +149,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatDOISerbia.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatDOISerbia.properties</param-value>
  </init-param>
  <load-on-startup>8</load-on-startup>
  </servlet>
@@ -168,7 +168,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatDARTEurope.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatDARTEurope.properties</param-value>
  </init-param>
  <load-on-startup>9</load-on-startup>
  </servlet>
@@ -187,7 +187,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatOpenAIRE.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatOpenAIRE.properties</param-value>
  </init-param>
  <load-on-startup>10</load-on-startup>
  </servlet>
@@ -206,7 +206,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatNDLTD.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatNDLTD.properties</param-value>
  </init-param>
  <load-on-startup>11</load-on-startup>
  </servlet>
@@ -225,7 +225,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatOATD.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatOATD.properties</param-value>
  </init-param>
  <load-on-startup>12</load-on-startup>
  </servlet>
@@ -244,7 +244,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatDOISerbiaPA.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatDOISerbiaPA.properties</param-value>
  </init-param>
  <load-on-startup>13</load-on-startup>
  </servlet>
@@ -263,7 +263,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatDARTEuropePA.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatDARTEuropePA.properties</param-value>
  </init-param>
  <load-on-startup>14</load-on-startup>
  </servlet>
@@ -282,7 +282,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatOpenAIREPA.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatOpenAIREPA.properties</param-value>
  </init-param>
  <load-on-startup>15</load-on-startup>
  </servlet>
@@ -301,7 +301,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatNDLTDPA.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatNDLTDPA.properties</param-value>
  </init-param>
  <load-on-startup>16</load-on-startup>
  </servlet>
@@ -320,7 +320,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatOATDPA.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatOATDPA.properties</param-value>
  </init-param>
  <load-on-startup>17</load-on-startup>
  </servlet>
@@ -339,7 +339,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatNaRDuS.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatNaRDuS.properties</param-value>
  </init-param>
  <load-on-startup>18</load-on-startup>
  </servlet>
@@ -358,7 +358,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatNaRDuSPA.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatNaRDuSPA.properties</param-value>
  </init-param>
  <load-on-startup>19</load-on-startup>
  </servlet>
@@ -377,7 +377,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatOpenAIRECRIS.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatOpenAIRECRIS.properties</param-value>
  </init-param>
  <load-on-startup>20</load-on-startup>
  </servlet>
@@ -415,7 +415,7 @@
         		datapairs used to initialize the OAI repository software.
       		</description>
   <param-name>properties</param-name>
-  <param-value>E:/cris/apache-tomcat-7.0.19/webapps/bibliography/WEB-INF/oaicatBEOPEN.properties</param-value>
+  <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatBEOPEN.properties</param-value>
  </init-param>
  <load-on-startup>22</load-on-startup>
  </servlet>
