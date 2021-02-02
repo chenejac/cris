@@ -606,7 +606,10 @@ public class RuleBookDTO extends RecordDTO {
 				
 				String filePath = "";
 				if(FacesContext.getCurrentInstance()!=null){
-					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+					try {
+						filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+					} catch (Throwable e){
+					}
 				}
 				retVal.append(fm.getMessageFromResourceBundle("records.bibliography.download") + ": <a target=\"_blank\" href=\"" + filePath + "/DownloadFileServlet/RuleBook" + file.getFileName() + "?controlNumber=" + file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId() + "\"><img src=\"" + filePath +  "/javax.faces.resource/download.png.jsf?ln=img\" height=\"24\" width=\"24\" alt=\"link\" target=\"_blank\"/></a>");
 			}
@@ -706,8 +709,12 @@ public class RuleBookDTO extends RecordDTO {
 			if(record.getFiles()!= null && !record.getFiles().isEmpty()){
 				FileDTO file = record.getFiles().get(0);
 				String filePath = "";
-				if(FacesContext.getCurrentInstance()!=null)
-					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				if(FacesContext.getCurrentInstance()!=null){
+					try {
+						filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+					} catch (Throwable e){
+					}
+				}
 				return filePath + "/DownloadFileServlet/RuleBook" + file.getFileName() + "?controlNumber=" + file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId();
 			} else 
 				return "";

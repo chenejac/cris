@@ -159,8 +159,12 @@ public abstract class PublicationDTO extends RecordDTO {
 				for (FileDTO file : record.getFiles()) {
 					if((file.getId() != 0) && (file.getType() != null) && (file.getType().equals("document"))){
 						String filePath = "";
-						if(FacesContext.getCurrentInstance()!=null)
-							filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+						if(FacesContext.getCurrentInstance()!=null){
+							try {
+								filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+							} catch (Throwable e){
+							}
+						}
 						if(filePath == null)
 							filePath = "";
 						return filePath + "/DownloadFileServlet/Disertacija" + file.getFileName() + "?controlNumber=" + file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId();
@@ -266,8 +270,12 @@ public abstract class PublicationDTO extends RecordDTO {
 		} 
 		if((supplement != null) && (supplement.getId() != 0)){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/DisertacijaDodatak" + supplement.getFileName() + "?controlNumber=" + supplement.getControlNumber() + "&fileName=" + supplement.getFileName() + "&id=" + supplement.getId();
 		}
 		return "";
@@ -303,8 +311,12 @@ public abstract class PublicationDTO extends RecordDTO {
 		} 
 		if((fileCopyright != null) && (fileCopyright.getId() != 0)){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/IzjavaOKoriscenju" + fileCopyright.getFileName() + "?controlNumber=" + fileCopyright.getControlNumber() + "&fileName=" + fileCopyright.getFileName() + "&id=" + fileCopyright.getId();
 		}
 		return "";

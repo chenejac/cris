@@ -13,7 +13,7 @@ public class MNOHemija extends MNO{
 	private MNOHemija() {
 		super();
 		this.nameMNO = "Hemija";
-		this.yearsSpecial = new int [11];
+		this.yearsSpecial = new int [12];
 		yearsSpecial[0] = 2009;
 		yearsSpecial[1] = 2010;
 		yearsSpecial[2] = 2011;
@@ -25,6 +25,7 @@ public class MNOHemija extends MNO{
 		yearsSpecial[8] = 2017;
 		yearsSpecial[9] = 2018;
 		yearsSpecial[10] = 2019;
+		yearsSpecial[11] = 2020;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -39,6 +40,7 @@ public class MNOHemija extends MNO{
 		HashMap <String, String> special2017;
 		HashMap <String, String> special2018;
 		HashMap <String, String> special2019;
+		HashMap <String, String> special2020;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2009 = new HashMap<String, String>();
@@ -131,6 +133,10 @@ public class MNOHemija extends MNO{
 		special2019 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoHemija2019.xlsx", special2019);
 		this.specialJournalsAllYears.put(2019, special2019);
+
+		special2020 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mnoHemija2020.xlsx", special2020);
+		this.specialJournalsAllYears.put(2020, special2020);
 	}
 	
 	public static MNOHemija MNOHemija= null;

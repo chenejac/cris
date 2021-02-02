@@ -16,7 +16,7 @@ public class MNOEnergetikaRudarstvoIEnergetskaEfikasnost extends MNO{
 	private MNOEnergetikaRudarstvoIEnergetskaEfikasnost() {
 		super();
 		this.nameMNO = "Energetika, rudarstvo i energetska efikasnost";
-		this.yearsSpecial = new int [9];
+		this.yearsSpecial = new int [10];
 		yearsSpecial[0] = 2011;
 		yearsSpecial[1] = 2012;
 		yearsSpecial[2] = 2013;
@@ -26,6 +26,7 @@ public class MNOEnergetikaRudarstvoIEnergetskaEfikasnost extends MNO{
 		yearsSpecial[6] = 2017;
 		yearsSpecial[7] = 2018;
 		yearsSpecial[8] = 2019;
+		yearsSpecial[9] = 2020;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -38,6 +39,7 @@ public class MNOEnergetikaRudarstvoIEnergetskaEfikasnost extends MNO{
 		HashMap <String, String> special2017;
 		HashMap <String, String> special2018;
 		HashMap <String, String> special2019;
+		HashMap <String, String> special2020;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2011 = new HashMap<String, String>();
@@ -105,6 +107,10 @@ public class MNOEnergetikaRudarstvoIEnergetskaEfikasnost extends MNO{
 		special2019 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoEnergetikaRudarstvoIEnergetskaEfikasnost2019.xlsx", special2019);
 		this.specialJournalsAllYears.put(2019, special2019);
+
+		special2020 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mnoEnergetikaRudarstvoIEnergetskaEfikasnost2020.xlsx", special2020);
+		this.specialJournalsAllYears.put(2020, special2020);
 	}
 	
 	public static MNOEnergetikaRudarstvoIEnergetskaEfikasnost MNOEnergetikaRudarstvoIEnergetskaEfikasnost= null;

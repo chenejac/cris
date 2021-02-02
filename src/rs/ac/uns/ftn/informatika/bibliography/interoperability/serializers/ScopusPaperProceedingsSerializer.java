@@ -42,7 +42,7 @@ public class ScopusPaperProceedingsSerializer implements GroupSerializer{
 			importRecords = new ImportRecordsDTO();
 		
 			try {
-				ScopusImportUtility.headers.put("X-ELS-APIKey", "2af9ded2f6e1b20cfb33af2333cfffcd");
+				ScopusImportUtility.headers.put("X-ELS-APIKey", "2af9ded2f6e1b20cfb33af2333cfffcd");//"894638366d70903b6aa0b08f59f56220");
 		        ScopusImportUtility.headers.put("Accept", "application/json");
 	
 		        Unirest.setProxy(new HttpHost("proxy.uns.ac.rs", 8080));

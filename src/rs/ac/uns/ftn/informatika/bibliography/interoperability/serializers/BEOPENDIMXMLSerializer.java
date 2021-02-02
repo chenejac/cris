@@ -15,7 +15,7 @@ public class BEOPENDIMXMLSerializer extends AbstractDIMCRISXMLSerializer {
 
 	
 	public BEOPENDIMXMLSerializer(){
-		super(Arrays.asList("sr","en"), "BEOPEN");
+		super(Arrays.asList("en"), "BEOPEN");
 	}
 	
 }

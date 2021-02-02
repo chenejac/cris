@@ -229,12 +229,12 @@ public class ImportAuthorsTehnoloski{
 				person.loadMARC21FromDTO();
 				
 				Calendar startDate = new GregorianCalendar();
-				startDate.set(Calendar.YEAR, 2019);
+				startDate.set(Calendar.YEAR, 2020);
 				startDate.set(Calendar.MONTH, Calendar.JANUARY);
 				startDate.set(Calendar.DAY_OF_MONTH, 1);
 				
 				Calendar endDate = new GregorianCalendar();
-				endDate.set(Calendar.YEAR, 2019);
+				endDate.set(Calendar.YEAR, 2020);
 				endDate.set(Calendar.MONTH, Calendar.DECEMBER);
 				endDate.set(Calendar.DAY_OF_MONTH, 31);
 				if(dto.getInstitution().getControlNumber()!= null)
@@ -266,8 +266,97 @@ public class ImportAuthorsTehnoloski{
 
 	public static void main (String[] args){
 		
-		String  xlsPath    = "E:/zaposleniPMF2019.xlsx";
-		ImportAuthorsTehnoloski.importFromExcel (xlsPath);
+//		String  xlsPath    = "E:/zaposleniPMF2020.xlsx";
+//		ImportAuthorsTehnoloski.importFromExcel (xlsPath);
+		String  xlsPath    = "E:/autoriPMF.xlsx";
+		ImportAuthorsTehnoloski.importFromExcelORCID (xlsPath);
+	}
 
+	public static void importFromExcelORCID (String xlsPath){
+		int k = 0;
+		int i = 0;
+		InputStream inputStream = null;
+
+		try{
+			inputStream = new FileInputStream (xlsPath);
+		}catch (FileNotFoundException e){
+			System.out.println ("File not found in the specified path.");
+			e.printStackTrace ();
+		}
+
+		try{
+			XSSFWorkbook      workBook = new XSSFWorkbook (inputStream);
+			XSSFSheet         sheet    = workBook.getSheetAt (0);
+			Iterator<Row> rows     = sheet.rowIterator();
+			Person person = null;
+			String cellContent = "";
+			while (rows.hasNext ()){
+				person = null;
+				XSSFRow row = (XSSFRow) rows.next();
+				XSSFCell cell = row.getCell(10);
+				if(cell == null)
+					cellContent = "";
+				else {
+					cellContent = cell.getRichStringCellValue().getString(); //"(BISIS)" + (int)cell.getNumericCellValue();
+				}
+				System.out.println(cellContent);
+				person = (Person)recordDAO.getRecord(cellContent);
+				if(person == null){
+					System.out.println("Cell content: " + cellContent);
+					continue;
+				}
+
+				person.loadFromDatabase();
+
+				AuthorDTO dto = ((AuthorDTO)person.getDto());
+
+				boolean personChanged = false;
+
+				if(row.getCell(4) != null){
+					XSSFRichTextString richTextString = row.getCell(4).getRichStringCellValue();
+					cellContent = richTextString.getString().trim();
+					String orcid = cellContent;
+
+					if(! ("".equals(orcid)))
+						if((dto.getORCID()== null) || (!orcid.equals(dto.getORCID()))) {
+							personChanged = true;
+							System.out.println(orcid);
+							System.out.println(dto.getORCID());
+							person.setORCID(orcid);
+							dto.setORCID(orcid);
+						}
+				}
+
+				if(row.getCell(5) != null){
+					cellContent = ("" + (long)row.getCell(5).getNumericCellValue()).trim();
+					String scopus = cellContent;
+
+					if(! ("".equals(scopus)))
+						if((dto.getScopusID() == null) || (!scopus.equals(dto.getScopusID()))) {
+							personChanged = true;
+							System.out.println(scopus);
+							System.out.println(dto.getScopusID());
+							dto.setScopusID(scopus);
+						}
+
+				}
+
+				if(personChanged) {
+					person.loadMARC21FromDTO();
+//					System.out.println(person);
+//					k++;
+					if(recordDAO.update(person)){
+						k++;
+						System.out.println(k);
+					}
+					else {
+						System.out.println(person);
+					}
+				}
+			}
+			System.out.println(k);
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 }		

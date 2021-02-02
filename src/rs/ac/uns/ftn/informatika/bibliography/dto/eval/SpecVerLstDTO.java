@@ -434,9 +434,12 @@ public class SpecVerLstDTO extends RecordDTO{
 				retVal.append("Документи: " /*fm.getMessageFromResourceBundle("records.journal.editPanel.name")*/);
 				
 				String filePath = "";
-				if(FacesContext.getCurrentInstance()!=null)
-					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-				
+				if(FacesContext.getCurrentInstance()!=null){
+					try {
+						filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+					} catch (Throwable e){
+					}
+				}
 				for (FileDTO iterable_element : attachedFiles) {
 					retVal.append("<br/>");
 					retVal.append(fm.getMessageFromResourceBundle("records.bibliography.download") +"("+iterable_element.getFileName() +")"+ ": <a target=\"_blank\" href=\"" + filePath + "/DownloadFileServlet/SpecVerLst" + iterable_element.getFileName() + "?controlNumber=" + iterable_element.getControlNumber() + "&fileName=" + iterable_element.getFileName() + "&id=" + iterable_element.getId() + "\"><img src=\"" + filePath +  "/javax.faces.resource/download.png.jsf?ln=img\" height=\"24\" width=\"24\" alt=\"link\" target=\"_blank\"/></a>");
@@ -505,8 +508,12 @@ public class SpecVerLstDTO extends RecordDTO{
 		}
 		if(file!=null && file.getId() > 0){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/SpecVerLst" + file.getFileName() + "?controlNumber=" + file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId();
 		}
 		return "";

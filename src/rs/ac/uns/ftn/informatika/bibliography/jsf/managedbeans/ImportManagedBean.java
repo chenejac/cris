@@ -89,11 +89,11 @@ public class ImportManagedBean extends CRUDManagedBean implements Serializable,
 	
 	private String scopusID = "Insert Scopus (Author) ID here";
 	
-	private Integer startYear = 2019;
+	private Integer startYear = 2020;
 	
-	private Integer endYear = 2019;
+	private Integer endYear = 2020;
 	
-	private Integer publicationYear = 2019;
+	private Integer publicationYear = 2020;
 	
 	private String bibtex = "Copy Bibtex record here";
 	

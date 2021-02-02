@@ -52,7 +52,7 @@ public class AuthorConverter extends ANormativeRecordConverter {
 	 * @param rec
 	 *            MARC21Record which should be converted
 	 * 
-	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.AbstractRecordConverter#getDTO(rs.ac.uns.ftn.informatika.bibliography.marc21.records.MARC21Record)
+	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.AbstractRecordConverter#getDTO(rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record)
 	 * 
 	 * @return true if everything is ok, otherwise false
 	 */
@@ -416,6 +416,8 @@ public class AuthorConverter extends ANormativeRecordConverter {
 			record.setDirectPhones(author.getDirectPhones());
 			record.setLocalPhones(author.getLocalPhones());
 			record.setApvnt(author.getApvnt());
+			record.setScopusID(author.getScopusID());
+			record.setORCID(author.getORCID());
 			
 			MARC21Record mARC21Record = new MARC21Record();
 			record.setMARC21Record(mARC21Record);

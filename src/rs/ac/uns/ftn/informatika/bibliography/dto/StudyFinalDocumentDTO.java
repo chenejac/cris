@@ -1130,8 +1130,12 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 		} 
 		if((preliminaryTheses != null) && (preliminaryTheses.getId() != 0)){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/javniUvid" + preliminaryTheses.getFileName() + "?controlNumber=" + preliminaryTheses.getControlNumber() + "&fileName=" + preliminaryTheses.getFileName() + "&id=" + preliminaryTheses.getId();
 		}
 		return "";
@@ -1170,8 +1174,12 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 		} 
 		if((preliminarySupplement != null) && (preliminarySupplement.getId() != 0)){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/javniUvidDodatak" + preliminarySupplement.getFileName() + "?controlNumber=" + preliminarySupplement.getControlNumber() + "&fileName=" + preliminarySupplement.getFileName() + "&id=" + preliminarySupplement.getId();
 		}
 		return "";
@@ -1211,8 +1219,12 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 		} 
 		else if((report != null) && (report.getId() != 0)){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/IzvestajKomisije" + report.getFileName() + "?controlNumber=" + report.getControlNumber() + "&fileName=" + report.getFileName() + "&id=" + report.getId();
 		}
 		return "";
@@ -1299,8 +1311,12 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 		} 
 		if((metadataCopyright != null) && (metadataCopyright.getId() != 0)){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/IzjavaOIstovetnosti" + metadataCopyright.getFileName() + "?controlNumber=" + metadataCopyright.getControlNumber() + "&fileName=" + metadataCopyright.getFileName() + "&id=" + metadataCopyright.getId();
 		}
 		return "";
@@ -1384,14 +1400,22 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 				retVal.append(fm.getMessageFromResourceBundle("records.bibliography.publicationYear") + ": " + getPublicationYear() + "<br/>");
 			if ((file != null)){
 				String filePath = "";
-				if(FacesContext.getCurrentInstance()!=null)
-					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				if(FacesContext.getCurrentInstance()!=null){
+					try {
+						filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+					} catch (Throwable e){
+					}
+				}
 				retVal.append(fm.getMessageFromResourceBundle("records.bibliography.download") + ": <a target=\"_blank\" href=\"" + filePath + "/DownloadFileServlet/Disertacija" + file.getFileName() + "?controlNumber=" + file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId() + "\"><img src=\"" + filePath +  "/javax.faces.resource/download.png.jsf?ln=img\" height=\"24\" width=\"24\" alt=\"link\" target=\"_blank\"/></a><br/>");
 			} 
 			if ((supplement != null)){
 				String filePath = "";
-				if(FacesContext.getCurrentInstance()!=null)
-					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				if(FacesContext.getCurrentInstance()!=null){
+					try {
+						filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+					} catch (Throwable e){
+					}
+				}
 				retVal.append(fm.getMessageFromResourceBundle("records.bibliography.download") + ": <a target=\"_blank\" href=\"" + filePath + "/DownloadFileServlet/DisertacijaDodatak" + supplement.getFileName() + "?controlNumber=" + supplement.getControlNumber() + "&fileName=" + supplement.getFileName() + "&id=" + supplement.getId() + "\"><img src=\"" + filePath +  "/javax.faces.resource/download.png.jsf?ln=img\" height=\"24\" width=\"24\" alt=\"link\" target=\"_blank\"/></a>");
 			}
 			if(locale.getLanguage().equals("sr"))

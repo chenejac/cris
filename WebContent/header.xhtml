@@ -113,15 +113,15 @@
 							</rich:menuItem>
 						</rich:menuGroup>
 						<rich:menuGroup 
-							rendered="#{(not userManagedBean.jobAd) and (userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formEvaluation][privilegesManagedBean.showInMainMenu]))}"
+							rendered="#{(not userManagedBean.jobAd) and (userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}"
 							label="#{messages['administration.selfevaluation.menu']}" >
 							<rich:menuItem
-								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formBibliography][privilegesManagedBean.showInMainMenu])}"
+								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}"
 								label="#{messages['administration.bibliography.journals20022011.menu']}"
 								action="#{bibliographyManagedBean.enterCRUDPageJournals20022011}">
 							</rich:menuItem>
 							<rich:menuItem
-								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formBibliography][privilegesManagedBean.showInMainMenu])}"
+								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}"
 								label="#{messages['administration.bibliography.2011.menu']}"
 								action="#{bibliographyManagedBean.enterCRUDPage2011}">
 							</rich:menuItem>
