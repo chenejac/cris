@@ -241,12 +241,12 @@
 													styleClass="scrollableBody"
 													style="width:800px !important">
 												<rich:dataTable var="listVarTabel1" 
-										            	value="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategories}" 		
+										            	value="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesTwoYears}"
 										            	rowKeyVar="rowNumber"	
 										            	rendered="#{((not empty evaluationJournalManagedBean.evaluatedResult.impactFactor) and (not evaluationJournalManagedBean.showAllImpactFactors)) or ((not empty evaluationJournalManagedBean.allImpactFactors) and (evaluationJournalManagedBean.showAllImpactFactors))}"
 										            	styleClass="tableImpactFactors" 									      			
 										            	>																
-														<c:forEach items="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames}" var="itemPropertyName">
+														<c:forEach items="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears}" var="itemPropertyName">
 													        <rich:column style="#{(rowNumber == 0) ? 'background-color: #DCF0F7 !important;' : 'background-color: #F5F5F5 !important;'}">
 													        	<h:commandLink 
 													        		action="#{evaluationJournalManagedBean.setYearString(listVarTabel1[itemPropertyName])}" 
@@ -262,6 +262,32 @@
 											</rich:panel>
 									        
 									        <br/>
+
+											<rich:panel id="scrollableBody2"
+														styleClass="scrollableBody"
+														style="width:800px !important">
+												<rich:dataTable var="listVarTabel2"
+																value="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesFiveYears}"
+																rowKeyVar="rowNumber"
+																rendered="#{((not empty evaluationJournalManagedBean.evaluatedResult.impactFactor) and (not evaluationJournalManagedBean.showAllImpactFactors)) or ((not empty evaluationJournalManagedBean.allImpactFactors) and (evaluationJournalManagedBean.showAllImpactFactors))}"
+																styleClass="tableImpactFactors"
+												>
+													<c:forEach items="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears}" var="itemPropertyName2">
+														<rich:column style="#{(rowNumber == 0) ? 'background-color: #DCF0F7 !important;' : 'background-color: #F5F5F5 !important;'}">
+															<h:commandLink
+																	action="#{evaluationJournalManagedBean.setYearString(listVarTabel2[itemPropertyName2])}"
+																	value="#{listVarTabel2[itemPropertyName2]}"
+																	rendered="#{rowNumber == 0}"/>
+															<h:outputText
+																	value="#{listVarTabel2[itemPropertyName2]}"
+																	rendered="#{rowNumber != 0}"/>
+
+														</rich:column>
+													</c:forEach>
+												</rich:dataTable>
+											</rich:panel>
+
+											<br/>
 											<h:outputText
 													escape="false"
 													rendered="#{((not empty evaluationJournalManagedBean.evaluatedResult.impactFactor) and (not evaluationJournalManagedBean.showAllImpactFactors)) or ((not empty evaluationJournalManagedBean.allImpactFactors) and (evaluationJournalManagedBean.showAllImpactFactors))}"

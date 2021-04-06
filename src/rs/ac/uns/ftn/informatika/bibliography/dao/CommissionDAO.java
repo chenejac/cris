@@ -2,16 +2,7 @@ package rs.ac.uns.ftn.informatika.bibliography.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.sql.DataSource;
 
@@ -185,9 +176,7 @@ public class CommissionDAO {
 
 	/**
 	 * Updates the commission to the database.
-	 * 
-	 * @param conn
-	 *            Database connection
+	 *
 	 * @param commissionDTO
 	 *            Commission to add
 	 * @return true if successful else false
@@ -530,7 +519,7 @@ public class CommissionDAO {
 	
 	
 	private boolean createEvaluationsByCommisionForRecordJournal(Connection conn, JournalDTO journal, List<CommissionDTO> selectedCommissionList){
-		List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), "twoYearsIF");
+		List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 		if(impactFactors!=null)
 			Collections.sort(impactFactors, new GenericComparator<ImpactFactor>(
 					"year", "asc"));

@@ -415,7 +415,7 @@ public abstract class MNO {
 			else if("M54".equals(m))
 				evaluation = 9;
 				
-			retVal.put(year, new JournalEvaluationResult(m, journal, null, evaluation));
+			retVal.put(year, new JournalEvaluationResult(m, journal, null, evaluation, true, true));
 		}
 		return retVal;
 	}

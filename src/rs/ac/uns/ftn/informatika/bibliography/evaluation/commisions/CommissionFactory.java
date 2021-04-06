@@ -349,7 +349,7 @@ public class CommissionFactory {
 				//lista odbora
 				mnoList = new ArrayList<MNO>();
 				
-				commissionEvaluation = new CommissionWoSSimple(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				commissionEvaluation = new CommissionWoSSimple(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList, true, true);
 				break;
 			//MNOBiologija
 			case CommissionTypes.MNOBiologija:

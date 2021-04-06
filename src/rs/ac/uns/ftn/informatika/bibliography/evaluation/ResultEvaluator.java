@@ -5,15 +5,7 @@ package rs.ac.uns.ftn.informatika.bibliography.evaluation;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.sql.DataSource;
 
@@ -804,7 +796,7 @@ public class ResultEvaluator {
 
 			String superPublicationType = getCommissionType(record, "type", publicationDate, commission);
 			
-			List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, record.getControlNumber(), "twoYearsIF");
+			List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, record.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 			
 			boolean foundmin2 	= false;
 			boolean foundmin1 	= false;

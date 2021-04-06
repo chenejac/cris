@@ -4,12 +4,7 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -771,7 +766,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 						try {
 							MetricsDB metricsDB = new MetricsDB();
 							JournalDTO journal = ((PaperJournalDTO)publication.getPublication()).getJournal();
-							List<ImpactFactor> allImpactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), "twoYearsIF");
+							List<ImpactFactor> allImpactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 							Integer publicationYear = Integer.parseInt(publication.getPublication().getPublicationYear());
 							JournalEval journalEval= new JournalEval(journal.getControlNumber(), journal.getSomeName(), journal.getIssn(), allImpactFactors, publicationYear);
 							AbstractCommissionEvaluation absCommission = CommissionFactory.getInstance().getCommissionEvaluation(publication.getResultEvaluation().getCommissionDTO().getCommissionId());
@@ -822,14 +817,14 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	
 	public String getEvaluatedResultAsString(JournalEvaluationResult evaluatedResult) {
 		String retVal = null;
-		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea();
+		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true);
 		long round  = Math.round(ra.getPosition()/ra.getDividend());
 		String vrednostKategorije = ra.getPosition().intValue() + "/" + round;
 		retVal = "<b>" + facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year") + ":</b> " + evaluatedResult.getImpactFactor().getYear()+ "; " + 
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.category") + ":</b> " +evaluatedResult.getCategory() + "; " + 
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea().getResearchAreaDTO().getSomeTerm()+ "; " +
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true).getResearchAreaDTO().getSomeTerm()+ "; " +
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.position") + ":</b> " +vrednostKategorije + "; " +
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactor();
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactorForMaxResearchArea(true, true);
 		return retVal;
 	}
 	

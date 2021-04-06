@@ -127,7 +127,7 @@ public class CommisionOldWoSSimple extends AbstractCommissionEvaluation {
 						best19811983 = evaluation;		
 				}
 			}
-			else if (year < 1981 && journal.hasIfInYear(1981) ){
+			else if (year < 1981 && journal.hasIfInYear(1981, true, false) ){
 //				String m = null;
 //				if (best19811983 != null){
 //					if(best19811983 == 3)
@@ -252,9 +252,9 @@ public class CommisionOldWoSSimple extends AbstractCommissionEvaluation {
 
             if(evaluated == null){
             	if(found == true)
-                    retVal.put(year, new JournalEvaluationResult("M52", journal, null, 52));
+                    retVal.put(year, new JournalEvaluationResult("M52", journal, null, 52, true, false));
                 else
-                    retVal.put(year, new JournalEvaluationResult("M100", journal, null, 100));
+                    retVal.put(year, new JournalEvaluationResult("M100", journal, null, 100, true, false));
             }
 
             if(evaluated!=null)
@@ -276,7 +276,7 @@ public class CommisionOldWoSSimple extends AbstractCommissionEvaluation {
 		imf.setYear(year);
 		imf = (journal.getImpactFactors().indexOf(imf)!=-1)?journal.getImpactFactors().get(journal.getImpactFactors().indexOf(imf)):null;
 		if (imf != null){
-				ResearchAreaRanking rar = imf.getMaxPositionReseachArea();
+				ResearchAreaRanking rar = imf.getMaxPositionReseachArea(true, false);
 				boolean m21a = false;
 				boolean m21 = false;
 				boolean m22 = false;
@@ -291,13 +291,13 @@ public class CommisionOldWoSSimple extends AbstractCommissionEvaluation {
 					m22 = true;
 				
 				if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 1)) && (m21a))
-					withinResearchAreas = new JournalEvaluationResult("M21a", journal, imf, 1);
+					withinResearchAreas = new JournalEvaluationResult("M21a", journal, imf, 1, true, false);
 				else if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 2)) && (m21))
-					withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 2);
+					withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 2, true, false);
 				else if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 3)) && (m22))
-					withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 3);
+					withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 3, true, false);
 				else if ((withinResearchAreas==null)  && (m23))
-					withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 4);				
+					withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 4, true, false);
 		}
 		if(withinResearchAreas != null){
 			retVal = withinResearchAreas;
@@ -310,7 +310,7 @@ public class CommisionOldWoSSimple extends AbstractCommissionEvaluation {
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 5));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 5, true, false));
 		}
 		return retVal;
 	}

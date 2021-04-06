@@ -3,18 +3,7 @@ package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -333,7 +322,7 @@ public class EvaluationTechnologyFacultyManagedBean extends CRUDManagedBean impl
 				Collections.sort(allImpactFactors, new GenericComparator<ImpactFactor>(
 						"year", "asc"));
 				for(int startYear = allImpactFactors.get(0).getYear(); startYear < (allImpactFactors.get(allImpactFactors.size()-1).getYear()+1); startYear++){
-					ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+					ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 					for (ImpactFactor impactFactor : allImpactFactors) {
 						if(impactFactor.getYear().intValue() == startYear){
 								tempIF = impactFactor;
@@ -379,12 +368,12 @@ public class EvaluationTechnologyFacultyManagedBean extends CRUDManagedBean impl
 		
 		if (selectedJournal != null && commissionID != null && commission != null && year != null){
 //			System.out.println("2");
-			evaluatedResult = new JournalEvaluationResult("M52", null, null, 5);
+			evaluatedResult = new JournalEvaluationResult("M52", null, null, 5, true, true);
 			Connection conn = null;
 			try {
 				conn = dataSource.getConnection();
 				MetricsDB metricsDB = new MetricsDB();
-				allImpactFactors = metricsDB.getJournalImpactFactors(conn, selectedJournal.getControlNumber(), "twoYearsIF");
+				allImpactFactors = metricsDB.getJournalImpactFactors(conn, selectedJournal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 				JournalEval journalEval= new JournalEval(selectedJournal.getControlNumber(), selectedJournal.getSomeName(), selectedJournal.getIssn(), allImpactFactors, firstEvaluationYear);
 				AbstractCommissionEvaluation absCommission = CommissionFactory.getInstance().getCommissionEvaluation(commissionID);
 				HashMap<Integer, JournalEvaluationResult> results = absCommission.getJournalEvaluations(journalEval);
@@ -395,7 +384,7 @@ public class EvaluationTechnologyFacultyManagedBean extends CRUDManagedBean impl
 				if(evaluatedResult.getEvaluation() < 5){
 					if(evaluatedResult.getRuleNumber() == 3){
 						for(int startYear = 1981; startYear < 1984; startYear++){
-							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 							for (ImpactFactor impactFactor : allImpactFactors) {
 								if(impactFactor.getYear().intValue() == startYear){
 										tempIF = impactFactor;
@@ -406,7 +395,7 @@ public class EvaluationTechnologyFacultyManagedBean extends CRUDManagedBean impl
 						}
 					} else if(evaluatedResult.getRuleNumber() == 2){
 						for(int startYear = 1987; startYear < 1999; startYear++){
-								ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+								ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 								for (ImpactFactor impactFactor : allImpactFactors) {
 									if(impactFactor.getYear().intValue() == startYear){
 											tempIF = impactFactor;
@@ -417,7 +406,7 @@ public class EvaluationTechnologyFacultyManagedBean extends CRUDManagedBean impl
 						}
 					} else if(evaluatedResult.getRuleNumber() == 1){
 						for(int startYear = year-2; startYear < year+1; startYear++){
-							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 							for (ImpactFactor impactFactor : allImpactFactors) {
 								if(impactFactor.getYear().intValue() == startYear){
 										tempIF = impactFactor;
@@ -611,14 +600,14 @@ public class EvaluationTechnologyFacultyManagedBean extends CRUDManagedBean impl
 	
 	public String getEvaluatedResultAsString() {
 		String retVal = null;
-		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea();
+		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true);
 		long round  = Math.round(ra.getPosition()/ra.getDividend());
 		String vrednostKategorije = ra.getPosition().intValue() + "/" + round;
 		retVal = "<b>" + facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year") + ":</b> " + evaluatedResult.getImpactFactor().getYear()+ "; " + 
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.category") + ":</b> " +evaluatedResult.getCategory() + "; " + 
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea().getResearchAreaDTO().getSomeTerm()+ "; " +
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true).getResearchAreaDTO().getSomeTerm()+ "; " +
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.position") + ":</b> " +vrednostKategorije + "; " +
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactor();
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactorForMaxResearchArea(true, true);
 		return retVal;
 	}
 	

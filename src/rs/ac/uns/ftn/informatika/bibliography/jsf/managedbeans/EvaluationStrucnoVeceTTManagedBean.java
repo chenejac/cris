@@ -3,16 +3,7 @@ package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -346,7 +337,7 @@ public class EvaluationStrucnoVeceTTManagedBean extends CRUDManagedBean implemen
 			try {
 				conn = dataSource.getConnection();
 				MetricsDB metricsDB = new MetricsDB();
-				impactFactors = metricsDB.getJournalImpactFactors(conn, selectedJournal.getControlNumber(), "twoYearsIF");
+				impactFactors = metricsDB.getJournalImpactFactors(conn, selectedJournal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 				if(impactFactors!=null && !impactFactors.isEmpty())
 					Collections.sort(impactFactors, new GenericComparator<ImpactFactor>(
 							"year", "asc"));

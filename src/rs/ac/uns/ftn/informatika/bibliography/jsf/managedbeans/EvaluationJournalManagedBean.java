@@ -3,18 +3,7 @@ package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -76,9 +65,12 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 	private List<ImpactFactor> impactFactors = null;
 	private List<ImpactFactor> allImpactFactors = null;
 	private List<String []> evaluatedResultsLegendCategories = null;
-	private List<Map<String, String>> evaluatedResultsImpactFactorsWithCategories = null;
-	private List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames = null;
-	private List<String []> evaluatedResultsAllYears = null;
+	private List<Map<String, String>> evaluatedResultsImpactFactorsWithCategoriesTwoYears = null;
+	private List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears = null;
+	private List<Map<String, String>> evaluatedResultsImpactFactorsWithCategoriesFiveYears = null;
+	private List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears = null;
+	private List<String []> evaluatedResultsAllYearsTwoYears = null;
+	private List<String []> evaluatedResultsAllYearsFiveYears = null;
 	private String detailExplanation = "";
 	
 	public EvaluationJournalManagedBean() {
@@ -103,9 +95,12 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		evaluatedResults = new ArrayList<String[]>();
 		evaluatedResult = null;
 		evaluatedResultsLegendCategories = new ArrayList<String[]>();
-		evaluatedResultsImpactFactorsWithCategories = new ArrayList<Map<String, String>>();
-		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames = new ArrayList<String>();
-		evaluatedResultsAllYears = new ArrayList<String[]>();
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears = new ArrayList<Map<String, String>>();
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears = new ArrayList<String>();
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears = new ArrayList<Map<String, String>>();
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears = new ArrayList<String>();
+		evaluatedResultsAllYearsTwoYears = new ArrayList<String[]>();
+		evaluatedResultsAllYearsFiveYears = new ArrayList<String[]>();
 		detailExplanation = "";
 		
 		dataSource = DataSourceFactory.getDataSource();
@@ -171,9 +166,12 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		evaluatedResults.clear();
 		evaluatedResult = null;
 		evaluatedResultsLegendCategories.clear();
-		evaluatedResultsImpactFactorsWithCategories.clear();
-		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames.clear();
-		evaluatedResultsAllYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears.clear();
+		evaluatedResultsAllYearsTwoYears.clear();
+		evaluatedResultsAllYearsFiveYears.clear();
 		detailExplanation = "";
 		return super.resetForm();
 	}
@@ -283,8 +281,10 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		evaluatedResults.clear();
 		evaluatedResult = null;
 		evaluatedResultsLegendCategories.clear();
-		evaluatedResultsImpactFactorsWithCategories.clear();
-		evaluatedResultsAllYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.clear();
+		evaluatedResultsAllYearsTwoYears.clear();
+		evaluatedResultsAllYearsFiveYears.clear();
 		detailExplanation = "";
 	}
 	/**
@@ -317,8 +317,10 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		evaluatedResults.clear();
 		evaluatedResult = null;
 		evaluatedResultsLegendCategories.clear();
-		evaluatedResultsImpactFactorsWithCategories.clear();
-		evaluatedResultsAllYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.clear();
+		evaluatedResultsAllYearsTwoYears.clear();
+		evaluatedResultsAllYearsFiveYears.clear();
 		detailExplanation = "";
 	}
 	
@@ -333,7 +335,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 				Collections.sort(allImpactFactors, new GenericComparator<ImpactFactor>(
 						"year", "asc"));
 				for(int startYear = allImpactFactors.get(0).getYear(); startYear < (allImpactFactors.get(allImpactFactors.size()-1).getYear()+1); startYear++){
-					ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+					ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 					for (ImpactFactor impactFactor : allImpactFactors) {
 						if(impactFactor.getYear().intValue() == startYear){
 								tempIF = impactFactor;
@@ -343,7 +345,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 					allImpactFactorsExtended.add(tempIF);
 				}
 			}
-			calculateExplainTable(allImpactFactorsExtended);
+			calculateExplainTable(allImpactFactorsExtended, true, true);
 			showAllImpactFactors = true;
 //		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
@@ -371,20 +373,22 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		impactFactors.clear();
 		evaluatedResults.clear();
 		evaluatedResultsLegendCategories.clear();
-		evaluatedResultsImpactFactorsWithCategories.clear();
-		evaluatedResultsAllYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.clear();
+		evaluatedResultsAllYearsTwoYears.clear();
+		evaluatedResultsAllYearsFiveYears.clear();
 		detailExplanation = "";
 		
 //		System.out.println("1");
 		
 		if (selectedJournal != null && commissionID != null && commission != null && year != null){
 //			System.out.println("2");
-			evaluatedResult = new JournalEvaluationResult("M52", null, null, 5);
+			evaluatedResult = new JournalEvaluationResult("M52", null, null, 5, true, true);
 			Connection conn = null;
 			try {
 				conn = dataSource.getConnection();
 				MetricsDB metricsDB = new MetricsDB();
-				allImpactFactors = metricsDB.getJournalImpactFactors(conn, selectedJournal.getControlNumber(), "twoYearsIF");
+				allImpactFactors = metricsDB.getJournalImpactFactors(conn, selectedJournal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 				JournalEval journalEval= new JournalEval(selectedJournal.getControlNumber(), selectedJournal.getSomeName(), selectedJournal.getIssn(), allImpactFactors, firstEvaluationYear);
 				AbstractCommissionEvaluation absCommission = CommissionFactory.getInstance().getCommissionEvaluation(commissionID);
 				HashMap<Integer, JournalEvaluationResult> results = absCommission.getJournalEvaluations(journalEval);
@@ -395,7 +399,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 				if(evaluatedResult.getEvaluation() < 5){
 					if(evaluatedResult.getRuleNumber() == 3){
 						for(int startYear = 1981; startYear < 1984; startYear++){
-							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 							for (ImpactFactor impactFactor : allImpactFactors) {
 								if(impactFactor.getYear().intValue() == startYear){
 										tempIF = impactFactor;
@@ -406,7 +410,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 						}
 					} else if(evaluatedResult.getRuleNumber() == 2){
 						for(int startYear = 1987; startYear < 1999; startYear++){
-								ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+								ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 								for (ImpactFactor impactFactor : allImpactFactors) {
 									if(impactFactor.getYear().intValue() == startYear){
 											tempIF = impactFactor;
@@ -417,7 +421,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 						}
 					} else if(evaluatedResult.getRuleNumber() == 1){
 						for(int startYear = year-2; startYear < year+1; startYear++){
-							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>());
+							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
 							for (ImpactFactor impactFactor : allImpactFactors) {
 								if(impactFactor.getYear().intValue() == startYear){
 										tempIF = impactFactor;
@@ -436,7 +440,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 				
 //				System.out.println("4");
 				
-				calculateExplainTable(impactFactors);
+				calculateExplainTable(impactFactors, true, true);
 				showAllImpactFactors = false;
 				
 //				System.out.println("5");
@@ -611,14 +615,14 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 	
 	public String getEvaluatedResultAsString() {
 		String retVal = null;
-		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea();
+		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true);
 		long round  = Math.round(ra.getPosition()/ra.getDividend());
 		String vrednostKategorije = ra.getPosition().intValue() + "/" + round;
 		retVal = "<b>" + facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year") + ":</b> " + evaluatedResult.getImpactFactor().getYear()+ "; " + 
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.category") + ":</b> " +evaluatedResult.getCategory() + "; " + 
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea().getResearchAreaDTO().getSomeTerm()+ "; " +
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true).getResearchAreaDTO().getSomeTerm()+ "; " +
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.position") + ":</b> " +vrednostKategorije + "; " +
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactor();
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactorForMaxResearchArea(true, true);
 		return retVal;
 	}
 	
@@ -646,22 +650,38 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 //		return retVal;
 //	}
 
-	public List<Map<String, String>> getEvaluatedResultsImpactFactorsWithCategories() {
-		return evaluatedResultsImpactFactorsWithCategories;
+	public List<Map<String, String>> getEvaluatedResultsImpactFactorsWithCategoriesTwoYears() {
+		return evaluatedResultsImpactFactorsWithCategoriesTwoYears;
 	}
 
-	public void setEvaluatedResultsImpactFactorsWithCategories(
-			List<Map<String, String>> evaluatedResultsImpactFactorsWithCategories) {
-		this.evaluatedResultsImpactFactorsWithCategories = evaluatedResultsImpactFactorsWithCategories;
+	public void setEvaluatedResultsImpactFactorsWithCategoriesTwoYears(
+			List<Map<String, String>> evaluatedResultsImpactFactorsWithCategoriesTwoYears) {
+		this.evaluatedResultsImpactFactorsWithCategoriesTwoYears = evaluatedResultsImpactFactorsWithCategoriesTwoYears;
 	}
 	
-	public List<String> getEvaluatedResultsImpactFactorsWithCategoriesItemPropertyNames() {
-		return evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames;
+	public List<String> getEvaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears() {
+		return evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears;
 	}
 
-	public void setEvaluatedResultsImpactFactorsWithCategoriesItemPropertyNames(
-			List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames) {
-		this.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames = evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames;
+	public void setEvaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears(
+			List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears) {
+		this.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears = evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears;
+	}
+
+	public List<Map<String, String>> getEvaluatedResultsImpactFactorsWithCategoriesFiveYears() {
+		return evaluatedResultsImpactFactorsWithCategoriesFiveYears;
+	}
+
+	public void setEvaluatedResultsImpactFactorsWithCategoriesFiveYears(List<Map<String, String>> evaluatedResultsImpactFactorsWithCategoriesFiveYears) {
+		this.evaluatedResultsImpactFactorsWithCategoriesFiveYears = evaluatedResultsImpactFactorsWithCategoriesFiveYears;
+	}
+
+	public List<String> getEvaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears() {
+		return evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears;
+	}
+
+	public void setEvaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears(List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears) {
+		this.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears = evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears;
 	}
 
 	public List<String[]> getEvaluatedResultsLegendCategories() {
@@ -673,58 +693,78 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		return detailExplanation;
 	}
 	
-	public List<String[]> getEvaluatedResultsAllYears() {
-		return evaluatedResultsAllYears;
+	public List<String[]> getEvaluatedResultsAllYearsTwoYears() {
+		return evaluatedResultsAllYearsTwoYears;
+	}
+
+	public List<String[]> getEvaluatedResultsAllYearsFiveYears() {
+		return evaluatedResultsAllYearsFiveYears;
 	}
 
 	public boolean isRenderTabelaTip1(){
 		boolean retVal = false;
 		if (year < 1981)
 			retVal = true;
-		return retVal && !evaluatedResultsImpactFactorsWithCategories.isEmpty() && evaluatedResultsAllYears.isEmpty();
+		return retVal && !(evaluatedResultsImpactFactorsWithCategoriesTwoYears.isEmpty() || evaluatedResultsImpactFactorsWithCategoriesFiveYears.isEmpty()) && evaluatedResultsAllYearsTwoYears.isEmpty() && evaluatedResultsAllYearsFiveYears.isEmpty();
 	}
 	
 	public boolean isRenderTabelaTip2(){
 		boolean retVal = false;
 		if (year >= 1989 && year<=1997)
 			retVal = true;
-		return retVal && !evaluatedResultsImpactFactorsWithCategories.isEmpty() && evaluatedResultsAllYears.isEmpty();
+		return retVal && !(evaluatedResultsImpactFactorsWithCategoriesTwoYears.isEmpty() || evaluatedResultsImpactFactorsWithCategoriesFiveYears.isEmpty()) && evaluatedResultsAllYearsTwoYears.isEmpty() && evaluatedResultsAllYearsFiveYears.isEmpty();
 	}
 	
 	public boolean isRenderTabelaTip3(){
 		boolean retVal = false;
 		if (!isRenderTabelaTip1() && !isRenderTabelaTip2())
 			retVal = true;
-		return retVal && !evaluatedResultsImpactFactorsWithCategories.isEmpty() && evaluatedResultsAllYears.isEmpty();
+		return retVal && !(evaluatedResultsImpactFactorsWithCategoriesTwoYears.isEmpty() || evaluatedResultsImpactFactorsWithCategoriesFiveYears.isEmpty()) && evaluatedResultsAllYearsTwoYears.isEmpty() && evaluatedResultsAllYearsFiveYears.isEmpty();
 	}
 	
-	private HashMap<String, ResearchAreaDTO> getRowsCategoriesRanking() {
+	private HashMap<String, ResearchAreaDTO> getRowsCategoriesRanking(boolean twoYears, boolean fiveYears) {
 		HashMap<String, ResearchAreaDTO> retVal = new HashMap<String, ResearchAreaDTO>();
 		if (impactFactors!=null) {
-			
 			for (ImpactFactor imF:  impactFactors) {
-				for (ResearchAreaRanking rar : imF.getResearchAreas()) {
-					ResearchAreaDTO ra = rar.getResearchAreaDTO();
-					if (!retVal.containsKey(ra.getClassId())) {
-						retVal.put(ra.getClassId(), ra);
+				if(twoYears) {
+					for (ResearchAreaRanking rar : imF.getResearchAreas()) {
+						ResearchAreaDTO ra = rar.getResearchAreaDTO();
+						if (!retVal.containsKey(ra.getClassId())) {
+							retVal.put(ra.getClassId(), ra);
+						}
+					}
+				}
+				if(fiveYears) {
+					for (ResearchAreaRanking rar : imF.getResearchAreas()) {
+						ResearchAreaDTO ra = rar.getResearchAreaDTO();
+						if (!retVal.containsKey(ra.getClassId())) {
+							retVal.put(ra.getClassId(), ra);
+						}
 					}
 				}
 			}
 		}
 		return retVal;
 	}
-	
-	public void calculateExplainTable(List<ImpactFactor> impactFactors) {
+
+	public void calculateExplainTable(List<ImpactFactor> impactFactors, boolean twoYears, boolean fiveYears) {
+		if(twoYears)
+			calculateExplainTableTwoYears(impactFactors);
+		if(fiveYears)
+			calculateExplainTableFiveYears(impactFactors);
+	}
+
+	public void calculateExplainTableTwoYears(List<ImpactFactor> impactFactors) {
 		
-		evaluatedResultsImpactFactorsWithCategories.clear();
-		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames.clear();
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears.clear();
 		
 		if (selectedJournal == null || year==null || commissionID == null)
 			return;
 		
-		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames.add("header");
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears.add("header");
 		for (ImpactFactor impactFactor : impactFactors) {
-			evaluatedResultsImpactFactorsWithCategoriesItemPropertyNames.add(impactFactor.getYear().toString());
+			evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears.add(impactFactor.getYear().toString());
 		}
 		
 		Set<ResearchAreaDTO> researchAreas = new HashSet<ResearchAreaDTO>();
@@ -742,7 +782,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 			tempMap.put(impactFactor.getYear().toString(), impactFactor.getYear().toString());
 		}
 		
-		evaluatedResultsImpactFactorsWithCategories.add(tempMap);
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.add(tempMap);
 		
 		tempMap= new HashMap<String, String>();
 		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor"));
@@ -751,7 +791,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 			tempMap.put(impactFactor.getYear().toString(), (impactFactor.getValueOfImpactFactor()!=null)?(impactFactor.getValueOfImpactFactor().toString()):"-");
 		}
 		
-		evaluatedResultsImpactFactorsWithCategories.add(tempMap);
+		evaluatedResultsImpactFactorsWithCategoriesTwoYears.add(tempMap);
 		
 		for (ResearchAreaDTO researchAreaDTO : researchAreas) {
 			tempMap= new HashMap<String, String>();
@@ -768,14 +808,80 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 				tempMap.put(impactFactor.getYear().toString(), position);
 			}
 			
-			evaluatedResultsImpactFactorsWithCategories.add(tempMap);
+			evaluatedResultsImpactFactorsWithCategoriesTwoYears.add(tempMap);
 		}
 		
 	}
 
-	public void calculateExplainTableAllYears() {
+	public void calculateExplainTableFiveYears(List<ImpactFactor> impactFactors) {
+
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.clear();
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears.clear();
+
+		if (selectedJournal == null || year==null || commissionID == null)
+			return;
+
+		evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears.add("header");
+		for (ImpactFactor impactFactor : impactFactors) {
+			evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears.add(impactFactor.getYear().toString());
+		}
+
+		Set<ResearchAreaDTO> researchAreas = new HashSet<ResearchAreaDTO>();
+		for (ImpactFactor impactFactor : impactFactors) {
+			for (ResearchAreaRanking researchAreaRanking : impactFactor.getResearchAreasFiveYears()) {
+				if(! researchAreas.contains(researchAreaRanking.getResearchAreaDTO()))
+					researchAreas.add(researchAreaRanking.getResearchAreaDTO());
+			}
+		}
+
+		Map<String, String> tempMap= new HashMap<String, String>();
+		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year"));
+
+		for (ImpactFactor impactFactor : impactFactors) {
+			tempMap.put(impactFactor.getYear().toString(), impactFactor.getYear().toString());
+		}
+
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.add(tempMap);
+
+		tempMap= new HashMap<String, String>();
+		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor"));
+
+		for (ImpactFactor impactFactor : impactFactors) {
+			tempMap.put(impactFactor.getYear().toString(), (impactFactor.getValueOfImpactFactorFiveYears()!=null)?(impactFactor.getValueOfImpactFactorFiveYears().toString()):"-");
+		}
+
+		evaluatedResultsImpactFactorsWithCategoriesFiveYears.add(tempMap);
+
+		for (ResearchAreaDTO researchAreaDTO : researchAreas) {
+			tempMap= new HashMap<String, String>();
+			tempMap.put("header", researchAreaDTO.getSomeTerm());
+
+			for (ImpactFactor impactFactor : impactFactors) {
+				String position = "";
+				for (ResearchAreaRanking ra : impactFactor.getResearchAreasFiveYears()) {
+					if(researchAreaDTO.equals(ra.getResearchAreaDTO())){
+						long round  = Math.round(ra.getPosition()/ra.getDividend());
+						position = ra.getPosition().intValue() + "/" + round;
+					}
+				}
+				tempMap.put(impactFactor.getYear().toString(), position);
+			}
+
+			evaluatedResultsImpactFactorsWithCategoriesFiveYears.add(tempMap);
+		}
+
+	}
+
+	public void calculateExplainTableAllYears(boolean twoYears, boolean fiveYears) {
+		if(twoYears)
+			calculateExplainTableAllYearsTwoYearsIF();
+		if(fiveYears)
+			calculateExplainTableAllYearsFiveYearsIF();
+	}
+
+	public void calculateExplainTableAllYearsTwoYearsIF() {
 		
-		evaluatedResultsAllYears.clear();
+		evaluatedResultsAllYearsTwoYears.clear();
 
 		List<Integer> years = new ArrayList<Integer>();
 		
@@ -798,7 +904,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 			red[i] = years.get(i-1)+"";
 //			System.out.println(i +" unete godine vrsta "+red[i]);
 		}
-		evaluatedResultsAllYears.add(red);
+		evaluatedResultsAllYearsTwoYears.add(red);
 		
 		//popunjavam drugu vrstu izvrednovane kategorije
 		HashMap<Integer, String> evaluacijaSvihGodine = getAllTypes(selectedJournal.getRecord(), commission, startEv, endEv);
@@ -812,7 +918,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 			}
 			
 		}
-		evaluatedResultsAllYears.add(red);
+		evaluatedResultsAllYearsTwoYears.add(red);
 		//popunjavam trecu vrstu impakt faktori
 		red = new String [brojKolona];
 		red[0] = facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableRowHeaderIF");
@@ -827,11 +933,11 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 			red[i] = vrednostIF;
 //			System.out.println(i +" unete if vrsta "+red[i]);
 		}
-		evaluatedResultsAllYears.add(red);
+		evaluatedResultsAllYearsTwoYears.add(red);
 		
 		//popunjavam naucne oblasti i kategorije
 		int legendCount = 1;
-		HashMap<String, ResearchAreaDTO> kategorije = getRowsCategoriesRanking();
+		HashMap<String, ResearchAreaDTO> kategorije = getRowsCategoriesRanking(true, false);
 		for (String kljucKategorije : kategorije.keySet()){
 			red = new String [brojKolona];
 			red[0] = MessageFormat.format(facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableRowHeaderScienceField"), legendCount);
@@ -854,7 +960,92 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 //				System.out.println(i +" unete kat " + kljucKategorije +" vrsta "+red[i]);
 			}
 			legendCount++;
-			evaluatedResultsAllYears.add(red);
+			evaluatedResultsAllYearsTwoYears.add(red);
+		}
+	}
+
+	public void calculateExplainTableAllYearsFiveYearsIF() {
+
+		evaluatedResultsAllYearsFiveYears.clear();
+
+		List<Integer> years = new ArrayList<Integer>();
+
+		int startEv  = 1981;
+		int endEv  = lastEvaluationYear; //
+
+		int brojKolona = endEv-startEv+2; //33
+
+
+		for(int i = startEv; i <= endEv; i++){
+			years.add(i);
+//			System.out.println(i +" unete godine "+i);
+		}
+		String [] red = null;
+
+		//popunjavam prvu vrstu godine
+		red = new String [brojKolona];
+		red[0] = facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableRowHeaderYear");
+		for (int i = 1; i < red.length; i++) {
+			red[i] = years.get(i-1)+"";
+//			System.out.println(i +" unete godine vrsta "+red[i]);
+		}
+		evaluatedResultsAllYearsFiveYears.add(red);
+
+		//popunjavam drugu vrstu izvrednovane kategorije
+		HashMap<Integer, String> evaluacijaSvihGodine = getAllTypes(selectedJournal.getRecord(), commission, startEv, endEv);
+		red = new String [brojKolona];
+		red[0] = facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableRowHeaderEvaluation");
+		for (int i = 1; i < red.length; i++) {
+			int godinaEv = years.get(i-1);
+			if (evaluacijaSvihGodine.containsKey(godinaEv)) {
+				red[i] = evaluacijaSvihGodine.get(godinaEv);
+//				System.out.println(i +" unete eval vrsta "+red[i]);
+			}
+
+		}
+		evaluatedResultsAllYearsFiveYears.add(red);
+		//popunjavam trecu vrstu impakt faktori
+		red = new String [brojKolona];
+		red[0] = facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableRowHeaderIF");
+		for (int i = 1; i < red.length; i++) {
+			String vrednostIF = "";
+			for (ImpactFactor imF:  impactFactors){
+				if(years.get(i-1).intValue() == imF.getYear().intValue()){
+					vrednostIF = imF.getValueOfImpactFactor()+"";
+					break;
+				}
+			}
+			red[i] = vrednostIF;
+//			System.out.println(i +" unete if vrsta "+red[i]);
+		}
+		evaluatedResultsAllYearsFiveYears.add(red);
+
+		//popunjavam naucne oblasti i kategorije
+		int legendCount = 1;
+		HashMap<String, ResearchAreaDTO> kategorije = getRowsCategoriesRanking(false, true);
+		for (String kljucKategorije : kategorije.keySet()){
+			red = new String [brojKolona];
+			red[0] = MessageFormat.format(facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.detailExplanation.tableRowHeaderScienceField"), legendCount);
+
+			for (int i = 1; i < red.length; i++) {
+				String vrednostKategorije = "";
+				for (ImpactFactor imF:  impactFactors){
+					if(years.get(i-1).intValue() == imF.getYear().intValue()){
+						List<ResearchAreaRanking> rar = imF.getResearchAreasFiveYears();
+						for (ResearchAreaRanking ra : rar) {
+							if (ra.getResearchAreaDTO().getClassId().equals(kljucKategorije)) {
+								long round  = Math.round(ra.getPosition()/ra.getDividend());
+								vrednostKategorije = ra.getPosition().intValue() + "/" + round;
+								break;
+							}
+						}
+					}
+				}
+				red[i] = vrednostKategorije;
+//				System.out.println(i +" unete kat " + kljucKategorije +" vrsta "+red[i]);
+			}
+			legendCount++;
+			evaluatedResultsAllYearsFiveYears.add(red);
 		}
 	}
 	

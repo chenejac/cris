@@ -23,10 +23,6 @@ public class JournalEval {
 		super();
 	}
 
-	/**
-	 * @param journal
-	 * @param papers
-	 */
 	public JournalEval(String controlNumber, String someName, String ISSN, List<ImpactFactor> impactFactors, int startingYear) {
 		super();
 		this.controlNumber = controlNumber;
@@ -113,14 +109,20 @@ public class JournalEval {
 		this.startingYear = startingYear;
 	}
 
-	public boolean hasIfInYear(int godina)
+	public boolean hasIfInYear(int godina, boolean twoYears, boolean fiveYears)
 	{
 		boolean retVal = false;
 		if(impactFactors!=null && (!impactFactors.isEmpty())){
 			for (ImpactFactor imf : impactFactors) {
 				if(imf.getYear()==godina){
-					retVal = true;
-					break;
+					if (twoYears && ((imf.getValueOfImpactFactor() != null) || (! imf.getResearchAreas().isEmpty()))){
+						retVal = true;
+						break;
+					}
+					if (fiveYears && ((imf.getValueOfImpactFactorFiveYears() != null) || (! imf.getResearchAreasFiveYears().isEmpty()))){
+						retVal = true;
+						break;
+					}
 				}
 			}
 		}

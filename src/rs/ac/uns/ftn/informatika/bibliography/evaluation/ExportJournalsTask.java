@@ -2,11 +2,7 @@ package rs.ac.uns.ftn.informatika.bibliography.evaluation;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,7 +82,7 @@ public class ExportJournalsTask implements Task {
 //						Collections.sort(listPapers, new GenericComparator<PaperJournalDTO>(
 //							"publicationYear", "asc"));
 						MetricsDB metricsDB = new MetricsDB();
-						List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journalDTO.getControlNumber(), "twoYearsIF");
+						List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journalDTO.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 //						Collections.sort(impactFactors, new GenericComparator<ImpactFactor>(
 //								"year", "asc"));
 //						if(impactFactors.size() != 0)
@@ -140,7 +136,7 @@ public class ExportJournalsTask implements Task {
 					Collections.sort(listPapers, new GenericComparator<PaperJournalDTO>(
 							"publicationYear", "asc"));
 					MetricsDB metricsDB = new MetricsDB();
-					List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journalDTO.getControlNumber(), "twoYearsIF");
+					List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journalDTO.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 					Collections.sort(impactFactors, new GenericComparator<ImpactFactor>(
 							"year", "asc"));
 					if(impactFactors.size() != 0)
