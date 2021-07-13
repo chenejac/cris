@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+
+	<!-- ===========================   treePanel  ============================= -->
+	<h:graphicImage
+		library="img"
+		name="spacer.gif"
+		alt=""
+		height="10"
+		width="1"
+		/>
+	<h:panelGrid
+		id="organizationHierarchyTreePanel"
+		columns="1" >
+		<rich:tree
+			id = "institutionAndOrganizationTree"
+			selectionType="client"
+			toggleType="ajax"
+			value="#{organizationProfileManagedBean.rootNodes}"
+			var="institution"
+			iconExpanded="#{true}"
+			>
+			<rich:treeNode
+				expanded="#{true}"
+				iconCollapsed="/resources/img/institution_orange.png"
+				iconExpanded="/resources/img/institution_orange.png"
+				iconLeaf="/resources/img/institution_orange.png"
+				>
+				<a4j:commandLink
+					action="#{organizationProfileManagedBean.openOrganizationPage()}"
+					>
+					<h:outputText
+						value="#{institution.element}"
+						style="font-size: 14px;"/>
+					<h:graphicImage library="img" name="enter.png" />
+					<a4j:param name="organizationId" value="#{institution.element.controlNumber}"
+							   assignTo="#{organizationProfileManagedBean.organizationId}" />
+				</a4j:commandLink>
+			</rich:treeNode>
+		</rich:tree>
+		<h:panelGroup
+			rendered="#{empty organizationProfileManagedBean.rootNodes}">
+			<h:outputText
+				value="#{messages['records.organizationPage.nosubunits']}"
+				style="font-size: 14px;" />
+		</h:panelGroup>
+	</h:panelGrid>
+</ui:composition>

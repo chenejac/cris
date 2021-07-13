@@ -719,6 +719,14 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 			extCtx.getSessionMap().put("positionManagedBean", mb);
 		}
 		mb.resetForm();
+
+//		mb = (ResearcherProfileManagedBean) extCtx.getSessionMap().get(
+//				"researcherProfileManagedBean");
+//		if (mb == null) {
+//			mb = new ResearcherProfileManagedBean();
+//			extCtx.getSessionMap().put("researcherProfileManagedBean", mb);
+//		}
+//		mb.resetForm();
 		
 		//proveri da li je potrebno da se ubaci za SciencesGroup, ResultTypeGroup, ResultType, RuleBook, RuleBookImplementation
 	}

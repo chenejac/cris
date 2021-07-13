@@ -1,0 +1,486 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:a4j="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich"
+				xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+				xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<div >
+		<h:graphicImage
+			library="img"
+			name="spacer.gif"
+			alt=""
+			height="20"
+			width="1"
+			/>
+
+		<!-- MAIN PANEL -->
+		<h:panelGrid id="mainPanel">
+			<h:panelGrid id="searchTableFormPanel" width="100%">
+				<h:inputText id="general" rendered="false" value="" />
+				<a4j:outputPanel ajaxRendered="true">
+					<rich:message
+						for="general"
+						errorClass="errorMessage"
+						infoClass="infoMessage"
+						warnClass="warnMessage"
+						fatalClass="fatalMessage"/>
+				</a4j:outputPanel>
+				<h:panelGrid id="panelPublication" columns="1" width="100%">
+					<rich:dataTable id="queryTable" var="query" rowKeyVar="rowKeyVar" value="#{searchManagedBean.searchQuerys}"  columnClasses="width10, width70, width5, width20, width5">
+						<rich:column>
+							<h:outputText
+								value="#{messages['search.searchPanel.publicationTab.searchFor']}"
+								rendered="#{query.id==0}"
+								style="font-size: 14px" />
+							<h:inputHidden value="#{query.operator}" rendered="#{query.id==0}"/>
+
+							<h:selectOneMenu value="#{query.operator}" rendered="#{query.id!=0}" >
+								<f:selectItems
+									value="#{searchManagedBean.searchQueryOperator}"
+									style="font-size: 14px" />
+							</h:selectOneMenu>
+						</rich:column>
+						<rich:column>
+							<a4j:region>
+								<h:inputText
+									value="#{query.inputQuery}"
+									style="width:98% !important"
+									rendered="#{ (query.inputQueryType != searchManagedBean.searchQueryTypeString[2]) and (query.inputQueryType != searchManagedBean.searchQueryTypeString[3]) and (query.inputQueryType != searchManagedBean.searchQueryTypeString[7]) and (query.inputQueryType != searchManagedBean.searchQueryTypeString[8]) }">
+								</h:inputText>
+
+
+								<rich:autocomplete
+										id="author"
+										value="#{query.inputQuery}"
+										mode="cachedAjax"
+										autocompleteMethod="#{authorManagedBean.autocompleteForSearch}"
+										var="_authorRow"
+										fetchValue="&quot;#{_authorRow.names}&quot;"
+										minChars="3"
+										selectFirst="false"
+										rendered="#{ (query.inputQueryType eq searchManagedBean.searchQueryTypeString[2]) or (query.inputQueryType eq searchManagedBean.searchQueryTypeString[3])}"
+										style="width:100% !important;"
+										inputClass="width100"
+										onfocus="activeElId = this.id;"
+								>
+									<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+									<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
+									<rich:column
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell" width="100%">
+										<h:outputText
+											value="#{_authorRow.names}"
+											style="font-size: 14px" />
+									</rich:column>
+								</rich:autocomplete>
+
+								<rich:autocomplete
+										id="journal"
+										value="#{query.inputQuery}"
+										mode="cachedAjax"
+										autocompleteMethod="#{journalManagedBean.autocompleteName}"
+										var="_journalRow"
+										fetchValue="&quot;#{_journalRow.someName}&quot;"
+										minChars="3"
+										selectFirst="false"
+										rendered="#{query.inputQueryType eq searchManagedBean.searchQueryTypeString[8]}"
+										style="width:100% !important;"
+										inputClass="width100"
+										onfocus="activeElId = this.id;"
+								>
+									<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+									<!--     ........  IME CASOPISA .......-->
+									<rich:column
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell" width="100%">
+										<h:outputText
+											value="#{_journalRow.someName}"
+											style="font-size: 14px" />
+
+									</rich:column>
+								</rich:autocomplete>
+
+								<rich:autocomplete
+										id="conference"
+										value="#{query.inputQuery}"
+										mode="cachedAjax"
+										autocompleteMethod="#{conferenceManagedBean.autocompleteForSearch}"
+										var="_conferenceRow"
+										fetchValue="&quot;#{_conferenceRow.someName}&quot;"
+										minChars="3"
+										selectFirst="false"
+										rendered="#{query.inputQueryType eq searchManagedBean.searchQueryTypeString[7]}"
+										style="width:100% !important;"
+										inputClass="width100"
+										onfocus="activeElId = this.id;"
+								>
+									<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
+									<!--     ........  IME KONFERENCIJE .......-->
+									<rich:column
+											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+											styleClass="rich-table-wide-cell" width="100%">
+										<h:outputText
+											value="#{_conferenceRow.someName}"
+											style="font-size: 14px" />
+									</rich:column>
+								</rich:autocomplete>
+							</a4j:region>
+						</rich:column>
+
+						<rich:column style="text-align:center">
+							<h:outputText
+								value="#{messages['search.searchPanel.publicationTab.searchIn']}"
+								style="font-size: 14px"
+							/>
+						</rich:column>
+						<rich:column style="text-align:center;font-size: 14px">
+							<rich:select value="#{query.inputQueryType}" valueChangeListener="#{searchManagedBean.switchToPick}"
+										 enableManualInput="false" selectFirst="true" onselectitem="jsfSelectItemGlupaFunkcija()">
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh1']}" itemValue="#{searchManagedBean.searchQueryTypeString[1]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh2']}" itemValue="#{searchManagedBean.searchQueryTypeString[2]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh3']}" itemValue="#{searchManagedBean.searchQueryTypeString[3]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh4']}" itemValue="#{searchManagedBean.searchQueryTypeString[4]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh5']}" itemValue="#{searchManagedBean.searchQueryTypeString[5]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh6']}" itemValue="#{searchManagedBean.searchQueryTypeString[6]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh7']}" itemValue="#{searchManagedBean.searchQueryTypeString[7]}"/>
+								<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh8']}" itemValue="#{searchManagedBean.searchQueryTypeString[8]}"/>
+							</rich:select>
+							<a4j:jsFunction
+									name="jsfSelectItemGlupaFunkcija"
+									execute="@form"
+									render="@form"
+							>
+							</a4j:jsFunction>
+						</rich:column>
+						<rich:column style="text-align:center">
+							<h:graphicImage
+									library="img"
+									name="spacer.gif"
+									alt=""
+									height="20"
+									width="1"
+									rendered="#{query.id==0}"
+							/>
+							<a4j:commandLink
+									rendered="#{query.id!=0}"
+									action="#{searchManagedBean.removeQuery}"
+									render="panelPublication"
+									limitRender="true">
+								<h:graphicImage library="img" name="delete32.png"/>
+								<f:param name="removedQuery" value="#{query.id}" />
+							</a4j:commandLink>
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup>
+								<rich:column colspan="4" style="text-align:left">
+									<h:outputText
+										value="#{messages['search.searchPanel.publicationTab.fuzzy']}"
+										style="font-size: 14px"
+									/>
+									<h:selectBooleanCheckbox
+										label="#{messages['search.searchPanel.publicationTab.fuzzy']}"
+										value="#{searchManagedBean.fuzzy}"
+										style="font-size: 14px">
+									</h:selectBooleanCheckbox>
+								</rich:column>
+
+								<rich:column colspan="1">
+									<a4j:commandLink
+											action="#{searchManagedBean.addQuery}"
+											render="panelPublication"
+											limitRender="true">
+										<h:graphicImage library="img" name="create32.png"/>
+									</a4j:commandLink>
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+				</h:panelGrid>
+				<h:panelGrid id="panelPublicationLimit" columns="2" columnClasses="width10, width90">
+
+
+					<h:outputText
+						value="#{messages['search.searchPanel.publicationTab.limitTo']}"
+						styleClass="outputTextAsHeader"/>
+
+
+					<h:graphicImage
+							library="img"
+							name="spacer.gif"
+							alt=""
+							height="20"
+							width="100%"
+					/>
+
+					<h:graphicImage
+							library="img"
+							name="spacer.gif"
+							alt=""
+							height="20"
+							width="100%"
+					/>
+
+					<h:panelGrid columns="2" columnClasses="width60, width40" width="100%">
+						<h:panelGrid columns="1" width="100%">
+							<h:outputText
+								value="#{messages['search.searchPanel.publicationTab.dateRange']}"
+								style="font-size: 14px"/>
+							<h:panelGrid columns="4" columnClasses="width25, width30,width10, width35" width="100%">
+								<h:outputText
+									value="#{messages['search.searchPanel.publicationTab.fromDate']}"
+									style="font-size: 14px"/>
+								<h:selectOneMenu value="#{searchManagedBean.fromDate}">
+									<f:selectItem
+										itemLabel="#{messages['search.searchPanel.publicationTab.fromDateCh0']}"
+										itemValue="#{searchManagedBean.searchQueryTypeString[0]}"
+										style="font-size: 14px"/>
+									<f:selectItems
+										value="#{searchManagedBean.dateRange}"
+										style="font-size: 14px"/>
+								</h:selectOneMenu>
+								<h:outputText
+									value="#{messages['search.searchPanel.publicationTab.toDate']}"
+									style="font-size: 14px"/>
+								<h:selectOneMenu value="#{searchManagedBean.toDate}">
+									<f:selectItem
+										itemLabel="#{messages['search.searchPanel.publicationTab.toDateCh0']}"
+										itemValue="#{searchManagedBean.searchQueryTypeString[0]}"
+										style="font-size: 14px"/>
+									<f:selectItems
+										value="#{searchManagedBean.dateRange}"
+										style="font-size: 14px"/>
+								</h:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="1" width="100%">
+							<h:outputText
+								value="#{messages['search.searchPanel.publicationTab.publicationType']}"
+								style="font-size: 14px"
+							/>
+							<h:selectOneMenu value="#{searchManagedBean.publicationType}">
+								<f:selectItem
+									itemLabel="#{messages['search.searchPanel.publicationTab.publicationTypeCh0']}"
+									itemValue="#{searchManagedBean.searchQueryTypeString[0]}"
+									style="font-size: 14px"
+								/>
+								<f:selectItem
+									itemLabel="#{messages['search.searchPanel.publicationTab.publicationTypeCh1']}"
+									itemValue="#{searchManagedBean.searchQueryTypeString[1]}"
+									style="font-size: 14px"
+								/>
+								<f:selectItem
+									itemLabel="#{messages['search.searchPanel.publicationTab.publicationTypeCh2']}"
+									itemValue="#{searchManagedBean.searchQueryTypeString[2]}"
+									style="font-size: 14px"
+								/>
+								<f:selectItem
+									itemLabel="#{messages['search.searchPanel.publicationTab.publicationTypeCh3']}"
+									itemValue="#{searchManagedBean.searchQueryTypeString[3]}"
+									style="font-size: 14px"
+								/>
+								<f:selectItem
+									itemLabel="#{messages['search.searchPanel.publicationTab.publicationTypeCh4']}"
+									itemValue="#{searchManagedBean.searchQueryTypeString[4]}"
+									style="font-size: 14px"
+								/>
+							</h:selectOneMenu>
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:panelGrid>
+				<h:panelGrid id="panelPublicationSearch" columns="1" width="100%">
+					<a4j:commandButton
+							id="btnPublicationFind"
+							action="#{searchManagedBean.sendPublicationForCQL}"
+							value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
+							render="panelResult"
+							limitRender="true"
+					/>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+		<!-- MODAL PANEL -->
+		<h:panelGrid id="panelResult">
+			<!-- ....... SEARCH RESULTS.......           -->
+			<rich:panel id="panelResultPanel" rendered="#{searchManagedBean.searchResultShow}">
+				<h2>
+					<a4j:outputPanel ajaxRendered="true">
+						<h:outputText
+							value="#{messages['search.panelResult.CQLResultLabel']}"
+							rendered="#{searchManagedBean.searchResultShow}"/>
+					</a4j:outputPanel>
+				</h2>
+				<h:graphicImage
+						library="img"
+						name="spacer.gif"
+						alt=""
+						height="20"
+						width="1"
+				/>
+				<h:panelGrid>
+					<h:outputText
+						value="#{searchManagedBean.searchQueryError}"
+						rendered="#{not empty searchManagedBean.searchQueryError}"
+						escape="false"
+						style="font-size: 14px"
+					/>
+					<h:outputText
+						value="#{messages['search.panelResult.CQLResultNumberLabel']} #{searchManagedBean.recordSize}"
+						rendered="#{empty searchManagedBean.searchQueryError}"
+						style="font-size: 14px"
+					/>
+
+					<h:panelGrid id="panelResultPanelGrid" rendered="#{empty searchManagedBean.searchQueryError}">
+						<!--
+						<h:panelGrid columns="2">
+						<h:outputLabel value="#{messages['search.panelResult.representationStyle.header']}: " />
+						<h:selectOneMenu value="#{searchManagedBean.representationStyle}">
+							<f:selectItem
+								itemValue="htmlRepresentation"
+								itemLabel="#{messages['search.panelResult.representationStyle.htmlRepresentation']}" />
+							<f:selectItem
+								itemValue="harvardRepresentation"
+								itemLabel="#{messages['search.panelResult.representationStyle.harvardRepresentation']}" />
+							<a4j:ajax
+								event="change"
+								render="advanceQueryResultsTable"
+								limitRender="true"
+								execute="@this" />
+						</h:selectOneMenu>
+						</h:panelGrid>
+						-->
+
+
+						<h:panelGrid columns="2">
+							<h:outputLabel
+								value="#{messages['search.panelResult.sortMethod.header']}: "
+								style="font-size: 14px"/>
+							<h:selectOneMenu value="#{searchManagedBean.sortMethod}">
+								<f:selectItem
+										itemValue="relevance"
+										itemLabel="#{messages['search.panelResult.sortMethod.relevance']}"
+										style="font-size: 14px"/>
+								<f:selectItem
+										itemValue="date"
+										itemLabel="#{messages['search.panelResult.sortMethod.date']}"
+										style="font-size: 14px"/>
+								<a4j:ajax
+										event="change"
+										render="advanceQueryResultsTable"
+										limitRender="true"
+										execute="@this" />
+							</h:selectOneMenu>
+						</h:panelGrid>
+
+
+						<rich:dataTable
+								id="advanceQueryResultsTable"
+								var="resultQuery"
+								rowKeyVar="rowKeyVar"
+								value="#{searchManagedBean.records}"
+								rendered="#{empty searchManagedBean.searchQueryError}"
+								rows="100"
+								style="width:100% !important;"
+						>
+							<rich:column>
+								<a4j:commandLink
+									id="showDetails"
+									onclick="if(document.getElementById(this.id.replace('showDetails', 'details')).style.display=='none') document.getElementById(this.id.replace('showDetails', 'details')).style.display='block'; else document.getElementById(this.id.replace('showDetails', 'details')).style.display='none'; return false;"
+								>
+									<h:graphicImage library="img" name="details24.png" />
+									<rich:tooltip
+										followMouse="true"
+										direction="topRight"
+										showDelay="1000"
+										styleClass="tooltip"
+										mode="client">
+											<span class="tooltipSpan">
+												<h:panelGrid columns="2">
+													<h:outputText
+														value="#{messages['search.panelResult.btnDetails']}"
+														style="font-size: 14px"/>
+												</h:panelGrid>
+											</span>
+									</rich:tooltip>
+								</a4j:commandLink>
+								<!--   <h:outputText value="#{resultQuery.harvardRepresentation}" escape="false" rendered="#{(not empty resultQuery) and (searchManagedBean.representationStyle == 'harvardRepresentation')}"/>
+								<h:outputText value="#{resultQuery.HTMLRepresentation}" escape="false" rendered="#{(not empty resultQuery) and (searchManagedBean.representationStyle == 'htmlRepresentation')}"/> -->
+								<h:outputText
+									value="#{resultQuery.harvardRepresentation}"
+									escape="false"
+									rendered="#{(not empty resultQuery)}"
+									style="font-size: 14px"/>
+
+								<rich:panel
+									rendered="true"
+									id="details"
+									style="display:none"
+								>
+									<rich:tabPanel
+										switchType="ajax"
+										activeItem="HTMLDataTab"
+
+									>
+										<rich:tab
+												id="HTMLDataTab"
+												header="#{messages['search.panelResult.htmlTab']}" >
+											<h:outputText
+												value="#{resultQuery.HTMLRepresentation}"
+												escape="false"
+												style="font-size: 14px"
+											/>
+										</rich:tab>
+										<rich:tab
+												id="Download"
+												header="#{messages['search.panelResult.downloadTab']}"
+										>
+											<!-- onenter="window.open('#{resultQuery.fileURL}', '_blank');"  -->
+											<h:outputText
+													rendered="#{not (((resultQuery.class.simpleName=='PatentDTO') or (resultQuery.class.simpleName=='ProductDTO') or (resultQuery.class.simpleName=='PaperJournalDTO') or (resultQuery.class.simpleName=='PaperProceedingsDTO') or (resultQuery.class.simpleName=='MonographDTO') or (resultQuery.class.simpleName=='PaperMonographDTO') or (resultQuery.class.simpleName=='StudyFinalDocumentDTO')) and (not empty resultQuery.uri))}"
+													escape="false"
+													value="#{messages['search.panelResult.downloadSolution']}"
+													style="font-size: 14px"/>
+											<h:outputLink
+													rendered="#{((resultQuery.class.simpleName=='PatentDTO') or (resultQuery.class.simpleName=='ProductDTO') or(resultQuery.class.simpleName=='PaperJournalDTO') or (resultQuery.class.simpleName=='PaperProceedingsDTO') or (resultQuery.class.simpleName=='MonographDTO') or (resultQuery.class.simpleName=='PaperMonographDTO') or (resultQuery.class.simpleName=='StudyFinalDocumentDTO')) and (not empty resultQuery.uri)}"
+													value="#{resultQuery.uri}"
+													target="_blank"
+											>
+												<h:graphicImage library="img" name="download.png" width="32" height="32"/>
+											</h:outputLink>
+										</rich:tab>
+										<rich:tab
+												id="MARC21Tab"
+												header="#{messages['search.panelResult.marc21Tab']}" >
+											<h:outputText
+												value="#{resultQuery.MARC21}"
+												escape="false"
+												style="font-size: 14px"/>
+										</rich:tab>
+										<rich:tab
+												id="DublinCoreTab"
+												header="#{messages['search.panelResult.dublinCoreTab']}" >
+											<h:outputText
+												value="#{resultQuery.dublinCore}"
+												escape="false"
+												style="font-size: 14px"/>
+										</rich:tab>
+									</rich:tabPanel>
+								</rich:panel>
+							</rich:column>
+						</rich:dataTable>
+						<rich:dataScroller
+								for="advanceQueryResultsTable"
+								maxPages="25"
+								rendered="#{(searchManagedBean.recordSize gt 100)}"
+								renderIfSinglePage="false"
+						/>
+						<!-- maxPages +1 jer je npr 111 podeljeno 100 = 1 a nama treba 2 strane -->
+					</h:panelGrid>
+				</h:panelGrid>
+			</rich:panel>
+		</h:panelGrid>
+	</div>
+</ui:composition>

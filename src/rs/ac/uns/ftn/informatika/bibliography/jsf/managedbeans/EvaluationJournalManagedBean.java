@@ -618,7 +618,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true);
 		long round  = Math.round(ra.getPosition()/ra.getDividend());
 		String vrednostKategorije = ra.getPosition().intValue() + "/" + round;
-		retVal = "<b>" + facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year") + ":</b> " + evaluatedResult.getImpactFactor().getYear()+ "; " + 
+		retVal = "<b>" + facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year") + ":</b> " + evaluatedResult.getImpactFactor().getYear()+ "; " +
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.category") + ":</b> " +evaluatedResult.getCategory() + "; " + 
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true).getResearchAreaDTO().getSomeTerm()+ "; " +
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.position") + ":</b> " +vrednostKategorije + "; " +
@@ -785,7 +785,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		evaluatedResultsImpactFactorsWithCategoriesTwoYears.add(tempMap);
 		
 		tempMap= new HashMap<String, String>();
-		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor"));
+		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + " (IF2)");
 		
 		for (ImpactFactor impactFactor : impactFactors) {
 			tempMap.put(impactFactor.getYear().toString(), (impactFactor.getValueOfImpactFactor()!=null)?(impactFactor.getValueOfImpactFactor().toString()):"-");
@@ -844,7 +844,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 		evaluatedResultsImpactFactorsWithCategoriesFiveYears.add(tempMap);
 
 		tempMap= new HashMap<String, String>();
-		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor"));
+		tempMap.put("header", facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + " (IF5)");
 
 		for (ImpactFactor impactFactor : impactFactors) {
 			tempMap.put(impactFactor.getYear().toString(), (impactFactor.getValueOfImpactFactorFiveYears()!=null)?(impactFactor.getValueOfImpactFactorFiveYears().toString()):"-");

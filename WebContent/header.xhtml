@@ -13,22 +13,24 @@
 			<rich:toolbar>
 				<rich:toolbarGroup location="left" >
 					<rich:menuItem 
-						rendered="#{(empty relatedRecordsManagedBean.source) and (not userManagedBean.jobAd)}"
-						action="#{searchManagedBean.searchPageEnter}" 
+						action="#{organizationProfileManagedBean.pmfPageEnter()}"
+						label="#{messages['administration.pmfProfile.menu']}">
+					</rich:menuItem>
+					<rich:menuItem
+						rendered="#{(userManagedBean.loggedIn) and empty userManagedBean.loggedUser.author.controlNumber}"
+						action="#{searchManagedBean.enterCRUDPage()}"
 						label="#{messages['search.searchPanel.header']}">
 					</rich:menuItem>
-					<rich:menuItem 
-						rendered="#{not empty relatedRecordsManagedBean.source}"
-						action="#{searchDissertationsManagedBean.searchPageEnter}" 
-						label="#{messages['search.searchPanel.header']}">
+					<rich:menuItem
+							action="#{researcherProfileManagedBean.researchersPageEnter()}"
+							rendered="#{(userManagedBean.loggedIn) and not (empty userManagedBean.loggedUser.author.controlNumber)}"
+							label="#{messages['administration.myPublishedResults.menu']}" >
 					</rich:menuItem>
-					<rich:menuItem 
-						rendered="#{(userManagedBean.jobAd) and (userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.showInMainMenu]))}"
-						action="#{jobAdManagedBean.enterCRUDPage}" 
-						label="#{messages['administration.jobAd.menu']}">
-					</rich:menuItem>
-					<rich:dropDownMenu 
-						rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formEvaluationConference][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]))}"
+					<!--
+						((userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formEvaluationConference][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]))}
+					-->
+					<rich:dropDownMenu
+						rendered="#{(userManagedBean.loggedIn) and empty userManagedBean.loggedUser.author.controlNumber}"
 						label="#{messages['administration.publishedResults.menu']}" >
 						<rich:menuGroup 
 							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu]))}"
@@ -335,6 +337,12 @@
 					<h:outputText 
 						rendered="true"
 						style="width:0px"/>
+					<h:outputText
+							rendered="true"
+							style="width:0px"/>
+					<h:outputText
+							rendered="true"
+							style="width:0px"/>
 					<h:outputText 
 						value="#{messages['administration.email.emailMe']}" />
 					<h:outputLink 

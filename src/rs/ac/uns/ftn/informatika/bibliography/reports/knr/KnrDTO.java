@@ -18,6 +18,7 @@ public class KnrDTO {
 	private AuthorDTO researcher;
 	private List<StudyFinalDocumentDTO> diplomas;
 	private List<ResultsGroupDTO> resultsGroups;
+
 	
 	
 	/**
@@ -58,8 +59,8 @@ public class KnrDTO {
 	/**
 	 * @param resultsGroups the resultsGroups to set
 	 */
-	public void setResultsGroups(List<ResultsGroupDTO> resultTypes) {
-		this.resultsGroups = resultTypes;
+	public void setResultsGroups(List<ResultsGroupDTO> resultsGroups) {
+		this.resultsGroups = resultsGroups;
 	}
 	
 	/**
@@ -88,6 +89,5 @@ public class KnrDTO {
 		}		
 		return totalPoints;
 	}
-	
 
 }

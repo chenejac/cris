@@ -187,6 +187,7 @@ public class ImpactFactor {
 
 	public String getValueOfImpactFactorForMaxResearchArea(boolean twoYears, boolean fiveYears) {
 		ResearchAreaRanking ra = null;
+		valueOfImpactFactorForMaxResearchArea = null;
 		if(twoYears){
 			for (ResearchAreaRanking researchArea : researchAreas) {
 				if(valueOfImpactFactorForMaxResearchArea == null) {

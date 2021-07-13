@@ -1,0 +1,488 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="bibliographyOtherTableFormPanel" >
+		<h:inputText id="generalOther" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="generalOther"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<h:panelGrid
+			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)}">
+			<!-- ===========================   searchPanel  ============================= -->
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="10"
+				width="1"
+				/>
+			<h:panelGrid 
+				id="bibliographyOtherSearchPanel"
+				columns="4">
+				<h:panelGroup>
+					<h2>
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.bibliography.searchPanel.header']}: " 
+								for="whereStrOther"
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+					</h2>
+				</h:panelGroup>
+				<h:inputText 
+					id="whereStrOther"
+					onkeydown="keyDownHandler(event, 'bibliographyOtherTableForm:btnFindOther')"
+					value="#{bibliographyManagedBean.whereStr}" 
+					styleClass="searchBox" />
+				<a4j:commandButton 
+					id="btnFindOther"
+					value="#{messages['records.bibliography.searchPanel.btnFind']}"
+					render="bibliographyOtherTablePanel" 
+					limitRender="true" 
+					execute="@form"
+					image="./resources/img/filter.png"/>
+				<a4j:commandButton 
+					id="btnShowAllOther"
+					action="#{bibliographyManagedBean.removeFilter}"
+					value="#{messages['records.bibliography.searchPanel.btnShowAll']}"
+					render="bibliographyOtherTablePanel, bibliographyOtherSearchPanel"
+					execute="@this" 
+					limitRender="true"
+					image="./resources/img/clearFilter.png"/>
+			</h:panelGrid>
+		</h:panelGrid>
+		<h:panelGrid columns="1" >
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.add]}">
+				<h3>
+					<h:outputText
+							value="#{messages['records.studyFinalDocument.tablePanel.btnCreate']}: " />
+					<a4j:commandLink
+							action="#{studyFinalDocumentManagedBean.enterCRUDPage}"
+					>
+						<h:graphicImage library="img" name="create32.png" />
+						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formMonograph][privilegesManagedBean.add]}">
+				<h3>
+					<h:outputText
+							value="#{messages['records.monograph.tablePanel.btnCreate']}: " />
+					<a4j:commandLink
+							action="#{monographManagedBean.enterCRUDPage}"
+					>
+						<h:graphicImage library="img" name="create32.png" />
+						<ui:include src="../bibliographicRecords/monographToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.add]}">
+				<h3>
+					<h:outputText
+							value="#{messages['records.paperMonograph.tablePanel.btnCreate']}: " />
+					<a4j:commandLink
+							action="#{paperMonographManagedBean.enterCRUDPage}"
+					>
+						<h:graphicImage library="img" name="create32.png" />
+						<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formProduct][privilegesManagedBean.add]}">
+				<h3>
+					<h:outputText
+							value="#{messages['records.product.tablePanel.btnCreate']}: " />
+					<a4j:commandLink
+							action="#{productManagedBean.enterCRUDPage}"
+					>
+						<h:graphicImage library="img" name="create32.png" />
+						<ui:include src="../bibliographicRecords/productToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.add]}">
+				<h3>
+					<h:outputText
+							value="#{messages['records.patent.tablePanel.btnCreate']}: " />
+					<a4j:commandLink
+							action="#{patentManagedBean.enterCRUDPage}"
+					>
+						<h:graphicImage library="img" name="create32.png" />
+						<ui:include src="../bibliographicRecords/patentToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+		</h:panelGrid>
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="bibliographyOtherTablePanel">
+			<rich:dataTable 
+				id="bibliographyOtherTable"
+				value="#{bibliographyManagedBean.publications}"
+				var="bibliographyRow" 
+				rowKeyVar="bibliographyRowKey"
+				rows="10" 
+				>
+				<!--     ........  counter   .......-->
+				<rich:column
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.bibliography.tablePanel.counter']}"
+							style="font-size: 14px;"/>
+					</f:facet>
+					<h:outputText 
+						value="#{bibliographyRowKey + 1}" 
+						escape="false"
+						/>
+				</rich:column>
+				<!--     ........  reference   .......-->
+				<rich:column
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.bibliography.tablePanel.reference']}"
+							style="font-size: 14px;"/>
+					</f:facet>
+					<h:outputText 
+						value="#{bibliographyRow.HTMLRepresentation}" 
+						escape="false"
+						/>
+				</rich:column>
+				<!--     ........  PublicationYear   .......-->
+				<rich:column
+					rendered = "#{(empty bibliographyManagedBean.startYear) or (empty bibliographyManagedBean.endYear) or (bibliographyManagedBean.startYear != bibliographyManagedBean.endYear)}"
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{bibliographyManagedBean.sort}"
+							render="bibliographyOtherTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true"
+							>
+							<h:outputText
+								value="#{messages['records.bibliography.tablePanel.publicationYear']}"
+								style="font-size: 14px;"/>
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="publicationYear" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{bibliographyRow.publicationYear}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+						rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber}"
+						style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.bibliography.tablePanel.actions']}"
+							style="font-size: 14px;"/>
+					</f:facet>
+					<a4j:commandLink
+						rendered="#{(bibliographyRow.class.simpleName=='MonographDTO') and (userManagedBean.privileges[privilegesManagedBean.formMonograph][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateMode}"
+						render="monographSimpleEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/monographToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="false"
+						action="#{bibliographyManagedBean.switchToAddEvaluationDataMode}"
+						render="monographEvaluationDataModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="Letter-M-icon.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/monographToolTip.xhtml" />
+					</a4j:commandLink>	
+					<!-- <a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='MonographDTO') and (userManagedBean.privileges[privilegesManagedBean.formMonograph][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToAddEvaluationDataMode}"
+						render="monographEvaluationDataModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="Letter-M-icon.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/monographToolTip.xhtml" />
+					</a4j:commandLink>	  -->				
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='MonographDTO') and (userManagedBean.privileges[privilegesManagedBean.formMonograph][privilegesManagedBean.delete])}"
+						action="#{bibliographyManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="bibliographyOtherTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/monographToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='PaperMonographDTO') and (userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateMode}"
+						render="paperMonographSimpleEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='PaperMonographDTO') and (userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.delete])}"
+						action="#{bibliographyManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="bibliographyOtherTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToViewDetailsMode}"
+						render="studyFinalDocumentEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="details.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateMode}"
+						render="studyFinalDocumentEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						disabled="#{((bibliographyRow.record.archived == 1) or (bibliographyRow.record.archived == 2))}"
+						style="#{((((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update]) and (bibliographyRow.record.archived == 0)))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) or (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]))}"
+						action="#{bibliographyManagedBean.archive}"
+						onclick="if(!confirmArchivingDecision()) return false"
+						render="bibliographyOtherTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						disabled="#{(not (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (bibliographyRow.record.archived == 1)) or (bibliographyRow.record.archived == 2)}"
+						style="#{(((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) and (bibliographyRow.record.archived == 0)) or ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (bibliographyRow.record.archived != 2))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+						<h:graphicImage library="img" name="archive.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
+						action="#{bibliographyManagedBean.extractArchive}"
+						onclick="if(!confirmUnarchivingDecision()) return false"
+						render="bibliographyOtherTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						disabled="#{(bibliographyRow.record.archived == 0)}"
+						style="#{((bibliographyRow.record.archived != 0)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+						<h:graphicImage library="img" name="extractArchive.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.delete])}"
+							action="#{bibliographyManagedBean.delete}"
+							onclick="if(!confirmDecision()) return false"
+							render="bibliographyOtherTablePanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true"
+							disabled="#{(bibliographyRow.record.archived != 0)}"
+							style="#{((bibliographyRow.record.archived == 0)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+							<h:graphicImage library="img" name="delete.png" />
+							<f:param name="controlNumber"
+								value="#{bibliographyRow.controlNumber}" />
+							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) or (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]))}"
+							action="#{bibliographyManagedBean.setAvailableToThePublic}"
+							onclick="if(!confirmSetAvailableToThePublicDecision()) return false"
+							render="bibliographyOtherTablePanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true"
+							disabled="#{((empty bibliographyRow.preliminaryTheses) or (empty bibliographyRow.report) or (not empty bibliographyRow.report.license) or (not empty bibliographyRow.report.note))}"
+							style="#{(((not empty bibliographyRow.preliminaryTheses) and (not empty bibliographyRow.report) and (empty bibliographyRow.report.license) and (empty bibliographyRow.report.note))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+							<h:graphicImage library="img" name="setPubAv.png" />
+							<f:param name="controlNumber"
+								value="#{bibliographyRow.controlNumber}" />
+							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+						</a4j:commandLink>
+						<a4j:commandLink 
+							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
+							action="#{bibliographyManagedBean.setUnavailableToThePublic}"
+							onclick="if(!confirmSetUnavailableToThePublicDecision()) return false"
+							render="bibliographyOtherTablePanel"
+							limitRender="true" 
+							execute="@this" 
+							immediate="true"
+							disabled="#{(empty bibliographyRow.preliminaryTheses) or (empty bibliographyRow.report) or (empty bibliographyRow.report.license)}"
+							style="#{(((not empty bibliographyRow.preliminaryTheses) and (not empty bibliographyRow.report) and (not empty bibliographyRow.report.license))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+							<h:graphicImage library="img" name="setPubUnav.png" />
+							<f:param name="controlNumber"
+								value="#{bibliographyRow.controlNumber}" />
+							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+						</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.relatedPublications}"
+						render="publicationsEditModalPanel"
+					    execute="@this" 
+					    limitRender="true"
+					    >
+					    <h:graphicImage library="img" name="publications.png" />
+					    <f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+					    <ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateRegisterEntryMode}"
+						render="registerEntryEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true"
+						><!--
+						disabled="#{(not empty bibliographyRow.registerEntry.id)}"
+						style="#{((empty bibliographyRow.registerEntry.id)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}" >
+						-->
+						<h:graphicImage library="img" name="editRegisterEntry.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
+					</a4j:commandLink>
+					<h:outputLink
+							value="#{bibliographyRow.fileURL}"
+							target="_blank"
+							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (not empty bibliographyRow.fileURL)}"
+							>
+							<h:graphicImage library="img" name="download.png" width="24" height="24"/>
+						</h:outputLink>
+					<h:outputLink
+							value="#{bibliographyRow.supplementURL}"
+							target="_blank"
+							rendered="#{(bibliographyRow.class.simpleName=='StudyFinalDocumentDTO') and (not empty bibliographyRow.supplementURL)}"
+							>
+							<h:graphicImage library="img" name="downloadZip.png" width="24" height="24"/>
+						</h:outputLink>  
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='PatentDTO') and (userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateMode}"
+						render="patentEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/patentToolTip.xhtml" />
+					</a4j:commandLink> 
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='PatentDTO') and (userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.delete])}"
+						action="#{bibliographyManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="bibliographyOtherTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/patentToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='ProductDTO') and (userManagedBean.privileges[privilegesManagedBean.formProduct][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateMode}"
+						render="productEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="edit.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/productToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='ProductDTO') and (userManagedBean.privileges[privilegesManagedBean.formProduct][privilegesManagedBean.delete])}"
+						action="#{bibliographyManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="bibliographyOtherTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/productToolTip.xhtml" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1" >
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScrollerOther"
+						align="left"
+						for="bibliographyOtherTable" 
+						render="bibliographyOtherTablePanel"
+						renderIfSinglePage="false"/> 
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

@@ -1,0 +1,173 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+     >
+     <h:outputStylesheet>
+        .wide-panel {
+        	margin-left: 1% !important;
+			margin-right: 1% !important;
+			text-align: left !important; 
+			width: 98% !important;
+			overflow: auto !important;
+		        	        	
+        }      
+     </h:outputStylesheet>       
+    
+     
+	
+    
+    <!--=================APV Registered Researcher Short Info ====================  -->
+	<h:panelGrid columns="2" id="apvRegisteredResearcherShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left;font-size: 22px" >
+		<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.person.commisionFreeText']}"/>
+		<h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthorOrgUnit.someName}"/>
+		<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.person.usedRuleBook']}"/>
+		<h:outputLink
+			value="#{apvRegisteredResearchersManagedBean.pdfUrl}"
+			target="_blank"
+			rendered="#{not empty apvRegisteredResearchersManagedBean.pdfUrl}">
+			<h:graphicImage library="img" name="download32.png" alt="none"/>
+		</h:outputLink>
+		<h:graphicImage library="img" name="download32.png"  alt="none" rendered="#{empty apvRegisteredResearchersManagedBean.pdfUrl}"/>
+
+	</h:panelGrid>
+	<h:panelGrid columns="1">
+		<h:panelGrid columns="6" columnClasses="width10, width10,width10, width10, width20, width20" width="100%">
+			<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.fromDate']}" style="align:left;font-size: 22px"/>
+			<h:selectOneMenu value="#{apvRegisteredResearchersManagedBean.fromDate}">
+				<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.fromDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
+				<f:selectItems value="#{searchManagedBean.dateRange}"/>
+			</h:selectOneMenu>
+			<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.toDate']}" style="align:left;font-size: 22px"/>
+			<h:selectOneMenu value="#{apvRegisteredResearchersManagedBean.toDate}">
+				<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.toDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
+				<f:selectItems value="#{searchManagedBean.dateRange}"/>
+			</h:selectOneMenu>
+			<h:commandButton
+				action="#{apvRegisteredResearchersManagedBean.calculateAgain}"
+				value="#{messages['records.apvRegisteredResearcher.viewDetails.btnCalculateAgain']}"
+				image="./resources/img/filter.png" />
+			<!-- <a4j:commandButton
+				action="#{apvRegisteredResearchersManagedBean.prepareReportGeneration}"
+				value="#{messages['records.apvRegisteredResearcher.viewDetails.btnPrepareReportGeneration']}"
+				render="reportPublicationsEditModalPanel"
+				execute="@this"
+				limitRender="true"/> -->
+		</h:panelGrid>
+	</h:panelGrid>
+	<br/>
+
+	<rich:dataTable
+		value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.resultsGroups}"
+		var="list"
+		styleClass="wide-panel">
+		<f:facet name="header">
+			<rich:columnGroup>
+				<rich:column colspan="4">
+					<h:outputText
+						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.summary']}"
+						style="font-size: 22px;font-weight: bold"
+					/>
+				</rich:column>
+				<rich:column breakRowBefore="true">
+					<h:outputText
+						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultType']}"
+						style="font-size: 14px"/>
+				</rich:column>
+				<rich:column>
+					<h:outputText
+						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultName']}"
+						style="font-size: 14px"
+					/>
+				</rich:column>
+				<rich:column>
+					<h:outputText
+						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.count']}"
+						style="font-size: 14px"
+					/>
+				</rich:column>
+				<rich:column>
+					<h:outputText
+						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.points']}"
+						style="font-size: 14px"
+					/>
+				</rich:column>
+			  </rich:columnGroup>
+			  </f:facet>
+				<rich:column>
+					<h:outputText
+						value="#{list.resultType.classId}"
+						style="font-size: 14px" />
+				</rich:column>
+				<rich:column style="width:80%">
+				<h:form id="f456">
+					<a4j:outputPanel ajaxRendered="true" >
+						<a4j:commandLink
+							id="link"
+							value="#{list.resultType.someTerm}"
+							render="researcherPageForm"
+							limitRender="true"
+							execute="@form"
+							immediate="false"
+							style="font-size: 14px"
+							>
+							<a4j:param
+								name="val"
+								value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+								assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+								/>
+						</a4j:commandLink>
+						<a4j:region id="collapsablePanelM">
+							<rich:list
+								value="#{list.results}"
+								var="item"
+								rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+								type="unordered">
+								 <div style="margin-bottom: 10px;">
+									<h:outputText
+										value="#{item.publication.harvardRepresentation}"
+										rendred="true"
+										escape="false"
+										style="font-size: 14px" />
+								 </div>
+							</rich:list>
+							<a4j:commandLink
+								render="researcherPageForm"
+								rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+								execute="@this">
+								<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
+								<a4j:param
+									name="val"
+									value="#{! apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+									assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
+							</a4j:commandLink>
+						</a4j:region>
+					</a4j:outputPanel >
+				</h:form>
+				</rich:column>
+				<rich:column style="text-align: center;font-size: 14px">
+					<h:outputText value="#{list.results.size()}" />
+					<f:facet name="footer">
+						<h:outputText
+							value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPapers}"
+							style="font-size: 14px"/>
+					</f:facet>
+				</rich:column>
+				<rich:column style="text-align: center;font-size: 14px">
+					<h:outputText
+						value="#{list.quantitativeMeasure.doubleValue()*list.results.size()}"
+						 >
+						<f:convertNumber maxFractionDigits="1" />
+					</h:outputText>
+					<f:facet name="footer">
+						<h:outputText
+							value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPoints}"
+							style="font-size: 14px"
+						/>
+					</f:facet>
+				</rich:column>
+	</rich:dataTable>
+</ui:composition>     

@@ -395,7 +395,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	 * bojana
 	 */
 	
-	private void retrieveSelectedAuthorKNR(){	
+	public void retrieveSelectedAuthorKNR(){
 		FacesContext facesCtx = FacesContext.getCurrentInstance();
 		ExternalContext extCtx = facesCtx.getExternalContext();	
 		EvaluationManagedBean emb = (EvaluationManagedBean) extCtx.getSessionMap().get(
@@ -514,6 +514,25 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	public void setSelectedAuthor(AuthorDTO authorDTO) {
 		selectedAuthor = authorDTO;
 	}
+
+	public void setList(AuthorDTO authorDTO){
+		selectedAuthor = authorDTO;
+		list = new ArrayList<AuthorDTO>();
+		list.add(selectedAuthor);
+		authorControlNumber = selectedAuthor.getControlNumber();
+	}
+
+	public void selectResearcherProfile(AuthorDTO authorDTO) {
+		setList(authorDTO);
+		retrieveSelectedAuthorKNR();
+		switchToTableNoneMode();
+		switchToViewDetailsMode();
+		showList = new HashMap<String, Boolean>();
+		for(ResultsGroupDTO res : selectedAuthorKNR.getResultsGroups()){
+			showList.put(res.getResultType().getClassId(), false);
+		}
+		debug("switchToViewDetailsModeFromKnr: \n" + selectedAuthor);
+	}
 	
 	/**
 	 * @return the selectedAuthorKNR
@@ -547,7 +566,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	/**
 	 * @return the showList
 	 */
-	public Map<String, Boolean> getShowList() {		
+	public Map<String, Boolean> getShowList() {
 		return showList;
 	}
 	/**
