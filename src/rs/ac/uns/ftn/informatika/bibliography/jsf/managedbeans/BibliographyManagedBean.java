@@ -242,7 +242,7 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 */
 	protected Query createQuery() throws ParseException {
 		BooleanQuery bq = new BooleanQuery();
-		if ((whereStr != null) && (!"".equals(whereStr))) 
+		if ((whereStr != null) && (!"".equals(whereStr)))
 			bq.add(QueryUtils.parseQuery(StringUtils.clearDelimiters(whereStr, Indexer.delims), new CrisAnalyzer(), Operator.AND), Occur.MUST);
 		BooleanQuery type = new BooleanQuery();
 		if(justJournals) {
@@ -945,8 +945,10 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 * @return the outcome string for JSF navigation
 	 */
 	public String enterCRUDPageJournals() {
+		String temp = this.whereStr;
 		getUserManagedBean().resetAllForms();
 		String retVal = resetForm();
+		this.whereStr = temp;
 		tableModalPanel = "";
 		justJournals = true;
 		justConferences = false;
@@ -961,8 +963,10 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 * @return the outcome string for JSF navigation
 	 */
 	public String enterCRUDPageConferences() {
+		String temp = this.whereStr;
 		getUserManagedBean().resetAllForms();
 		String retVal = resetForm();
+		this.whereStr = temp;
 		tableModalPanel = "";
 		justJournals = false;
 		justConferences = true;
@@ -977,8 +981,10 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 * @return the outcome string for JSF navigation
 	 */
 	public String enterCRUDPageOther() {
+		String temp = this.whereStr;
 		getUserManagedBean().resetAllForms();
 		String retVal = resetForm();
+		this.whereStr = temp;
 		tableModalPanel = "";
 		justJournals = false;
 		justConferences = false;

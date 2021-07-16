@@ -13,6 +13,7 @@
 
 	<f:view locale="#{userManagedBean.language}"
 			contentType="text/html; charset=iso-8859-1"
+			beforePhase="#{researcherProfileManagedBean.enterPage}"
 			 >
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -77,13 +78,10 @@
 								value="#{researcherProfileManagedBean.selectedAuthorOrgUnit.toString()}"
 								style="font-weight:bold;font-size: 22px"
 							/>
-							<a4j:commandLink
-								action="#{organizationProfileManagedBean.openOrganizationPage()}"
-							>
+							<h:link outcome="organizationPage" >
 								<h:graphicImage library="img" name="enter.png" />
-								<a4j:param name="organizationId" value="#{researcherProfileManagedBean.selectedAuthorOrgUnit.controlNumber}"
-										   assignTo="#{organizationProfileManagedBean.organizationId}" />
-							</a4j:commandLink>
+								<f:param name="organization" value="#{researcherProfileManagedBean.selectedAuthorOrgUnit.controlNumber}" />
+							</h:link>
 						</h:panelGroup>
 						<h:outputText
 							rendered="#{not empty researcherProfileManagedBean.selectedAuthor.apvnt}"
@@ -105,25 +103,33 @@
 						header="#{messages['records.researcherPage.journals']}"
 						id="journal"
 						>
-						<ui:include src="bibliographicRecords/bibliographyJournalsTable.xhtml" />
+						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'journal'}">
+							<ui:include src="bibliographicRecords/bibliographyJournalsTable.xhtml" />
+						</h:panelGrid>
 					</rich:tab>
 					<rich:tab
 						header="#{messages['records.researcherPage.conferences']}"
 						id="conference"
 						>
-						<ui:include src="bibliographicRecords/bibliographyConferencesTable.xhtml" />
+						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'conference'}">
+							<ui:include src="bibliographicRecords/bibliographyConferencesTable.xhtml" />
+						</h:panelGrid>
 					</rich:tab>
 					<rich:tab
 						header="#{messages['records.researcherPage.otherOutputs']}"
 						id="other"
 						>
-						<ui:include src="bibliographicRecords/bibliographyOtherTable.xhtml" />
+						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'other'}">
+							<ui:include src="bibliographicRecords/bibliographyOtherTable.xhtml" />
+						</h:panelGrid>
 					</rich:tab>
 					<rich:tab
 						header="#{messages['records.researcherPage.mresults']}"
 						id="mresults"
 						>
-						<ui:include src="bibliographicRecords/mResultsViewDetails.xhtml"/>
+						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'mresults'}">
+							<ui:include src="bibliographicRecords/mResultsViewDetails.xhtml"/>
+						</h:panelGrid>
 					</rich:tab>
 					<!-- <rich:tab
 							header="#{messages['records.researcherPage.fieldAndBio']}"

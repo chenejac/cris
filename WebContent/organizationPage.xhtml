@@ -13,6 +13,7 @@
 
 	<f:view locale="#{userManagedBean.language}"
 			contentType="text/html; charset=iso-8859-1"
+			beforePhase="#{organizationProfileManagedBean.enterPage}"
 			 >
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -55,7 +56,7 @@
 			library="img" name="progressbar.gif"></h:graphicImage></div>
 	<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
 	<a4j:region id="form_region">
-		<h:form>
+		<h:form id="organizationPageForm">
 			<rich:panel id="organizationViewDetailsPanel" header="#{messages['records.organizationPage.header']}" styleClass="wide-panel">
 				<h:panelGrid columns="2" id="organizationPhotoShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left" >
 					<h:panelGroup>
@@ -67,18 +68,14 @@
 						<h:outputText
 							rendered="#{not empty organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
 							value="#{messages['records.organizationPage.super.name']}"/>
-						<a4j:commandLink
-							rendered="#{not empty organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
-							action="#{organizationProfileManagedBean.openOrganizationPage()}"
-							>
+						<h:link outcome="organizationPage" >
 							<h:outputText
-								value="#{organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
-								style="font-weight:bold;font-size: 22px"
+									value="#{organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
+									style="font-weight:bold;font-size: 22px"
 							/>
 							<h:graphicImage library="img" name="enter.png" />
-							<a4j:param name="organizationId" value="#{organizationProfileManagedBean.selectedSuperOrgUnit.controlNumber}"
-								assignTo="#{organizationProfileManagedBean.organizationId}" />
-						</a4j:commandLink>
+							<f:param name="organization" value="#{organizationProfileManagedBean.selectedSuperOrgUnit.controlNumber}" />
+						</h:link>
 						<h:outputText
 							rendered="#{not empty organizationProfileManagedBean.selectedOrganizationUnit.uri}"
 							value="#{messages['records.organizationPage.webSite']}"
@@ -93,24 +90,31 @@
 					</h:panelGrid>
 				</h:panelGrid>
 				<rich:panel
-						id="scrollableBody"
-						styleClass="scrollableBody">
+					id="scrollableBody"
+					styleClass="scrollableBody">
 					<rich:tabPanel
-						switchType="ajax">
+						switchType="ajax"
+						itemChangeListener="#{organizationProfileManagedBean.changeTab}" >
 						<rich:tab
 							header="#{messages['records.organizationPage.researchers']}"
 							id="researchers">
-							<ui:include src="normativeRecords/organizationResearchersTable.xhtml" />
+							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'researchers'}">
+								<ui:include src="normativeRecords/organizationResearchersTable.xhtml" />
+							</h:panelGrid>
 						</rich:tab>
 						<rich:tab
 								header="#{messages['records.organizationPage.hierarchy']}"
 								id="hierarchy">
-							<ui:include src="normativeRecords/organizationHierarchyTree.xhtml" />
+							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'hierarchy'}">
+								<ui:include src="normativeRecords/organizationHierarchyTree.xhtml" />
+							</h:panelGrid>
 						</rich:tab>
 						<rich:tab
 							header="#{messages['records.organizationPage.search']}"
 							id="searchProduction">
-							<ui:include src="bibliographicRecords/organizationProductionSearch.xhtml"/>
+							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'searchProduction'}">
+								<ui:include src="bibliographicRecords/organizationProductionSearch.xhtml"/>
+							</h:panelGrid>
 						</rich:tab>
 					</rich:tabPanel>
 				</rich:panel>

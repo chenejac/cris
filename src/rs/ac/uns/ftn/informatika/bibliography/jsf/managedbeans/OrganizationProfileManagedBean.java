@@ -4,12 +4,14 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.*;
+import org.richfaces.component.UITabPanel;
 import org.richfaces.model.SwingTreeNodeImpl;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
+import rs.ac.uns.ftn.informatika.bibliography.reports.knr.ResultsGroupDTO;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.CrisAnalyzer;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils;
@@ -17,8 +19,10 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.GenericComparator;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -35,6 +39,9 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 
 	private RecordDAO recordDAO = new RecordDAO(new RecordDB());
 	private RecordDAO personDAO = new RecordDAO(new PersonDB());
+
+	protected String filterFirstname = "";
+	protected String filterLastname = "";
 
 
 	public OrganizationProfileManagedBean(){
@@ -67,6 +74,8 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 	
 	public String pmfPageEnter() {
 		selectedOrganizationUnit = (InstitutionDTO) recordDAO.getDTO("(BISIS)5929");
+		filterFirstname = "";
+		filterLastname = "";
 		setUpForms();
 		return "organizationPage";
 	}
@@ -82,36 +91,19 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 				else if (selectedOrganizationUnit instanceof OrganizationUnitDTO)
 					selectedSuperOrgUnit = ((OrganizationUnitDTO) selectedOrganizationUnit).getInstitution();
 			}
-			populateSubunits();
-			OUCN = null;
-			INCN = null;
-			BooleanQuery bq = new BooleanQuery();
-			if(selectedOrganizationUnit instanceof OrganizationUnitDTO)
-				OUCN = selectedOrganizationUnit.getControlNumber();
-			else
-				INCN = selectedOrganizationUnit.getControlNumber();
-			if(OUCN != null){
-				bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2020-01-01 00:00:00"), BooleanClause.Occur.MUST);
-			}
-			else if(INCN != null){
-				bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2020-01-01 00:00:00"), BooleanClause.Occur.MUST);
-			}
-			researchers = new ArrayList<AuthorDTO>();
-			List<Record> list = personDAO.getDTOs(bq, new AllDocCollector(false));
-			for (Record record : list) {
-				try {
-					AuthorDTO dto = (AuthorDTO) record.getDto();
-					if (dto != null)
-						researchers.add(dto);
-				} catch (Exception e) {
-					log.error(e);
-				}
-			}
-			Collections.sort(researchers, new GenericComparator<AuthorDTO>(
-						"names", "asc"));
-
-			getSearchManagedBean().searchPageEnterDepartment(selectedOrganizationUnit.getControlNumber());
+			loadInfo();
 		}
+	}
+
+	public void enterPage(PhaseEvent event){
+		if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("organization") != null){
+			organizationId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("organization");
+			selectedOrganizationUnit = (InstitutionDTO) recordDAO.getDTO(organizationId);
+			organizationId = null;
+			filterFirstname = "";
+			filterLastname = "";
+		}
+		setUpForms();
 	}
 
 	private String organizationId = null;
@@ -124,16 +116,16 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 		this.organizationId = organizationId;
 	}
 
-	public String openOrganizationPage(){
-		if(organizationId == null)
-			organizationId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("organization");
-		if(organizationId != null) {
-			selectedOrganizationUnit = (InstitutionDTO)recordDAO.getDTO(organizationId);
-			organizationId = null;
-		}
-		setUpForms();
-		return "organizationPage";
-	}
+//	public String openOrganizationPage(){
+//		if(organizationId == null)
+//			organizationId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("organization");
+//		if(organizationId != null) {
+//			selectedOrganizationUnit = (InstitutionDTO)recordDAO.getDTO(organizationId);
+//			organizationId = null;
+//		}
+//		setUpForms();
+//		return "organizationPage";
+//	}
 
 
 	
@@ -348,10 +340,100 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 	}
 
 	public List<AuthorDTO> getResearchers() {
+		if(populateList){
+			populateResearchers();
+		}
 		return researchers;
 	}
 
 	public void setResearchers(List<AuthorDTO> researchers) {
 		this.researchers = researchers;
+	}
+
+	public void populateResearchers(){
+		OUCN = null;
+		INCN = null;
+		BooleanQuery bq = new BooleanQuery();
+		if(selectedOrganizationUnit instanceof OrganizationUnitDTO)
+			OUCN = selectedOrganizationUnit.getControlNumber();
+		else
+			INCN = selectedOrganizationUnit.getControlNumber();
+		if(OUCN != null){
+			bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2020-01-01 00:00:00"), BooleanClause.Occur.MUST);
+		}
+		else if(INCN != null){
+			bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2020-01-01 00:00:00"), BooleanClause.Occur.MUST);
+		}
+		bq.add(new TermQuery(new Term("TYPE", Types.AUTHOR)), BooleanClause.Occur.MUST);
+		if(filterFirstname!=null && !filterFirstname.equals("")){
+			BooleanQuery firstNameTerm = QueryUtils.makeBooleanQuery("FN", filterFirstname.toLowerCase()+"*", BooleanClause.Occur.MUST, (float)1.0, (float)0.0, false);
+			bq.add(firstNameTerm, BooleanClause.Occur.MUST);
+		}
+		if(filterLastname!=null && !filterLastname.equals("")){
+			BooleanQuery lastNameTerm = QueryUtils.makeBooleanQuery("LN", filterLastname.toLowerCase()+"*", BooleanClause.Occur.MUST, (float)1.0, (float)0.0, false);
+			bq.add(lastNameTerm, BooleanClause.Occur.MUST);
+		}
+		researchers = new ArrayList<AuthorDTO>();
+		List<Record> list = personDAO.getDTOs(bq, new AllDocCollector(false));
+		for (Record record : list) {
+			try {
+				AuthorDTO dto = (AuthorDTO) record.getDto();
+				if (dto != null)
+					researchers.add(dto);
+			} catch (Exception e) {
+				log.error(e);
+			}
+		}
+		Collections.sort(researchers, new GenericComparator<AuthorDTO>(
+				"names", "asc"));
+		populateList = false;
+	}
+
+	public String getFilterFirstname() {
+		return filterFirstname;
+	}
+
+	public void setFilterFirstname(String filterFirstname) {
+		this.filterFirstname = filterFirstname;
+		populateList = true;
+	}
+
+	public String getFilterLastname() {
+		return filterLastname;
+	}
+
+	public void setFilterLastname(String filterLastname) {
+		this.filterLastname = filterLastname;
+		populateList = true;
+	}
+
+	public void btnShowAll(){
+		filterLastname="";
+		filterFirstname="";
+		populateList = true;
+	}
+
+	private String activeItem = "researchers";
+
+	public void changeTab(javax.faces.event.FacesEvent event){
+		activeItem = ((UITabPanel)event.getComponent()).getActiveItem().toString();
+	}
+
+	public void loadInfo() {
+		if (activeItem.equalsIgnoreCase("researchers")) {
+			populateResearchers();
+		} else if (activeItem.equalsIgnoreCase("hierarchy")) {
+			populateSubunits();
+		} else if (activeItem.equalsIgnoreCase("searchProduction")) {
+			getSearchManagedBean().searchPageEnterDepartment(selectedOrganizationUnit.getControlNumber());
+		}
+	}
+
+	public String getActiveItem() {
+		return activeItem;
+	}
+
+	public void setActiveItem(String activeItem) {
+		this.activeItem = activeItem;
 	}
 }

@@ -32,16 +32,14 @@
 				iconExpanded="/resources/img/institution_orange.png"
 				iconLeaf="/resources/img/institution_orange.png"
 				>
-				<a4j:commandLink
-					action="#{organizationProfileManagedBean.openOrganizationPage()}"
-					>
+				<h:link outcome="organizationPage" >
 					<h:outputText
-						value="#{institution.element}"
-						style="font-size: 14px;"/>
+							value="#{institution.element.name.content}"
+							style="font-size: 14px;"
+					/>
 					<h:graphicImage library="img" name="enter.png" />
-					<a4j:param name="organizationId" value="#{institution.element.controlNumber}"
-							   assignTo="#{organizationProfileManagedBean.organizationId}" />
-				</a4j:commandLink>
+					<f:param name="organization" value="#{institution.element.controlNumber}" />
+				</h:link>
 			</rich:treeNode>
 		</rich:tree>
 		<h:panelGroup

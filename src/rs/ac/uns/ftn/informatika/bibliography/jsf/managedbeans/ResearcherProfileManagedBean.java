@@ -36,6 +36,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.sql.DataSource;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -57,10 +58,6 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 	protected String OUCN = null;
 	protected String INCN = null;
 
-	protected Query OUCNQuery = null;
-	protected Query INCNQuery = null;
-
-	private DataSource dataSource = null;
 
 	private String authorControlNumber;
 	private RecordDAO personDAO = new RecordDAO(new PersonDB());
@@ -70,7 +67,6 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 		//pickSimilarMessage = "records.author.pickSimilarMessage";
 		tableModalPanel = "researchersTableFormPanel";
 		editModalPanel = "researchersViewDetailsModalPanel";
-		dataSource = DataSourceFactory.getDataSource();
 	}
 	@Override
 	public String resetForm() {
@@ -97,11 +93,7 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 
 	private void setUpForms() {
 		if (selectedAuthor != null) {
-			ApvRegisteredResearchersManagedBean apvmb = getApvRegisteredResearchersManagedBean();
-			apvmb.selectResearcherProfile(selectedAuthor);
-			BibliographyManagedBean bibliograhymb = getBibliographyManagedBean();
-			bibliograhymb.enterCRUDPageJournals();
-			bibliograhymb.setSelectedResearcher(selectedAuthor);
+			loadInfo();
 			AuthorManagedBean authormb = getAuthorManagedBean();
 			authormb.setSelectedAuthor(selectedAuthor);
 			selectedAuthorOrgUnit = selectedAuthor.getOrganizationUnit();
@@ -117,16 +109,25 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 		this.authorControlNumber = authorControlNumber;
 	}
 
-	public String openResearcherPage(){
-		if(authorControlNumber == null)
+	public void enterPage(PhaseEvent event){
+		if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("researcher") != null){
 			authorControlNumber = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("researcher");
-		if(authorControlNumber != null) {
 			selectedAuthor = (AuthorDTO) personDAO.getDTO(authorControlNumber);
 			authorControlNumber = null;
 		}
 		setUpForms();
-		return "researcherPage";
 	}
+
+//	public String openResearcherPage(){
+//		if(authorControlNumber == null)
+//			authorControlNumber = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("researcher");
+//		if(authorControlNumber != null) {
+//			selectedAuthor = (AuthorDTO) personDAO.getDTO(authorControlNumber);
+//			authorControlNumber = null;
+//		}
+//		setUpForms();
+//		return "researcherPage";
+//	}
 
 	private AuthorManagedBean authorManagedBean = null;
 
@@ -261,19 +262,32 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 
 	public void changeTab(javax.faces.event.FacesEvent event){
 		activeItem = ((UITabPanel)event.getComponent()).getActiveItem().toString();
-		if(activeItem.equalsIgnoreCase("journal")){
+	}
+
+	public void loadInfo() {
+		if (activeItem.equalsIgnoreCase("journal")) {
 			BibliographyManagedBean bibliograhymb = getBibliographyManagedBean();
 			bibliograhymb.enterCRUDPageJournals();
 			bibliograhymb.setSelectedResearcher(selectedAuthor);
-		} else if (activeItem.equalsIgnoreCase("conference")){
+		} else if (activeItem.equalsIgnoreCase("conference")) {
 			BibliographyManagedBean bibliograhymb = getBibliographyManagedBean();
 			bibliograhymb.enterCRUDPageConferences();
 			bibliograhymb.setSelectedResearcher(selectedAuthor);
-		} else if (activeItem.equalsIgnoreCase("other")){
+		} else if (activeItem.equalsIgnoreCase("other")) {
 			BibliographyManagedBean bibliograhymb = getBibliographyManagedBean();
 			bibliograhymb.enterCRUDPageOther();
 			bibliograhymb.setSelectedResearcher(selectedAuthor);
+		} else if (activeItem.equalsIgnoreCase("mresults")) {
+			ApvRegisteredResearchersManagedBean apvmb = getApvRegisteredResearchersManagedBean();
+			apvmb.selectResearcherProfile(selectedAuthor);
 		}
 	}
 
+	public String getActiveItem() {
+		return activeItem;
+	}
+
+	public void setActiveItem(String activeItem) {
+		this.activeItem = activeItem;
+	}
 }
