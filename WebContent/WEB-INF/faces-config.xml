@@ -304,6 +304,16 @@
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <managed-bean>
+  <managed-bean-name>researcherProfileManagedBean</managed-bean-name>
+  <managed-bean-class>rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.ResearcherProfileManagedBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>organizationProfileManagedBean</managed-bean-name>
+  <managed-bean-class>rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.OrganizationProfileManagedBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
   <managed-bean-name>importManagedBean</managed-bean-name>
   <managed-bean-class>rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.ImportManagedBean</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
@@ -545,6 +555,24 @@
   <navigation-case>
    <from-outcome>bibliographyPage</from-outcome>
    <to-view-id>/bibliographicRecords/bibliography.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <display-name>researcherPage</display-name>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>researcherPage</from-outcome>
+   <to-view-id>/researcherPage.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <display-name>organizationPage</display-name>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>organizationPage</from-outcome>
+   <to-view-id>/organizationPage.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>

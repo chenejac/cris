@@ -1,0 +1,180 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     >
+     <h:outputStylesheet>
+        .rbr-column {
+        	text-align:right;        	
+        }
+        
+        .active-row {
+        background-color: #FFEBDA !important;
+        cursor: pointer;
+        }
+ 
+           </h:outputStylesheet>     
+
+	<!-- ===========================   searchPanel  ============================= -->
+	<h:graphicImage 
+		library="img"
+		name="spacer.gif" 
+		alt="" 
+		height="10"
+		width="1"
+		/>
+	<h:panelGrid
+			id="organizationResearchersSearchPanel"
+			columns="4"
+			rendered="true">
+		<!--  <mytags:outputLabel
+			value="#{messages['records.apvRegisteredResearchers.searchPanel.APVNTnumber']}"
+			for="whereAPVNT"
+			errorStyleClass="errorMessage"
+			/>
+
+			<h:inputText
+				id="whereAPVNT"
+				onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+				value="#{apvRegisteredResearchersManagedBean.filterAPVNT}"
+				styleClass="searchBox" />
+		-->
+		<mytags:outputLabel
+				value="#{messages['records.apvRegisteredResearchers.searchPanel.firstName']}"
+				for="whereFirstname"
+				errorStyleClass="errorMessage"
+		/>
+
+		<h:inputText
+				id="whereFirstname"
+				onkeydown="keyDownHandler(event, 'organizationPageForm:btnFindResearchers')"
+				value="#{organizationProfileManagedBean.filterFirstname}"
+				styleClass="searchBox" />
+
+		<h:outputText/>
+		<h:outputText/>
+
+		<mytags:outputLabel
+				value="#{messages['records.apvRegisteredResearchers.searchPanel.lastName']}"
+				for="whereLastname"
+				errorStyleClass="errorMessage"
+		/>
+
+		<h:inputText
+				id="whereLastname"
+				onkeydown="keyDownHandler(event, 'organizationPageForm:btnFindResearchers')"
+				value="#{organizationProfileManagedBean.filterLastname}"
+				styleClass="searchBox" />
+
+		<a4j:commandButton
+				id="btnFindResearchers"
+				value="#{messages['records.apvRegisteredResearchers.searchPanel.btnFind']}"
+				action="#{apvRegisteredResearchersManagedBean.btnFind}"
+				render="organizationResearchersPanel, organizationResearchersSearchPanel"
+				limitRender="true"
+				execute="@form"
+				image="./resources/img/filter.png"/>
+		<a4j:commandButton
+				id="btnShowAll"
+				action="#{organizationProfileManagedBean.btnShowAll}"
+				value="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
+				render="organizationResearchersPanel, organizationResearchersSearchPanel"
+				limitRender="true"
+				execute="@form"
+				image="./resources/img/clearFilter.png" />
+
+	</h:panelGrid>
+	<!-- ===========================   tablePanel  ============================= -->
+	<rich:panel 
+		id="organizationResearchersPanel"
+		rendered="#{not empty organizationProfileManagedBean.researchers}">
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid>
+			<rich:dataTable 
+				id="organizationResearchersTable"
+				value="#{organizationProfileManagedBean.researchers}"
+				var="researcherRow"
+				rowKeyVar="researcherRowKey"
+				rows="10"
+				styleClass="stable"			
+				>
+				<!--     ........  counter   .......-->
+				<rich:column			
+					styleClass="rbr-column" >						
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.apvRegisteredResearchers.tablePanel.counter']}"
+							style="font-size: 14px;"/>
+					</f:facet>
+					<h:outputText
+						value="#{researcherRowKey + 1}."
+						style="font-size: 14px;"/>
+				</rich:column>				
+
+				<!--     ........  Names   .......-->
+				<rich:column styleClass="rich-table-wide-cell">
+					<f:facet name="header">						
+						<h:outputText
+							value="#{messages['records.apvRegisteredResearchers.tablePanel.names']}"
+							style="font-size: 14px;"
+						/>
+					</f:facet>
+					<h:outputText
+						value="#{researcherRow.names}"
+						style="font-size: 14px;"
+					/>
+				</rich:column>
+
+				<!--     ........  position   .......-->
+				<rich:column					
+					styleClass="rich-table-wide-cell" >
+					<f:facet name="header">						
+						<h:outputText
+							value="#{messages['records.apvRegisteredResearchers.tablePanel.position']}"
+							style="font-size: 14px;" />
+					</f:facet>
+					<h:outputText
+						value="#{researcherRow.currentPositionName}"
+						style="font-size: 14px;" />
+				</rich:column>
+				
+				<!--     ........  actions   .......-->
+				<rich:column style="text-align:center;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.apvRegisteredResearchers.tablePanel.karton']}"
+							style="font-size: 14px;" />
+					</f:facet>
+					<h:link outcome="researcherPage" >
+						<h:graphicImage library="img" name="enter.png" />
+						<f:param name="researcher" value="#{researcherRow.controlNumber}" />
+					</h:link>
+				</rich:column>				
+			</rich:dataTable>
+			<h:panelGrid columns="1">
+				<h:panelGroup>
+					<rich:dataScroller 
+					    maxPages="10"
+						id="downDataScroller" 
+						align="left"	
+						fastStep="10"					
+						for="organizationResearchersTable"
+						render="organizationResearchersPanel"
+						renderIfSinglePage="false" /> 
+				</h:panelGroup>
+			</h:panelGrid>	
+		</h:panelGrid>
+		<rich:jQuery selector=".stable tr" event="mouseover" query="jQuery(this).addClass('active-row')" />
+		<rich:jQuery selector=".stable tr" event="mouseout" query="jQuery(this).removeClass('active-row')" />
+	</rich:panel>
+</ui:composition>

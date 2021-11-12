@@ -13,13 +13,14 @@ public class MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost extends MNO{
 	private MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost() {
 		super();
 		this.nameMNO = "Društveno-humanističke nauke: Inostrani izdavaci - Srpski jezik i književnost";
-		this.yearsSpecial = new int [6];
+		this.yearsSpecial = new int [7];
 		yearsSpecial[0] = 2014;
 		yearsSpecial[1] = 2015;
 		yearsSpecial[2] = 2016;
 		yearsSpecial[3] = 2017;
 		yearsSpecial[4] = 2018;
 		yearsSpecial[5] = 2019;
+		yearsSpecial[6] = 2020;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -29,6 +30,7 @@ public class MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost extends MNO{
 		HashMap <String, String> special2017;
 		HashMap <String, String> special2018;
 		HashMap <String, String> special2019;
+		HashMap <String, String> special2020;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2014 = new HashMap<String, String>();
@@ -54,6 +56,10 @@ public class MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost extends MNO{
 		special2019 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoDrustvenoHumanistickeNauke-InostraniIzdavaciSrpskiJezikIKnjizevnost2019.xlsx", special2019);
 		this.specialJournalsAllYears.put(2019, special2019);
+
+		special2020 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mnoDrustvenoHumanistickeNauke-InostraniIzdavaciSrpskiJezikIKnjizevnost2020.xlsx", special2020);
+		this.specialJournalsAllYears.put(2020, special2020);
 	}
 	
 	public static MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost= null;

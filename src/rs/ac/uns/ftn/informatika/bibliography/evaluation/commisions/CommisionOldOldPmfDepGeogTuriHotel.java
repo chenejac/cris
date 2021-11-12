@@ -113,7 +113,7 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 //						m = "M21";
 					retVal.put(year, evaluation);
 					
-				} else if (year < 1981 && journal.hasIfInYear(1981) ){
+				} else if (year < 1981 && journal.hasIfInYear(1981, true, true) ){
 //				String m = "M52";
 //				if (best19811985 != null){
 //					if(best19811985 == 3)
@@ -129,7 +129,7 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 				if(best19811985 != null)
 					retVal.put(year, best19811985);
 				else 
-					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100));
+					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100, true, true));
 			}
 			else {
 				
@@ -165,7 +165,7 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 //				else if (evaluation == 1)
 //					m = "M21";
 				if (((year < 1989) || (year >1997)) && (evaluation == null))
-					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100));
+					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100, true, true));
 				else
 					retVal.put(year, evaluation);
 			}
@@ -198,7 +198,7 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 //								System.out.println("Greska u kodu za 1989");
 //						}
 						if(best19891997 == null)
-							retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100));
+							retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100, true, true));
 						else 
 							retVal.put(year, best19891997);
 					}
@@ -223,7 +223,7 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 		imf.setYear(year);
 		imf = (journal.getImpactFactors().indexOf(imf)!=-1)?journal.getImpactFactors().get(journal.getImpactFactors().indexOf(imf)):null;
 		if (imf != null){
-				ResearchAreaRanking rar = imf.getMaxPositionReseachArea();
+				ResearchAreaRanking rar = imf.getMaxPositionReseachArea(true, true);
 				boolean m21 = false;
 				boolean m22 = false;
 				boolean m23 = false;
@@ -235,11 +235,11 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 					m22 = true;
 				
 				if(((best==null) || (best.getEvaluation() > 1)) && (m21))
-					best = new JournalEvaluationResult("M21", journal, imf, 1);
+					best = new JournalEvaluationResult("M21", journal, imf, 1, true, true);
 				else if(((best==null) || (best.getEvaluation() > 2)) && (m22))
-					best = new JournalEvaluationResult("M22", journal, imf, 2);
+					best = new JournalEvaluationResult("M22", journal, imf, 2, true, true);
 				else if ((best==null)  && (m23))
-					best = new JournalEvaluationResult("M23", journal, imf, 3);
+					best = new JournalEvaluationResult("M23", journal, imf, 3, true, true);
 		}
 		if(best != null){
 			retVal = best;
@@ -269,7 +269,7 @@ public class CommisionOldOldPmfDepGeogTuriHotel extends AbstractCommissionEvalua
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53, true, true));
 		}
 		return retVal;
 	}

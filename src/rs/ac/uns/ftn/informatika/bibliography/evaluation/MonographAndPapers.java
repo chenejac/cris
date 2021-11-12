@@ -148,8 +148,8 @@ public class MonographAndPapers {
 //			if((authorDTO.getOrganizationUnit().getControlNumber() != null) && ((authorDTO.getOrganizationUnit().getControlNumber().equals("(BISIS)6782")) || ((authorDTO.getOrganizationUnit().getSuperOrganizationUnit() != null) && (authorDTO.getOrganizationUnit().getSuperOrganizationUnit().getControlNumber() != null) && (authorDTO.getOrganizationUnit().getSuperOrganizationUnit().getControlNumber().equals("(BISIS)6782")))))
 				pmf = true;
 		}
-//		retVal.append("\nUrednici,");
-		retVal.append("\nEditors,");
+		retVal.append("\nUrednici,");
+//		retVal.append("\nEditors,");
 		for (AuthorDTO authorDTO : monograph.getEditors()) {
 			retVal.append(authorDTO.getName().toString()+"; ");
 			
@@ -161,8 +161,8 @@ public class MonographAndPapers {
 				pmf = true;
 		}
 		retVal.insert(0, "Email,"+email.toString()+"\n");
-//		retVal.append("\nVrednovanje," + classification);
-		retVal.append("\nEvaluation," + classification);
+		retVal.append("\nVrednovanje," + classification);
+//		retVal.append("\nEvaluation," + classification);
 		retVal.append("\n,\n,");
 		if(! pmf)
 			return "";

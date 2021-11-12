@@ -1974,5 +1974,6 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		mb.setCustomPick(true);
 		mb.switchToPickMode();
 	}
-	
+
+
 }

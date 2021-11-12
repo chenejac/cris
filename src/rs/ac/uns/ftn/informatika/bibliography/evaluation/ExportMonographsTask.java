@@ -59,7 +59,7 @@ public class ExportMonographsTask implements Task {
 		List<MonographAndPapers> retVal = new ArrayList<MonographAndPapers>();
 		BooleanQuery allMonographsQuery = new BooleanQuery();
 		Query type = new TermQuery(new Term("TYPE", Types.MONOGRAPH));
-		allMonographsQuery.add(new TermQuery(new Term("PY", "2019")), Occur.MUST);
+		allMonographsQuery.add(new TermQuery(new Term("PY", "2020")), Occur.MUST);
 		allMonographsQuery.add(type, Occur.MUST);
 //		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 //		Query orgUnitQuery = qparser.parse("+(INS:\"departman za matematiku i informatiku\" INS:\"katedra za opstu algebru i teorijsko racunarstvo\" INS:\"katedra za analizu verovatnocu i diferencijalne jednacine\" INS:\"katedra za numericku matematiku\" INS:\"katedra za primenjenu algebru\" INS:\"katedra za funkcionalnu analizu geometriju i topologiju\" INS:\"katedra za racunarske nauke\" INS:\"katedra za matematicku logiku i diskretnu matematiku\" INS:\"katedra za primenjenu analizu\" INS:\"katedra za informacione sisteme\")");
@@ -108,8 +108,8 @@ public class ExportMonographsTask implements Task {
 							listPapers.add(paperMonographDTO);
 						}
 					}
-//					if(listPapers.size() == 0)
-					if(listPapers.size() != 0)
+					if(listPapers.size() == 0)
+//					if(listPapers.size() != 0)
 //					if(! monographClassification.equals(""))
 						retVal.add(new MonographAndPapers(monographDTO, listPapers, monographClassification));
 				}

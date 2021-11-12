@@ -36,7 +36,12 @@
 			<h:outputText
 				value="#{messages['records.paperJournal.tablePanel.btnCreate']}"
 				rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add])}" />
-		</h:panelGrid> 
+			<h:graphicImage library="img" name="importToolTip.png"
+							rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add])}" />
+			<h:outputText
+					value="#{messages['records.paperJournal.tablePanel.btnImport']}"
+					rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.browse])}" />
+		</h:panelGrid>
 	</span>
 </rich:tooltip>
 

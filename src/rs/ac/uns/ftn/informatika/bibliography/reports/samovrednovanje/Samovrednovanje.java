@@ -75,6 +75,11 @@ public class Samovrednovanje {
 			generateTabela63();
 			log.info("Report Tabela63 completed.");
 		}
+		if(reportTypesToGenerate.contains("TabelaPMFInterni")){
+			log.info("Generating TabelaPMFInterni...");
+			generateReportPMFInterni();
+			log.info("Report TabelaPMFInterni completed.");
+		}
 		if(reportTypesToGenerate.contains("Tabela67")){
 			log.info("Generating Tabela67...");
 			generateTabela67();
@@ -288,6 +293,116 @@ public class Samovrednovanje {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public static void generateReportPMFInterni(){
+		Map<String, List<String>> resultsByCategoryZbirni = new TreeMap<String, List<String>>();
+		try {
+
+
+
+			List<String> years = new ArrayList<String>();
+			years.add(lastYear);
+
+
+			List<ResultForYearDTO> data = SamovrednovanjeUtils.getAllResultsWord(ids, years);
+
+
+			for(ResultForTypeDTO res:data.get(0).getResultsForType()){
+				if(resultsByCategoryZbirni.get(res.getResultType())==null){
+					resultsByCategoryZbirni.put(res.getResultType(), new ArrayList<String>());
+				}
+				resultsByCategoryZbirni.get(res.getResultType()).add(res.getResult());
+
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// kreiranje word-a
+
+
+
+
+
+		log.info("Creating word document");
+		try{
+
+
+			File f = new File(generatedReportsDir+"TabelaUNS-"+lastYear+organisation+".docx");
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+			ObjectFactory factory = Context.getWmlObjectFactory();
+
+			P naslov1 = DocxUtils.createParagraphWithText("1.	ЗБИРНИ ПРЕГЛЕД НАУЧНИХ РАДОВА ОБЈАВЉЕНИХ У КАЛЕНДАРСКОЈ " + lastYear + ". ГОДИНИ");
+			wordMLPackage.getMainDocumentPart().addObject(naslov1);
+
+			Tbl tabelaZbirni = factory.createTbl();
+			Tr tableHeaderZbirni = factory.createTr();
+			DocxUtils.addTableCell(tableHeaderZbirni, "Редни број", wordMLPackage);
+			DocxUtils.addTableCell(tableHeaderZbirni, "Категорија научних радова", wordMLPackage);
+			DocxUtils.addTableCell(tableHeaderZbirni, "Број научних радова објављених у М категорији", wordMLPackage);
+			tabelaZbirni.getContent().add(tableHeaderZbirni);
+
+			int i = 0;
+
+			for(String str:resultsByCategoryZbirni.keySet()){
+
+				if(!str.equals("M99")){
+					Tr tableRow = factory.createTr();
+					i++;
+					DocxUtils.addTableCell(tableRow, ""+i, wordMLPackage);
+					DocxUtils.addTableCell(tableRow, str, wordMLPackage);
+					DocxUtils.addTableCell(tableRow, ""+resultsByCategoryZbirni.get(str).size(), wordMLPackage);
+					tabelaZbirni.getContent().add(tableRow);
+				}
+			}
+			DocxUtils.addBorders(tabelaZbirni);
+			wordMLPackage.getMainDocumentPart().addObject(tabelaZbirni);
+			wordMLPackage.save(f);
+
+			P naslov2 = DocxUtils.createParagraphWithText("2.	ЗБИРНИ ПРЕГЛЕД НАУЧНИХ РАДОВА ОБЈАВЉЕНИХ У КАЛЕНДАРСКОЈ " + lastYear + ". ГОДИНИ СА ЛИСТОМ РЕФЕРЕНЦИ");
+			wordMLPackage.getMainDocumentPart().addObject(naslov2);
+
+			tabelaZbirni = factory.createTbl();
+			tableHeaderZbirni = factory.createTr();
+			DocxUtils.addTableCell(tableHeaderZbirni, "Редни број", wordMLPackage);
+			DocxUtils.addTableCell(tableHeaderZbirni, "Категорија научних радова", wordMLPackage);
+			DocxUtils.addTableCell(tableHeaderZbirni, "Број научних радова објављених у М категорији", wordMLPackage);
+			DocxUtils.addTableCell(tableHeaderZbirni, "Библиографске одреднице научних радова", wordMLPackage);
+			tabelaZbirni.getContent().add(tableHeaderZbirni);
+
+			for(String str:resultsByCategoryZbirni.keySet()){
+
+				if(!str.equals("M99")){
+					Tr tableRow = factory.createTr();
+					i++;
+					DocxUtils.addTableCell(tableRow, ""+i, wordMLPackage);
+					DocxUtils.addTableCell(tableRow, str, wordMLPackage);
+					DocxUtils.addTableCell(tableRow, ""+resultsByCategoryZbirni.get(str).size(), wordMLPackage);
+					int j = 0;
+					StringBuilder reference = new StringBuilder();
+					List<String> list = resultsByCategoryZbirni.get(str);
+					for (j=0; j < list.size(); j++) {
+						reference.append(" " + (j+1) + ". " + list.get(j) + "<br/><br/>");
+					}
+					Tc column = factory.createTc();
+					XHTMLImporterImpl importer = new XHTMLImporterImpl(wordMLPackage);
+					column.getContent().addAll(importer.convert("<p>" + reference.toString().replace("&nbsp;", " ").replace("&", "&amp;") + "</p>", null));
+//				DocxUtils.addTableCell(tableRow, reference.toString(), wordMLPackage);
+					tableRow.getContent().add(column);
+					tabelaZbirni.getContent().add(tableRow);
+				}
+			}
+			DocxUtils.addBorders(tabelaZbirni);
+			wordMLPackage.getMainDocumentPart().addObject(tabelaZbirni);
+			wordMLPackage.save(f);
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
 	}
 	
 	
@@ -1181,16 +1296,72 @@ public class Samovrednovanje {
     private static Properties mNames = new Properties();
 	
 	static{
-		mNames.put("M10", "Monografije, monografske studije, tematski zbornici, leskikografske i kartografske publikacije međunarodnog značaja");
-		mNames.put("M20", "Radovi objavljeni u naučnim časopisima međunarodnog značaja");
-		mNames.put("M30", "Zbornici međunarodnih naučnih skupova");
-		mNames.put("M40", "Nacionalne monografije tematski zbornici, leksikografske i kartografske publikacije nacionalnog značaja; naučni prevodi i kritička izdanja građe, bibliografske publikacije");
-		mNames.put("M50", "Časopisi nacionalnog značaja");
-		mNames.put("M60", "Zbornici skupova nacionalnog značaja");
-		mNames.put("M70", "Magistarske i doktorske teze");
-		mNames.put("M80", "Tehnička i razvojna rešenja");
-		mNames.put("M90", "Patenti, autorske izložbe, testovi");
-		
+		mNames.put("M10","Монографије, монографске студије, тематски зборници, лескикографске и картографске публикације међународног значаја");
+		mNames.put("M11","Истакнута монографија међународног значаја");
+		mNames.put("M12","Монографија међународног значаја");
+		mNames.put("M13","Монографска студија/поглавље у књизи М11 или рад у тематском зборнику водећег међународног значаја");
+		mNames.put("M14","Монографска студија/поглавље у књизи М12 или рад у тематском зборнику међународног значаја");
+		mNames.put("M15","Лексикографска јединица или карта у научној публикацији водећег међународног значаја");
+		mNames.put("M16","Лексикографска јединица или карта у публикацији међународног значаја");
+		mNames.put("M17","Уређивање научне монографије или тематског зборника водећег међународног значаја");
+		mNames.put("M18","Уређивање научне монографије, тематског зборника, лексикографске или картографске публикације међународног значаја");
+		mNames.put("M20","Часописи међународног значаја");
+		mNames.put("M21","Рад у врхунском међународном часопису");
+		mNames.put("M21a","Рад у међународном часопису изузетних вредности");
+		mNames.put("M22","Рад у истакнутом међународном часопису");
+		mNames.put("M23","Рад у међународном часопису");
+		mNames.put("M24","Рад у часопису међународног значаја верификованог посебном одлуком");
+		mNames.put("M25","Научна критика и полемика у истакнутом међународном часопису");
+		mNames.put("M26","Научна критика и полемика у међународном часопис");
+		mNames.put("M27","Уређивање истакнутог међународног научног часописа на год. нивоу (гост уредник)");
+		mNames.put("M28","Уређивање међународног научног часописа");
+		mNames.put("M30","Зборници међународних научних скупова");
+		mNames.put("M31","Предавање по позиву са међународног скупа штампано у целини (неопходно позивно писмо)");
+		mNames.put("M32","Предавање по позиву са међународног скупа штампано у изводу");
+		mNames.put("M33","Саопштење са међународног скупа штампано у целини");
+		mNames.put("M34","Саопштење са међународног скупа штампано у изводу");
+		mNames.put("M35","Ауторизована дискусија са међународног скуп");
+		mNames.put("M36","Уређивање зборника саопштења међународног научног скупа");
+		mNames.put("M40","Националне монографије, тематски зборници, лексикографске и картографске публикације националног значаја; научни преводи и критичка издања грађе, библиографске публикације");
+		mNames.put("M41","Истакнута монографија националног значаја");
+		mNames.put("M42","Монографија националног значаја, монографско издање грађе, превод изворног текста у облику монографије (само за старе језике)");
+		mNames.put("M43","Монографска библиографска публикација");
+		mNames.put("M44","Поглавље у књизи М41 или рад у истакнутом тематском зборнику водећег националног значаја, превод изворног текста у облику студије, поглавља или чланка, превод или стручна редакција превода научне монографске књиге (само за старе језике)");
+		mNames.put("M45","Поглавље у књизи М42 или рад у тематском зборнику националног значаја");
+		mNames.put("M46","Лексикографска  јединица  у  научној  публикацији водећег националног значаја, карта у научној  публикацији  националног  значаја, издање грађе у научној публикацији.");
+		mNames.put("M47","Лексикографска  јединица  у  научној публикацији националног значаја");
+		mNames.put("M48","Уређивање  научне  монографије,  тематског зборника, лексикографске или картографске публикације водећег националног значаја");
+		mNames.put("M49","Уређивање  научне  монографије,  тематског зборника, лексикографске или картографске публикације националног значаја");
+		mNames.put("M50","Часописи националног значаја");
+		mNames.put("M51","Рад у водећем часопису националног значаја");
+		mNames.put("M52","Рад у часопису националног значаја");
+		mNames.put("M53","Рад у научном часопису");
+		mNames.put("M55","Уређивање  водећег  научног  часописа националног значаја (на годишњем нивоу)");
+		mNames.put("M56","Уређивање  научног  часописа  националног значаја (на годишњем нивоу)");
+		mNames.put("M60","Зборници скупова националног значаја");
+		mNames.put("M61","Предавање  по  позиву  са  скупа  националног значаја штампано у целини");
+		mNames.put("M62","Предавање  по  позиву  са  скупа  националног значаја штампано у изводу");
+		mNames.put("M63","Саопштење  са  скупа  националног  значаја штампано у целини");
+		mNames.put("M64","Саопштење  са  скупа  националног  значаја штампано у изводу");
+		mNames.put("M65","Ауторизована  дискусија  са  националног скупа");
+		mNames.put("M66","Уређивање  зборника  саопштења  скупа националног значаја");
+		mNames.put("M70","Магистарске и докторске тезе");
+		mNames.put("M71","Одбрањена докторска дисертација");
+		mNames.put("M72","Одбрањен магистарски рад");
+		mNames.put("M80","Техничка и развојна решења");
+		mNames.put("M81","Нови производ или технологија уведени у производњу, признат програмски систем, признате нове генетске пробе на међународном нивоу (уз доказ), ново прихваћено решење проблема у области макроекономског, социјалног и проблема одрживог просторног развоја рецензовано и прихваћено на међународном нивоу (уз доказ)");
+		mNames.put("M82","Нова производна линија, нови материјал, индустријски прототип, ново прихваћено решење проблема у области макроекономског, социјалног и проблема одрживог просторног развоја уведени у производњу (уз доказ)");
+		mNames.put("M83","Ново лабораторијско постројење, ново експериментално постројење, нови технолошки поступак (уз доказ)");
+		mNames.put("M84","Битно побољшан постојећи производ или технологија (уз доказ) ново решење проблема у области микроекономског, социјалног и проблема одрживог просторног развоја рецензовано и прихваћено на националном нивоу (уз доказ)");
+		mNames.put("M85","Прототип, нова метода, софтвер, стандардизован или атестиран инструмент, нова генска проба, микроорганизми (уз доказ)");
+		mNames.put("M86","Критичка евалуација података, база података, приказани детаљно као део мођународних пројеката, публиковани као интерне публикације или приказани на Интернету");
+		mNames.put("M87","Пријава домаћег патента");
+		mNames.put("M90","Патенти, ауторске изложбе, тестови");
+		mNames.put("M91","Реализовани патент, сој, сорта или раса, архитектонско, грађевинско или урбанистичко ауторско дело на међународном нивоу");
+		mNames.put("M92","Реализовани патент, сој, сорта или раса, архитектонско, грађевинско или урбанистичко ауторско дело");
+		mNames.put("M93","Ауторска изложба са каталогом уз научну рецензију");
+
+
 		ResourceBundle rbR = PropertyResourceBundle.getBundle("rs.ac.uns.ftn.informatika.bibliography.reports.reports");		
 		generatedReportsDir = rbR.getString("generatedReportsDir");
 		

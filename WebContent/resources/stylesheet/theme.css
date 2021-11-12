@@ -177,13 +177,13 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 
 .rf-p-hdr {
 	border: 0px !important;
-	padding-top: 5px !important;
+	padding-top: 2px !important;
 	padding-left: 10px !important;
 	padding-bottom: 0px !important;
-	height: 20px !important;
+	height: 24px !important;
 	color: #333333 !important;
 	font-weight: bold !important;
-	font-size: 16px !important;
+	font-size: 22px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	background-color: #FFFFFF !important;
 	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
@@ -212,6 +212,11 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 
 .rf-dt-c {
 	min-width: 80px !important;
+}
+
+.rf-tab-lbl{
+	font-size: 20px;
+	font-weight:bold;
 }
 
 .rich-table-wide-cell {

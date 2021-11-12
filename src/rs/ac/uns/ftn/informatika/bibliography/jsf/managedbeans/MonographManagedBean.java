@@ -2145,8 +2145,12 @@ public class MonographManagedBean extends CRUDManagedBean implements
   
   public String getFileURL(FileDTO file){
   	String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			  if(FacesContext.getCurrentInstance()!=null){
+				  try {
+					  filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				  } catch (Throwable e){
+				  }
+			  }
 			return filePath + "/DownloadFileServlet/" + file.getFileName() + "?controlNumber=" 
 							+ file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId();
   }

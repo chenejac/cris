@@ -71,9 +71,9 @@ public class ObrazciDataUtils {
 		
 			List<CommissionDTO> commissionList = new ArrayList<CommissionDTO>();
 			List<CommissionDTO> allCommissionList = null;//evaluationDB.getCommissions(conn);
-			PublicationDTO publicationDTO = (PublicationDTO)(record.getDto());
-			List<AuthorDTO> authorsAndEditors = publicationDTO.getAllAuthors();
-			authorsAndEditors.addAll(publicationDTO.getEditors());		
+//			PublicationDTO publicationDTO = (PublicationDTO)(record.getDto());
+//			List<AuthorDTO> authorsAndEditors = publicationDTO.getAllAuthors();
+//			authorsAndEditors.addAll(publicationDTO.getEditors());
 			if(commissionId!=null){
 					for (CommissionDTO commissionDTO : allCommissionList) {
 						if(commissionDTO.getCommissionId().equals(commissionId)){

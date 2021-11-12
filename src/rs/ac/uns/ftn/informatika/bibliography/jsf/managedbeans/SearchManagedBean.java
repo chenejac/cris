@@ -78,6 +78,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 	
 	protected boolean expandAll=true;
 	private MediatorService mediatorService = null;
+
+	private String controlNumber = "(BISIS)5929";
 	
 	/**
 	 * Constructor
@@ -146,9 +148,9 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		mediatorService.setLocaleLan(new Locale(this.getUserManagedBean().getLanguage()));
 		
 		//mozda treba obrisati
-		setAuthorManageBeanToPick();
-		setJournalManageBeanToPick();
-		setConferenceManageBeanToPick();
+		//setAuthorManageBeanToPick();
+		//setJournalManageBeanToPick();
+		//setConferenceManageBeanToPick();
 	}
 	
 	/**
@@ -161,8 +163,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 	/**
 	 * @param searchQueries the searchQueries to set
 	 */
-	public void setSearchQuerys(List<SearchDTO> searchQuerys) {
-		this.searchQuerys = searchQuerys;
+	public void setSearchQuerys(List<SearchDTO> searchQueries) {
+		this.searchQuerys = searchQueries;
 	}
 	/**
 	 * @return the searchQueryOperator
@@ -333,21 +335,48 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 	
 	
 	public String searchPageEnter() {
+		return searchPageEnter("5929");
+	}
+
+	public String searchPageEnter(String controlNumber) {
 		resetForm();
-		
+
 		setAuthorManageBeanToPick();
 		setJournalManageBeanToPick();
 		setConferenceManageBeanToPick();
-		
+
 		root= null;
 		allOrganizations=null;
 		allInstitutions=null;
 		allInstitutionsAndOrganizations=null;
 		populateAll = true;
 		populateAll();
-		
+
 		getUserManagedBean().setJobAd(false);
-		
+
+		returnPage = "indexPage";
+		return "searchPage";
+	}
+
+	public String searchPageEnterDepartment(String controlNumber) {
+		resetForm();
+
+		setAuthorManageBeanToPick();
+		setJournalManageBeanToPick();
+		setConferenceManageBeanToPick();
+
+		root= null;
+		allOrganizations=null;
+		allInstitutions=null;
+		allInstitutionsAndOrganizations=null;
+		populateAll = true;
+		populateAll();
+
+		if (controlNumber != null)
+			changeSelectionOnTree(controlNumber);
+
+		init = true;
+
 		returnPage = "indexPage";
 		return "searchPage";
 	}
@@ -364,7 +393,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			allInstitutions=null;
 			allOrganizations = null;
 			allInstitutionsAndOrganizations=null;
-			
+
 			populateAll();
 			if (departmentId != null){
 				changeSelectionOnTree(departmentId);
@@ -428,7 +457,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		return firstLastName;
 	}
 	/**
-	 * @param authorName the authorName to set
+	 * @param firstLastName the firstLastName to set
 	 */
 	public void setFirstLastName(String firstLastName) {
 		this.firstLastName = firstLastName;
@@ -984,7 +1013,6 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		this.records = records;
 	}
 	/**
-	 * @param records the records to set
 	 */
 	public int getRecordSize() {
 		if(records!=null)
@@ -1006,7 +1034,6 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		this.searchQueryError = searchQueryError;
 	}
 	/**
-	 * @param advanceQuerySearch the advanceQuerySearch to set
 	 */
 	public void advanceQuerySearch() {
 		records =null;
@@ -1104,10 +1131,14 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 	
 	public void getTree() {
 		debug("getTree");
+		getTree(controlNumber);
+	}
+
+	public void getTree(String controlNumber) {
 		try {
-			  root = new ArrayList <TreeNodeDTO<InstitutionDTO>>();
-		      if(allInstitutions == null){
-		      	FacesContext facesCtx = FacesContext.getCurrentInstance();
+			root = new ArrayList <TreeNodeDTO<InstitutionDTO>>();
+			if(allInstitutions == null){
+				FacesContext facesCtx = FacesContext.getCurrentInstance();
 				ExternalContext extCtx = facesCtx.getExternalContext();
 				InstitutionManagedBean mb = (InstitutionManagedBean) extCtx.getSessionMap().get(
 						"institutionManagedBean");
@@ -1118,13 +1149,13 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 				mb.setIncludeOrganizationUnits(false);
 				mb.populateList();
 				allInstitutions = mb.getInstitutions();
-		      }
-		      
-		      if (allInstitutionsAndOrganizations == null)
-		      {
-		 	    	allInstitutionsAndOrganizations = new ArrayList<TreeNodeDTO<InstitutionDTO>>();
-		 	  }
-		      
+			}
+
+			if (allInstitutionsAndOrganizations == null)
+			{
+				allInstitutionsAndOrganizations = new ArrayList<TreeNodeDTO<InstitutionDTO>>();
+			}
+
 //			  for(InstitutionDTO ins:allInstitutions){
 //					if(ins.getSuperInstitution() == null && ins.isEnabledElement()){
 //						TreeNode<TreeNodeDTO<InstitutionDTO>> node = new TreeNodeImpl<TreeNodeDTO<InstitutionDTO>>();
@@ -1136,20 +1167,20 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 //		      }
 //		      naslilno dodeljujemo da je vrh stabla PMF
 //		      "(BISIS)5929"; //Prirodno-matematički fakultet u Novom Sadu, Univerzitet u Novom Sadu (BISIS)5929
-		      for(InstitutionDTO ins:allInstitutions){
-					if(ins.getControlNumber().equalsIgnoreCase("(BISIS)5929")
-							){
-							//|| ins.getControlNumber().equalsIgnoreCase("(BISIS)5933")){
-						TreeNodeDTO<InstitutionDTO> node = new TreeNodeDTO<InstitutionDTO>(ins);
-						node.setParent(null);
-						allInstitutionsAndOrganizations.add(node);
-						addNodeInstitution(node, ins);
-						root.add(node);
-					}
-		      }
-	    } catch (Exception e) {
-	    	error("getTree", e);
-	    }
+			for(InstitutionDTO ins:allInstitutions){
+				if(ins.getControlNumber().equalsIgnoreCase(controlNumber)
+				){
+					//|| ins.getControlNumber().equalsIgnoreCase("(BISIS)5933")){
+					TreeNodeDTO<InstitutionDTO> node = new TreeNodeDTO<InstitutionDTO>(ins);
+					node.setParent(null);
+					allInstitutionsAndOrganizations.add(node);
+					addNodeInstitution(node, ins);
+					root.add(node);
+				}
+			}
+		} catch (Exception e) {
+			error("getTree", e);
+		}
 	}
 	/*
 	 public Boolean adviseNodeOpened(UITree tree) {

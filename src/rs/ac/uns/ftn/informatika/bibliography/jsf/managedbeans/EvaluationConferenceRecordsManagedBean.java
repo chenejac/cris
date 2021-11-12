@@ -51,6 +51,12 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles;
 
 public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 
+	private Integer startYear = 2020;
+
+	private Integer endYear = 2020;
+
+	protected List<SelectItem> yearRange = null;
+
 	private static final long serialVersionUID = -3945361701930476206L;
 
 	protected FacesMessages facesMessages = new FacesMessages(
@@ -86,9 +92,30 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 	public EvaluationConferenceRecordsManagedBean() {
 		super();
 //		System.out.println("Konstruktor poziva init");
-		init();	
+		init();
+		if (yearRange==null)
+		{
+			int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+			yearRange = new ArrayList() ;
+			/*for (int i = 1960,j=0; i<=currentYear;i++,j++)
+			{
+				dateRange.add(new SelectItem(String.valueOf(i)));
+			}*/
+
+			// idemo od tekuce godine do 2018
+			for (int i = currentYear; i>=1980;i--)
+			{
+				yearRange.add(new SelectItem(String.valueOf(i)));
+			}
+		}
 	}
 
+	/**
+	 * @return the dateRange
+	 */
+	public List<SelectItem> getYearRange() {
+		return yearRange;
+	}
 	/**
 	 * Initialized 
 	 */
@@ -185,11 +212,20 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 			
 			orgUnitQuery = qparser.parse("+(INS:\"katedra za opste inzenjerske discipline\" INS:\"katedra za primenjene i inzenjerske hemije\" INS:\"katedra za hemijsko inzenjerstvo\" INS:\"katedra za tehnologije ugljenohidratne hrane\" INS:\"katedra za tehnologije konzervisane hrane\" INS:\"katedra za biotehnologiju i farmaceutsko inzenjerstvo\" INS:\"katedra za naftno petrohemijsko inzenjerstvo\" INS:\"katedra za inzenjerstvo materijala\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
-			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause("ARCHIVED = 0 AND RECORDID in " +
+			String query = "(";
+			for(int i=startYear;i<=endYear;i++) {
+				if(!query.equals("(")){
+					query += " OR ";
+				}
+				query += "(RECORDSTRING like '%d" + i + "%')";
+			}
+			query += ") AND ARCHIVED = 0 AND RECORDID in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is output from' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is published in' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is author of' and RECORDID1 in " +
-					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5933'))))");
+					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5933'))))";
+
+			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause(query);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -207,11 +243,20 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		
 			orgUnitQuery = qparser.parse("+(INS:\"departman za matematiku i informatiku\" INS:\"katedra za opstu algebru i teorijsko racunarstvo\" INS:\"katedra za analizu verovatnocu i diferencijalne jednacine\" INS:\"katedra za numericku matematiku\" INS:\"katedra za primenjenu algebru\" INS:\"katedra za funkcionalnu analizu geometriju i topologiju\" INS:\"katedra za racunarske nauke\" INS:\"katedra za matematicku logiku i diskretnu matematiku\" INS:\"katedra za primenjenu analizu\" INS:\"katedra za informacione tehnologije i sisteme\" INS:\"katedra za teorijske osnove informatike\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
-			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause("ARCHIVED = 0 AND RECORDID in " +
+			String query = "(";
+			for(int i=startYear;i<=endYear;i++) {
+				if(!query.equals("(")){
+					query += " OR ";
+				}
+				query += "(RECORDSTRING like '%d" + i + "%')";
+			}
+			query += ") AND ARCHIVED = 0 AND RECORDID in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is output from' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is published in' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is author of' and RECORDID1 in " +
-					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)6782'))))");
+					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929'))))";
+
+			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause(query);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -229,11 +274,20 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		
 			orgUnitQuery = qparser.parse("+(INS:\"departman za geografiju turizam i hotelijerstvo\" INS:\"katedra za fizicku geografiju\" INS:\"katedra za drustvenu geografiju\" INS:\"katedra za regionalnu geografiju\" INS:\"katedra za turizam\" INS:\"katedra za hotelijerstvo\" INS:\"katedra za lovni turizam\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
-			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause("ARCHIVED = 0 AND RECORDID in " +
+			String query = "(";
+			for(int i=startYear;i<=endYear;i++) {
+				if(!query.equals("(")){
+					query += " OR ";
+				}
+				query += "(RECORDSTRING like '%d" + i + "%')";
+			}
+			query += ") AND ARCHIVED = 0 AND RECORDID in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is output from' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is published in' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is author of' and RECORDID1 in " +
-					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)6780'))))");
+					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929'))))";
+
+			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause(query);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -251,11 +305,20 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		
 			orgUnitQuery = qparser.parse("+(INS:\"departman za fiziku\" INS:\"katedra za eksperimentalnu fiziku kondenzovane materije\" INS:\"katedra za fizicku elektroniku\" INS:\"katedra za nuklearnu fiziku\" INS:\"katedra za teorijsku fiziku\" INS:\"katedra za opstu fiziku i metodiku nastave fizike\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
-			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause("ARCHIVED = 0 AND RECORDID in " +
+			String query = "(";
+			for(int i=startYear;i<=endYear;i++) {
+				if(!query.equals("(")){
+					query += " OR ";
+				}
+				query += "(RECORDSTRING like '%d" + i + "%')";
+			}
+			query += ") AND ARCHIVED = 0 AND RECORDID in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is output from' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is published in' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is author of' and RECORDID1 in " +
-					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)6779'))))");
+					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929'))))";
+
+			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause(query);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -273,11 +336,20 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		
 			orgUnitQuery = qparser.parse("+(INS:\"departman za hemiju biohemiju i zastitu zivotne sredine\" INS:\"katedra za analiticku hemiju\" INS:\"katedra za biohemiju i hemiju prirodnih proizvoda\" INS:\"katedra za fizicku hemiju\" INS:\"katedra za hemijsko obrazovanje i metodiku nastave hemije\" INS:\"katedra za hemijsku tehnologiju i zastitu zivotne sredine\" INS:\"katedra za opstu i neorgansku hemiju\" INS:\"katedra za organsku hemiju\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
-			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause("ARCHIVED = 0 AND RECORDID in " +
+			String query = "(";
+			for(int i=startYear;i<=endYear;i++) {
+				if(!query.equals("(")){
+					query += " OR ";
+				}
+				query += "(RECORDSTRING like '%d" + i + "%')";
+			}
+			query += ") AND ARCHIVED = 0 AND RECORDID in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is output from' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is published in' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is author of' and RECORDID1 in " +
-					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)6781'))))");
+					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929'))))";
+
+			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause(query);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -295,11 +367,20 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		
 			orgUnitQuery = qparser.parse("+(INS:\"departman za biologiju i ekologiju\" INS:\"katedra za botaniku\" INS:\"katedra za fiziologiju\" INS:\"katedra za zoologiju\" INS:\"katedra za mikrobiologiju\" INS:\"katedra za humanu biologiju i metodiku nastave biologije\" INS:\"katedra za ekologiju i zastitu zivotne sredine\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
-			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause("ARCHIVED = 0 AND RECORDID in " +
+			String query = "(";
+			for(int i=startYear;i<=endYear;i++) {
+				if(!query.equals("(")){
+					query += " OR ";
+				}
+				query += "(RECORDSTRING like '%d" + i + "%')";
+			}
+			query += ") AND ARCHIVED = 0 AND RECORDID in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is output from' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is published in' and RECORDID1 in " +
 					"(SELECT DISTINCT(RECORDID2) FROM MARC21RECORD_MARC21RECORD m where CFCLASSID like 'is author of' and RECORDID1 in " +
-					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)6778'))))");
+					"(SELECT distinct(RECORDID1) FROM MARC21RECORD_MARC21RECORD m where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929'))))";
+
+			listConferences = recordDAO.getRecordsIdsFromDatabaseByWhereClause(query);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -640,6 +721,34 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		}
 		return retVal;
 	}
-	
-	
+
+	/**
+	 * @return the startYear
+	 */
+	public Integer getStartYear() {
+		return startYear;
+	}
+
+	/**
+	 * @param startYear the startYear to set
+	 */
+	public void setStartYear(Integer startYear) {
+		this.startYear = startYear;
+	}
+
+	/**
+	 * @return the endYear
+	 */
+	public Integer getEndYear() {
+		return endYear;
+	}
+
+	/**
+	 * @param endYear the endYear to set
+	 */
+	public void setEndYear(Integer endYear) {
+		this.endYear = endYear;
+	}
+
+
 }

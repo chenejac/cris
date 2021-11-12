@@ -22,6 +22,7 @@ public class PublicThesesTFManagedBean extends PublicThesesManagedBean{
 	protected List<StudyFinalDocumentDTO> list2018;
 	protected List<StudyFinalDocumentDTO> list2019;
 	protected List<StudyFinalDocumentDTO> list2020;
+	protected List<StudyFinalDocumentDTO> list2021;
 	
 	public static String PUBLIC_THESES_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' and LICENSE like 'Temporary available') AND RECORDSTRING like '%710_2#__0(BISIS)5933%'";
 	
@@ -40,7 +41,9 @@ public class PublicThesesTFManagedBean extends PublicThesesManagedBean{
 	public static String THESES_2019_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2019-__-__') AND RECORDSTRING like '%710_2#__0(BISIS)5933%'";
 	
 	public static String THESES_2020_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2020-__-__') AND RECORDSTRING like '%710_2#__0(BISIS)5933%'";
-	
+
+	public static String THESES_2021_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2021-__-__') AND RECORDSTRING like '%710_2#__0(BISIS)5933%'";
+
 	/**
 	 * 
 	 */
@@ -87,6 +90,10 @@ public class PublicThesesTFManagedBean extends PublicThesesManagedBean{
 	public synchronized void loadTheses2020(PhaseEvent event){
 		list2020 = getThesesByWhereClause(PublicThesesTFManagedBean.THESES_2020_WHERE_CLAUSE);
 	}
+
+	public synchronized void loadTheses2021(PhaseEvent event){
+		list2021 = getThesesByWhereClause(PublicThesesTFManagedBean.THESES_2021_WHERE_CLAUSE);
+	}
 	
 	/**
 	 * @return the list
@@ -125,6 +132,10 @@ public class PublicThesesTFManagedBean extends PublicThesesManagedBean{
 	
 	public List<StudyFinalDocumentDTO> getTheses2020() {
 		return list2020;
+	}
+
+	public List<StudyFinalDocumentDTO> getTheses2021() {
+		return list2021;
 	}
 
 }

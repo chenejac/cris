@@ -1,0 +1,208 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a4j="http://richfaces.org/a4j"
+     xmlns:rich="http://richfaces.org/rich"
+     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+
+	<h:panelGrid id="bibliographyJournalsTableFormPanel" >
+		<h:inputText id="generalJournals" rendered="false" value="" />
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:message 
+				for="generalJournals"
+				errorClass="errorMessage"
+				infoClass="infoMessage"
+				warnClass="warnMessage"
+				fatalClass="fatalMessage"/>
+		</a4j:outputPanel>
+		<h:panelGrid
+			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)}">
+			<!-- ===========================   searchPanel  ============================= -->
+			<h:graphicImage 
+				library="img"
+				name="spacer.gif" 
+				alt="" 
+				height="10"
+				width="1"
+				/>
+			<h:panelGrid 
+				id="bibliographyJournalsSearchPanel"
+				columns="4">
+				<h:panelGroup>
+					<h2>
+						<a4j:outputPanel ajaxRendered="true">
+							<mytags:outputLabel 
+								value="#{messages['records.bibliography.searchPanel.header']}: "
+								for="whereStrJournals"
+								errorStyleClass="errorMessage"
+								/>
+						</a4j:outputPanel>
+					</h2>
+				</h:panelGroup>
+				<h:inputText 
+					id="whereStrJournals"
+					onkeydown="keyDownHandler(event, 'bibliographyJournalsTableForm:btnFindJournals')"
+					value="#{bibliographyManagedBean.whereStr}" 
+					styleClass="searchBox" />
+				<a4j:commandButton
+						id="btnFindJournals"
+						value="#{messages['records.bibliography.searchPanel.btnFind']}"
+						render="bibliographyJournalsTablePanel"
+						limitRender="true"
+						execute="@form"
+						image="./resources/img/filter.png"/>
+				<a4j:commandButton
+						id="btnShowAllJournals"
+						action="#{bibliographyManagedBean.removeFilter}"
+						value="#{messages['records.bibliography.searchPanel.btnShowAll']}"
+						render="bibliographyJournalsTablePanel, bibliographyJournalsSearchPanel"
+						execute="@this"
+						limitRender="true"
+						image="./resources/img/clearFilter.png"/>
+			</h:panelGrid>
+		</h:panelGrid>
+		<h:panelGrid columns="1" >
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add]}">
+				<h3>
+					<h:outputText
+							value="#{messages['records.paperJournal.tablePanel.btnCreate']}: " />
+					<a4j:commandLink
+							action="#{paperJournalManagedBean.enterCRUDPage}"
+					>
+						<h:graphicImage library="img" name="create.png" />
+						<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+			<h:panelGroup
+					rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber and userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.browse]}">
+				<h3>
+					<h:outputText
+							value="#{messages['administration.import.menu']}: " />
+					<a4j:commandLink
+							action="#{importManagedBean.enterCRUDPageJournals}"
+					>
+						<h:graphicImage library="img" name="import.png" />
+						<ui:include src="../bibliographicRecords/monographToolTip.xhtml"/>
+					</a4j:commandLink>
+				</h3>
+			</h:panelGroup>
+		</h:panelGrid>
+		<!-- ===========================   tablePanel  ============================= -->
+		<h:graphicImage 
+			library="img"
+			name="spacer.gif" 
+			alt="" 
+			height="10"
+			width="1"
+			/>
+		<h:panelGrid id="bibliographyJournalsTablePanel">
+			<rich:dataTable 
+				id="bibliographyJournalsTable"
+				value="#{bibliographyManagedBean.publications}"
+				var="bibliographyRow" 
+				rowKeyVar="bibliographyRowKey"
+				rows="10" 
+				>
+				<!--     ........  counter   .......-->
+				<rich:column
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.bibliography.tablePanel.counter']}"
+							style="font-size: 14px;"/>
+					</f:facet>
+					<h:outputText 
+						value="#{bibliographyRowKey + 1}" 
+						escape="false"
+						/>
+				</rich:column>
+				<!--     ........  reference   .......-->
+				<rich:column
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.bibliography.tablePanel.reference']}"
+							style="font-size: 14px;"/>
+					</f:facet>
+					<h:outputText 
+						value="#{bibliographyRow.HTMLRepresentation}" 
+						escape="false"
+						/>
+				</rich:column>
+				<!--     ........  PublicationYear   .......-->
+				<rich:column
+					rendered = "#{(empty bibliographyManagedBean.startYear) or (empty bibliographyManagedBean.endYear) or (bibliographyManagedBean.startYear != bibliographyManagedBean.endYear)}"
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<a4j:commandLink 
+							action="#{bibliographyManagedBean.sort}"
+							render="bibliographyJournalsTablePanel"
+							limitRender="true"
+							execute="@this"
+							immediate="true"
+							>
+							<h:outputText
+								value="#{messages['records.bibliography.tablePanel.publicationYear']}" style="font-size: 14px;"/>
+							<h:graphicImage library="img" name="up.gif"
+								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='asc')}" />
+							<h:graphicImage library="img" name="down.gif"
+								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='desc')}" />
+							<f:param name="orderBy" value="publicationYear" />
+						</a4j:commandLink>
+					</f:facet>
+					<h:outputText value="#{bibliographyRow.publicationYear}" />
+				</rich:column>
+				<!--     ........  actions   .......-->
+				<rich:column
+						rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber}"
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					<f:facet name="header">
+						<h:outputText
+							value="#{messages['records.bibliography.tablePanel.actions']}"
+							style="font-size: 14px;font-weight: bold"/>
+					</f:facet>
+					<a4j:commandLink
+						rendered="#{(bibliographyRow.class.simpleName=='PaperJournalDTO') and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.update])}"
+						action="#{bibliographyManagedBean.switchToUpdateMode}"
+						render="paperJournalSimpleEditModalPanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true" >
+						<h:graphicImage library="img" name="edit.png" />
+						
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						
+						<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml" />
+					</a4j:commandLink>
+					<a4j:commandLink 
+						rendered="#{(bibliographyRow.class.simpleName=='PaperJournalDTO') and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.delete])}"
+						action="#{bibliographyManagedBean.delete}"
+						onclick="if(!confirmDecision()) return false"
+						render="bibliographyJournalsTablePanel"
+						limitRender="true" 
+						execute="@this" 
+						immediate="true">
+						<h:graphicImage library="img" name="delete.png" />
+						<f:param name="controlNumber"
+							value="#{bibliographyRow.controlNumber}" />
+						<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+			<h:panelGrid columns="1" >
+				<h:panelGroup>
+					<rich:dataScroller 
+						id="downDataScrollerJournals"
+						align="left"
+						for="bibliographyJournalsTable"
+						render="bibliographyJournalsTablePanel"
+						renderIfSinglePage="false"/> 
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

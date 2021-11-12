@@ -1,5 +1,5 @@
 <Context path="/bibliography" reloadable="true"
-	docBase="D:/USERS/Dragan/bibliography/apache-tomcat-7.0.19/webapps/bibliography"
+	docBase="e:/cris/apache-tomcat-8.0.28/webapps/bibliography_war"
 	crossContext="false">
 	<Manager pathname="" />
 	<Resource name="jdbc/cris" auth="Container" type="javax.sql.DataSource"

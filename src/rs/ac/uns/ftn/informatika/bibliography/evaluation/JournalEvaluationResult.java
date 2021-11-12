@@ -21,6 +21,8 @@ public class JournalEvaluationResult {
 	private int commId;
 	private int ruleNumber = 0;
 	private String ruleDescr = "";
+	private boolean twoYears = true;
+	private boolean fiveYears = true;
 	
 	/**
 	 * @param category
@@ -29,12 +31,14 @@ public class JournalEvaluationResult {
 	 * @param evaluation
 	 */
 	public JournalEvaluationResult(String category, JournalEval journalEval,
-			ImpactFactor impactFactor, int evaluation) {
+			ImpactFactor impactFactor, int evaluation, boolean twoYears, boolean fiveYears) {
 		super();
 		this.category = category;
 		this.journalEval = journalEval;
 		this.impactFactor = impactFactor;
 		this.evaluation = evaluation;
+		this.twoYears = twoYears;
+		this.fiveYears = fiveYears;
 	}
 
 	/**
@@ -140,7 +144,7 @@ public class JournalEvaluationResult {
 	 */
 	@Override
 	public String toString() {
-		return category + ((impactFactor == null)?("; "):("; "  + impactFactor.getYear() + "; " + impactFactor.getMaxPositionReseachArea().getResearchAreaDTO().getSomeTerm() + "; " + impactFactor.getMaxPositionReseachArea().getDividend()));
+		return category + ((impactFactor == null)?("; "):("; "  + impactFactor.getYear() + "; " + impactFactor.getMaxPositionReseachArea(twoYears, fiveYears).getResearchAreaDTO().getSomeTerm() + "; " + impactFactor.getMaxPositionReseachArea(true, true).getDividend()));
 	}
 	
 	

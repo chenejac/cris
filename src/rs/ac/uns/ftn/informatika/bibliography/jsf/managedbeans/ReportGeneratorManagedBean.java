@@ -65,6 +65,7 @@ public class ReportGeneratorManagedBean extends CRUDManagedBean{
 		reportTypes.add(new SelectItem("UNSIns", "UNS sa institucijama"));
 		reportTypes.add(new SelectItem("UNSCol", "UNS sa bojama"));
 		reportTypes.add(new SelectItem("SamoBol", "Samovrednovanje sa boldovanjem"));
+		reportTypes.add(new SelectItem("PMFInterni", "PMF Interni izvestaj"));
 		reportTypes.add(new SelectItem("Svi", "Svi"));
 		organisations = new ArrayList<SelectItem>();	
 		if(institutionID == null) {
@@ -106,6 +107,7 @@ public class ReportGeneratorManagedBean extends CRUDManagedBean{
 			selectedReports.add("UNSIns");
 			selectedReports.add("UNSCol");
 			selectedReports.add("SamoBol");
+			selectedReports.add("PMFInterni");
 		}else{
 			selectedReports.add(selectedReport);
 		}

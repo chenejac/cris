@@ -35,6 +35,7 @@ public class PublicThesesManagedBean {
 	protected List<StudyFinalDocumentDTO> list2018;
 	protected List<StudyFinalDocumentDTO> list2019;
 	protected List<StudyFinalDocumentDTO> list2020;
+	protected List<StudyFinalDocumentDTO> list2021;
 	
 //	protected Map<String, StudyFinalDocumentDTO> map = new HashMap<String, StudyFinalDocumentDTO>();
 //	protected Map<String, StudyFinalDocumentDTO> map2014 = new HashMap<String, StudyFinalDocumentDTO>();
@@ -57,7 +58,9 @@ public class PublicThesesManagedBean {
 	public static String THESES_2019_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2019-__-__') AND (RECORDSTRING like '%710_2#__0(BISIS)8011%' OR RECORDSTRING like '%710_2#__0(BISIS)114901%' OR RECORDSTRING like '%710_2#__0(BISIS)593%' OR RECORDSTRING like '%710_2#__0(BISIS)5928%' OR RECORDSTRING like '%710_2#__0(BISIS)82773%' OR RECORDSTRING like '%710_2#__0(BISIS)5941%' OR RECORDSTRING like '%710_2#__0(BISIS)5940%' OR RECORDSTRING like '%710_2#__0(BISIS)5929%')";
 	
 	public static String THESES_2020_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2020-__-__') AND (RECORDSTRING like '%710_2#__0(BISIS)8011%' OR RECORDSTRING like '%710_2#__0(BISIS)114901%' OR RECORDSTRING like '%710_2#__0(BISIS)593%' OR RECORDSTRING like '%710_2#__0(BISIS)5928%' OR RECORDSTRING like '%710_2#__0(BISIS)82773%' OR RECORDSTRING like '%710_2#__0(BISIS)5941%' OR RECORDSTRING like '%710_2#__0(BISIS)5940%' OR RECORDSTRING like '%710_2#__0(BISIS)5929%')";
-		
+
+	public static String THESES_2021_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2021-__-__') AND (RECORDSTRING like '%710_2#__0(BISIS)8011%' OR RECORDSTRING like '%710_2#__0(BISIS)114901%' OR RECORDSTRING like '%710_2#__0(BISIS)593%' OR RECORDSTRING like '%710_2#__0(BISIS)5928%' OR RECORDSTRING like '%710_2#__0(BISIS)82773%' OR RECORDSTRING like '%710_2#__0(BISIS)5941%' OR RECORDSTRING like '%710_2#__0(BISIS)5940%' OR RECORDSTRING like '%710_2#__0(BISIS)5929%')";
+
 	private RecordDAO recordDAO = new RecordDAO(new RecordDB());
 		
 	public static Date PUBLIC_THESES_LAST_MODIFICATION_DATE = new Date();
@@ -164,6 +167,10 @@ public class PublicThesesManagedBean {
 	public synchronized void loadTheses2020(PhaseEvent event){
 		list2020 = getThesesByWhereClause(THESES_2020_WHERE_CLAUSE);
 	}
+
+	public synchronized void loadTheses2021(PhaseEvent event){
+		list2021 = getThesesByWhereClause(THESES_2021_WHERE_CLAUSE);
+	}
 	
 	/*
 	public List<StudyFinalDocumentDTO> getThesesSetAvaialableToThePublic(){
@@ -236,6 +243,10 @@ public class PublicThesesManagedBean {
 	
 	public List<StudyFinalDocumentDTO> getTheses2020() {
 		return list2020;
+	}
+
+	public List<StudyFinalDocumentDTO> getTheses2021() {
+		return list2021;
 	}
 	
 	public String getLastModificationDate(){

@@ -16,7 +16,7 @@ public class MNOBiotehnologijaIPoljoprivreda extends MNO{
 	private MNOBiotehnologijaIPoljoprivreda(){
 		super();
 		this.nameMNO = "Biotehnologija i poljoprivreda";
-		this.yearsSpecial = new int [8];
+		this.yearsSpecial = new int [9];
 		yearsSpecial[0] = 2012;
 		yearsSpecial[1] = 2013;
 		yearsSpecial[2] = 2014;
@@ -25,6 +25,7 @@ public class MNOBiotehnologijaIPoljoprivreda extends MNO{
 		yearsSpecial[5] = 2017;
 		yearsSpecial[6] = 2018;
 		yearsSpecial[7] = 2019;
+		yearsSpecial[8] = 2020;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -36,6 +37,7 @@ public class MNOBiotehnologijaIPoljoprivreda extends MNO{
 		HashMap <String, String> special2017;
 		HashMap <String, String> special2018;
 		HashMap <String, String> special2019;
+		HashMap <String, String> special2020;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2012 = new HashMap<String, String>();
@@ -109,6 +111,10 @@ public class MNOBiotehnologijaIPoljoprivreda extends MNO{
 		special2019 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoBiotehnologijaIPoljoprivreda2019.xlsx", special2019);
 		this.specialJournalsAllYears.put(2019, special2019);
+
+		special2020 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mnoBiotehnologijaIPoljoprivreda2020.xlsx", special2020);
+		this.specialJournalsAllYears.put(2020, special2020);
 	}
 	
 	public static MNOBiotehnologijaIPoljoprivreda MNOBiotehnologijaIPoljoprivreda= null;

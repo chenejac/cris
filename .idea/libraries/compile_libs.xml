@@ -7,7 +7,6 @@
       <root url="jar://$PROJECT_DIR$/compile-libs/language-zh-2.5.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/servlet-api.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/activation.jar!/" />
-      <root url="jar://$PROJECT_DIR$/compile-libs/log4j-over-slf4j-1.7.12.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/oaicat.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/richfaces-core-impl-4.1.0.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/richfaces-components-ui-4.1.0.Final.jar!/" />
@@ -24,7 +23,6 @@
       <root url="jar://$PROJECT_DIR$/compile-libs/docx4j-3.2.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/hamcrest-all-1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/harvester2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/compile-libs/log4j-1.2.16.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/org-openide-util.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/richfaces-components-api-4.1.0.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/jasperreports-6.0.4.jar!/" />
@@ -50,7 +48,6 @@
       <root url="jar://$PROJECT_DIR$/compile-libs/jna-4.0.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/jackson-annotations-2.8.5.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/fontbox-2.0.8.jar!/" />
-      <root url="jar://$PROJECT_DIR$/compile-libs/slf4j-api-1.7.12.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/commons-digester-2.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/cglib-nodep-2.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/jstl-api-1.2.jar!/" />
@@ -58,7 +55,6 @@
       <root url="jar://$PROJECT_DIR$/compile-libs/ooxml-schemas-1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/contextSet.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/jstl-impl-1.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/compile-libs/slf4j-simple-1.7.12.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/guava-r09.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/richfaces-core-api-4.1.0.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/compile-libs/mytags.jar!/" />

@@ -472,8 +472,10 @@ public abstract class CRUDManagedBean implements Serializable{
 	 */
 	public void setWhereStr(String whereStr) {
 		this.whereStr = whereStr;
-		if((whereStr == null) || (!whereStr.equals("M99")))
+		if((whereStr == null) || (!whereStr.equals("M99"))){
 			populateList = true;
+			orderList = true;
+		}
 //		getBindingManagedBean().getTableComponent().setFirst(0);
 	}
 
@@ -703,7 +705,6 @@ public abstract class CRUDManagedBean implements Serializable{
 	/**
 	 * @param mode
 	 * @param contents
-	 * @param tablePanelHeader
 	 * @param contentHeader
 	 */
 	protected void openMultilingualContentForm(int mode, List<MultilingualContentDTO> contents, boolean htmlContent, String panelHeader, String contentHeader){
@@ -741,8 +742,6 @@ public abstract class CRUDManagedBean implements Serializable{
 	/**
 	 * @param mode
 	 * @param publisherTranslations
-	 * @param tablePanelHeader
-	 * @param contentHeader
 	 */
 	protected void openMultilingualContentPublisherForm(int mode, List<PublisherNameDTO> publisherTranslations, String panelHeader){
 		MultilingualContentPublisherManagedBean mb = getMultilingualContentPublisherManagedBean();
@@ -757,7 +756,6 @@ public abstract class CRUDManagedBean implements Serializable{
 	
 	
 	/**
-	 * @param emailMessage
 	 */
 	protected void sendMessage(EmailMessage emailMessage){
 		try {
@@ -776,7 +774,6 @@ public abstract class CRUDManagedBean implements Serializable{
 	}
 	
 	/**
-	 * @param emailMessage
 	 */
 	protected void sendRecordMessage(RecordDTO dto, String operation){
 		try {

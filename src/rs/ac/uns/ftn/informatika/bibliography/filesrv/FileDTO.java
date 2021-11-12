@@ -238,8 +238,12 @@ public class FileDTO implements Serializable{
 		
 		if(id > 0){
 			String filePath = "";
-			if(FacesContext.getCurrentInstance()!=null)
-				filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			if(FacesContext.getCurrentInstance()!=null){
+				try {
+					filePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				} catch (Throwable e){
+				}
+			}
 			return filePath + "/DownloadFileServlet/File" + fileName + "?controlNumber=" + controlNumber + "&fileName=" + fileName + "&id=" + id;
 		}
 		return "";

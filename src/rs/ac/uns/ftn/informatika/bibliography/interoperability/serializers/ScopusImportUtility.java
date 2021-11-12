@@ -26,7 +26,7 @@ public class ScopusImportUtility {
         if (authenticated) {
             return true;
         }
-        String url = "http://api.elsevier.com/authenticate?platform=SCOPUS";
+        String url = "https://api.elsevier.com/authenticate?platform=SCOPUS";
         HttpResponse<JsonNode> jsonResponse = null;
         try {
             jsonResponse = Unirest.get(url)
@@ -62,7 +62,7 @@ public class ScopusImportUtility {
 
 
     public static boolean getAuthtoken(int choice, Map headers) throws JSONException {
-        String url = "http://api.elsevier.com/authenticate?platform=SCOPUS&choice=" + choice;
+        String url = "https://api.elsevier.com/authenticate?platform=SCOPUS&choice=" + choice;
         HttpResponse<JsonNode> jsonResponse = null;
         try {
             jsonResponse = Unirest.get(url)
@@ -88,14 +88,14 @@ public class ScopusImportUtility {
         List<JSONObject> retVal = new ArrayList<JSONObject>();
     	if(authenticate()){
     		for(int i = startYear; i<=endYear; i++){
-	    		String url = "http://api.elsevier.com/content/search/scopus?query=AU-ID("+ authorID +")&count=25&date="+i+"&view=COMPLETE";
+	    		String url = "https://api.elsevier.com/content/search/scopus?query=AU-ID("+ authorID +")&count=25&date="+i+"&view=COMPLETE";
 		        JSONObject obj = getDocumentsByQuery(url);
 		        if(obj != null){
 		        	retVal.add(obj);
 		        	int numberOfDocumentsInYear = Integer.parseInt(obj.getJSONObject("search-results").get("opensearch:totalResults").toString());
 
 	                for (int j=25; j<numberOfDocumentsInYear; j+=25) {
-	                    String urlYear = "http://api.elsevier.com/content/search/scopus?query=AU-ID("+ authorID +")&start="+ j +"&count=25&date=" + i+"&view=COMPLETE";
+	                    String urlYear = "https://api.elsevier.com/content/search/scopus?query=AU-ID("+ authorID +")&start="+ j +"&count=25&date=" + i+"&view=COMPLETE";
 	                    JSONObject objYear = getDocumentsByQuery(urlYear);
 	                    if(objYear != null)
 	                    	retVal.add(objYear);
@@ -110,7 +110,7 @@ public class ScopusImportUtility {
     public static JSONObject getAbstractData(String scopusId) {
         JSONObject retVal = null;
     	if(authenticate()){
-    		String url = "http://api.elsevier.com/content/abstract/scopus_id/"+ scopusId +"?view=FULL";
+    		String url = "https://api.elsevier.com/content/abstract/scopus_id/"+ scopusId +"?view=FULL";
 	        JSONObject obj = getDocumentsByQuery(url);
 	        if(obj != null){
 	        	retVal = obj;

@@ -56,10 +56,14 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	private RecordDAO recordDAO = new RecordDAO(new RecordDB());
 
 	private PublicationDTO selectedPublication = null;
+
+	private AuthorDTO selectedResearcher = null;
 	
 	private boolean justJournals = false;
 	
 	private boolean justConferences = false;
+
+	private boolean justOther = false;
 	
 	private Integer startYear = null;
 	
@@ -82,8 +86,10 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	@Override
 	public String resetForm() {
 		selectedPublication = null;
+		selectedResearcher = null;
 		justJournals = false;
 		justConferences = false;
+		justOther = false;
 		startYear = null;
 		endYear = null;
 		getPaperJournalManagedBean().resetForm();
@@ -236,7 +242,7 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 */
 	protected Query createQuery() throws ParseException {
 		BooleanQuery bq = new BooleanQuery();
-		if ((whereStr != null) && (!"".equals(whereStr))) 
+		if ((whereStr != null) && (!"".equals(whereStr)))
 			bq.add(QueryUtils.parseQuery(StringUtils.clearDelimiters(whereStr, Indexer.delims), new CrisAnalyzer(), Operator.AND), Occur.MUST);
 		BooleanQuery type = new BooleanQuery();
 		if(justJournals) {
@@ -250,6 +256,33 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 			type.add(new TermQuery(new Term("TYPE", Types.INVITED_TALK_ABSTRACT_PAPER_PROCEEDINGS)), Occur.SHOULD);
 			type.add(new TermQuery(new Term("TYPE", Types.DISCUSSION_PAPER_PROCEEDINGS)), Occur.SHOULD);
 			type.add(new TermQuery(new Term("TYPE", Types.PAPER_PROCEEDINGS)), Occur.SHOULD);
+		} else if (justOther) {
+			if(getUserManagedBean().getPrivileges().get(PrivilegesManagedBean.FORM_PAPER_MONOGRAPH).get(PrivilegesManagedBean.PRIVILEGE_BROWSE)){
+				type.add(new TermQuery(new Term("TYPE", Types.PAPER_MONOGRAPH)), Occur.SHOULD);
+			}
+			if(getUserManagedBean().getPrivileges().get(PrivilegesManagedBean.FORM_MONOGRAPH).get(PrivilegesManagedBean.PRIVILEGE_BROWSE)){
+				type.add(new TermQuery(new Term("TYPE", Types.MONOGRAPH)), Occur.SHOULD);
+			}
+			if(getUserManagedBean().getPrivileges().get(PrivilegesManagedBean.FORM_STUDY_FINAL_DOCUMENT).get(PrivilegesManagedBean.PRIVILEGE_BROWSE)){
+				type.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.SHOULD);
+				type.add(new TermQuery(new Term("TYPE", Types.PHD_ART_PROJECT)), Occur.SHOULD);
+				if((getUserManagedBean().getLoggedUser().getInstitution().getControlNumber() == null)
+//						||
+//						(! ("(BISIS)5920".equals(getUserManagedBean().getLoggedUser().getInstitution().getControlNumber())))
+				){
+					type.add(new TermQuery(new Term("TYPE", Types.OLD_MASTER_STUDY_FINAL_DOCUMENT)), Occur.SHOULD);
+					type.add(new TermQuery(new Term("TYPE", Types.MASTER_STUDY_FINAL_DOCUMENT)), Occur.SHOULD);
+					type.add(new TermQuery(new Term("TYPE", Types.OLD_BACHELOR_STUDY_FINAL_DOCUMENT)), Occur.SHOULD);
+					type.add(new TermQuery(new Term("TYPE", Types.BACHELOR_STUDY_FINAL_DOCUMENT)), Occur.SHOULD);
+					type.add(new TermQuery(new Term("TYPE", Types.SPECIALISTIC_STUDY_FINAL_DOCUMENT)), Occur.SHOULD);
+				}
+			}
+			if(getUserManagedBean().getPrivileges().get(PrivilegesManagedBean.FORM_PATENT).get(PrivilegesManagedBean.PRIVILEGE_BROWSE)){
+				type.add(new TermQuery(new Term("TYPE", Types.PATENT)), Occur.SHOULD);
+			}
+			if(getUserManagedBean().getPrivileges().get(PrivilegesManagedBean.FORM_PRODUCT).get(PrivilegesManagedBean.PRIVILEGE_BROWSE)){
+				type.add(new TermQuery(new Term("TYPE", Types.PRODUCT)), Occur.SHOULD);
+			}
 		} else {
 			if(getUserManagedBean().getPrivileges().get(PrivilegesManagedBean.FORM_PAPER_JOURNAL).get(PrivilegesManagedBean.PRIVILEGE_BROWSE)){
 				type.add(new TermQuery(new Term("TYPE", Types.PAPER_JOURNAL)), Occur.SHOULD);
@@ -294,7 +327,7 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 		bq.add(type, Occur.MUST);
 		
 		
-		AuthorDTO loggedAuthor = getUserManagedBean().getLoggedUser().getAuthor();
+		AuthorDTO loggedAuthor = (selectedResearcher!=null)?selectedResearcher:getUserManagedBean().getLoggedUser().getAuthor();
 		if (loggedAuthor.getControlNumber() != null){
 			BooleanQuery authorsPapers = new BooleanQuery();
 			authorsPapers.add(new TermQuery(new Term("AUCN", loggedAuthor.getControlNumber())), Occur.SHOULD);
@@ -912,10 +945,14 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 * @return the outcome string for JSF navigation
 	 */
 	public String enterCRUDPageJournals() {
+		String temp = this.whereStr;
 		getUserManagedBean().resetAllForms();
 		String retVal = resetForm();
+		this.whereStr = temp;
 		tableModalPanel = "";
 		justJournals = true;
+		justConferences = false;
+		justOther = false;
 		switchToBrowseMode();
 		return retVal;
 	}
@@ -926,10 +963,32 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	 * @return the outcome string for JSF navigation
 	 */
 	public String enterCRUDPageConferences() {
+		String temp = this.whereStr;
 		getUserManagedBean().resetAllForms();
 		String retVal = resetForm();
+		this.whereStr = temp;
 		tableModalPanel = "";
+		justJournals = false;
 		justConferences = true;
+		justOther = false;
+		switchToBrowseMode();
+		return retVal;
+	}
+
+	/**
+	 * Prepares CRUD page for using
+	 *
+	 * @return the outcome string for JSF navigation
+	 */
+	public String enterCRUDPageOther() {
+		String temp = this.whereStr;
+		getUserManagedBean().resetAllForms();
+		String retVal = resetForm();
+		this.whereStr = temp;
+		tableModalPanel = "";
+		justJournals = false;
+		justConferences = false;
+		justOther = true;
 		switchToBrowseMode();
 		return retVal;
 	}
@@ -944,6 +1003,8 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 		String retVal = resetForm();
 		tableModalPanel = "";
 		justJournals = true;
+		justConferences = false;
+		justOther = false;
 		startYear = 2004;
 		endYear = 2013;
 		switchToBrowseMode();
@@ -1010,5 +1071,13 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	public void setEndYear(Integer endYear) {
 		this.endYear = endYear;
 	}
-	
+
+
+	public AuthorDTO getSelectedResearcher() {
+		return selectedResearcher;
+	}
+
+	public void setSelectedResearcher(AuthorDTO selectedResearcher) {
+		this.selectedResearcher = selectedResearcher;
+	}
 }

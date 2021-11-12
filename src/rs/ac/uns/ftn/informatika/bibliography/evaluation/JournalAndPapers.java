@@ -533,10 +533,10 @@ public class JournalAndPapers {
 	}
 	
 	@SuppressWarnings("unused")
-	private String getLeadingInternationalJournalYears() {
+	private String getLeadingInternationalJournalYears(boolean twoYears, boolean fiveYears) {
 		StringBuffer retVal = new StringBuffer();
 		for (ImpactFactor impactFactor : impactFactors) {
-			String temp = impactFactor.getLeadingInternationalJournalResearchAreas();
+			String temp = impactFactor.getLeadingInternationalJournalResearchAreas(twoYears, fiveYears);
 			if((temp != null) && (! "".equals(temp))){
 				if(retVal.length() > 0)
 					retVal.append(", ");
@@ -547,10 +547,10 @@ public class JournalAndPapers {
 	}
 	
 	@SuppressWarnings("unused")
-	private String getOutstandingInternationalJournalYears() {
+	private String getOutstandingInternationalJournalYears(boolean twoYears, boolean fiveYears) {
 		StringBuffer retVal = new StringBuffer();
 		for (ImpactFactor impactFactor : impactFactors) {
-			String temp = impactFactor.getOutstandingInternationalJournalResearchAreas();
+			String temp = impactFactor.getOutstandingInternationalJournalResearchAreas(twoYears, fiveYears);
 			if((temp != null) && (! "".equals(temp))){
 				if(retVal.length() > 0)
 					retVal.append(", ");
@@ -561,10 +561,10 @@ public class JournalAndPapers {
 	}
 	
 	@SuppressWarnings("unused")
-	private String getInternationalJournalYears() {
+	private String getInternationalJournalYears(boolean twoYears, boolean fiveYears) {
 		StringBuffer retVal = new StringBuffer();
 		for (ImpactFactor impactFactor : impactFactors) {
-			String temp = impactFactor.getInternationalJournalResearchAreas();
+			String temp = impactFactor.getInternationalJournalResearchAreas(twoYears, fiveYears);
 			if((temp != null) && (! "".equals(temp))){
 				if(retVal.length() > 0)
 					retVal.append(", ");

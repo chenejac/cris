@@ -2,16 +2,7 @@ package rs.ac.uns.ftn.informatika.bibliography.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.sql.DataSource;
 
@@ -22,17 +13,7 @@ import rs.ac.uns.ftn.informatika.bibliography.db.CommissionDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.EvaluationDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.MetricsDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
-import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.CommissionDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.InstitutionDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.JournalDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.OrganizationUnitDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.PaperJournalDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.PaperProceedingsDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.PublicationDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.ResultMeasureDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.RuleBookDTO;
+import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ImpactFactor;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.JournalEvaluationResult;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ResultEvaluator;
@@ -195,9 +176,7 @@ public class CommissionDAO {
 
 	/**
 	 * Updates the commission to the database.
-	 * 
-	 * @param conn
-	 *            Database connection
+	 *
 	 * @param commissionDTO
 	 *            Commission to add
 	 * @return true if successful else false
@@ -540,7 +519,7 @@ public class CommissionDAO {
 	
 	
 	private boolean createEvaluationsByCommisionForRecordJournal(Connection conn, JournalDTO journal, List<CommissionDTO> selectedCommissionList){
-		List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), "twoYearsIF");
+		List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 		if(impactFactors!=null)
 			Collections.sort(impactFactors, new GenericComparator<ImpactFactor>(
 					"year", "asc"));
@@ -637,6 +616,8 @@ public class CommissionDAO {
 			retVal = "nationalJournal";
 		else if (m.equalsIgnoreCase("M53"))
 			retVal = "scienceJournal";
+		else if (m.equalsIgnoreCase("M54"))
+			retVal = "newScienceJournal";
 		else if (m.equalsIgnoreCase("M100")) //nije evaluirano
             retVal = null; 
 		else {
@@ -1070,6 +1051,12 @@ public class CommissionDAO {
 				PublicationDTO publicationDTO = (PublicationDTO)(rec.getDto());
 				List<AuthorDTO> authorsAndEditors = publicationDTO.getAllAuthors();
 				authorsAndEditors.addAll(publicationDTO.getEditors());
+				if(publicationDTO instanceof StudyFinalDocumentDTO) {
+					StudyFinalDocumentDTO theses = (StudyFinalDocumentDTO)publicationDTO;
+					if((theses.getInstitution().getControlNumber() != null) && (theses.getInstitution().getControlNumber().equals("(BISIS)5929"))){
+						authorsAndEditors.addAll(theses.getAdvisors());
+					}
+				}
 				for (AuthorDTO author : authorsAndEditors) {
 					Integer commissionId = null;
 					OrganizationUnitDTO rootOrganizationUnit = author.getOrganizationUnit();

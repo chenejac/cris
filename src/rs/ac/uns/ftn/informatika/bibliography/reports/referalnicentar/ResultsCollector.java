@@ -206,7 +206,7 @@ public class ResultsCollector {
 			f.delete();
 		f.createNewFile();
 		
-		List<String> ids = obtainIdsForOrganisation("pmf", "2014-01-01 00:00:00");
+		List<String> ids = obtainIdsForOrganisation("pmf", "2020-01-01 00:00:00");
 		List<String> toExclude = new ArrayList<String>();
 		toExclude.add("9999");
 		toExclude.add("2879");

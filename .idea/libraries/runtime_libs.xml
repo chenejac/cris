@@ -10,7 +10,6 @@
       <root url="jar://$PROJECT_DIR$/runtime-libs/commons-fileupload-1.2.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/ictclas4j-1.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/language-zh-2.5.jar!/" />
-      <root url="jar://$PROJECT_DIR$/runtime-libs/log4j-1.2.16.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/httpcore-nio-4.4.10.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/commons-lang-2.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/rtree-0.7.5.jar!/" />
@@ -96,6 +95,7 @@
       <root url="jar://$PROJECT_DIR$/runtime-libs/opennlp-chunk-models-1.5.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/opennlp-maxent-3.0.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/runtime-libs/slf4j-simple-1.7.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/runtime-libs/log4j-1.2.16.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

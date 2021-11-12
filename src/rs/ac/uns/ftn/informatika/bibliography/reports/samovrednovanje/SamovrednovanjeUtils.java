@@ -103,6 +103,8 @@ public class SamovrednovanjeUtils {
 				idsQuery.add(termQuery, Occur.SHOULD);
 				termQuery = new TermQuery(new Term("EDCN", id));
 				idsQuery.add(termQuery, Occur.SHOULD);
+				termQuery = new TermQuery(new Term("ADCN", id));
+				idsQuery.add(termQuery, Occur.SHOULD);
 			}
 			query.add(idsQuery, Occur.MUST);
 		}
@@ -175,6 +177,8 @@ public class SamovrednovanjeUtils {
 				termQuery = new TermQuery(new Term("AUCN", id));
 				idsQuery.add(termQuery, Occur.SHOULD);
 				termQuery = new TermQuery(new Term("EDCN", id));
+				idsQuery.add(termQuery, Occur.SHOULD);
+				termQuery = new TermQuery(new Term("ADCN", id));
 				idsQuery.add(termQuery, Occur.SHOULD);
 			}
 			query.add(idsQuery, Occur.MUST);
@@ -359,6 +363,8 @@ public class SamovrednovanjeUtils {
 				termQuery = new TermQuery(new Term("AUCN", id));
 				idsQuery.add(termQuery, Occur.SHOULD);
 				termQuery = new TermQuery(new Term("EDCN", id));
+				idsQuery.add(termQuery, Occur.SHOULD);
+				termQuery = new TermQuery(new Term("ADCN", id));
 				idsQuery.add(termQuery, Occur.SHOULD);
 			}
 			query.add(idsQuery, Occur.MUST);
@@ -919,6 +925,12 @@ public class SamovrednovanjeUtils {
 			PublicationDTO publicationDTO = (PublicationDTO)(record.getDto());
 			List<AuthorDTO> authorsAndEditors = publicationDTO.getAllAuthors();
 			authorsAndEditors.addAll(publicationDTO.getEditors());
+			if(publicationDTO instanceof StudyFinalDocumentDTO) {
+				StudyFinalDocumentDTO theses = (StudyFinalDocumentDTO)publicationDTO;
+				if((theses.getInstitution().getControlNumber() != null) && (theses.getInstitution().getControlNumber().equals("(BISIS)5929"))){
+					authorsAndEditors.addAll(theses.getAdvisors());
+				}
+			}
 			for (AuthorDTO author : authorsAndEditors) {
 				Integer commissionId = null;
 				OrganizationUnitDTO rootOrganizationUnit = author.getOrganizationUnit();

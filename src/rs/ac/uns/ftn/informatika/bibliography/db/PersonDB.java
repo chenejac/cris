@@ -152,7 +152,7 @@ public class PersonDB extends RecordDB {
 	 *            Database connection
 	 * @param recordId
 	 *            The person identifier
-	 * @param record
+	 * @param rec
 	 *            record with basic information
 	 * @return The retrieved person; null if not found or an error occurred.
 	 */

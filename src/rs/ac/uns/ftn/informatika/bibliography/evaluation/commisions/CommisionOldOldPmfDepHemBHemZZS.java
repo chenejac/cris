@@ -626,7 +626,7 @@ public class CommisionOldOldPmfDepHemBHemZZS extends AbstractCommissionEvaluatio
 //						m = "M21";
 					retVal.put(year, evaluation);
 					
-				} else if (year < 1981 && journal.hasIfInYear(1981) ){
+				} else if (year < 1981 && journal.hasIfInYear(1981, true, true) ){
 //				String m = "M52";
 //				if (best19811985 != null){
 //					if(best19811985 == 3)
@@ -642,7 +642,7 @@ public class CommisionOldOldPmfDepHemBHemZZS extends AbstractCommissionEvaluatio
 				if(best19811985 != null)
 					retVal.put(year, best19811985);
 				else 
-					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100));
+					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100, true, true));
 			}
 			else {
 				
@@ -678,7 +678,7 @@ public class CommisionOldOldPmfDepHemBHemZZS extends AbstractCommissionEvaluatio
 //				else if (evaluation == 1)
 //					m = "M21";
 				if (((year < 1989) || (year >1997)) && (evaluation == null))
-					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100));
+					retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100, true,true));
 				else
 					retVal.put(year, evaluation);
 			}
@@ -711,7 +711,7 @@ public class CommisionOldOldPmfDepHemBHemZZS extends AbstractCommissionEvaluatio
 //								System.out.println("Greska u kodu za 1989");
 //						}
 						if(best19891997 == null)
-							retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100));
+							retVal.put(year, new JournalEvaluationResult("M52", journal, null, 100, true, true));
 						else 
 							retVal.put(year, best19891997);
 					}
@@ -749,18 +749,18 @@ public class CommisionOldOldPmfDepHemBHemZZS extends AbstractCommissionEvaluatio
 				
 				if(researchAreas.contains(rar.getResearchAreaDTO())){
 					if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 1)) && (m21))
-						withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1);
+						withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1, true, true);
 					else if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 2)) && (m22))
-						withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2);
+						withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2, true, true);
 					else if ((withinResearchAreas==null)  && (m23))
-						withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3);
+						withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3, true, true);
 				} else {
 					if(((outsideResearchAreas==null) || (outsideResearchAreas.getEvaluation() <3 )) && (m23))
-						outsideResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3);
+						outsideResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3, true, true);
 					else if(((outsideResearchAreas==null) || (outsideResearchAreas.getEvaluation() < 2)) && (m22))
-						outsideResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2);
+						outsideResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2, true, true);
 					else if ((outsideResearchAreas==null)  && (m21))
-						outsideResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1);
+						outsideResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1, true, true);
 				}
 			}		
 		}
@@ -793,7 +793,7 @@ public class CommisionOldOldPmfDepHemBHemZZS extends AbstractCommissionEvaluatio
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53, true, true));
 		}
 		return retVal;
 	}

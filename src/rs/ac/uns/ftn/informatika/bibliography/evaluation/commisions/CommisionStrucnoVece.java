@@ -84,7 +84,7 @@ public abstract class CommisionStrucnoVece extends AbstractCommissionEvaluation 
 					}
 				}
 			}
-			else if (year < 1981 && journal.hasIfInYear(1981) ){
+			else if (year < 1981 && journal.hasIfInYear(1981, true, true) ){
 //				String m = null;
 //				if (best19811983 != null){
 //					if(best19811983 == 3)
@@ -211,9 +211,9 @@ public abstract class CommisionStrucnoVece extends AbstractCommissionEvaluation 
 
             if(evaluated == null){
                 if(found == true)
-                    retVal.put(year, new JournalEvaluationResult("M52", journal, null, 52));
+                    retVal.put(year, new JournalEvaluationResult("M52", journal, null, 52, true, true));
                 else
-                    retVal.put(year, new JournalEvaluationResult("M100", journal, null, 100));
+                    retVal.put(year, new JournalEvaluationResult("M100", journal, null, 100, true, true));
             }
 
             if(evaluated!=null)
@@ -249,18 +249,18 @@ public abstract class CommisionStrucnoVece extends AbstractCommissionEvaluation 
 				
 				if(researchAreas.contains(rar.getResearchAreaDTO())){
 					if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 1)) && (m21))
-						withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1);
+						withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1, true, true);
 					else if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 2)) && (m22))
-						withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2);
+						withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2, true, true);
 					else if ((withinResearchAreas==null)  && (m23))
-						withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3);
+						withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3, true, true);
 				} else {
 					if(((outsideResearchAreas==null) || (outsideResearchAreas.getEvaluation() <3 )) && (m23))
-						outsideResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3);
+						outsideResearchAreas = new JournalEvaluationResult("M23", journal, imf, 3, true, true);
 					else if(((outsideResearchAreas==null) || (outsideResearchAreas.getEvaluation() < 2)) && (m22))
-						outsideResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2);
+						outsideResearchAreas = new JournalEvaluationResult("M22", journal, imf, 2, true, true);
 					else if ((outsideResearchAreas==null)  && (m21))
-						outsideResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1);
+						outsideResearchAreas = new JournalEvaluationResult("M21", journal, imf, 1, true, true);
 				}
 			}		
 		}
@@ -293,7 +293,7 @@ public abstract class CommisionStrucnoVece extends AbstractCommissionEvaluation 
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53, true, true));
 		}
 		return retVal;
 	}

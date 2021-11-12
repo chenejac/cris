@@ -28,10 +28,6 @@ public class ResultsGroupDTO extends ResultMeasureDTO{
 	}
 	
 	/**
-	 * @param resultTypeMarc
-	 * @param resultTypeName
-	 * @param numberOfResults
-	 * @param numberOfPoints
 	 */
 	public ResultsGroupDTO(ResultMeasureDTO resultMeasureDTO, List<ResultDTO> results) {
 		super();
@@ -52,8 +48,8 @@ public class ResultsGroupDTO extends ResultMeasureDTO{
 	/**
 	 * @param results the results to set
 	 */
-	public void setResults(List<ResultDTO> publications) {
-		this.results = publications;
+	public void setResults(List<ResultDTO> results) {
+		this.results = results;
 	}
 
 	/**
@@ -78,7 +74,7 @@ public class ResultsGroupDTO extends ResultMeasureDTO{
 		retVal.append(indent + "</resultGroup>\n");
 		return retVal.toString();
 	}
-	
-	
+
+
 
 }

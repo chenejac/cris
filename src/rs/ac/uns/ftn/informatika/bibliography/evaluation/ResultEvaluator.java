@@ -5,15 +5,7 @@ package rs.ac.uns.ftn.informatika.bibliography.evaluation;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.sql.DataSource;
 
@@ -27,15 +19,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
 import rs.ac.uns.ftn.informatika.bibliography.db.EvaluationDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.MetricsDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
-import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.CommissionDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.JournalDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.OrganizationUnitDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.PaperJournalDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.PublicationDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.ResultMeasureDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.RuleBookDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.Types;
+import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Classification;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.RecordRecord;
@@ -112,6 +96,12 @@ public class ResultEvaluator {
 		if (authorsAndEditors.isEmpty()) {
 			authorsAndEditors = publicationDTO.getAllAuthors();
 			authorsAndEditors.addAll(publicationDTO.getEditors());
+			if(publicationDTO instanceof StudyFinalDocumentDTO) {
+				StudyFinalDocumentDTO theses = (StudyFinalDocumentDTO)publicationDTO;
+				if((theses.getInstitution().getControlNumber() != null) && (theses.getInstitution().getControlNumber().equals("(BISIS)5929"))){
+					authorsAndEditors.addAll(theses.getAdvisors());
+				}
+			}
 		}
 		
 		for (AuthorDTO author : authorsAndEditors) { //nekako proveriti i vrstu autorstva, a ne samo da li je bilo po toj komisiji.
@@ -396,7 +386,7 @@ public class ResultEvaluator {
 //			type.add(new TermQuery(new Term("TYPE", Types.PRODUCT)), Occur.SHOULD);
 			bq.add(type, Occur.MUST);
 			
-			bq.add(new TermQuery(new Term("PY", "2019")), Occur.MUST);
+			bq.add(new TermQuery(new Term("PY", "2020")), Occur.MUST);
 			
 			List<Record> records = Retriever.select(bq, new AllDocCollector(false));
 			
@@ -430,6 +420,13 @@ public class ResultEvaluator {
 					PublicationDTO publicationDTO = (PublicationDTO)(record.getDto());
 					List<AuthorDTO> authorsAndEditors = publicationDTO.getAllAuthors();
 					authorsAndEditors.addAll(publicationDTO.getEditors());
+					if(publicationDTO instanceof StudyFinalDocumentDTO) {
+						StudyFinalDocumentDTO theses = (StudyFinalDocumentDTO)publicationDTO;
+						if((theses.getInstitution().getControlNumber() != null) && (theses.getInstitution().getControlNumber().equals("(BISIS)5929"))){
+							System.out.println(theses.getAdvisors().size());
+							authorsAndEditors.addAll(theses.getAdvisors());
+						}
+					}
 					for (AuthorDTO author : authorsAndEditors) {
 						Integer commissionId = null;
 						OrganizationUnitDTO rootOrganizationUnit = author.getOrganizationUnit();
@@ -464,7 +461,16 @@ public class ResultEvaluator {
 							}
 						}
 					}
+					if(publicationDTO instanceof StudyFinalDocumentDTO){
+						StudyFinalDocumentDTO theses = (StudyFinalDocumentDTO)publicationDTO;
+						if((theses.getInstitution().getControlNumber() != null) && (theses.getInstitution().getControlNumber().equals("(BISIS)5929"))){
+							if(commissionList.size() == 0)
+								System.out.println("Nema!!!  " + publicationDTO.toString());
+						}
+					}
 					fillResultType(conn, record, ruleBook, commissionList);
+					if(commissionList.size() > 0)
+						System.out.println("Vrednovano: " + publicationDTO.toString());
 					j++;
 				} catch (Throwable e) {
 					System.out.println("Problem: " + record.getControlNumber());
@@ -790,7 +796,7 @@ public class ResultEvaluator {
 
 			String superPublicationType = getCommissionType(record, "type", publicationDate, commission);
 			
-			List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, record.getControlNumber(), "twoYearsIF");
+			List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, record.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 			
 			boolean foundmin2 	= false;
 			boolean foundmin1 	= false;

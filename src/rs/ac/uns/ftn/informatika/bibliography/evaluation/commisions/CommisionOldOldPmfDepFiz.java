@@ -152,7 +152,7 @@ public class CommisionOldOldPmfDepFiz extends AbstractCommissionEvaluation{
 		imf.setYear(year);
 		imf = (journal.getImpactFactors().indexOf(imf)!=-1)?journal.getImpactFactors().get(journal.getImpactFactors().indexOf(imf)):null;
 		if (imf != null){
-				ResearchAreaRanking rar = imf.getMaxPositionReseachArea();
+				ResearchAreaRanking rar = imf.getMaxPositionReseachArea(true, true);
 				boolean m21 = false;
 				boolean m22 = false;
 				boolean m23 = false;
@@ -164,11 +164,11 @@ public class CommisionOldOldPmfDepFiz extends AbstractCommissionEvaluation{
 					m22 = true;
 				
 				if(((best==null) || (best.getEvaluation() > 1)) && (m21))
-					best = new JournalEvaluationResult("M21", journal, imf, 1);
+					best = new JournalEvaluationResult("M21", journal, imf, 1, true, true);
 				else if(((best==null) || (best.getEvaluation() > 2)) && (m22))
-					best = new JournalEvaluationResult("M22", journal, imf, 2);
+					best = new JournalEvaluationResult("M22", journal, imf, 2, true, true);
 				else if ((best==null)  && (m23))
-					best = new JournalEvaluationResult("M23", journal, imf, 3);
+					best = new JournalEvaluationResult("M23", journal, imf, 3, true, true);
 		}
 		if(best != null){
 			retVal = best;
@@ -198,7 +198,7 @@ public class CommisionOldOldPmfDepFiz extends AbstractCommissionEvaluation{
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 53, true, true));
 		}
 		return retVal;
 	}

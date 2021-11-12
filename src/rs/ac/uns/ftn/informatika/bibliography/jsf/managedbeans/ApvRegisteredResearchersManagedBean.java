@@ -4,12 +4,7 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -133,11 +128,11 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 			OUCN = departmentId;
 			INCN = institutionId;
 			if(OUCN != null){
-				OUCNQuery = personDAO.getInstitutionRecordsQuery(OUCN, "2017-01-01 00:00:00");
+				OUCNQuery = personDAO.getInstitutionRecordsQuery(OUCN, "2020-01-01 00:00:00");
 			} else 
 				OUCNQuery = null;
 			if(INCN != null){
-				INCNQuery = personDAO.getInstitutionRecordsQuery(INCN, "2017-01-01 00:00:00");
+				INCNQuery = personDAO.getInstitutionRecordsQuery(INCN, "2020-01-01 00:00:00");
 			} else 
 				INCNQuery = null;
 			enterCRUDPage();
@@ -400,7 +395,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	 * bojana
 	 */
 	
-	private void retrieveSelectedAuthorKNR(){	
+	public void retrieveSelectedAuthorKNR(){
 		FacesContext facesCtx = FacesContext.getCurrentInstance();
 		ExternalContext extCtx = facesCtx.getExternalContext();	
 		EvaluationManagedBean emb = (EvaluationManagedBean) extCtx.getSessionMap().get(
@@ -519,6 +514,25 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	public void setSelectedAuthor(AuthorDTO authorDTO) {
 		selectedAuthor = authorDTO;
 	}
+
+	public void setList(AuthorDTO authorDTO){
+		selectedAuthor = authorDTO;
+		list = new ArrayList<AuthorDTO>();
+		list.add(selectedAuthor);
+		authorControlNumber = selectedAuthor.getControlNumber();
+	}
+
+	public void selectResearcherProfile(AuthorDTO authorDTO) {
+		setList(authorDTO);
+		retrieveSelectedAuthorKNR();
+		switchToTableNoneMode();
+		switchToViewDetailsMode();
+		showList = new HashMap<String, Boolean>();
+		for(ResultsGroupDTO res : selectedAuthorKNR.getResultsGroups()){
+			showList.put(res.getResultType().getClassId(), false);
+		}
+		debug("switchToViewDetailsModeFromKnr: \n" + selectedAuthor);
+	}
 	
 	/**
 	 * @return the selectedAuthorKNR
@@ -552,7 +566,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	/**
 	 * @return the showList
 	 */
-	public Map<String, Boolean> getShowList() {		
+	public Map<String, Boolean> getShowList() {
 		return showList;
 	}
 	/**
@@ -771,7 +785,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 						try {
 							MetricsDB metricsDB = new MetricsDB();
 							JournalDTO journal = ((PaperJournalDTO)publication.getPublication()).getJournal();
-							List<ImpactFactor> allImpactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), "twoYearsIF");
+							List<ImpactFactor> allImpactFactors = metricsDB.getJournalImpactFactors(conn, journal.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
 							Integer publicationYear = Integer.parseInt(publication.getPublication().getPublicationYear());
 							JournalEval journalEval= new JournalEval(journal.getControlNumber(), journal.getSomeName(), journal.getIssn(), allImpactFactors, publicationYear);
 							AbstractCommissionEvaluation absCommission = CommissionFactory.getInstance().getCommissionEvaluation(publication.getResultEvaluation().getCommissionDTO().getCommissionId());
@@ -822,14 +836,14 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 	
 	public String getEvaluatedResultAsString(JournalEvaluationResult evaluatedResult) {
 		String retVal = null;
-		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea();
+		ResearchAreaRanking ra = evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true);
 		long round  = Math.round(ra.getPosition()/ra.getDividend());
 		String vrednostKategorije = ra.getPosition().intValue() + "/" + round;
 		retVal = "<b>" + facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.year") + ":</b> " + evaluatedResult.getImpactFactor().getYear()+ "; " + 
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.category") + ":</b> " +evaluatedResult.getCategory() + "; " + 
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea().getResearchAreaDTO().getSomeTerm()+ "; " +
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.researchArea") + ":</b> " +evaluatedResult.getImpactFactor().getMaxPositionReseachArea(true, true).getResearchAreaDTO().getSomeTerm()+ "; " +
 			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.position") + ":</b> " +vrednostKategorije + "; " +
-			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactor();
+			"<b>" +facesMessages.getMessageFromResourceBundle("evaluation.mainPanel.evaluationResultsPanel.evaluatedResult.impactFactor") + ":</b> " +evaluatedResult.getImpactFactor().getValueOfImpactFactorForMaxResearchArea(true, true);
 		return retVal;
 	}
 	

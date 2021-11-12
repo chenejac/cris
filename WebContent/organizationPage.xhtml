@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
+>
+
+
+	<f:view locale="#{userManagedBean.language}"
+			contentType="text/html; charset=iso-8859-1"
+			beforePhase="#{organizationProfileManagedBean.enterPage}"
+			 >
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=organizationPage.jsf" />
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+	</h:head>
+	<h:body onload="setFocus(); ">
+	<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
+	<h:outputScript library="js" name="functions.js" target="head"/>
+	<h:outputStylesheet>
+		.wide-panel {
+			margin-left: 1% !important;
+			margin-right: 1% !important;
+			text-align: left !important;
+			width: 98% !important;
+			overflow: auto !important;
+
+		}
+	</h:outputStylesheet>
+	<f:loadBundle
+			basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+			var="messages" />
+	<div id="header">
+		<ui:insert name="header">
+			<ui:include src="header.xhtml"/>
+		</ui:insert>
+	</div>
+	<div id="center">
+	<h:graphicImage
+			library="img"
+			name="spacer.gif"
+			alt=""
+			height="20"
+			width="1"
+	/>
+	<div id="pleaseWait" class="transparent"></div>
+	<div id="progressBar" class="progressbar"><h:graphicImage
+			library="img" name="progressbar.gif"></h:graphicImage></div>
+	<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
+	<a4j:region id="form_region">
+		<h:form id="organizationPageForm">
+			<rich:panel id="organizationViewDetailsPanel" header="#{messages['records.organizationPage.header']}" styleClass="wide-panel">
+				<h:panelGrid columns="2" id="organizationPhotoShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left" >
+					<h:panelGroup>
+						<h:graphicImage library="img" name="institution_blue.png"  alt="none" styleClass="width50"/>
+					</h:panelGroup>
+					<h:panelGrid columns="2" columnClasses="width20, width80" style="align:left;font-size: 22px" >
+						<h:outputText value="#{messages['records.organizationPage.name']}"/>
+						<h:outputText value="#{organizationProfileManagedBean.selectedOrganizationUnit.someName}" style="font-weight:bold"/>
+						<h:outputText
+							rendered="#{not empty organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
+							value="#{messages['records.organizationPage.super.name']}"/>
+						<h:link outcome="organizationPage" >
+							<h:outputText
+									value="#{organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
+									style="font-weight:bold;font-size: 22px"
+							/>
+							<h:graphicImage library="img" name="enter.png" />
+							<f:param name="organization" value="#{organizationProfileManagedBean.selectedSuperOrgUnit.controlNumber}" />
+						</h:link>
+						<h:outputText
+							rendered="#{not empty organizationProfileManagedBean.selectedOrganizationUnit.uri}"
+							value="#{messages['records.organizationPage.webSite']}"
+							/>
+						<h:outputLink
+							rendered="#{not empty organizationProfileManagedBean.selectedOrganizationUnit.uri}"
+							target="_blank"
+							value="#{organizationProfileManagedBean.selectedOrganizationUnit.uri}"
+							style="font-weight:bold;font-size: 22px">
+							<h:outputText value="#{organizationProfileManagedBean.selectedOrganizationUnit.uri}" style="font-weight:bold;font-size: 25px"/>
+						</h:outputLink>
+					</h:panelGrid>
+				</h:panelGrid>
+				<rich:panel
+					id="scrollableBody"
+					styleClass="scrollableBody">
+					<rich:tabPanel
+						switchType="ajax"
+						itemChangeListener="#{organizationProfileManagedBean.changeTab}" >
+						<rich:tab
+							header="#{messages['records.organizationPage.researchers']}"
+							id="researchers">
+							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'researchers'}">
+								<ui:include src="normativeRecords/organizationResearchersTable.xhtml" />
+							</h:panelGrid>
+						</rich:tab>
+						<rich:tab
+								header="#{messages['records.organizationPage.hierarchy']}"
+								id="hierarchy">
+							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'hierarchy'}">
+								<ui:include src="normativeRecords/organizationHierarchyTree.xhtml" />
+							</h:panelGrid>
+						</rich:tab>
+						<rich:tab
+							header="#{messages['records.organizationPage.search']}"
+							id="searchProduction">
+							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'searchProduction'}">
+								<ui:include src="bibliographicRecords/organizationProductionSearch.xhtml"/>
+							</h:panelGrid>
+						</rich:tab>
+					</rich:tabPanel>
+				</rich:panel>
+			</rich:panel>
+		</h:form>
+	</a4j:region>
+	</div>
+		<h:graphicImage
+				library="img"
+				name="spacer.gif"
+				alt=""
+				height="70"
+				width="1"/>
+		<div id="footer">
+			<ui:insert name="footer">
+				<ui:include src="footer.xhtml"/>
+			</ui:insert>
+		</div>
+	</h:body>
+	</f:view>
+</html>

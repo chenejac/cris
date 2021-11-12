@@ -231,9 +231,34 @@ public class MetricsDB {
 		}
 		return false;
 	}
+
+	public List<ImpactFactor> getJournalImpactFactors(Connection conn, String recordId, List<String> metricsIds) {
+		List<ImpactFactor> retVal = new ArrayList<ImpactFactor>();
+		for (String metricsId: metricsIds) {
+			List<ImpactFactor> temp = getJournalImpactFactors(conn, recordId, metricsId);
+			if(temp != null){
+				for (ImpactFactor impFac:temp) {
+					if(retVal.contains(impFac)){
+						ImpactFactor mergeIF = retVal.get(retVal.indexOf(impFac));
+						if(mergeIF.getValueOfImpactFactor() == null){
+							mergeIF.setValueOfImpactFactor(impFac.getValueOfImpactFactor());
+							mergeIF.getResearchAreas().addAll(impFac.getResearchAreas());
+						}
+						if(mergeIF.getValueOfImpactFactorFiveYears() == null){
+							mergeIF.setValueOfImpactFactorFiveYears(impFac.getValueOfImpactFactorFiveYears());
+							mergeIF.getResearchAreasFiveYears().addAll(impFac.getResearchAreasFiveYears());
+						}
+					} else {
+						retVal.add(impFac);
+					}
+				}
+			}
+				retVal.addAll(temp);
+		}
+		return retVal;
+	}
 	
-	
-	public List<ImpactFactor> getJournalImpactFactors(Connection conn, String recordId, String metricsId) {
+	private List<ImpactFactor> getJournalImpactFactors(Connection conn, String recordId, String metricsId) {
 		List<ImpactFactor> retVal = new ArrayList<ImpactFactor>();
 		try {
 			Statement stmt = conn.createStatement();
@@ -266,8 +291,10 @@ public class MetricsDB {
 												+ " and CFYEAR=" + year + " and CFCLASSSCHEMEID like 'value of metric' and CFCLASSID like 'value of IF'");
 			if (rset.next()) {
 				Double count = rset.getDouble(1);
-				
-				retVal.setValueOfImpactFactor(count);
+				if(metricsId.equals("twoYearsIF"))
+					retVal.setValueOfImpactFactor(count);
+				else if(metricsId.equals("fiveYearsIF"))
+					retVal.setValueOfImpactFactorFiveYears(count);
 				rset.close();
 				rset = stmt
 				.executeQuery("select CFCOUNT, CFFRACTION, CFCLASSSCHEMEID, CFCLASSID from MARC21RECORD_METRICS where RECORDID like '" + recordId + "' and CFMETRICSID like '" + metricsId + "'" 
@@ -281,7 +308,10 @@ public class MetricsDB {
 					rar.setResearchAreaDTO(radb.getResearchArea(conn, rset.getString(3), rset.getString(4), allResearchAreas));
 					rarlist.add(rar);
 				}
-				retVal.setResearchAreas(rarlist);
+				if(metricsId.equals("twoYearsIF"))
+					retVal.setResearchAreas(rarlist);
+				else if(metricsId.equals("fiveYearsIF"))
+					retVal.setResearchAreasFiveYears(rarlist);
 			} else {
 				rset.close();
 				stmt.close();

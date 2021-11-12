@@ -19,6 +19,14 @@ import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNO;
  */
 public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 
+	private boolean twoYears = true;
+	private boolean fiveYears = true;
+	public CommissionWoSSimple(boolean twoYears, boolean fiveYears) {
+		this();
+		this.twoYears = twoYears;
+		this.fiveYears = fiveYears;
+	}
+
 	public CommissionWoSSimple() {
 		super();
 		comissionID = 700;
@@ -69,10 +77,12 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 			Calendar appointmentDate, String members,
 			String cfClassShemeIdScienceArea, String cfClassIdScienceArea,
 			String scientificField, Set<ResearchAreaDTO> researchAreas,
-			List<MNO> mnoList) {
+			List<MNO> mnoList, boolean twoYears, boolean fiveYears) {
 		super(comissionID, appointmentBoard, appointmentDate, members,
 				cfClassShemeIdScienceArea, cfClassIdScienceArea, scientificField,
 				researchAreas, mnoList);
+		this.twoYears = twoYears;
+		this.fiveYears = fiveYears;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -108,7 +118,7 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 		JournalEvaluationResult best19811983 = null;
 		
 		for (Integer year=years.get(years.size()-1);year >= years.get(0);year--) {
-			if (year < 1981 && (journal.hasIfInYear(1981) || journal.hasIfInYear(1982) || journal.hasIfInYear(1983)) ){
+			if (year < 1981 && (journal.hasIfInYear(1981, twoYears, fiveYears) || journal.hasIfInYear(1982, twoYears, fiveYears) || journal.hasIfInYear(1983, twoYears, fiveYears)) ){
 //				String m = null;
 //				if (best19811983 != null){
 //					if(best19811983 == 4)
@@ -280,9 +290,9 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 
             if(evaluated == null){
             	if(found == true)
-                    retVal.put(year, new JournalEvaluationResult("M52", journal, null, 52));
+                    retVal.put(year, new JournalEvaluationResult("M52", journal, null, 52, true, true));
                 else
-                    retVal.put(year, new JournalEvaluationResult("M100", journal, null, 100));
+                    retVal.put(year, new JournalEvaluationResult("M100", journal, null, 100, true, true));
             }
 
             if(evaluated!=null)
@@ -304,7 +314,7 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 		imf.setYear(year);
 		imf = (journal.getImpactFactors().indexOf(imf)!=-1)?journal.getImpactFactors().get(journal.getImpactFactors().indexOf(imf)):null;
 		if (imf != null){
-				ResearchAreaRanking rar = imf.getMaxPositionReseachArea();
+				ResearchAreaRanking rar = imf.getMaxPositionReseachArea(twoYears, fiveYears);
 				boolean m21a = false;
 				boolean m21 = false;
 				boolean m22 = false;
@@ -320,13 +330,13 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 				
 				
 				if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 1)) && (m21a))
-					withinResearchAreas = new JournalEvaluationResult("M21a", journal, imf, 1);
+					withinResearchAreas = new JournalEvaluationResult("M21a", journal, imf, 1, true, true);
 				else if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 2)) && (m21))
-					withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 2);
+					withinResearchAreas = new JournalEvaluationResult("M21", journal, imf, 2, true, true);
 				else if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 3)) && (m22))
-					withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 3);
+					withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 3, true, true);
 				else if ((withinResearchAreas==null)  && (m23))
-					withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 4);				
+					withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 4, true, true);
 		}
 		if(withinResearchAreas != null){
 			retVal = withinResearchAreas;
@@ -339,7 +349,7 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 5));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 5, true, true));
 		}
 		return retVal;
 	}
