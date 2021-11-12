@@ -67,12 +67,20 @@ private static Connection conn = null;
 		}
 	}
 	*/
-	private static List<String> getRecordIdsFromISSN(String issn){
-		WildcardQuery query1 = new WildcardQuery(new Term("ISSN", issn.toLowerCase()+"*"));
-		WildcardQuery query2 = new WildcardQuery(new Term("ISSN", issn+"*"));
+	private static List<String> getRecordIdsFromISSN(String issn, String eIssn){
 		BooleanQuery booleanQuery = new BooleanQuery();
-		booleanQuery.add(query1, Occur.SHOULD);
-		booleanQuery.add(query2, Occur.SHOULD);
+		if((issn!= null) && (!issn.equals("")) && (!issn.trim().equals("N/A"))) {
+			WildcardQuery query1 = new WildcardQuery(new Term("ISSN", issn.toLowerCase() + "*"));
+			WildcardQuery query2 = new WildcardQuery(new Term("ISSN", issn + "*"));
+			booleanQuery.add(query1, Occur.SHOULD);
+			booleanQuery.add(query2, Occur.SHOULD);
+		}
+		if((eIssn!= null) && (!eIssn.equals("")) && (!eIssn.trim().equals("N/A"))) {
+			WildcardQuery query1 = new WildcardQuery(new Term("ISSN", eIssn.toLowerCase() + "*"));
+			WildcardQuery query2 = new WildcardQuery(new Term("ISSN", eIssn + "*"));
+			booleanQuery.add(query1, Occur.SHOULD);
+			booleanQuery.add(query2, Occur.SHOULD);
+		}
 		
 		List<Record> records = Retriever.select(booleanQuery, new AllDocCollector(false));
 		List<String> controlNumbers = null ;
@@ -90,7 +98,7 @@ private static Connection conn = null;
 		System.out.println("Ukupno casopisa:"+allJournals.size());
 		int brNovih = 0;
 		for(ISIJournal journal:allJournals){
-			List<String> recordIds = getRecordIdsFromISSN(journal.getIssn());
+			List<String> recordIds = getRecordIdsFromISSN(journal.getIssn(), journal.geteIssn());
 			if(recordIds==null){
 				System.out.println("abb. title:"+journal.getAbbvTitle()+", issn:"+journal.getIssn());
 				brNovih++;
@@ -119,7 +127,7 @@ private static Connection conn = null;
 		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals();
 		System.out.println("Promenjeni naslovi");
 		for(ISIJournal j:allJournals){
-			List<String> recordIds = getRecordIdsFromISSN(j.getIssn());
+			List<String> recordIds = getRecordIdsFromISSN(j.getIssn(), j.geteIssn());
 			Record rec1 = recordDB.getRecord(conn, recordIds.get(0));
 			if(rec1!=null){
 				JournalDTO rec = (JournalDTO) rec1.getDto();
@@ -252,14 +260,27 @@ private static Connection conn = null;
 		List<String> addedIF5 = new ArrayList<String>();
 		
 		for(ISIJournal isiJournal:retVal){
-			List<String> controlNumbers = getRecordIdsFromISSN(isiJournal.getIssn());		
+			List<String> controlNumbers = getRecordIdsFromISSN(isiJournal.getIssn(), isiJournal.geteIssn());
 			//1. ako ne postoji u cris-u prvo ga treba ubaciti			
 			if(controlNumbers==null){			
 				newJournalsList.writeBytes("ISSN: "+isiJournal.getIssn()+", abb. title: "+isiJournal.getAbbvTitle()+"\n");
 				JournalDTO crisJournal = new JournalDTO();
-				crisJournal.setIssn(isiJournal.getIssn());
+				String combineIssn = "";
+				String issn = isiJournal.getIssn();
+				if((issn!= null) && (!issn.equals("")) && (!issn.trim().equals("N/A"))) {
+					combineIssn = issn;
+				}
+				String eIssn = isiJournal.geteIssn();
+				if((eIssn!= null) && (!eIssn.equals("")) && (!eIssn.trim().equals("N/A"))) {
+					if(combineIssn.trim().length() == 0)
+						combineIssn = eIssn;
+					else
+						combineIssn = combineIssn + "(pISSN);" + eIssn + "(eISSN);";
+				}
+				System.out.println(combineIssn);
+				crisJournal.setIssn(combineIssn);
 				crisJournal.setNameAbbreviation(new MultilingualContentDTO(isiJournal.getAbbvTitle(), MultilingualContentDTO.LANGUAGE_ENGLISH, MultilingualContentDTO.TRANS_HUMAN));
-			 crisJournal.setName(new MultilingualContentDTO(isiJournal.getTitle(), MultilingualContentDTO.LANGUAGE_ENGLISH, MultilingualContentDTO.TRANS_HUMAN));
+			 	crisJournal.setName(new MultilingualContentDTO(isiJournal.getTitle(), MultilingualContentDTO.LANGUAGE_ENGLISH, MultilingualContentDTO.TRANS_HUMAN));
 			 if (recordDAO.add(new Record("importWos"+year, new GregorianCalendar(), null, null, new Integer(0), CerifEntitiesNames.RESULT_PUBLICATION, 
 						crisJournal))){
 					System.out.println("Uspelo dodavanje casopisa "+isiJournal.getAbbvTitle()+", id="+crisJournal.getControlNumber());
@@ -291,7 +312,7 @@ private static Connection conn = null;
 				if(!addedIF5.contains(controlNumber)){
 				if(metricsDB.addResultMetrics(conn, controlNumber, "fiveYearsIF", "value of metric", "value of IF", Integer.parseInt(isiJournal.getYear()),
 						isiJournal.getImpactFactor5(), null)){
-					//System.out.println("Uspesno dodavanje impakt faktora za casopis "+isiJournal.getIssn()+" (petogodisnji impakt faktor)");
+					System.out.println("Uspesno dodavanje impakt faktora za casopis "+isiJournal.getIssn()+" (petogodisnji impakt faktor)");
 					addedIF5.add(controlNumber);
 				}else{
 					System.out.println("Greska, nije dodat impakt faktor za casopis "+isiJournal.getIssn()+" (petogodisnji impakt faktor)");
@@ -319,7 +340,7 @@ private static Connection conn = null;
 	
 	
 	public static void printListByCategory(String filePath){
-		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(filePath, "2018");
+		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(filePath, "2020");
 		//obrisatiSuvisne(allJournals);		
 		Map<String,List<ISIJournal>> byCategory = organizeJournalsByCategoryTwoYearsImpactFactor(allJournals);
 		List<String> sortAttributesForGen = new ArrayList<String>();
@@ -420,7 +441,7 @@ private static Connection conn = null;
 //		ispisiRangRadiProvere("e:/CRIS/evaluacija/imports/sci-2015/", "2015");
 		try{
 			wosImport(folderPath, year);
-			printListByCategory("e:/CRIS/evaluacija/imports/sci-2019/");
+//			printListByCategory("e:/CRIS/evaluacija/imports/sci-2020/");
 //			printNewJournals();
 			
 		}catch(Exception e){
