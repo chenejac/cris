@@ -17,7 +17,7 @@
 						label="#{messages['administration.pmfProfile.menu']}">
 					</rich:menuItem>
 					<rich:menuItem
-						rendered="#{(userManagedBean.loggedIn) and empty userManagedBean.loggedUser.author.controlNumber}"
+						rendered="#{(userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formUser][privilegesManagedBean.showInMainMenu])}"
 						action="#{searchManagedBean.enterCRUDPage()}"
 						label="#{messages['search.searchPanel.header']}">
 					</rich:menuItem>
@@ -33,7 +33,7 @@
 						rendered="#{(userManagedBean.loggedIn) and empty userManagedBean.loggedUser.author.controlNumber}"
 						label="#{messages['administration.publishedResults.menu']}" >
 						<rich:menuGroup 
-							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu]))}"
+							rendered="#{(userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu])}"
 							label="#{messages['administration.create.menu']}" >
 							<rich:menuItem
 								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.showInMainMenu])}"
