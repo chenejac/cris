@@ -9,6 +9,7 @@ public class ISIJournal {
 	private String abbvTitle;
 	private String title;
 	private String issn;
+	private String eIssn;
 	private String totalCites;
 	private Double impactFactor;
 	private Double impactFactor5;
@@ -40,6 +41,7 @@ public class ISIJournal {
 	 * @param year
 	 * @param abbvTitle
 	 * @param issn
+	 * @param eIssn
 	 * @param totalCites
 	 * @param impactFactor
 	 * @param impactFactor5
@@ -49,7 +51,7 @@ public class ISIJournal {
 	 * @param eigenfactorScore
 	 * @param articleInfluenceScore
 	 */
-	public ISIJournal(String category, String year, String list, String abbvTitle, String title, String issn,
+	public ISIJournal(String category, String year, String list, String abbvTitle, String title, String issn, String eIssn,
 			String totalCites, Double impactFactor, Double impactFactor5,
 			String immediacyIndex, String articles, String citedHalfLife,
 			String eigenfactorScore, String articleInfluenceScore) {
@@ -60,6 +62,7 @@ public class ISIJournal {
 		this.abbvTitle = abbvTitle;
 		this.title = title;
 		this.issn = issn;
+		this.eIssn = eIssn;
 		this.totalCites = totalCites;
 		this.impactFactor = impactFactor;
 		this.impactFactor5 = impactFactor5;
@@ -137,6 +140,15 @@ public class ISIJournal {
 	public void setIssn(String issn) {
 		this.issn = issn;
 	}
+
+	public String geteIssn() {
+		return eIssn;
+	}
+
+	public void seteIssn(String eIssn) {
+		this.eIssn = eIssn;
+	}
+
 	/**
 	 * @return the totalCites
 	 */

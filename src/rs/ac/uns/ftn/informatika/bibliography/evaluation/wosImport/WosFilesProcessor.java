@@ -57,20 +57,22 @@ public class WosFilesProcessor {
 			//System.out.println(categoryId);
 			rf.readLine();
 			rf.readLine();			
-//			rf.readLine();	
+			rf.readLine();
 			String journalLine;
 			while((journalLine = rf.readLine())!=null){
 				if(journalLine.equals("") || journalLine.startsWith("Copyright") || journalLine.contains("By exporting the selected data")) break;				
 				String[] parts = journalLine.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", 99);
-				ISIJournal journal = new ISIJournal(categoryId,year, list, parts[2].trim(), parts[1].trim(), parts[3].trim(), 
-						parts[4].trim(),null, null, null,null, null, null,null);
-				if((!parts[5].equals("")) && (!parts[5].trim().equals("Not Available"))){
-					journal.setImpactFactor(Double.parseDouble(parts[5].trim()));
+				if(parts[0].trim().equals(""))
+					break;
+				ISIJournal journal = new ISIJournal(categoryId,year, list, parts[0].replaceAll("^\"+|\"+$", "").trim(), parts[0].replaceAll("^\"+|\"+$", "").trim(), parts[1].replaceAll("^\"+|\"+$", "").trim(), parts[2].replaceAll("^\"+|\"+$", "").trim(),
+						parts[4].replaceAll("^\"+|\"+$", "").trim(),null, null, null,null, null, null,null);
+				if((!parts[5].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[5].replaceAll("^\"+|\"+$", "").trim().equals("n/a"))){
+					journal.setImpactFactor(Double.parseDouble(parts[5].replaceAll("^\"+|\"+$", "").trim()));
 				}
 				else
 					journal.setImpactFactor(0.0);
-				if((!parts[6].equals("")) && (!parts[6].trim().equals("Not Available"))){
-					journal.setImpactFactor5(Double.parseDouble(parts[6].trim()));
+				if((!parts[6].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[6].replaceAll("^\"+|\"+$", "").trim().equals("n/a"))){
+					journal.setImpactFactor5(Double.parseDouble(parts[6].replaceAll("^\"+|\"+$", "").trim()));
 				}
 				else
 					journal.setImpactFactor5(0.0);				
