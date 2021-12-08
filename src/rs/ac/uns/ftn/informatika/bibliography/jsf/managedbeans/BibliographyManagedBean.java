@@ -362,17 +362,19 @@ public class BibliographyManagedBean extends CRUDManagedBean {
 	
 	private void fillInstitutins() {
 		institutions = new ArrayList<InstitutionDTO>();
-		if((getUserManagedBean().getLoggedUser().getInstitution().getControlNumber() != null)){
-			InstitutionDTO userInstitution = getUserManagedBean().getLoggedUser().getInstitution();
-			institutions.add(userInstitution);
-			for (RecordDTO record : userInstitution.getRelatedRecords()) {
-//				if((!(record instanceof OrganizationUnitDTO)) && (record instanceof InstitutionDTO)){
-				if(((record instanceof OrganizationUnitDTO)) || (record instanceof InstitutionDTO)){					
-					institutions.add((InstitutionDTO) record);
-					for (RecordDTO record2 : record.getRelatedRecords()) {
-//						if((!(record instanceof OrganizationUnitDTO)) && (record instanceof InstitutionDTO)){
-						if(((record2 instanceof OrganizationUnitDTO)) || (record2 instanceof InstitutionDTO)){					
-							institutions.add((InstitutionDTO) record2);
+		if(selectedResearcher==null) {
+			if ((getUserManagedBean().getLoggedUser().getInstitution().getControlNumber() != null)) {
+				InstitutionDTO userInstitution = getUserManagedBean().getLoggedUser().getInstitution();
+				institutions.add(userInstitution);
+				for (RecordDTO record : userInstitution.getRelatedRecords()) {
+					//				if((!(record instanceof OrganizationUnitDTO)) && (record instanceof InstitutionDTO)){
+					if (((record instanceof OrganizationUnitDTO)) || (record instanceof InstitutionDTO)) {
+						institutions.add((InstitutionDTO) record);
+						for (RecordDTO record2 : record.getRelatedRecords()) {
+							//						if((!(record instanceof OrganizationUnitDTO)) && (record instanceof InstitutionDTO)){
+							if (((record2 instanceof OrganizationUnitDTO)) || (record2 instanceof InstitutionDTO)) {
+								institutions.add((InstitutionDTO) record2);
+							}
 						}
 					}
 				}

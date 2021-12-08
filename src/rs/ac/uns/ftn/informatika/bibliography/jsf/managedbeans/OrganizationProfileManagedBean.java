@@ -5,13 +5,11 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.*;
 import org.richfaces.component.UITabPanel;
-import org.richfaces.model.SwingTreeNodeImpl;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
-import rs.ac.uns.ftn.informatika.bibliography.reports.knr.ResultsGroupDTO;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.CrisAnalyzer;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils;
@@ -77,6 +75,7 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 		filterFirstname = "";
 		filterLastname = "";
 		setUpForms();
+		changeTabAndLoad("researchers");
 		return "organizationPage";
 	}
 
@@ -91,7 +90,7 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 				else if (selectedOrganizationUnit instanceof OrganizationUnitDTO)
 					selectedSuperOrgUnit = ((OrganizationUnitDTO) selectedOrganizationUnit).getInstitution();
 			}
-			loadInfo();
+
 		}
 	}
 
@@ -102,6 +101,7 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 			organizationId = null;
 			filterFirstname = "";
 			filterLastname = "";
+			changeTabAndLoad("researchers");
 		}
 		setUpForms();
 	}
@@ -416,10 +416,15 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 	private String activeItem = "researchers";
 
 	public void changeTab(javax.faces.event.FacesEvent event){
-		activeItem = ((UITabPanel)event.getComponent()).getActiveItem().toString();
+		changeTabAndLoad(((UITabPanel)event.getComponent()).getActiveItem().toString());
 	}
 
-	public void loadInfo() {
+	public void changeTabAndLoad(String newActiveItem){
+		activeItem = newActiveItem;
+		loadInfo();
+	}
+
+	private void loadInfo() {
 		if (activeItem.equalsIgnoreCase("researchers")) {
 			populateResearchers();
 		} else if (activeItem.equalsIgnoreCase("hierarchy")) {

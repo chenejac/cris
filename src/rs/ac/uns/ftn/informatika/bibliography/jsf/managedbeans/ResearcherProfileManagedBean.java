@@ -87,13 +87,13 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 	
 	public String researchersPageEnter() {
 		selectedAuthor = (getUserManagedBean().isLoggedIn())?(AuthorDTO) getUserManagedBean().getLoggedUser().getAuthor():null;
+		changeTabAndLoad("journal");
 		setUpForms();
 		return "researcherPage";
 	}
 
 	private void setUpForms() {
 		if (selectedAuthor != null) {
-			loadInfo();
 			AuthorManagedBean authormb = getAuthorManagedBean();
 			authormb.setSelectedAuthor(selectedAuthor);
 			selectedAuthorOrgUnit = selectedAuthor.getOrganizationUnit();
@@ -114,6 +114,7 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 			authorControlNumber = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("researcher");
 			selectedAuthor = (AuthorDTO) personDAO.getDTO(authorControlNumber);
 			authorControlNumber = null;
+			changeTabAndLoad("journal");
 		}
 		setUpForms();
 	}
@@ -261,10 +262,15 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 	private String activeItem = "journal";
 
 	public void changeTab(javax.faces.event.FacesEvent event){
-		activeItem = ((UITabPanel)event.getComponent()).getActiveItem().toString();
+		changeTabAndLoad(((UITabPanel)event.getComponent()).getActiveItem().toString());
 	}
 
-	public void loadInfo() {
+	public void changeTabAndLoad(String newActiveItem){
+		activeItem = newActiveItem;
+		loadInfo();
+	}
+
+	private void loadInfo() {
 		if (activeItem.equalsIgnoreCase("journal")) {
 			BibliographyManagedBean bibliograhymb = getBibliographyManagedBean();
 			bibliograhymb.enterCRUDPageJournals();

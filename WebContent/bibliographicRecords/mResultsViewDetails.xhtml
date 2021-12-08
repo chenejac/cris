@@ -83,13 +83,15 @@
 						style="font-size: 14px"
 					/>
 				</rich:column>
-				<rich:column>
+				<rich:column
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}" >
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.count']}"
 						style="font-size: 14px"
 					/>
 				</rich:column>
-				<rich:column>
+				<rich:column
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}" >
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.points']}"
 						style="font-size: 14px"
@@ -148,7 +150,9 @@
 					</a4j:outputPanel >
 				</h:form>
 				</rich:column>
-				<rich:column style="text-align: center;font-size: 14px">
+				<rich:column
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}"
+					style="text-align: center;font-size: 14px">
 					<h:outputText value="#{list.results.size()}" />
 					<f:facet name="footer">
 						<h:outputText
@@ -156,7 +160,9 @@
 							style="font-size: 14px"/>
 					</f:facet>
 				</rich:column>
-				<rich:column style="text-align: center;font-size: 14px">
+				<rich:column
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}"
+					style="text-align: center;font-size: 14px">
 					<h:outputText
 						value="#{list.quantitativeMeasure.doubleValue()*list.results.size()}"
 						 >
