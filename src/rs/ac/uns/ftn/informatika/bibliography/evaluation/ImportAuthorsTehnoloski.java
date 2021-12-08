@@ -229,12 +229,12 @@ public class ImportAuthorsTehnoloski{
 				person.loadMARC21FromDTO();
 				
 				Calendar startDate = new GregorianCalendar();
-				startDate.set(Calendar.YEAR, 2020);
+				startDate.set(Calendar.YEAR, 2021);
 				startDate.set(Calendar.MONTH, Calendar.JANUARY);
 				startDate.set(Calendar.DAY_OF_MONTH, 1);
 				
 				Calendar endDate = new GregorianCalendar();
-				endDate.set(Calendar.YEAR, 2020);
+				endDate.set(Calendar.YEAR, 2021);
 				endDate.set(Calendar.MONTH, Calendar.DECEMBER);
 				endDate.set(Calendar.DAY_OF_MONTH, 31);
 				if(dto.getInstitution().getControlNumber()!= null)
@@ -266,10 +266,10 @@ public class ImportAuthorsTehnoloski{
 
 	public static void main (String[] args){
 		
-//		String  xlsPath    = "E:/zaposleniPMF2020.xlsx";
-//		ImportAuthorsTehnoloski.importFromExcel (xlsPath);
-		String  xlsPath    = "E:/autoriPMF.xlsx";
-		ImportAuthorsTehnoloski.importFromExcelORCID (xlsPath);
+		String  xlsPath    = "E:/zaposleniPMF2021.xlsx";
+		ImportAuthorsTehnoloski.importFromExcel (xlsPath);
+//		String  xlsPath    = "E:/autoriPMF.xlsx";
+//		ImportAuthorsTehnoloski.importFromExcelORCID (xlsPath);
 	}
 
 	public static void importFromExcelORCID (String xlsPath){

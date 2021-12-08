@@ -185,7 +185,7 @@ private static Connection conn = null;
 	
 	private static boolean sadrziCasopis(List<ISIJournal> list, ISIJournal j){
 		for(ISIJournal j1:list)
-			if (j1.getIssn().equals(j.getIssn())) return true;
+			if (j1.getIssn().equals(j.getIssn()) && j1.geteIssn().equals(j.geteIssn()) && j1.getTitle().equals(j.getTitle())) return true;
 		return false;
 	}
 		
@@ -244,8 +244,7 @@ private static Connection conn = null;
 			for(String str:retValIF2.keySet()){
 				List<ISIJournal> list = retValIF2.get(str);
 				retVal.addAll(list);
-			}		
-		
+			}
 		return retVal;
 		
 	}
@@ -279,6 +278,7 @@ private static Connection conn = null;
 				}
 				System.out.println(combineIssn);
 				crisJournal.setIssn(combineIssn);
+				isiJournal.setIssn(combineIssn);
 				crisJournal.setNameAbbreviation(new MultilingualContentDTO(isiJournal.getAbbvTitle(), MultilingualContentDTO.LANGUAGE_ENGLISH, MultilingualContentDTO.TRANS_HUMAN));
 			 	crisJournal.setName(new MultilingualContentDTO(isiJournal.getTitle(), MultilingualContentDTO.LANGUAGE_ENGLISH, MultilingualContentDTO.TRANS_HUMAN));
 			 if (recordDAO.add(new Record("importWos"+year, new GregorianCalendar(), null, null, new Integer(0), CerifEntitiesNames.RESULT_PUBLICATION, 
@@ -296,7 +296,7 @@ private static Connection conn = null;
 				if(!addedIF2.contains(controlNumber)){	
 				if(metricsDB.addResultMetrics(conn, controlNumber, "twoYearsIF", "value of metric", "value of IF", Integer.parseInt(isiJournal.getYear()),
 						isiJournal.getImpactFactor(), null)){
-				 System.out.println("Uspesno dodavanje impakt faktora za casopis "+isiJournal.getIssn()+" (dvogodisnji impakt faktor)");					
+				 System.out.println("Uspesno dodavanje impakt faktora za casopis "+isiJournal.getIssn()+" (dvogodisnji impakt faktor)");
 					addedIF2.add(controlNumber);				
 				}else{
 					System.out.println("Greska, nije dodat impakt faktor za casopis "+isiJournal.getIssn()+" (dvogodisnji impakt faktor)");

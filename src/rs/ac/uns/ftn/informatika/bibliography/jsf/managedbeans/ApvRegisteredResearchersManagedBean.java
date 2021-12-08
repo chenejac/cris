@@ -128,11 +128,11 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 			OUCN = departmentId;
 			INCN = institutionId;
 			if(OUCN != null){
-				OUCNQuery = personDAO.getInstitutionRecordsQuery(OUCN, "2020-01-01 00:00:00");
+				OUCNQuery = personDAO.getInstitutionRecordsQuery(OUCN, "2021-01-01 00:00:00");
 			} else 
 				OUCNQuery = null;
 			if(INCN != null){
-				INCNQuery = personDAO.getInstitutionRecordsQuery(INCN, "2020-01-01 00:00:00");
+				INCNQuery = personDAO.getInstitutionRecordsQuery(INCN, "2021-01-01 00:00:00");
 			} else 
 				INCNQuery = null;
 			enterCRUDPage();

@@ -128,6 +128,10 @@ public class ImportManagedBean extends CRUDManagedBean implements Serializable,
 			{
 				dateRange.add(new SelectItem(String.valueOf(i)));
 			}
+
+			startYear = currentYear;
+			endYear = currentYear;
+			publicationYear = currentYear;
 		}
 	}
 	
