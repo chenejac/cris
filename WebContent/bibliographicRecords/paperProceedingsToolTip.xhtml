@@ -37,10 +37,10 @@
 				value="#{messages['records.paperProceedings.tablePanel.btnCreate']}"
 				rendered="#{(paperProceedingsManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.add])}" />
 			<h:graphicImage library="img" name="importToolTip.png"
-							rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add])}" />
+							rendered="#{(paperProceedingsManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.add])}" />
 			<h:outputText
 					value="#{messages['records.paperProceedings.tablePanel.btnImport']}"
-					rendered="#{(paperConferenceManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.browse])}" />
+					rendered="#{(paperProceedingsManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.add])}" />
 		</h:panelGrid>
 	</span>
 </rich:tooltip>
