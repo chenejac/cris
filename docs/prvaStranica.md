@@ -3,10 +3,6 @@
 Када приступите веб адреси [http://cris.uns.ac.rs/](http://cris.uns.ac.rs/) појавиће се страница као на слици 1.
 
 ![uputstvo1](https://user-images.githubusercontent.com/6672069/146441802-ce7874a7-c03f-4879-bb47-03b506a1a163.PNG)
-<div align="center">
-  my text here.
-</div>
-
 <div align="center"><b>Слика 1</b>. Прва страница</div>
 
 
