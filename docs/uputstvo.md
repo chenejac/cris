@@ -21,7 +21,8 @@ Pодаци из CRIS UNS система се могу размењивати с
 
 1. [Прва страница](prvaStranica.md)
 2. [Регистрација и пријављивање](registracijaIPrijavljivanje.md)
-3. [Унос података о публикованом резултату](unosPodatakaOPublikovanomRezultatu.md)
-4. [Приказ и измена личних података](prikazIIzmenaLicnihPodataka.md)
+3. [Пријава](Пријава.md)
+4. [Унос података о публикованом резултату](unosPodatakaOPublikovanomRezultatu.md)
+5. [Приказ и измена личних података](prikazIIzmenaLicnihPodataka.md)
 
 
