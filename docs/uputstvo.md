@@ -12,7 +12,8 @@
 - Internet Explorer 8.x, чија се инсталациона верзија може преузети са ове адресе http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx, 
 - Mozilla Firefox 5.0.x, чија се инсталациона верзија може преузети са ове адресе http://www.mozilla.com/en-US/firefox/firefox.html.
 - Ово ажурирати и додати Google Chrome
-- <font color="red">This text is red!</font> 
+
+<font color="red">This text is red!</font> 
 
 Препоручујемо истраживачима да након регистрације прво преконтролишу своје податке који су преузети из система „Картони научних радника“ употребом опције „Сви резултати“ подменија „Приказ резултата“ подменија „Публиковани резултати“.
 
