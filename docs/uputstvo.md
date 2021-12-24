@@ -12,7 +12,7 @@
 - Internet Explorer 8.x, чија се инсталациона верзија може преузети са ове адресе http://www.microsoft.com/windows/internet-explorer/worldwide-sites.aspx, 
 - Mozilla Firefox 5.0.x, чија се инсталациона верзија може преузети са ове адресе http://www.mozilla.com/en-US/firefox/firefox.html.
 - Ово ажурирати и додати Google Chrome !!!
-- <div style="color:red;"> Text ,,,,,….</div>
+- <div style= color:red>Ово ажурирати и додати Google Chrome!</div> 
 
 Уколико уочите неки пропуст, имате неку молбу, жалбу или било какав коментар молимо Вас да нам пошаљете e-mail одабиром ставке ![image](https://user-images.githubusercontent.com/29538544/147216114-35b5bd40-b337-469e-bbaf-4269d59e8a94.png) која се налази у десном углу главног менија наше апликације. То је e-mail: cris@uns.ac.rs
 
