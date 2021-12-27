@@ -1,4 +1,4 @@
-## Други кoрaк у рeгистрaциjи
+## Регистрација: Селектовање истраживача
 
 ![image](https://user-images.githubusercontent.com/29538544/147493832-33b35fd0-d171-47b7-bad0-7c056eef1456.png)
 
