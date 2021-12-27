@@ -1,4 +1,4 @@
-## Регистрација: Јавити се развојном тиму CRIS UNS
+## Регистрација: Обавештење
 
 Dodati stranicu sa sledećim tekstom: 
 
