@@ -1,4 +1,4 @@
-## Регистрација
+## Регистрација: Унос података
 
 ![image](https://user-images.githubusercontent.com/29538544/147493348-8f31aaed-c79d-4de6-9762-c1050407eb75.png)
  
