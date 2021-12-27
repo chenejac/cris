@@ -1,4 +1,5 @@
-## Чeтврти кoрaк y Рeгистрaциjи
+## Регистрација
+**Јавити се развојном тиму CRIS UNS**
 
 Dodati stranicu sa sledećim tekstom: 
 
