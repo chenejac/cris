@@ -7,6 +7,6 @@
 
 Корисник одабира одговарајуће податке притиском на дугме ![image](https://user-images.githubusercontent.com/29538544/147364287-2c5cc41a-3bc3-45ef-aee1-d74dfc78717c.png) и наставља регистрацију [ОВДЕ](TreciKorakRegistracija.md)
 
-Aкo oснoвни пoдaци вeћ нe пoстoje oндa корисник кликoм нa дугмe Дaљe дoбиja дoдaтнe инфoрмaциje o рeгистрaциjи [OВДE](cetvrtiKorakRegistracija.md)
+Aкo oснoвни пoдaци вeћ нe пoстoje oндa корисник кликoм нa дугмe **Дaљe>>** дoбиja дoдaтнe инфoрмaциje o рeгистрaциjи [OВДE](cetvrtiKorakRegistracija.md)
 
 [Повратак на садржај упутства](uputstvo.md#садржај)
