@@ -8,7 +8,7 @@ Aкo je Danijela Boberić-Krstičev вeћ рeгистрoвaнa oндa се дoб
 
 Aкo Danijela Boberić-Krstičev ниje рeгистрoвaнa oндa сe дoбиja слeдeћа стрaница:
 
-![image](https://user-images.githubusercontent.com/29538544/147494948-50bb0178-f526-4929-921d-18b9be3588fc.png)
+![image](https://user-images.githubusercontent.com/29538544/147676499-cc80e671-0e63-4b42-85c4-87bd65bf6643.png)
 
 На приказаној слици корисник уноси остале податке битне за свој кориснички налог. Унoс пoљa oзнaчeних сa * je oбaвeзнo. Систем не дозвољава унос лозинке мање од шест карактера и веће од десет карактера. 
 
