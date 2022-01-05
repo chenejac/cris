@@ -1,4 +1,4 @@
-Наслов странице: Часопис
+## Часопис
 
 ![image](https://user-images.githubusercontent.com/29538544/148192012-80e20887-517c-4f64-a6fc-b5e0852b59fa.png)
  
