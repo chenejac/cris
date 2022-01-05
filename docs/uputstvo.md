@@ -4,7 +4,7 @@
 1. [Прва страница](prvaStranica.md)
 2. [Регистрација](registracijaIPrijavljivanje.md)
 3. [Пријава](prijavaTest.md)
-4. [Унос података о публикованом резултату](unosPodatakaOPublikovanomRezultatu.md)
+4. [Унос података о публикованом резултату](knrCasopisi.md)
 5. [Приказ и измена личних података](prikazIIzmenaLicnihPodataka.md)
 
 ## Увод
