@@ -19,10 +19,7 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-
-`
-- {+ Just regular text +}
-- {+ Text with `backticks` inside +}
-- {+ Text with escaped \`backticks\` inside +}
-`
-
+```javascript
+var s = "JavaScript syntax highlighting";
+alert(s);
+```
