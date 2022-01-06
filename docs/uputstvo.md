@@ -19,5 +19,4 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-This is a paragraph that for some reason we want blue.
-{: .blue}
+<span style="color: red;">text</span>
