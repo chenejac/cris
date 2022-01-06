@@ -19,7 +19,7 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-- {+ addition 1 +}
+`- {+ addition 1 +}
 - [+ addition 2 +]
 - {- deletion 3 -}
-- [- deletion 4 -]
+- [- deletion 4 -]`
