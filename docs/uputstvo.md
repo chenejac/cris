@@ -20,4 +20,4 @@
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
 
-%md ###  <span style="color:red">text</span>
+This is `<span style="color:blue">some *blue* text</span>`.
