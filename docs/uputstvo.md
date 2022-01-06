@@ -19,5 +19,4 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-~~This is green~~
-_this is blue_
+$\color{Red}{your-text-here}$
