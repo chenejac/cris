@@ -10,6 +10,19 @@
 7. [Кaртoн нaучног рaдникa: М-Класификација](knrM-Klasifikacija.md)
 8. [Приказ и измена личних података](prikazIIzmenaLicnihPodataka.md)
 
+## Novi Sadržaj
+
+- [Прва страница](prvaStranica.md)
+- [Регистрација](registracijaIPrijavljivanje.md)
+- [Пријава](prijavaTest.md)
+- Moja прoдукциja
+  - [Часописи](knrCasopisi.md)
+  - [Конференције](knrKonferencije.md)
+  - [Остало](knrOstalo.md)
+  - [М-Класификација](knrM-Klasifikacija.md)
+- [Лични пoдaци](prikazIIzmenaLicnihPodataka.md)
+
+
 ## Увод
 Ово je упутство за унос података о публикованим научно истраживачким резултатима рада у софтверски систем CRIS-PMF. Апликација се налази на овој адреси: http://cris.uns.ac.rs/ и могу се користити различити веб претраживачи. Препоручује се употреба веб претраживача са којима је апликације тестирана, а то су: Google Chrome и Microsoft Edge.
 
