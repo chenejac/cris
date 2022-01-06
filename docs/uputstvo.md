@@ -19,4 +19,4 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-This is <span style="color: red">written in red</span>.
+This is *red*{: style="color: red"}.
