@@ -18,11 +18,12 @@
 Уколико уочите неки пропуст, имате неку молбу, жалбу или било какав коментар молимо Вас да нам пошаљете e-mail одабиром ставке ![image](https://user-images.githubusercontent.com/29538544/147216114-35b5bd40-b337-469e-bbaf-4269d59e8a94.png) која се налази у десном углу главног менија наше апликације. То је e-mail: cris@uns.ac.rs
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
+1. Open the file.
+2. Find the following code block on line 21:
 
+        <html>
+          <head>
+            <title>Test</title>
+          </head>
 
-This is ` <span style="color:blue">some *blue* text</span> `.
-```html
-<html>
-  <span style="color:blue">some *blue* text</span>
-</html>
-```
+3. Update the title to match the name of your website.
