@@ -19,4 +19,4 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-$\color{#FF0000}{your-text-here}$
+**My Bold Text, in red color.**{: style="color: red; opacity: 0.80;" }
