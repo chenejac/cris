@@ -19,6 +19,6 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-<span style="background-color:red;">YourText</span>
+<div <span style="background-color:red;">YourText</span> </div>
 
 
