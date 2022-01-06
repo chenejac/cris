@@ -25,3 +25,9 @@
   <dt>Markdown in HTML</dt>
   <dd>Does *not* work **very** well. HTML <em>tags</em> do <b>work</b>, in most cases.</dd>
 </dl>
+
+
+
+<div markdown="1">
+This is *true* markdown text.
+</div>
