@@ -19,4 +19,4 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-<p>This is .</p>
+[Look, ma! Red!](red)
