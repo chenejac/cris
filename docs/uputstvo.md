@@ -18,8 +18,10 @@
 Уколико уочите неки пропуст, имате неку молбу, жалбу или било какав коментар молимо Вас да нам пошаљете e-mail одабиром ставке ![image](https://user-images.githubusercontent.com/29538544/147216114-35b5bd40-b337-469e-bbaf-4269d59e8a94.png) која се налази у десном углу главног менија наше апликације. То је e-mail: cris@uns.ac.rs
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
+<dl>
+  <dt>Definition list</dt>
+  <dd>Is something people use sometimes.</dd>
 
-```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
-```
+  <dt>Markdown in HTML</dt>
+  <dd>Does *not* work **very** well. HTML <em>tags</em> do <b>work</b>, in most cases.</dd>
+</dl>
