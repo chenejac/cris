@@ -20,6 +20,5 @@
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
 ```diff
-+ this text is highlighted in green
 - this text is highlighted in red
 ```
