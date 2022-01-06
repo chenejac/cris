@@ -19,4 +19,4 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-<span style="color: red;">text</span>
+`r colorize("some words in red", "red")`<span style="color: red;">text</span>
