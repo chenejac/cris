@@ -19,6 +19,7 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-<div <span style="background-color:red;">YourText</span> </div>
-
-
+```diff
++ this text is highlighted in green
+- this text is highlighted in red
+```
