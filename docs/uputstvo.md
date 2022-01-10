@@ -19,5 +19,3 @@
 
 Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
 
-Ovo je <span style="background-color:red">Autori</span>.
-
