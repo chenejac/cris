@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/29538544/150684156-ac22a4a8-e5f2-41b9-a6fc-b6f1a7831976.png)
 
-Кликом на **Одабир Конференције...**  дабија се: 
+Кликом на **Одабир Конференције...**  дoбија се: 
 
 ![image](https://user-images.githubusercontent.com/29538544/150684201-2dbecd95-263e-4dcf-b3b3-bb5e3093e7ab.png)
 
@@ -24,3 +24,5 @@
 
 Притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/150684451-a63db0a0-6c2b-4a31-abca-f41a64a8e2ed.png)
 уносе се подаци о раду у наведени зборник радова слично као и код часописа. 
+
+[Повратак на садржај упутства](uputstvo.md#садржај)
