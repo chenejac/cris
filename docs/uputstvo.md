@@ -6,10 +6,10 @@
 - [Регистрација](registracijaIPrijavljivanje.md)
 - [Пријава](prijavaTest.md)
 - Moja прoдукциja
-  - [Часописи](knrCasopisi.md)
-  - [Конференције](knrKonferencije.md)
-  - [Остало](knrOstalo.md)
-  - [М-Класификација](knrM-Klasifikacija.md)
+  * [Часописи](knrCasopisi.md)
+  * [Конференције](knrKonferencije.md)
+  * [Остало](knrOstalo.md)
+  * [М-Класификација](knrM-Klasifikacija.md)
 - [Лични пoдaци](prikazIIzmenaLicnihPodataka.md)
 
 ## Увод
