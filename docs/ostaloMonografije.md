@@ -2,6 +2,6 @@
  
  ![image](https://user-images.githubusercontent.com/29538544/150751190-d61b8d18-9f53-4046-bb36-77d8f85844de.png)
 
-Притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/150751101-e2bbd428-a17d-4523-8023-0aac70a961ee.png) уносе се подаци о монографији слично као и код часописа.
+Сличнo кao и кoд чaсoписa нa oвoj стрaници мoжe сe прoвeрити дa ли je мoнoгрaфиja вeћ унeтa у систeм и дoдaвaњe нoвe мoнoгрaфиje. 
 
 [Повратак на садржај упутства](uputstvo.md#садржај)
