@@ -1,4 +1,4 @@
-## Приказ и измена личних података
+## Лични подаци
 
 ![image](https://user-images.githubusercontent.com/29538544/150769804-3d3602a0-8c70-454e-851a-d4e4f18c1fe3.png)
 
