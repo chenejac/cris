@@ -4,7 +4,7 @@
 
 - [Прва страница](prvaStranica.md)
 - [Регистрација](registracijaIPrijavljivanje.md)
-- [Пријава](prijavaTest.md)
+- [Пријава](prijava.md)
 - Moja прoдукциja
   * [Часописи](knrCasopisi.md)
   * [Конференције](knrKonferencije.md)
