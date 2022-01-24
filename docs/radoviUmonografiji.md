@@ -12,7 +12,7 @@
 
 ![image](https://user-images.githubusercontent.com/29538544/150753390-24808a6c-6e98-4fa2-b1b1-e8bdb222a85b.png)
  
-Притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/150753456-b4c5dc16-d02f-4a26-8e69-1bcaf838c2cc.png) уносе се подаци о раду у наведеној монографији слично као и код часописа.
+Притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/150760338-83cbb5dc-d90b-43ad-b4c7-20380bbe5bd5.png) уносе се подаци о раду у наведеној монографији слично као и код часописа.
 
 
 [Повратак на садржај упутства](uputstvo.md#садржај)
