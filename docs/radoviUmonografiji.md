@@ -2,7 +2,7 @@
  
  ![image](https://user-images.githubusercontent.com/29538544/150752431-65ef544e-659f-417c-be05-deea7f27e733.png)
 
-Кликом на **Одабир monografije...** уносом наслова монографије дoбија се:
+Кликом на **Одабир monografije...** и уносом наслова монографије дoбија се:
 
 ![image](https://user-images.githubusercontent.com/29538544/150753305-0fd1e613-69c5-47e3-a938-1b631c0e78a1.png)
  
