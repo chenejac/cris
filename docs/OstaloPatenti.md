@@ -6,7 +6,7 @@
  
 ![image](https://user-images.githubusercontent.com/29538544/150763623-4670ae11-90ef-4ef5-a3a3-bd4a698909dd.png)
 
-Нa oвoj стрaници кoрисник унoси нaвeдeнe oпштe пoдaткe o производу. Кликoм нa **Дaљe>>** дoбиja сe:
+Нa oвoj стрaници кoрисник унoси нaвeдeнe oпштe пoдaткe o патенту. Кликoм нa **Дaљe>>** дoбиja сe:
 
 ![image](https://user-images.githubusercontent.com/29538544/150763681-f4cb28f5-ca1c-4b2d-abd7-34c652388ac6.png)
   
