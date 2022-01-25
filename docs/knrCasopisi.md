@@ -4,6 +4,8 @@
 
 У нaслoву oвe стрaницe дaти су нaвeдeни пoдaцa зa приjaвљeнoг истрaживaчa: Danijela Boberić-Krstičev. Селектована је картица **Часописи**, која садржи више опција за ажурирање података.
 
+Страница за унос података о новом раду у часопису добија се притиском на иконицу [![image](https://user-images.githubusercontent.com/29538544/148183657-5990c0d1-de58-494c-b4f9-36744b41d537.png)](izborCasopisa.md)
+
 Страница за унос података о новом раду у часопису добија се притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/148183657-5990c0d1-de58-494c-b4f9-36744b41d537.png) која се налази [ОВДЕ](izborCasopisa.md)
 
 Страница за Импорт – увоз података добија се притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/148183732-004f3514-7e46-4ee1-82ca-8d3c114c5459.png)
