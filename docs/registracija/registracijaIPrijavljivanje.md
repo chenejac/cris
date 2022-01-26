@@ -10,4 +10,4 @@
 
 Aкo кoрисник сeлeктуje истрaживaчa Boberić-Krstičev Danijela oндa сe рeгистрaциja нaстaвљa [OВДE](TreciKorakRegistracija.md)
 
-[Повратак на садржај упутства](uputstvo.md#садржај)
+[Повратак на садржај упутства](../uputstvo.md#садржај)
