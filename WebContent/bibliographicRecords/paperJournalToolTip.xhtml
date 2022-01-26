@@ -40,7 +40,7 @@
 							rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add])}" />
 			<h:outputText
 					value="#{messages['records.paperJournal.tablePanel.btnImport']}"
-					rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.browse])}" />
+					rendered="#{(paperJournalManagedBean.tableMode!=modesManagedBean.none) and (userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add])}" />
 		</h:panelGrid>
 	</span>
 </rich:tooltip>

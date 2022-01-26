@@ -477,13 +477,13 @@ public class SamovrednovanjeApp {
 	
 	
 	public static void setIdsForOrganisations(Connection conn1){
-	 idsPMF = obtainIdsForOrganisation("pmf", "2020-01-01 00:00:00",conn1);
+	 idsPMF = obtainIdsForOrganisation("pmf", "2021-01-01 00:00:00",conn1);
 	 
-	idsDMI = obtainIdsForOrganisation("dmi", "2020-01-01 00:00:00", conn1);
-		idsDF = obtainIdsForOrganisation("df", "2020-01-01 00:00:00", conn1);
-		idsDH = obtainIdsForOrganisation("dh", "2020-01-01 00:00:00", conn1);
-		idsDB = obtainIdsForOrganisation("db", "2020-01-01 00:00:00", conn1);
-		idsDG = obtainIdsForOrganisation("dg", "2020-01-01 00:00:00", conn1);
+	idsDMI = obtainIdsForOrganisation("dmi", "2021-01-01 00:00:00", conn1);
+		idsDF = obtainIdsForOrganisation("df", "2021-01-01 00:00:00", conn1);
+		idsDH = obtainIdsForOrganisation("dh", "2021-01-01 00:00:00", conn1);
+		idsDB = obtainIdsForOrganisation("db", "2021-01-01 00:00:00", conn1);
+		idsDG = obtainIdsForOrganisation("dg", "2021-01-01 00:00:00", conn1);
 	}
 	
 	public static void setIdsForOrganisationsNoDate(Connection conn1){

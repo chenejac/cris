@@ -359,10 +359,10 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 		else
 			INCN = selectedOrganizationUnit.getControlNumber();
 		if(OUCN != null){
-			bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2020-01-01 00:00:00"), BooleanClause.Occur.MUST);
+			bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2021-01-01 00:00:00"), BooleanClause.Occur.MUST);
 		}
 		else if(INCN != null){
-			bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2020-01-01 00:00:00"), BooleanClause.Occur.MUST);
+			bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2021-01-01 00:00:00"), BooleanClause.Occur.MUST);
 		}
 		bq.add(new TermQuery(new Term("TYPE", Types.AUTHOR)), BooleanClause.Occur.MUST);
 		if(filterFirstname!=null && !filterFirstname.equals("")){

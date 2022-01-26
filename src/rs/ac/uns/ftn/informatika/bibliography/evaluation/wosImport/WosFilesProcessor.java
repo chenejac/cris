@@ -60,10 +60,13 @@ public class WosFilesProcessor {
 			rf.readLine();
 			String journalLine;
 			while((journalLine = rf.readLine())!=null){
-				if(journalLine.equals("") || journalLine.startsWith("Copyright") || journalLine.contains("By exporting the selected data")) break;				
-				String[] parts = journalLine.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", 99);
-				if(parts[0].trim().equals(""))
+				if(journalLine.equals("") || journalLine.startsWith("Copyright") || journalLine.contains("By exporting the selected data")) {
 					break;
+				}
+				String[] parts = journalLine.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", 99);
+				if(parts[0].trim().equals("")) {
+					break;
+				}
 				ISIJournal journal = new ISIJournal(categoryId,year, list, parts[0].replaceAll("^\"+|\"+$", "").trim(), parts[0].replaceAll("^\"+|\"+$", "").trim(), parts[1].replaceAll("^\"+|\"+$", "").trim(), parts[2].replaceAll("^\"+|\"+$", "").trim(),
 						parts[4].replaceAll("^\"+|\"+$", "").trim(),null, null, null,null, null, null,null);
 				if((!parts[5].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[5].replaceAll("^\"+|\"+$", "").trim().equals("n/a"))){

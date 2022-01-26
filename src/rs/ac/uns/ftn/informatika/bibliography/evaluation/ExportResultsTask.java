@@ -65,7 +65,7 @@ public class ExportResultsTask implements Task {
 	public List<ResultForYearDTO> collectResults(){
 		List<ResultForYearDTO> retVal = new ArrayList<ResultForYearDTO>();
 		PersonDB personDB = new PersonDB();
-		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2020-01-01 00:00:00");
+		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2021-01-01 00:00:00");
 		List<String> ids = new ArrayList<String>();
 		for (Record record : listAuthors) {
 			try {
@@ -195,7 +195,7 @@ public class ExportResultsTask implements Task {
 	public List<MentorDTO> collectMentors(){
 		List<MentorDTO> retVal = new ArrayList<MentorDTO>();
 		PersonDB personDB = new PersonDB();
-		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2020-01-01 00:00:00");
+		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2021-01-01 00:00:00");
 		List<String> ids = new ArrayList<String>();
 		for (Record record : listAuthors) {
 			try {

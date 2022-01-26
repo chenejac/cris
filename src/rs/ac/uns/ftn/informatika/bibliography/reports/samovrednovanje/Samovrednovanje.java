@@ -40,7 +40,7 @@ public class Samovrednovanje {
 	
 	public static List<String> reportTypesToGenerate = new ArrayList<String>();
     public static String organisation; 
-    public static String lastYear = "2019";		
+    public static String lastYear = "2021";
 	private static List<String> ids = null;
 	public static int numberOfYearsForMentors = 5; 
 	public static String generatedReportsDir; 
