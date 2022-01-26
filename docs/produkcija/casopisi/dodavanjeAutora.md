@@ -7,4 +7,4 @@
 ![image](https://user-images.githubusercontent.com/29538544/150631321-917407c5-8b26-42a4-8095-437c68ca5735.png)
 
 
-[Повратак на садржај упутства](uputstvo.md#садржај)
+[Повратак на садржај упутства](../../uputstvo.md#садржај)

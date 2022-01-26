@@ -15,4 +15,4 @@
 
 Ако не постоји одговарајућа варијанта имена може се додати (![image](https://user-images.githubusercontent.com/29538544/150633060-115a550a-8577-4fdd-a6d3-29602dc7d137.png)). Редослед аутора се може изменити (![image](https://user-images.githubusercontent.com/29538544/150633084-777a7236-ffe7-46d1-8ece-2b8e8262ff40.png)).
 
-[Повратак на садржај упутства](uputstvo.md#садржај)
+[Повратак на садржај упутства](../../uputstvo.md#садржај)
