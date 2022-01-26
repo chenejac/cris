@@ -16,6 +16,6 @@ Aкo je Danijela Boberić-Krstičev вeћ рeгистрoвaнa oндa се дoб
 
 ![image](https://user-images.githubusercontent.com/29538544/147497093-3479bdf2-002b-4395-bc17-de9b9611ce6b.png)
 
-После наведене активације можете се пријавити на систем [ОВДЕ](prijavaTest.md)
+После наведене активације можете се пријавити на систем [ОВДЕ](./prijava.md)
 
-[Повратак на садржај упутства](uputstvo.md#садржај)
+[Повратак на садржај упутства](../uputstvo.md#садржај)
