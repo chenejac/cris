@@ -7,7 +7,7 @@
 Страница за унос података о новом раду у часопису добија се притиском на иконицу ![image](../../../WebContent/resources/img/create24.png) која се налази [ОВДЕ](izborCasopisa.md)
 
 Страница за Импорт – увоз података добија се притиском на иконицу ![image](../../../WebContent/resources/img/import24.png)
-  која се налази [ОВДЕ](../../importPodataka.md)
+  која се налази [ОВДЕ](../../uvoz/importPodataka.md)
     
 У наведеној табели је списак унетих радова у часописима. Притиском на иконицу ![image](../../../WebContent/resources/img/edit24.png) могу се ажурирати постојећи подаци.  
 На пример, ако се у наведеној табели за рад под редним бројем 1 притисне иконица ![image](../../../WebContent/resources/img/edit24.png) онда се подаци за тај рад могу ажурирати [ОВДЕ](AzuriranjePodatakaOraduUcasopisu.md) 
