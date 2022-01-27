@@ -35,5 +35,5 @@
 Кликом на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151311799-82e36db0-ed18-4419-a700-19d1eea525cb.png)
 ](../ostalo/knrOstalo.md) добија се страница за ажурирање осталих публикованих радова. 
 
-Клоком на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151208707-e57b9159-fea6-454b-a0fd-f8620c2e464e.png)
+Клоком на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151312514-bd69a2bd-da82-45f0-824c-8419d7f6a2b5.png)
 ](../knrM-Klasifikacija.md) добија се стртаница са табеларним приказом вредновања публикованих резултата по Прaвилнику o кaтeгoризaциjи и рaнгирaњу нaучних чaсoписa ("Сл. глaсник РС", бр. 159/2020). 
