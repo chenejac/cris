@@ -29,7 +29,7 @@
 У наведеној табели је списак унетих радова у часописима који се могу ажурирати.   
 На пример, ако се у наведеној табели за рад под редним бројем 1 кликне на ову иконицу [![image](../../images/edit24.png)](AzuriranjePodatakaOraduUcasopisu.md) онда се добија страница за ажурирање података том раду.  
   
-Кликом на ову опцију  [![image](https://user-images.githubusercontent.com/29538544/151206551-b60f5af4-4551-44b8-927d-cfaf684cf9eb.png)
+Кликом на ову опцију  [![image](https://user-images.githubusercontent.com/29538544/151310782-5ff79bb7-ec96-4019-a94c-0d44418b8b69.png)
 ](../konferencije/knrKonferencije.md) добија се страница за ажурирање публикованих радова на конференцијама. 
 
 Кликом на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151207637-74b39685-470b-4dde-817f-c6867c1518d7.png)
