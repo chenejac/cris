@@ -32,7 +32,7 @@
 Кликом на ову опцију  [![image](https://user-images.githubusercontent.com/29538544/151310782-5ff79bb7-ec96-4019-a94c-0d44418b8b69.png)
 ](../konferencije/knrKonferencije.md) добија се страница за ажурирање публикованих радова на конференцијама. 
 
-Кликом на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151207637-74b39685-470b-4dde-817f-c6867c1518d7.png)
+Кликом на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151311799-82e36db0-ed18-4419-a700-19d1eea525cb.png)
 ](../ostalo/knrOstalo.md) добија се страница за ажурирање осталих публикованих радова. 
 
 Клоком на ову опцију [![image](https://user-images.githubusercontent.com/29538544/151208707-e57b9159-fea6-454b-a0fd-f8620c2e464e.png)
