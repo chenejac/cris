@@ -1,6 +1,8 @@
 ## Радови објављени у часопису
  
  ![image](https://user-images.githubusercontent.com/29538544/150641460-393a5a96-6443-4102-a8fb-a16a24d8482e.png)
+ 
+![image](../../images/edit24.png) 
 
 Притиском на иконицу ![image](https://user-images.githubusercontent.com/29538544/148227677-8d00d709-b3d8-4bd1-a819-feb1ec134ca8.png)
   могу се ажурирати постојећи подаци који би били приказани на страници као што је [ОВДЕ](AzuriranjePodatakaOraduUcasopisu.md)
