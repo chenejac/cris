@@ -3,7 +3,7 @@
 ## Садржај
 
 - [Прва страница](prvaStranica.md)
-- [Регистрација](registracijaIPrijavljivanje.md)
+- [Регистрација](registracija/registracijaIPrijavljivanje.md)
 - [Пријава](prijava.md)
 - Moja прoдукциja
   * [Часописи](produkcija/casopisi/knrCasopisi.md)
