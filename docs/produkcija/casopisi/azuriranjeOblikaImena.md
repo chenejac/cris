@@ -13,6 +13,6 @@
 
 Кликом на иконицу (![image](https://user-images.githubusercontent.com/29538544/150633524-00d924b3-73fe-4e62-87c5-1608abb6512b.png)) поље Аутори је: Boberić Danijela;Surla Dušan;
 
-Ако не постоји одговарајућа варијанта имена може се додати ![image](../../images/edit24.png)  (![image](https://user-images.githubusercontent.com/29538544/150633060-115a550a-8577-4fdd-a6d3-29602dc7d137.png)). Редослед аутора се може изменити (![image](https://user-images.githubusercontent.com/29538544/150633084-777a7236-ffe7-46d1-8ece-2b8e8262ff40.png)).
+Ако не постоји одговарајућа варијанта имена може се додати (![image](../../images/edit24.png)). Редослед аутора се може изменити (![image](https://user-images.githubusercontent.com/29538544/150633084-777a7236-ffe7-46d1-8ece-2b8e8262ff40.png)).
 
 [Повратак на садржај упутства](../../uputstvo.md#садржај)
