@@ -10,7 +10,7 @@
   * [Конференције](produkcija/konferencije/knrKonferencije.md)
   * [Остало](produkcija/ostalo/knrOstalo.md)
   * [М-Класификација](produkcija/knrM-Klasifikacija.md)
-- [Лични пoдaци](licnipodaci/prikazIIzmenaLicnihPodataka.md)
+- [Лични подаци](licnipodaci/prikazIIzmenaLicnihPodataka.md)
 
 ## Увод
 Ово је упутство за унос података о публикованим научно истраживачким резултатима рада у софтверски систем CRIS-PMF. Апликација се налази на овој адреси: http://cris.uns.ac.rs/ и могу се користити различити веб претраживачи. Препоручује се употреба веб претраживача са којима је апликације тестирана, а то су: Google Chrome и Microsoft Edge.
