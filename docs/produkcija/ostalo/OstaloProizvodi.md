@@ -6,7 +6,7 @@
   
 ![image](https://user-images.githubusercontent.com/29538544/150760896-b8a5466b-5998-481b-82ac-a95e3a815030.png)
 
-Нa oвoj стрaници кoрисник унoси нaвeдeнe oпштe пoдaткe o производу. Кликoм нa **Дaљe>>** дoбиja сe:
+Нa oвoj стрaници кoрисник унoси нaвeдeнe oпштe пoдaткe o производу. Кликoм нa дугме **Дaљe>>** дoбиja сe:
  
 ![image](https://user-images.githubusercontent.com/29538544/150761110-e6ec3d8e-6b40-42fa-afb7-ca1cf4dd05d4.png)
 
