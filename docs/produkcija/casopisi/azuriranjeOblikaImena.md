@@ -13,6 +13,6 @@
 
 Кликом на иконицу(![image](../../images/backKNRPublic.gif)) поље Аутори је: Boberić Danijela;Surla Dušan;
 
-Ако не постоји одговарајућа варијанта имена може се додати (![image](../../images/edit24.png)). Редослед аутора се може изменити![image](../../images/up.gif) ![image](../../images/down.gif ) (![image](https://user-images.githubusercontent.com/29538544/150633084-777a7236-ffe7-46d1-8ece-2b8e8262ff40.png)).
+Ако не постоји одговарајућа варијанта имена може се додати (![image](../../images/edit24.png)). Редослед аутора се може изменити (![image](../../images/up.gif)![image](../../images/down.gif )).
 
 [Повратак на садржај упутства](../../uputstvo.md#садржај)
