@@ -1,4 +1,4 @@
-## Увoз радова из часописа са Scopus-a 
+## Увoз података о радовима из часописа са Scopus-a 
   
 ![image](https://user-images.githubusercontent.com/29538544/151998185-ca7ac926-dd3a-4ebc-aee2-53121385fbed.png)
  
