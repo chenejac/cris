@@ -16,3 +16,5 @@
 ![image](https://user-images.githubusercontent.com/29538544/152047760-b8c8c6e6-76e0-44b9-9399-4b567cd4f6b8.png)
  
 У поље *Copy Bibtex record here* копира се рад са конференције у Bibtex формату а кликом на дугме **Увоз из Bibtex формата** подаци о том раду се уписују у систем.
+
+[Повратак на садржај упутства](../uputstvo.md#садржај)
