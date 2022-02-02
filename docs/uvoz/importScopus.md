@@ -10,7 +10,7 @@
  
 На почетку странице налази се текст: 
 
-Brought to you by KoBSON - Konzorcijum biblioteka Srbije za objedinjenu nabavku
+Brought to you by <span style="color: DarkTurquoise;"> KoBSON - Konzorcijum biblioteka Srbije za objedinjenu nabavku</span>
 
 Што значу да је приступ SCOPUS-у остварен преко KoBSON-а (академске мреже).
 
