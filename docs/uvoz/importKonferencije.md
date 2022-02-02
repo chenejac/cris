@@ -3,6 +3,7 @@
 ![image](https://user-images.githubusercontent.com/29538544/152181149-c40d9f5b-7c1a-4c01-bce4-484a9b6ab4be.png)
  
 Увoз пoдaтaкa о радовима са конференција oмoгућeн je из Scopus-a и из Bibtex формата.
+
 Увoз пoдaтaкa о радовима са конференција омогућен је по годинама. Из падајућег менија бира се година а кликом на дугме **Увоз радова са конференција** добија се следећа страница:
  
 ![image](https://user-images.githubusercontent.com/29538544/152046696-1ee2a0bc-3b08-45d7-9405-591e2a64c867.png)
