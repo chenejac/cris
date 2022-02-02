@@ -26,7 +26,7 @@ Brought to you by <span style="color: DarkTurquoise;"> KoBSON - Konzorcijum bibl
 
 ![image](https://user-images.githubusercontent.com/29538544/152206048-b1e3e141-3a05-4ce8-9f43-dcc037c02d8a.png)
  
-Идентификатор аутора налази се лево од Connect to ORCID у облику SC 54402376900. Дакле, SCOPUS идентификатор за аутора Boberić-Krstićev Danijela je 54402376900. 
+Идентификатор аутора налази се лево од <ins>Connect to ORCID</ins> у облику SC 54402376900. Дакле, SCOPUS идентификатор за аутора Boberić-Krstićev Danijela je 54402376900. 
 
 ### Унос идентификатора аутора из SCOPUS-а у CRIS-PMF апликацију
 
