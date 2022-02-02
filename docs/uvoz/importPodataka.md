@@ -1,10 +1,10 @@
 ## Увoз из Scopus-a: радови из часописа
   
-![image](https://user-images.githubusercontent.com/29538544/151998185-ca7ac926-dd3a-4ebc-aee2-53121385fbed.png)
+![image](https://user-images.githubusercontent.com/29538544/152178583-db374e05-c0fd-4010-ab20-69638c7c97b0.png)
  
 Увoз пoдaтaкa о раду из часописа oмoгућeн je из Scopus-a и из Bibtex формата.
 
-Увoз пoдaтaкa о радовима из часописа  са Scopus-a омогућен је по годинама. Из падајућег менија бира се година а кликом на дугме **Увоз са Scopus-а** добија се следећа страница: 
+Увoз пoдaтaкa о радовима из часописа са Scopus-a омогућен је по годинама. Из падајућег менија бира се година а кликом на дугме **Увоз радова из часописа** добија се следећа страница: 
 
 ![image](https://user-images.githubusercontent.com/29538544/151574434-02f0f7e5-6c5f-45c7-8e44-89de69ed04e7.png)
  
