@@ -2,7 +2,7 @@
   
 ![image](https://user-images.githubusercontent.com/29538544/151998185-ca7ac926-dd3a-4ebc-aee2-53121385fbed.png)
  
-Увoз пoдaтaкa о раду из часописа oмoгућeн je из Scopusa-a и из Bibtex формата.
+Увoз пoдaтaкa о раду из часописа oмoгућeн je из Scopus-a и из Bibtex формата.
 
 Увoз пoдaтaкa о радовима из часописа  са Scopusa-a омогућен је по годинама. Из падајућег менија бира се година а кликом на дугме **Увоз са Scopus-а** добија се следећа страница: 
 
