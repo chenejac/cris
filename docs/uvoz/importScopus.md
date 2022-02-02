@@ -18,7 +18,7 @@ Brought to you by KoBSON - Konzorcijum biblioteka Srbije za objedinjenu nabavku
 
 ![image](https://user-images.githubusercontent.com/29538544/152205816-e9c9c8b7-801d-4e54-83c7-faede0147978.png)
  
-На овој страници унето је презиме и име истраживаћа: Boberić Danijela. Кликом на дугне **Search** добија се страница: 
+На овој страници унето је презиме и име истраживача: Boberić Danijela. Кликом на дугне **Search** добија се страница: 
 
 ![image](https://user-images.githubusercontent.com/29538544/152205949-27d344d8-1be9-467e-8c02-45ab024e9866.png)
  
@@ -46,11 +46,11 @@ Brought to you by KoBSON - Konzorcijum biblioteka Srbije za objedinjenu nabavku
 
 После сређивања ID-а, CRIS-PMF апликација подржава преузимање података са SCOPUS-а.
 
- У заглављу Часописи постоји опција: Импорт – увоз података: ![image](../../images/import24.png). Кликом на ову иконицу добија се страница за увоз података о радовима из часописа:
+ У заглављу Часописи постоји опција: Импорт – увоз података: ![image](../images/import24.png). Кликом на ову иконицу добија се страница за увоз података о радовима из часописа:
   
 ![image](https://user-images.githubusercontent.com/29538544/152206905-ed0f5a53-b376-4b71-99fa-a86ce1caa19a.png)
   
-У заглављу Конференције постоји опција: Импорт – увоз података:   . Кликом на ову иконицу добија се страница за увоз података о радовима са конференција: 
+У заглављу Конференције постоји опција: Импорт – увоз података: ![image](../images/import24.png). Кликом на ову иконицу добија се страница за увоз података о радовима са конференција: 
  
 ![image](https://user-images.githubusercontent.com/29538544/152206977-eb15a6b5-8d0f-4b21-8c50-f77dd8bea801.png)
 
