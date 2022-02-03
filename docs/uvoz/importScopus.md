@@ -18,7 +18,7 @@ Brought to you by <span style="color: DarkTurquoise;"> KoBSON - Konzorcijum bibl
 
 ![image](https://user-images.githubusercontent.com/29538544/152205816-e9c9c8b7-801d-4e54-83c7-faede0147978.png)
  
-На овој страници унето је презиме и име истраживача: Boberić Danijela. Кликом на дугне **Search** добија се страница: 
+На овој страници унето је презиме и име истраживача: Boberić Danijela. Кликом на дугме **Search** добија се страница: 
 
 ![image](https://user-images.githubusercontent.com/29538544/152205949-27d344d8-1be9-467e-8c02-45ab024e9866.png)
  
