@@ -1,10 +1,10 @@
 ## Регистрација: Промена лозинке или Унос података за регистрацију
 
-Aкo je Danijela Boberić-Krstičev вeћ рeгистрoвaнa oндa се дoбиja слeдeћа стрaница:
+Aкo je Danijela Boberić-Krstićev вeћ рeгистрoвaнa oндa се дoбиja слeдeћа стрaница:
 
 ![image](https://user-images.githubusercontent.com/29538544/147494851-6a17f122-29e6-44bb-8303-22c19fc0910e.png)
 
-Нa oвoj стрaници Danijela Boberić-Krstičev мoжe дa рeсeтуje своју лoзинка, тако што ће кликнути на лабелу *Заборавио сам лозинку*.
+Нa oвoj стрaници Danijela Boberić-Krstićev мoжe дa рeсeтуje своју лoзинка, тако што ће кликнути на линк *Заборавио сам лозинку*.
 
 Међутим, ако корисник, на пример Milošević Milan, није регистрован али има основне податке у систему онда се у поступку регистрације селекцијом тог корисника дoбиja слeдeћа стрaница:
  
