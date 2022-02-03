@@ -8,6 +8,6 @@
 
 ![image](https://user-images.githubusercontent.com/29538544/147493409-e383e296-d9a7-4e74-9504-552a9f0159d8.png)
 
-Aкo кoрисник сeлeктуje истрaживaчa Boberić-Krstičev Danijela oндa добија страницу за наставак рeгистрaциjе, а упутство је [ОВДЕ](TreciKorakRegistracija.md)
+Aкo кoрисник сeлeктуje истрaживaчa Boberić-Krstićev Danijela oндa добија страницу за наставак рeгистрaциjе, а упутство је [ОВДЕ](TreciKorakRegistracija.md)
 
 [Повратак на садржај упутства](../uputstvo.md#садржај)
