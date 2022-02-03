@@ -36,6 +36,8 @@ Brought to you by <span style="color: DarkTurquoise;"> KoBSON - Konzorcijum bibl
  
 Ако се из падајуће листе одабере *Приказ и измену личних података* онда се добија следећа страница:  
 
+![image](https://user-images.githubusercontent.com/29538544/152338033-c7d53b5a-4c5e-4d58-98a1-7bdb37d96ce8.png)
+
 ![image](https://user-images.githubusercontent.com/29538544/152206418-96c0c71c-62e7-4579-9c72-5d8188d481d0.png)
  
 На овој страници постоји лабела Scopus ID за унос идентификатора аутора из SCOPUS-а. На слици је у поље Scopus ID копиран SCOPUS идентификатор 54402376900. 
