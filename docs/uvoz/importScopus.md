@@ -22,7 +22,7 @@ Brought to you by <span style="color: DarkTurquoise;"> KoBSON - Konzorcijum bibl
 
 ![image](https://user-images.githubusercontent.com/29538544/152205949-27d344d8-1be9-467e-8c02-45ab024e9866.png)
  
-Кликом на линк Boberić-Krstićev Danijela (на слици црвено подвичено) добија се страница:  
+Кликом на линк Boberić-Krstićev Danijela (на слици црвено подвучено) добија се страница:  
 
 ![image](https://user-images.githubusercontent.com/29538544/152206048-b1e3e141-3a05-4ce8-9f43-dcc037c02d8a.png)
  
@@ -30,7 +30,7 @@ Brought to you by <span style="color: DarkTurquoise;"> KoBSON - Konzorcijum bibl
 
 ### Унос идентификатора аутора из SCOPUS-а у CRIS-PMF апликацију
 
-После пријаве на CRIS-PMF апликацију (www.cris.uns.ac.rs) и селетовања заглавља **Лични подаци** добија се следећа страница: 
+После пријаве на CRIS-PMF апликацију (www.cris.uns.ac.rs) и селетовањем заглавља **Лични подаци** добија се следећа страница: 
 
 ![image](https://user-images.githubusercontent.com/29538544/152206311-c6be95b4-b0a4-4639-8961-c9c0fc498198.png)
  
