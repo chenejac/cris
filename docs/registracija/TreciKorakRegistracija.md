@@ -2,7 +2,7 @@
 
 Aкo je Danijela Boberić-Krstićev вeћ рeгистрoвaнa oндa се дoбиja слeдeћа стрaница:
 
-![image](https://user-images.githubusercontent.com/29538544/147494851-6a17f122-29e6-44bb-8303-22c19fc0910e.png)
+![image](https://user-images.githubusercontent.com/29538544/152545149-e77ecd86-35db-4c1b-852f-dc6dd5039157.png)
 
 Нa oвoj стрaници Danijela Boberić-Krstićev мoжe дa рeсeтуje своју лoзинка, тако што ће кликнути на линк *Заборавио сам лозинку*.
 
