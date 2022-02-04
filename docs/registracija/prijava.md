@@ -1,6 +1,6 @@
 ## Пријава
 
-![image](https://user-images.githubusercontent.com/29538544/152540942-351b0474-f802-4e56-a7e0-03c39cfdf5fc.png)
+![image](https://user-images.githubusercontent.com/29538544/152541299-212d73f9-bfc1-4cb4-8e25-98f0785f4d40.png)
  
 Када се корисник једанпут региструје,  сваки наредни пут се само пријављује на систем употребом е-mail-а и лозинке. 
 
