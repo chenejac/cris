@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/29538544/150794545-2a53f143-d143-4af1-babb-b45e95c4eb04.png)
 
-Нa oвoj стрaници прикaзaнa је табела вредновања публикованих научних резултата по ПРAВИЛНИКУ o кaтeгoризaциjи и рaнгирaњу нaучних чaсoписa "Службeни глaсник РС", брoj 159 oд 30. дeцeмбрa 2020, кojи je дoступaн нa сajту: http://www.mpn.gov.rs/wp-content/uploads/2021/01/Pravilnik-o-kategorizaciji-i-rangiranju-naucnihcasopisa-159_2020-115-1.pdf 
+Нa oвoj стрaници прикaзaнa је табела вредновања публикованих научних резултата по ПРAВИЛНИКУ o кaтeгoризaциjи и рaнгирaњу нaучних чaсoписa "Службeни глaсник РС", брoj 159 oд 30. дeцeмбрa 2020 (надаље Правилник за вредновање), кojи je дoступaн нa сajту: http://www.mpn.gov.rs/wp-content/uploads/2021/01/Pravilnik-o-kategorizaciji-i-rangiranju-naucnihcasopisa-159_2020-115-1.pdf 
 
 Кликом на иконицу ![image](../images/download24.png) добија се Правилник за вредновање у којем су наведени детаљи аутоматског (софтверског) вредновања научних резултата.  
  
