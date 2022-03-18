@@ -8,7 +8,7 @@
 - [Преглед и вредновање конференција](./vrednovanje/konferencije/pregledIVrednovanjeKonferencija.md)
     - [Вредновање конференција](./vrednovanje/konferencije/vrednovanjeKonferencija.md)
     - [Додатни преглед конференција](./vrednovanje/konferencije/dodatniPregledKonferencija.md)
-- [Преглед али не и вредновање конференција](./vrednovanje/konferencije/samoPregledanjeKonferencije.md)
+- [Преглед вреднованих конференција са осталих департмана](./vrednovanje/konferencije/samoPregledanjeKonferencije.md)
 
 ## Увод
 
