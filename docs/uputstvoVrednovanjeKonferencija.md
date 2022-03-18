@@ -2,13 +2,13 @@
 
 ### Садржај
 
-- Почетна страница
-- Пријава
-- Избор временског интервала за вредновање
-- Преглед и вредновање конференција 
-    - Вредновање конференција
-    - Преглед конференција
-- Преглед али не и вредновање конференција
+- [Почетна страница](./vrednovanje/konferencije/pocetnaStranica.md)
+- [Пријава](./vrednovanje/konferencije/prijava.md)
+- [Избор временског интервала за вредновање](./vrednovanje/konferencije/izborIntervala.md)
+- [Преглед и вредновање конференција](./vrednovanje/konferencije/pregledIVrednovanjeKonferencija.md)
+    - [Вредновање конференција](./vrednovanje/konferencije/vrednovanjeKonferencija.md)
+    - [Преглед конференција](./vrednovanje/konferencije/dodatniPregledKonferencija.md)
+- [Преглед али не и вредновање конференција](./vrednovanje/konferencije/samoPregledanjeKonferencije.md)
 
 ## Увод
 
