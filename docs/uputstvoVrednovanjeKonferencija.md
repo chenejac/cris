@@ -7,7 +7,7 @@
 - [Избор временског интервала за вредновање](./vrednovanje/konferencije/izborIntervala.md)
 - [Преглед и вредновање конференција](./vrednovanje/konferencije/pregledIVrednovanjeKonferencija.md)
     - [Вредновање конференција](./vrednovanje/konferencije/vrednovanjeKonferencija.md)
-    - [Преглед конференција](./vrednovanje/konferencije/dodatniPregledKonferencija.md)
+    - [Додатни преглед конференција](./vrednovanje/konferencije/dodatniPregledKonferencija.md)
 - [Преглед али не и вредновање конференција](./vrednovanje/konferencije/samoPregledanjeKonferencije.md)
 
 ## Увод
