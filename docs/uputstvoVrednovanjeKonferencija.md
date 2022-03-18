@@ -21,5 +21,5 @@
 Уколико уочите неки пропуст, имате неку молбу, жалбу или било какав коментар молимо Вас да нам пошаљете e-mail одабиром ставке ![image](./images/email.png) која се налази у десном углу главног
 менија наше апликације. То је e-mail: cris@uns.ac.rs
 
-Почетна страница на линку [http://cris.uns.ac.rs/](http://cris.uns.ac.rs/) приказана је ОВДЕ(pocetnaStranica)
+Почетна страница на линку [http://cris.uns.ac.rs/](http://cris.uns.ac.rs/) приказана је [ОВДЕ](./vrednovanje/konferencije/prijava.md)
 
