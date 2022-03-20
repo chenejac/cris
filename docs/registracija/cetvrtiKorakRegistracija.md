@@ -1,4 +1,4 @@
-## Подаци за регистрацију
+## Подаци за регистрацију (Stari fajl - treba brisati!)
 
 ![image](https://user-images.githubusercontent.com/29538544/151775100-54f924ae-7715-49fe-896c-29cf418bb3a8.png)
  
