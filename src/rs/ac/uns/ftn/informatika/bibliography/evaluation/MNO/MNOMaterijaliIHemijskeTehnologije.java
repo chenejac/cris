@@ -13,7 +13,7 @@ public class MNOMaterijaliIHemijskeTehnologije extends MNO{
 	private MNOMaterijaliIHemijskeTehnologije(){
 		super();
 		this.nameMNO = "Materijali i hemijske tehnologije";
-		this.yearsSpecial = new int [12];
+		this.yearsSpecial = new int [13];
 		yearsSpecial[0] = 2009;
 		yearsSpecial[1] = 2010;
 		yearsSpecial[2] = 2011;
@@ -26,6 +26,7 @@ public class MNOMaterijaliIHemijskeTehnologije extends MNO{
 		yearsSpecial[9] = 2018;
 		yearsSpecial[10] = 2019;
 		yearsSpecial[11] = 2020;
+		yearsSpecial[12] = 2021;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -41,6 +42,7 @@ public class MNOMaterijaliIHemijskeTehnologije extends MNO{
 		HashMap <String, String> special2018;
 		HashMap <String, String> special2019;
 		HashMap <String, String> special2020;
+		HashMap <String, String> special2021;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2009 = new HashMap<String, String>();
@@ -170,6 +172,10 @@ public class MNOMaterijaliIHemijskeTehnologije extends MNO{
 		special2020 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoMaterijaliIHemijskaTehnologija2020.xlsx", special2020);
 		this.specialJournalsAllYears.put(2020, special2020);
+
+		special2021 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mnoMaterijaliIHemijskaTehnologija2021.xlsx", special2021);
+		this.specialJournalsAllYears.put(2021, special2021);
 	}
 	
 	public static MNOMaterijaliIHemijskeTehnologije MNOMaterijaliIHemijskeTehnologije= null;

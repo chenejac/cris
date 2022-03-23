@@ -72,7 +72,7 @@ public class CommissionTypes {
 	public static final int OldTeh 																			= 500;
 	
 	//WoS simple
-	public static final int OldWoSSimple 																		= 600;
+	public static final int OldWoSSimple 																	= 600;
 	public static final int MNOBiologija 																	= 610;
 	public static final int MNOBiotehnologijaIAgroindustrija 												= 611;
 	public static final int MNOBiotehnologijaIPoljoprivreda 												= 612;
@@ -106,6 +106,14 @@ public class CommissionTypes {
 	public static final int MNODHNSociologijaIDemografija													= 640;
 	public static final int MNODHNSrpskiJezikIKnjizevnost													= 641;
 	public static final int MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost									= 642;
+	public static final int MNOGeodezija																	= 643;
+	public static final int MNOGradjevinarstvo																= 644;
+	public static final int MNOMatematika																	= 645;
+	public static final int MNOMehanika																		= 646;
+	public static final int MNOProstornoPlaniranje															= 647;
+	public static final int MNORacunarskeNauke																= 648;
+	public static final int MNOSaobracaj																	= 649;
+	public static final int MNOUrbanizam																	= 651;
 	public static final int AMS																				= 650;
 	public static final int MNOAll																			= 660;
 	

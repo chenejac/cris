@@ -506,11 +506,12 @@ public class PrepareUNSPromotionManagedBean extends CRUDManagedBean {
 	public List<String> getDistinctPromotionNames() {
 		distinctPromotionNames = new ArrayList<String>();	
 		for(RegisterEntryDTO regEntry:list){
-			if(regEntry.getFuturePromotionName()!=null)
+			if((regEntry.getFuturePromotionName()!=null) && (!"".equals(regEntry.getFuturePromotionName().trim())))
 					if(!distinctPromotionNames.contains(regEntry.getFuturePromotionName()))
 						distinctPromotionNames.add(regEntry.getFuturePromotionName());
 		}
-		if(distinctPromotionNames.size()>0) selectedPromotionName = distinctPromotionNames.get(0);
+		if(distinctPromotionNames.size()>0)
+			selectedPromotionName = distinctPromotionNames.get(0);
 		return distinctPromotionNames;
 	}
 
