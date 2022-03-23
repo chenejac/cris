@@ -3,19 +3,18 @@
 ## Садржај
 
 - [Прва страница](prvaStranica.md)
-- [Регистрација](registracijaIPrijavljivanje.md)
+- [Регистрација](registracija/registracijaIPrijavljivanje.md)
 - [Пријава](prijava.md)
-- Moja прoдукциja
+- Моја продукција
   * [Часописи](produkcija/casopisi/knrCasopisi.md)
   * [Конференције](produkcija/konferencije/knrKonferencije.md)
   * [Остало](produkcija/ostalo/knrOstalo.md)
   * [М-Класификација](produkcija/knrM-Klasifikacija.md)
-- [Лични пoдaци](licnipodaci/prikazIIzmenaLicnihPodataka.md)
+- [Лични подаци](licnipodaci/prikazIIzmenaLicnihPodataka.md)
 
 ## Увод
-Ово je упутство за унос података о публикованим научно истраживачким резултатима рада у софтверски систем CRIS-PMF. Апликација се налази на овој адреси: http://cris.uns.ac.rs/ и могу се користити различити веб претраживачи. Препоручује се употреба веб претраживача са којима је апликације тестирана, а то су: Google Chrome и Microsoft Edge.
+Ово је упутство за унос података о публикованим научноистраживачким резултатима рада у софтверски систем CRIS-PMF. Апликација се налази на овој адреси: http://cris.uns.ac.rs/ и могу се користити различити веб претраживачи. Препоручује се употреба веб претраживача на којима је апликација тестирана, а то су: Google Chrome и Microsoft Edge.
 
-Уколико уочите неки пропуст, имате неку молбу, жалбу или било какав коментар молимо Вас да нам пошаљете e-mail одабиром ставке ![image](./images/email.png) која се налази у десном углу главног менија наше апликације. То је e-mail: cris@uns.ac.rs
+Уколико уочите неки пропуст, имате неку молбу, жалбу или било какав коментар, молимо Вас да нам пошаљете мејл одабиром иконице ![image](./images/email.png) која се налази у десном углу главног менија наше апликације. То је мејл: cris@uns.ac.rs
 
-Почетне странице на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
-
+Почетна страна на линку http://cris.uns.ac.rs/ приказана је [ОВДЕ](prvaStranica.md)
