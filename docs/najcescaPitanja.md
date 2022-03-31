@@ -11,65 +11,33 @@
 
 ## Како брисати дупликате?
 
-The core-package `spell-check` doesn't scan documents in the `text.md` by default. You can easily add this yourself:
-
-- Open the Atom settings, and find the Packages tab
-- Search for the `spell-check` package; you can find it under the Core Packages
-- Open the settings for `spell-check`
-- Append `text.md` to the list of grammars (make sure the scopes are comma-separated)
-- Reload Atom to make sure the updated settings take effect
+Дупликат настаје када се исти рад унесе два или више пута. У овом случају потребно је обрисати све дупликате. Корисник нема овлашћење за брисање дупликата и зато се мора обратити Развојном тиму система CRIS-PMF. Поступак је следећи. Уочени дупликат корисник треба да копира и тако копирани дупликат пошаље на меил cris@uns.ac.rs. Развојни тим ће обрисати наведени дупликат и о томе обавестити корисника.
 
 ## Како да се региструјем?
 
-`language-markdown` parses your Markdown document; it does not directly color the different elements. This is done by the syntax-theme you are using. There's a good chance that your syntax-theme doesn't support all the different elements that `language-markdown` recognizes. You can ask the author of the theme to add better support for `language-markdown`, or [add styles to your custom stylesheet](http://flight-manual.atom.io/using-atom/sections/basic-customization/#style-tweaks). You can also try one of the tried and tested syntax-themes featured above. If you can't get it to work, feel free to [open an issue](https://github.com/burodepeper/language-markdown/issues/new/), and I'll see what I can do.
+Најбоље је да се корисник за регистрацију јави Развојном тиму система CRIS-PMF, тако што ће на меил cris@uns.ac.rs послати своје основне податке: име, презиме, титула и департман. Развојни тим ће проверити да ли се наведени основни подаци већ налазе у систему а ако се не налазе онда ће у сарадњи са Деканатом ПМФ-а унети те основне податке. После тога корисник ће добити детаљне инструкције за регистрацију.
 
 ## Зашто не могу да се пријавим са својим постојећим налогом?
 
-Because there is no clear Markdown standard, I've chosen to follow the [CommonMark Spec](http://spec.commonmark.org/) as closely as possible within the Atom environment. On top of that, I've implemented support for a few extensions: Github Flavored Markdown, Markdown Extra, CriticMark, Front Matter, and R Markdown. Together, I believe these specs cover a solid 98% of your day-to-day Markdown needs. If you feel that an element is missing, please [open an issue](https://github.com/burodepeper/language-markdown/issues/new/).
+Основна веза између апликације и корисника је његов меил са којим се регистровао. Уколико је корисник заборавио лозинку за свој кориснички налог, неопходно је да унесе мејл адресу и да кликне на линк Заборавио сам лозинку. Након тога на унесену мејл адресу систем шаље мејл у којем корисник добија упутство за ресетовање лозинке. Међутим, ако је опција Заборавио сам лозинку неуспешна, онда се меил који је унео корисник не слаже са меилом са којим се корисник регистровао. У том случају корисник се јавља за помоћ Развојном тиму на меил cris@uns.ac.rs.
 
 ## Како се може променити категорија рада у часопису?
 
-- Raw `html` is included when you have the default `language-html` grammar enabled
-- The Github Flavored `task-lists` are implemented as part of 'normal' `lists`
-- Setext-headers (underlined-headers) are not supported
-- `indented-code-blocks` have been disabled to prevent false-positives; use `fenced-code-blocks` instead ([more details](https://github.com/burodepeper/language-markdown/issues/88#issuecomment-183344420))
-- Github tables require pipes at the start of each line, and cells need a padding of at least one space; this is a suggested convention to prevent false positives
+Радови у часописима вреднују се аутоматски (софтверски) по ПРAВИЛНИКУ o кaтeгoризaциjи и рaнгирaњу нaучних чaсoписa "Службeни глaсник РС", брoj 159 oд 30. дeцeмбрa 2020, кojи je дoступaн нa сajту: http://www.mpn.gov.rs/wp-content/uploads/2021/01/Pravilnik-o-kategorizaciji-i-rangiranju-naucnihcasopisa-159_2020-115-1.pdf.
+Ако корисник примети да категорија рада није према његовом очекивању, онда треба проверити да ли су наслов и ISSN број часописа добро унети. За остале детаље јавити се Развојном тиму (cris@uns.ac.rs), који ће у сарадњи са корисником у потпуности разрешити категорију рада. 
 
 ## Како се може променити категорија рада са конференције?
 
-Autocompletion doesn't work out-of-the-box with Markdown documents. It is possible to enable it, but it might need some tinkering. In the `autocomplete-plus` settings, make sure that Markdown files aren't blacklisted. Additionally, it might help to switch the default provider to Fuzzy.
-
-For Atom to index your Markdown documents as symbols, you have to add the following to your `config.cson`:
-
-```coffee
-'.text.md':
-    autocomplete:
-        symbols:
-            constant:
-                selector: "*"
-                typePriority: 1
-```
-
-You can find additional information in [this issue](https://github.com/burodepeper/language-markdown/issues/150).
+На сваком департману ПМФ-а постоји комисија за вредновање конференција. Ако корисник није сагласан са категоријом конференције, онда се може обратити комисији за вредновање на свом департману. Комисија ће у сарадњи са корисником разрешити категорију конференције. 
 
 ## Ко је већ унео податке о мом раду?
 
-The core-package `language-gfm` is automatically disabled (unless you've enabled the setting that prevents this) when using `language-markdown` to avoid any conflicts. Because `language-markdown` is intended as a drop-in replacement you most likely won't need both anyway. However, if you uninstall `language-markdown`, `language-gfm` doesn't automatically get re-activated. There's no API available to do this, so you'll have to re-activate `language-gfm` manually, which is quite easy.
-
-1. Open the "Settings" and go to the "Packages" tab
-2. Search for `language-gfm`
-3. Click `Enable` to re-activate it
-4. You probably want to reload Atom to make sure the change takes effect
+При уносу података о раду, корисник уноси све ауторе рада, тако да сваки аутор на свом налогу види тај рад. То значи да се сваки рад само једном уноси у систем и придружен је свим осталим ауторима.
 
 ## Зашто меилом добијам обавештење да је неко унео податке о мом раду?
 
-By default, Atom removes all trailing whitespace when a file is saved. You can disable it by setting the following flag in your `config.cson` for the `.md.text` scope. For more background, see [#115](https://github.com/burodepeper/language-markdown/issues/115).
+Када корисник први пут уноси података о раду, тада се у систему формира запис о том раду и обавештавају се преко меила сви регистровани коаутори да је тај рад унет у систем. У обавештењу се наводи ко је рад унео као и сви унети подаци о раду. Коаутори могу да преконтролишу тачност унетих података а после пријаве на систем могу и да мењају податке у том запису. 
 
-```coffee
-'*':
-  # all current config
-'.md.text':
-  whitespace:
-    removeTrailingWhitespace: false
-```
 ## Имам два налога у систему. Како се ово може поправити, односно спојити у један налог?
+
+Два или више налога настају када се корисник не пажњом региструје два или више пута. Када корисник примети да има два или више налога онда о томе треба да обавести Развојни тим (cris@uns.ac.rs), који ће спојити све те налоге у један а после у сарадњи са корисником средити евентуално настале дупликате. 
