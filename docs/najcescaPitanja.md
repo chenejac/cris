@@ -72,4 +72,4 @@ By default, Atom removes all trailing whitespace when a file is saved. You can d
   whitespace:
     removeTrailingWhitespace: false
 ```
-## Приметила (Приметио) сам да имам два налога у систему. Како се ово може поправити, односно спојити у један налог?
+## Приметила/o сам да имам два налога у систему. Како се ово може поправити, односно спојити у један налог?
