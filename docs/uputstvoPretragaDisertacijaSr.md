@@ -3,9 +3,9 @@
 ## Садржај
 - [Основна претрага](pretragaDisertacijaSr/osnovnaPretraga.md)
 - [Напредна претрага дисертација](pretragaDisertacijaSr/naprednaPretragaDisertacija.md)
-- [Aутори и чланови комисија](pretragaDisertacijaSr/autoriClanoviKomisije.md)
+- [Aутори и чланови комисија](pretragaDisertacijaSr/autoriClanoviKomisija.md)
 - [Претрага упитним језиком Lucene-а](pretragaDisertacijaSr/pretragaUpitnimJezikom.md) 
-- [Приказ дисертација](pretragaDisertacijaSr/prikazDisertacija.md0
+- [Приказ дисертација](pretragaDisertacijaSr/prikazDisertacija.md)
 
 ## Увод
 За потребе Универзитета у Новом Саду развијен је Информациони систем научне
