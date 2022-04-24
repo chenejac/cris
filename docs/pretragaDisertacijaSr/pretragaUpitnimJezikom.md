@@ -7,3 +7,5 @@
 На слици је дат пример Lucеne упита. Кликом на опцију у менију **Тражи**, добија се следећи резултат претраживања:
  
 ![image](https://user-images.githubusercontent.com/29538544/164968613-b227064d-5a1d-4dff-9108-ba9396d090eb.png)
+
+[Повратак на садржај упутства](../uputstvoPretragaDisertacijaSr.md#садржај)
