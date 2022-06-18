@@ -8,7 +8,7 @@
     - [Одабир аутора](uputstvoDR/prvaStrana/autori/odabirAutora.md)
     - [Аутор](uputstvoDR/prvaStrana/autori/autor.md)
     - [Пример када у систему нема аутора са сличним подацима](uputstvoDR/prvaStrana/autori/nemaAutora.md)
-    - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/autor.md)
+    - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/pregledAzuriranjePodataka.md)
 
 Сви резултати (није урађено!)
 
