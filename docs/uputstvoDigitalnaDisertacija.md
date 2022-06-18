@@ -6,12 +6,9 @@
 - [Прва страница апликације](uputstvoDR/prvaStranaAplikacije.md)
   - [Тезе и дисертaције](uputstvoDR/prvaStrana/tezeDisertacije.md)
     - [Одабир аутора](uputstvoDR/prvaStrana/autor/odabirAutora.md)
-
-Аутор
-
-Пример када у систему нема аутора
-
-Преглед и ажурирање података
+    - [Аутор](uputstvoDR/prvaStrana/autor/autor.md)
+    - [Пример када у систему нема аутора](uputstvoDR/prvaStrana/autori/nemaAutora.md)
+    - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/autor.md)
 
 Сви резултати (није урађено!)
 
