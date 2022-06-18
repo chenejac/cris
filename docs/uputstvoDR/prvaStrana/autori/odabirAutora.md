@@ -11,3 +11,5 @@
  ![image](https://user-images.githubusercontent.com/29538544/174437027-f7c4278e-3c9d-4939-9341-5a87bdc503ea.png)
  
 Aкo кoрисник сeлeктуje аутора Ivanović Mirjana, oндa се добија страница на којој је приказан резултат претраживања са већ унетим подацима о докторској дисертацији, као што је описано [ОВДЕ](pregledAzuriranjePodataka.md)
+
+[Повратак на садржај упутства](../../uputstvoDigitalnaDisertacija.md#садржај)
