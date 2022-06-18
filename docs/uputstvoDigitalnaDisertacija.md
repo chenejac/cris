@@ -4,8 +4,7 @@
 - [Почетна страница](uputstvoDR/pocetnaStranica.md)
 - [Пријава](uputstvoDR/prijava.md)
 - [Прва страница апликације](uputstvoDR/prvaStranaAplikacije.md)
-
-Тезе и дисертaције
+  - [Тезе и дисертaције](uputstvoDR/prvaStrana/tezeDisertacije.md)
 
 Одабир Аутора
 
