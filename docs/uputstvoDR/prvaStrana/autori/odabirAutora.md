@@ -12,4 +12,4 @@
  
 Aкo кoрисник сeлeктуje аутора Ivanović Mirjana, oндa се добија страница на којој је приказан резултат претраживања са већ унетим подацима о докторској дисертацији, као што је описано [ОВДЕ](pregledAzuriranjePodataka.md)
 
-[Повратак на садржај упутства](../../uputstvoDigitalnaDisertacija.md#садржај)
+[Повратак на садржај упутства](../../../uputstvoDigitalnaDisertacija.md#садржај)
