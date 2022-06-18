@@ -9,10 +9,8 @@
     - [Аутор](uputstvoDR/prvaStrana/autori/autor.md)
     - [Пример када у систему нема аутора са сличним подацима](uputstvoDR/prvaStrana/autori/nemaAutora.md)
     - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/pregledAzuriranjePodataka.md)
-
-Сви резултати (није урађено!)
-
-Промоција (није урађено!) 
+  - [Сви резултати](uputstvoDR/prvaStrana/sviRezultati.md)
+  - [Промоција](uputstvoDR/prvaStrana/promocija.md) 
 
 Промена лозинке (није урађено!)
 
