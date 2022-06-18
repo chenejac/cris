@@ -1,0 +1,1 @@
+# fajl pregledAzuriranjePodataka.md
