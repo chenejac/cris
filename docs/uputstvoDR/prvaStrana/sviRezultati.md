@@ -1,1 +1,1 @@
-* Fajl sviRezultati.md nije jos uradjem!!!
+# Fajl sviRezultati.md nije jos uradjem!!!
