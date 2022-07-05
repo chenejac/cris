@@ -238,6 +238,10 @@ public class RegisterEntryDB {
 							advisorsBuffer.append(", виши науч. сар.");
 						} else if(advisor.getCurrentPositionName().equals("Naučni savetnik")){
 							advisorsBuffer.append(", науч. сав.");
+						} else if(advisor.getCurrentPositionName().equals("Profesor u penziji")){
+							advisorsBuffer.append(", проф. у пензији");
+						} else if(advisor.getCurrentPositionName().equals("prof. inž. habil")){
+							advisorsBuffer.append(", проф. инж. хабил");
 						} else if(advisor.getCurrentPositionName().equals("Akademik")){
 							advisorsBuffer.append(", академик.");
 						} else {
@@ -282,6 +286,10 @@ public class RegisterEntryDB {
 							commissionBuffer.append(", виши науч. сар.");
 						} else if(committeeMember.getCurrentPositionName().equals("Naučni savetnik")){
 							commissionBuffer.append(", науч. сав.");
+						} else if(committeeMember.getCurrentPositionName().equals("Profesor u penziji")){
+							advisorsBuffer.append(", проф. у пензији");
+						} else if(committeeMember.getCurrentPositionName().equals("prof. inž. habil")){
+							advisorsBuffer.append(", проф. инж. хабил");
 						} else if(committeeMember.getCurrentPositionName().equals("Akademik")){
 							commissionBuffer.append(", академик");
 						} else {
@@ -324,6 +332,10 @@ public class RegisterEntryDB {
 							commissionBuffer.append(", виши науч. сар.");
 						} else if(advisor.getCurrentPositionName().equals("Naučni savetnik")){
 							commissionBuffer.append(", науч. сав.");
+						} else if(advisor.getCurrentPositionName().equals("Profesor u penziji")){
+							advisorsBuffer.append(", проф. у пензији");
+						} else if(advisor.getCurrentPositionName().equals("prof. inž. habil")){
+							advisorsBuffer.append(", проф. инж. хабил");
 						} else if(advisor.getCurrentPositionName().equals("Akademik")){
 							commissionBuffer.append(", академик");
 						} else {
@@ -564,6 +576,10 @@ public class RegisterEntryDB {
 							advisorsBuffer.append(", виши науч. сар.");
 						} else if(advisor.getCurrentPositionName().equals("Naučni savetnik")){
 							advisorsBuffer.append(", науч. сав.");
+						} else if(advisor.getCurrentPositionName().equals("Profesor u penziji")){
+							advisorsBuffer.append(", проф. у пензији");
+						} else if(advisor.getCurrentPositionName().equals("prof. inž. habil")){
+							advisorsBuffer.append(", проф. инж. хабил");
 						} else if(advisor.getCurrentPositionName().equals("Akademik")){
 							advisorsBuffer.append(", академик.");
 						} else {
@@ -608,6 +624,10 @@ public class RegisterEntryDB {
 							commissionBuffer.append(", виши науч. сар.");
 						} else if(committeeMember.getCurrentPositionName().equals("Naučni savetnik")){
 							commissionBuffer.append(", науч. сав.");
+						} else if(committeeMember.getCurrentPositionName().equals("Profesor u penziji")){
+							advisorsBuffer.append(", проф. у пензији");
+						} else if(committeeMember.getCurrentPositionName().equals("prof. inž. habil")){
+							advisorsBuffer.append(", проф. инж. хабил");
 						} else if(committeeMember.getCurrentPositionName().equals("Akademik")){
 							commissionBuffer.append(", академик");
 						} else {
@@ -650,6 +670,10 @@ public class RegisterEntryDB {
 							commissionBuffer.append(", виши науч. сар.");
 						} else if(advisor.getCurrentPositionName().equals("Naučni savetnik")){
 							commissionBuffer.append(", науч. сав.");
+						} else if(advisor.getCurrentPositionName().equals("Profesor u penziji")){
+							advisorsBuffer.append(", проф. у пензији");
+						} else if(advisor.getCurrentPositionName().equals("prof. inž. habil")){
+							advisorsBuffer.append(", проф. инж. хабил");
 						} else if(advisor.getCurrentPositionName().equals("Akademik")){
 							commissionBuffer.append(", академик");
 						} else {

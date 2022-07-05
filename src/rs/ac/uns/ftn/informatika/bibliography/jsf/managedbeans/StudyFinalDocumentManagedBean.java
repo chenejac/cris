@@ -106,6 +106,8 @@ public class StudyFinalDocumentManagedBean extends CRUDManagedBean
 		
 		allTitlesSelectItems.add(new SelectItem("др", "др"));
 		allTitlesSelectItems.add(new SelectItem("академик", "академик"));
+		allTitlesSelectItems.add(new SelectItem("др ум.", "др ум."));
+		allTitlesSelectItems.add(new SelectItem("мр", "мр"));
 		allTitlesSelectItems.add(new SelectItem("без титуле", ""));        
 		
 		allPositionsSelectItems = new ArrayList<SelectItem>();
