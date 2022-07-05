@@ -176,7 +176,7 @@ public class PublicThesesManagedBean {
 	}
 
 	public synchronized void loadTheses2022(PhaseEvent event){
-		list2021 = getThesesByWhereClause(THESES_2022_WHERE_CLAUSE);
+		list2022 = getThesesByWhereClause(THESES_2022_WHERE_CLAUSE);
 	}
 	
 	/*
