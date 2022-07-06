@@ -121,12 +121,20 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 				"messages.messages-administration", new Locale(getLanguage()));
 		UserDTO u = userDAO.getUserByUsername(loggedUser.getEmail());
 		if(u!=null){
-			loggedUser.setPassword(u.getPassword());
-			sendMessage(new EmailMessage(rbAdministration.getString("administration.email.cris"), loggedUser.getEmail(), null, null, rbAdministration.getString("administration.login.notification.subject"), rbAdministration.getString("administration.login.notification.textHeader") + "<br/><br/>" + rbAdministration.getString("administration.login.email") + ": " + loggedUser.getEmail() + "<br/>" + rbAdministration.getString("administration.login.password") + ": " + loggedUser.getPassword() + getEmailFooter()));
-			facesMessages.addToControlFromResourceBundle(
-					"login:general", FacesMessage.SEVERITY_INFO, 
-					"administration.login.notification.success",
-					FacesContext.getCurrentInstance());
+			u.setPassword("l0z1wizj");
+			if(userDAO.update(u)) {
+				loggedUser.setPassword(u.getPassword());
+				sendMessage(new EmailMessage(rbAdministration.getString("administration.email.cris"), loggedUser.getEmail(), null, null, rbAdministration.getString("administration.login.notification.subject"), rbAdministration.getString("administration.login.notification.textHeader") + "<br/><br/>" + rbAdministration.getString("administration.login.email") + ": " + loggedUser.getEmail() + "<br/>" + rbAdministration.getString("administration.login.password") + ": " + loggedUser.getPassword() + getEmailFooter()));
+				facesMessages.addToControlFromResourceBundle(
+						"login:general", FacesMessage.SEVERITY_INFO,
+						"administration.login.notification.success",
+						FacesContext.getCurrentInstance());
+			} else {
+				facesMessages.addToControlFromResourceBundle(
+						"login:general", FacesMessage.SEVERITY_ERROR,
+						"administration.login.notification.error",
+						FacesContext.getCurrentInstance());
+			}
 		} else {
 			facesMessages.addToControlFromResourceBundle(
 					"login:general", FacesMessage.SEVERITY_ERROR, 
