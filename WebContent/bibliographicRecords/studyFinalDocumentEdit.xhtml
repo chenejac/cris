@@ -296,10 +296,10 @@
 					</rich:panel>
 					<!--  ...... finalTheses ..... -->
 					<h:panelGrid 
-						id="finalTheses" >
+						id="finalTheses">
 						<rich:panel
-							header="#{messages['records.studyFinalDocument.editPanel.finalThesesPanel']}" > 
-							<h:panelGrid 
+							header="#{messages['records.studyFinalDocument.editPanel.finalThesesPanel']}" >
+							<h:panelGrid
 								id="fileGroup" >
 								<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 									<!-- ....... File    -->      
@@ -406,7 +406,7 @@
 						                allowFlash="auto"
 						                maxFilesQuantity="1"
 						                >
-						                <a4j:ajax event="uploadcomplete" render="finalSupplement" execute="@form" />
+						                <a4j:ajax event="uploadcomplete" render="supplementGroup" execute="@form" />
 						            </rich:fileUpload>
 						            <h:panelGroup
 										id="deleteSupplement" 
@@ -415,7 +415,7 @@
 											rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.supplement) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
 											action="#{studyFinalDocumentManagedBean.deleteSupplement}"
 											value="#{messages['records.studyFinalDocument.editPanel.btnSupplementDelete']}"
-											render="finalSupplement" 
+											render="supplementGroup"
 											limitRender="true"
 											execute="@this"/> 
 										<h:outputText 
@@ -454,27 +454,28 @@
 								</h:panelGrid>
 							</h:panelGrid>
 							<!--  ...... copyright ..... -->
-							<h:panelGrid 
+							<h:panelGrid
 								rendered="#{empty userManagedBean.loggedUser.author.controlNumber}"
-								columns="5" columnClasses="width30, width30, width10, width10, width20" width="100%" >
-								<!-- ....... File Copyright   -->      
-								<a4j:outputPanel 
+								columns="5" columnClasses="width30, width30, width10, width10, width20" width="100%"
+								>
+								<!-- ....... File Copyright   -->
+								<a4j:outputPanel
 									ajaxRendered="true">
-									<mytags:outputLabel 
-										value="#{messages['records.studyFinalDocument.editPanel.fileCopyright']}" 
-										for="fileCopyright" 
+									<mytags:outputLabel
+										value="#{messages['records.studyFinalDocument.editPanel.fileCopyright']}"
+										for="fileCopyright"
 										errorStyleClass="errorMessage"
 										/>
 								</a4j:outputPanel>
-								<h:inputTextarea 
+								<h:inputTextarea
 									id="fileCopyright"
 									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
 									readonly="true"
 									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright.fileNameClient}"
-									rows="3" 
+									rows="3"
 									style="width:300">
 								</h:inputTextarea>
-								<rich:fileUpload 
+								<rich:fileUpload
 									id="fileCopyrightUpload"
 									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
 									fileUploadListener="#{studyFinalDocumentManagedBean.uploadFileCopyrightListener}"
@@ -488,20 +489,20 @@
 					                <a4j:ajax event="uploadcomplete" render="finalTheses" execute="@form" />
 					            </rich:fileUpload>
 						        <h:panelGroup
-									id="deleteCopyrightFile" 
+									id="deleteCopyrightFile"
 									>
-						       		<a4j:commandButton 
+						       		<a4j:commandButton
 										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
 										action="#{studyFinalDocumentManagedBean.deleteFileCopyright}"
 										value="#{messages['records.studyFinalDocument.editPanel.btnFileCopyrightDelete']}"
 										disabled="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
-										render="finalTheses" 
+										render="finalTheses"
 										limitRender="true"
-										execute="@this"/> 
-									<h:outputText 
+										execute="@this"/>
+									<h:outputText
 						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright}"
 										value=""
-									 /> 
+									 />
 						        	<h:outputLink
 										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyrightURL}"
 										target="_blank"
@@ -509,23 +510,23 @@
 										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyrightURL) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright)}"
 										>
 										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
-									</h:outputLink> 
-									 <h:outputText 
+									</h:outputLink>
+									 <h:outputText
 						        		rendered="#{(empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyrightURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright)}"
 										value=""
-									 /> 
+									 />
 								</h:panelGroup>
-								<h:outputText 
+								<h:outputText
 										value=""
-									 /> 
+									 />
 								<a4j:outputPanel ajaxRendered="true">
-									<rich:message 
+									<rich:message
 										for="fileCopyrightUpload"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
 										warnClass="warnMessage"
 										fatalClass="fatalMessage" />
-									<rich:message 
+									<rich:message
 										for="fileCopyright"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
@@ -533,89 +534,89 @@
 										fatalClass="fatalMessage" />
 								</a4j:outputPanel>
 								<!-- ....... Copyright   -->
-								<a4j:outputPanel 
+								<a4j:outputPanel
 									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
 									ajaxRendered="true">
-									<mytags:outputLabel 
-										value="#{messages['records.studyFinalDocument.editPanel.copyright']}" 
-										for="copyright" 
+									<mytags:outputLabel
+										value="#{messages['records.studyFinalDocument.editPanel.copyright']}"
+										for="copyright"
 										errorStyleClass="errorMessage"
 										/>
 								</a4j:outputPanel>
-								<h:selectOneMenu 
+								<h:selectOneMenu
 									id="copyright"
 									disabled="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.record.archived != 0) and (not userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData]))}"
-									value="#{studyFinalDocumentManagedBean.fileLicense}" 
+									value="#{studyFinalDocumentManagedBean.fileLicense}"
 									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
 									required="true"
 									>
-									<f:selectItem 
+									<f:selectItem
 										itemValue="#{null}"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.notSpecified']}" />
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Attribution"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution']}" />
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Attribution-NonCommercial"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NonCommercial']}" />
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Attribution-NonCommercial-NoDerivs"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NonCommercial-NoDerivs']}" />
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Attribution-NonCommercial-ShareAlike"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NonCommercial-ShareAlike']}" />
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Attribution-NoDerivs"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-NoDerivs']}" />
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Attribution-ShareAlike"
 										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.Attribution-ShareAlike']}" />
-									<!--   <f:selectItem 
+									<!--   <f:selectItem
 										itemValue="Creative Commons"
-										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons']}" 
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons']}"
 										rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.license) and ((studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.license == 'Creative Commons') or (studyFinalDocumentManagedBean.selectedStudyFinalDocument.file.license == 'Usage forbidden'))}"/>
 									-->
-									<f:selectItem 
+									<f:selectItem
 										itemValue="Usage forbidden"
-										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.usageForbidden']}" 
+										itemLabel="#{messages['records.studyFinalDocument.editPanel.copyright.usageForbidden']}"
 										/>
 								</h:selectOneMenu>
-								<h:outputText 
+								<h:outputText
 									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
 									value="" />
-								<h:outputText 
+								<h:outputText
 									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
 									value="" />
-								<a4j:outputPanel 
+								<a4j:outputPanel
 									rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileCopyright) and (not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.file)}"
 									ajaxRendered="true">
-									<rich:message 
-										for="copyright" 
+									<rich:message
+										for="copyright"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
 										warnClass="warnMessage"
 										fatalClass="fatalMessage" />
 								</a4j:outputPanel>
-								<!-- ....... Metadata Copyright   -->      
-								<a4j:outputPanel 
+								<!-- ....... Metadata Copyright   -->
+								<a4j:outputPanel
 									ajaxRendered="true"
 									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}" >
-									<mytags:outputLabel 
-										value="#{messages['records.studyFinalDocument.editPanel.metadataCopyright']}" 
-										for="metadataCopyrightUpload" 
+									<mytags:outputLabel
+										value="#{messages['records.studyFinalDocument.editPanel.metadataCopyright']}"
+										for="metadataCopyrightUpload"
 										errorStyleClass="errorMessage"
 										/>
 								</a4j:outputPanel>
-								<h:inputTextarea 
+								<h:inputTextarea
 									id="metadataCopyright"
 									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
 									readonly="true"
 									value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright.fileNameClient}"
-									rows="3" 
+									rows="3"
 									style="width:300">
 								</h:inputTextarea>
 								<!--
-								<rich:fileUpload 
+								<rich:fileUpload
 									id="metadataCopyrightUpload"
 									rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
 									fileUploadListener="#{studyFinalDocumentManagedBean.uploadMetadataCopyrightListener}"
@@ -630,20 +631,20 @@
 					            </rich:fileUpload>
 						        -->
 						        <h:panelGroup
-									id="deleteMetadataCopyright" 
+									id="deleteMetadataCopyright"
 									>
-						       		<a4j:commandButton 
+						       		<a4j:commandButton
 										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
 										action="#{studyFinalDocumentManagedBean.deleteMetadataCopyright}"
 										value="#{messages['records.studyFinalDocument.editPanel.btnMetadataCopyrightDelete']}"
-										render="metadataCopyrightGroup" 
+										render="metadataCopyrightGroup"
 										limitRender="true"
-										execute="@this"/>  
+										execute="@this"/>
 									<!--
-									<h:outputText 
+									<h:outputText
 						        		rendered="#{empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
 										value=""
-									 /> 
+									 />
 						        	-->
 						        	<h:outputLink
 										value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyrightURL}"
@@ -653,26 +654,26 @@
 										<h:graphicImage library="img" name="download.png" width="24" height="24"/>
 									</h:outputLink>
 									<!--
-									<h:outputText 
+									<h:outputText
 						        		rendered="#{(not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyrightURL) or (empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright)}"
 										value=""
-									 /> 
+									 />
 									-->
 								</h:panelGroup>
-								<h:outputText 
+								<h:outputText
 										value=""
-										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}" 
-									 /> 
-								<a4j:outputPanel 
+										rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}"
+									 />
+								<a4j:outputPanel
 									ajaxRendered="true"
 									rendered="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.metadataCopyright}" >
-									<rich:message 
+									<rich:message
 										for="metadataCopyrightUpload"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
 										warnClass="warnMessage"
 										fatalClass="fatalMessage" />
-									<rich:message 
+									<rich:message
 										for="metadataCopyright"
 										errorClass="errorMessage"
 										infoClass="infoMessage"

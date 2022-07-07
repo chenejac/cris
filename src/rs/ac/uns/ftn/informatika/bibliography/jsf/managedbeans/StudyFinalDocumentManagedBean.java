@@ -377,7 +377,7 @@ public class StudyFinalDocumentManagedBean extends CRUDManagedBean
 	}
 
 	/**
-	 * @param studyFinalDocumentDTO
+	 * @param studyFinalDocument
 	 *            the study final document to set as selected study final document
 	 */
 	public void setSelectedStudyFinalDocument(
