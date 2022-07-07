@@ -1,16 +1,7 @@
 package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.UUID;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -121,7 +112,7 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 				"messages.messages-administration", new Locale(getLanguage()));
 		UserDTO u = userDAO.getUserByUsername(loggedUser.getEmail());
 		if(u!=null){
-			u.setPassword("l0z1wizj");
+			u.setPassword(generateRandomPassword(8));
 			if(userDAO.update(u)) {
 				loggedUser.setPassword(u.getPassword());
 				sendMessage(new EmailMessage(rbAdministration.getString("administration.email.cris"), loggedUser.getEmail(), null, null, rbAdministration.getString("administration.login.notification.subject"), rbAdministration.getString("administration.login.notification.textHeader") + "<br/><br/>" + rbAdministration.getString("administration.login.email") + ": " + loggedUser.getEmail() + "<br/>" + rbAdministration.getString("administration.login.password") + ": " + loggedUser.getPassword() + getEmailFooter()));
@@ -141,6 +132,16 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 					"administration.login.notification.error",
 					FacesContext.getCurrentInstance());
 		}
+	}
+
+	private String generateRandomPassword(int len) {
+		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
+				+"jklmnopqrstuvwxyz!@#$%&";
+		Random rnd = new Random();
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+			sb.append(chars.charAt(rnd.nextInt(chars.length())));
+		return sb.toString();
 	}
 	
 	/**
