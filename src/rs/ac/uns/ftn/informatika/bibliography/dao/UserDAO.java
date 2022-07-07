@@ -148,8 +148,6 @@ public class UserDAO {
 	}
 
 	/**
-	 * @param conn
-	 *            Database connection
 	 * @param filter
 	 *            The filter for retrieving
 	 * @param orderBy
@@ -481,10 +479,8 @@ public class UserDAO {
 
 	/**
 	 * Updates the user in the database.
-	 * 
-	 * @param conn
-	 *            Database connection
-	 * @param user
+	 *
+	 * @param userDTO
 	 *            User to update
 	 * @return true if successful else false
 	 */

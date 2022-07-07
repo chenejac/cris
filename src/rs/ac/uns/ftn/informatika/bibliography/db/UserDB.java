@@ -45,7 +45,7 @@ public class UserDB {
 			Statement stmt = conn.createStatement();
 			ResultSet rset = stmt
 					.executeQuery("select TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID from USER where EMAIL like '"
-							+ email + "' and PASSWORD like binary '" + password + "' and ACTIVATIONCODE like 'ACTIVATED'");
+							+ email + "' and PASSWORD like MD5('" + password + "') and ACTIVATIONCODE like 'ACTIVATED'");
 
 			if (rset.next()) {
 				String type = rset.getString(1);
@@ -114,15 +114,14 @@ public class UserDB {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rset = stmt
-					.executeQuery("select PASSWORD, TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE from USER where EMAIL like '"
+					.executeQuery("select TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE from USER where EMAIL like '"
 							+ email + "'");
 
 			if (rset.next()) {
-				String password = rset.getString(1);
-				String type = rset.getString(2);
-				String note = rset.getString(3);
-				String language = rset.getString(4);
-				String recordControlNumber = rset.getString(5);
+				String type = rset.getString(1);
+				String note = rset.getString(2);
+				String language = rset.getString(3);
+				String recordControlNumber = rset.getString(4);
 				AuthorDTO author = new AuthorDTO();
 				if ((recordControlNumber != null)
 						&& (recordControlNumber.toLowerCase().startsWith("("
@@ -134,7 +133,7 @@ public class UserDB {
 					} else
 						return null;
 				}
-				String institutionControlNumber = rset.getString(6);
+				String institutionControlNumber = rset.getString(5);
 				InstitutionDTO institution = new InstitutionDTO();
 				if ((institutionControlNumber != null)
 						&& (institutionControlNumber.toLowerCase().startsWith("("
@@ -146,7 +145,7 @@ public class UserDB {
 					} else
 						return null;
 				}
-				String organizationUnitControlNumber = rset.getString(7);
+				String organizationUnitControlNumber = rset.getString(6);
 				OrganizationUnitDTO organizationUnit = new OrganizationUnitDTO();
 				if ((organizationUnitControlNumber != null)
 						&& (organizationUnitControlNumber.toLowerCase().startsWith("("
@@ -159,7 +158,7 @@ public class UserDB {
 						return null;
 				}
 				String activationCode = rset.getString(8);
-				user = new UserDTO(email, password, note, language, author, institution, organizationUnit,
+				user = new UserDTO(email, "alozinka", note, language, author, institution, organizationUnit,
 						type, activationCode);
 			}
 			rset.close();
@@ -185,15 +184,14 @@ public class UserDB {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rset = stmt
-					.executeQuery("select EMAIL, PASSWORD, TYPE, NOTE, LANGUAGE, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE from USER where RECORDID like '"
+					.executeQuery("select EMAIL, TYPE, NOTE, LANGUAGE, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE from USER where RECORDID like '"
 							+ controlNumber + "'");
 
 			if (rset.next()) {
 				String email = rset.getString(1);
-				String password = rset.getString(2);
-				String type = rset.getString(3);
-				String note = rset.getString(4);
-				String language = rset.getString(5);
+				String type = rset.getString(2);
+				String note = rset.getString(3);
+				String language = rset.getString(4);
 				AuthorDTO author = new AuthorDTO();
 				if ((controlNumber != null)
 						&& (controlNumber.toLowerCase().startsWith("("
@@ -205,7 +203,7 @@ public class UserDB {
 					} else
 						return null;
 				}
-				String institutionControlNumber = rset.getString(6);
+				String institutionControlNumber = rset.getString(5);
 				InstitutionDTO institution = new InstitutionDTO();
 				if ((institutionControlNumber != null)
 						&& (institutionControlNumber.toLowerCase().startsWith("("
@@ -217,7 +215,7 @@ public class UserDB {
 					} else
 						return null;
 				}
-				String organizationUnitControlNumber = rset.getString(7);
+				String organizationUnitControlNumber = rset.getString(6);
 				OrganizationUnitDTO organizationUnit = new OrganizationUnitDTO();
 				if ((organizationUnitControlNumber != null)
 						&& (organizationUnitControlNumber.toLowerCase().startsWith("("
@@ -229,8 +227,8 @@ public class UserDB {
 					} else
 						return null;
 				}
-				String activationCode = rset.getString(8);
-				user = new UserDTO(email, password, note, language, author, institution, organizationUnit,
+				String activationCode = rset.getString(7);
+				user = new UserDTO(email, "alozinka", note, language, author, institution, organizationUnit,
 						type, activationCode);
 			} 
 			rset.close();
@@ -298,17 +296,16 @@ public class UserDB {
 		try {
 			StringBuffer query = new StringBuffer();
 			query
-					.append("select EMAIL, PASSWORD, TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE from USER ");
+					.append("select EMAIL, TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE from USER ");
 			Statement stmt = conn.createStatement();
 
 			ResultSet rset = stmt.executeQuery(query.toString());
 			while (rset.next()) {
 				String email = rset.getString(1);
-				String password = rset.getString(2);
-				String type = rset.getString(3);
-				String note = rset.getString(4);
-				String language = rset.getString(5);
-				String recordControlNumber = rset.getString(6);
+				String type = rset.getString(2);
+				String note = rset.getString(3);
+				String language = rset.getString(4);
+				String recordControlNumber = rset.getString(5);
 				AuthorDTO author = new AuthorDTO();
 				if ((recordControlNumber != null)
 						&& (recordControlNumber.toLowerCase().startsWith("("
@@ -325,7 +322,7 @@ public class UserDB {
 							continue;
 					}
 				}
-				String institutionControlNumber = rset.getString(7);
+				String institutionControlNumber = rset.getString(6);
 				InstitutionDTO institution = new InstitutionDTO();
 				if ((institutionControlNumber != null)
 						&& (institutionControlNumber.toLowerCase().startsWith("("
@@ -337,7 +334,7 @@ public class UserDB {
 					} else
 						continue;
 				}
-				String organizationUnitControlNumber = rset.getString(8);
+				String organizationUnitControlNumber = rset.getString(7);
 				OrganizationUnitDTO organizationUnit = new OrganizationUnitDTO();
 				if ((organizationUnitControlNumber != null)
 						&& (organizationUnitControlNumber.toLowerCase().startsWith("("
@@ -349,8 +346,8 @@ public class UserDB {
 					} else
 						continue;
 				}
-				String activationCode = rset.getString(9);
-				UserDTO user = new UserDTO(email, password, note, language,
+				String activationCode = rset.getString(8);
+				UserDTO user = new UserDTO(email, "alozinka", note, language,
 						author, institution, organizationUnit, type, activationCode);
 				retVal.add(user);
 			}
@@ -377,7 +374,7 @@ public class UserDB {
 	public boolean add(Connection conn, UserDTO user){
 		try {
 			PreparedStatement stmt = conn
-					.prepareStatement("insert into USER (EMAIL, PASSWORD, TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("insert into USER (EMAIL, PASSWORD, TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, ACTIVATIONCODE) values (?, MD5(?), ?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, user.getEmail());
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getType());
@@ -425,7 +422,7 @@ public class UserDB {
 	public boolean changePassword(Connection conn, UserDTO user) {
 		try {
 			PreparedStatement stmt = conn
-					.prepareStatement("update USER set PASSWORD=? where EMAIL=?");
+					.prepareStatement("update USER set PASSWORD=MD5(?) where EMAIL=?");
 			stmt.setString(1, user.getPassword());
 			stmt.setString(2, user.getEmail());
 			stmt.executeUpdate();
@@ -450,32 +447,31 @@ public class UserDB {
 	public boolean update(Connection conn, UserDTO user) {
 		try {
 			PreparedStatement stmt = conn
-					.prepareStatement("update USER set PASSWORD=?, TYPE=?, NOTE=?, LANGUAGE=?, RECORDID=?, INSTITUTIONID=?, ORGANIZATIONUNITID=?, ACTIVATIONCODE=? where EMAIL=?");
-			stmt.setString(1, user.getPassword());
-			stmt.setString(2, user.getType());
+					.prepareStatement("update USER set TYPE=?, NOTE=?, LANGUAGE=?, RECORDID=?, INSTITUTIONID=?, ORGANIZATIONUNITID=?, ACTIVATIONCODE=? where EMAIL=?");
+			stmt.setString(1, user.getType());
 			String note = user.getNote();
 			if (note == null)
-				stmt.setNull(3, Types.VARCHAR);
+				stmt.setNull(2, Types.VARCHAR);
 			else
-				stmt.setString(3, note);
-			stmt.setString(4, user.getLanguage());
+				stmt.setString(2, note);
+			stmt.setString(3, user.getLanguage());
 			if ((user.getAuthor() == null)
 					|| (user.getAuthor().getControlNumber() == null))
-				stmt.setNull(5, Types.VARCHAR);
+				stmt.setNull(4, Types.VARCHAR);
 			else
-				stmt.setString(5, user.getAuthor().getControlNumber());
+				stmt.setString(4, user.getAuthor().getControlNumber());
 			if ((user.getInstitution() == null)
 					|| (user.getInstitution().getControlNumber() == null))
-				stmt.setNull(6, Types.VARCHAR);
+				stmt.setNull(5, Types.VARCHAR);
 			else
-				stmt.setString(6, user.getInstitution().getControlNumber());
+				stmt.setString(5, user.getInstitution().getControlNumber());
 			if ((user.getOrganizationUnit() == null)
 					|| (user.getOrganizationUnit().getControlNumber() == null))
-				stmt.setNull(7, Types.VARCHAR);
+				stmt.setNull(6, Types.VARCHAR);
 			else
-				stmt.setString(7, user.getOrganizationUnit().getControlNumber());
-			stmt.setString(8, user.getActivationCode());
-			stmt.setString(9, user.getEmail());
+				stmt.setString(6, user.getOrganizationUnit().getControlNumber());
+			stmt.setString(7, user.getActivationCode());
+			stmt.setString(8, user.getEmail());
 			if(stmt.executeUpdate()!=0){
 				stmt.close();
 				return true;
@@ -504,7 +500,7 @@ public class UserDB {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rset = stmt
-					.executeQuery("select TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, EMAIL, PASSWORD from USER where ACTIVATIONCODE like '" + activationCode + "'");
+					.executeQuery("select TYPE, NOTE, LANGUAGE, RECORDID, INSTITUTIONID, ORGANIZATIONUNITID, EMAIL from USER where ACTIVATIONCODE like '" + activationCode + "'");
 
 			if (rset.next()) {
 				String type = rset.getString(1);
@@ -547,8 +543,7 @@ public class UserDB {
 						return null;
 				}
 				String email = rset.getString(7);
-				String password = rset.getString(8);
-				user = new UserDTO(email, password, note, language, author, institution, organizationUnit,
+				user = new UserDTO(email, "alozinka", note, language, author, institution, organizationUnit,
 						type, "ACTIVATED");
 			}
 			rset.close();
