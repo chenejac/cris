@@ -44,7 +44,18 @@
 					<h:form id="paperProceedingsTableForm">
 						<h:panelGrid id="mainPanel">
 							<rich:panel id="paperProceedingsBrowseModalPanel"
-								header="#{messages['records.paperProceedings.header']}">
+								>
+								<f:facet name="header">
+									<h:outputText
+											value="#{messages['records.paperProceedings.header']}" />
+									<h:outputLink
+											value="https://chenejac.github.io/cris/produkcija/konferencije/radoviSaKonferenmcija.html"
+											target="_blank" >
+										<h:graphicImage
+												library="img"
+												name="help.png" />
+									</h:outputLink>
+								</f:facet>
 								<ui:include src="../bibliographicRecords/paperProceedingsTable.xhtml" />
 							</rich:panel>
 						</h:panelGrid>
