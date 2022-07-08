@@ -92,7 +92,7 @@ public class PrivilegesManagedBean {
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, true);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
-		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, true);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_ARCHIVE_1, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_ARCHIVE_2, false);

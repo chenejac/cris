@@ -481,13 +481,14 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 
 		mb.setIPickAuthorManagedBean(this);
 		mb.setSelectedAuthor(null);
+		mb.setSelectedOrganizationUnit("(BISIS)5929");
 		mb.setPickMessageFirstTab("administration.user.pickAuthorMessageFirstTab");
-		mb.setPickMessageSecondTabSimilarNotExistFirstSentence("administration.user.pickAuthorMessageSecondTabSimilarNotExistFirstSentence");
-		mb.setPickMessageSecondTabSimilarNotExistSecondSentence("administration.user.pickAuthorMessageSecondTabSimilarNotExistSecondSentence");
+		mb.setPickMessageSecondTabSimilarNotExistFirstSentence("administration.user.pickAuthorForRegistrationMessageSecondTabSimilarNotExistFirstSentence");
+		mb.setPickMessageSecondTabSimilarNotExistSecondSentence("administration.user.pickAuthorForRegistrationMessageSecondTabSimilarNotExistSecondSentence");
 		mb.setPickMessageSecondTabSimilarExistFirstSentence("administration.user.pickAuthorMessageSecondTabSimilarExistFirstSentence");
 		mb.setPickMessageSecondTabSimilarExistSecondSentence("administration.user.pickAuthorMessageSecondTabSimilarExistSecondSentence");
 		mb.setPickMessageSecondTabSimilarExistThirdSentence("administration.user.pickAuthorMessageSecondTabSimilarExistThirdSentence");
-		mb.setPickMessageSecondTabSimilarExistFourthSentence("administration.user.pickAuthorMessageSecondTabSimilarExistFourthSentence");
+		mb.setPickMessageSecondTabSimilarExistFourthSentence("administration.user.pickAuthorForRegistrationMessageSecondTabSimilarExistFourthSentence");
 		mb.setCustomPick(true);
 		if(editMode == ModesManagedBean.MODE_REGISTER){
 			mb.setTableModalPanel("");

@@ -16,12 +16,8 @@ import javax.faces.context.FacesContext;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser.Operator;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.HitCollector;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocCollector;
 import org.richfaces.component.UIDataTable;
 
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
@@ -70,6 +66,8 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 	
 	private AuthorDTO coauthor = null;
 
+	private InstitutionDTO selectedOrganizationUnit = null;
+
 	public AuthorManagedBean(){
 		pickSimilarMessage = "records.author.pickSimilarMessage";
 		tableModalPanel = "authorBrowseModalPanel";
@@ -81,6 +79,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 	 */
 	@Override
 	public String resetForm() {
+		selectedOrganizationUnit = null;
 		firstnameOtherFormat = "";
 		lastnameOtherFormat = "";
 		selectedAuthor = null;
@@ -281,6 +280,19 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 	private Query createQuery() throws ParseException{
 		BooleanQuery bq = new BooleanQuery();
 		if((tableMode == ModesManagedBean.MODE_PICK) && (customPick)){
+			if (selectedOrganizationUnit != null) {
+				String OUCN = null;
+				String INCN = null;
+				if (selectedOrganizationUnit instanceof OrganizationUnitDTO)
+					OUCN = selectedOrganizationUnit.getControlNumber();
+				else
+					INCN = selectedOrganizationUnit.getControlNumber();
+				if (OUCN != null) {
+					bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2021-01-01 00:00:00"), BooleanClause.Occur.MUST);
+				} else if (INCN != null) {
+					bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2021-01-01 00:00:00"), BooleanClause.Occur.MUST);
+				}
+			}
 			if ((firstname != null) && (!"".equals(firstname))){
 				bq.add(QueryUtils.makeBooleanQuery("AU", firstname, Occur.SHOULD, 0.8f, 0.7f, false), Occur.MUST);
 				bq.add(QueryUtils.makeBooleanQuery("AU", firstname, Occur.SHOULD, 0.99f, 0.99f, false), Occur.SHOULD);
@@ -337,6 +349,19 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
         String authorLastname = suggest;
     
         BooleanQuery bq = new BooleanQuery();
+		if(selectedOrganizationUnit != null) {
+			String OUCN = null;
+			String INCN = null;
+			if (selectedOrganizationUnit instanceof OrganizationUnitDTO)
+				OUCN = selectedOrganizationUnit.getControlNumber();
+			else
+				INCN = selectedOrganizationUnit.getControlNumber();
+			if (OUCN != null) {
+				bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2021-01-01 00:00:00"), BooleanClause.Occur.MUST);
+			} else if (INCN != null) {
+				bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2021-01-01 00:00:00"), BooleanClause.Occur.MUST);
+			}
+		}
 		if(authorLastname != null)
 			bq.add(QueryUtils.makeBooleanQuery("AU", authorLastname + ".", Occur.SHOULD, 0.8f, 0.5f, false), Occur.MUST);
 		if ((firstname != null) && (!"".equals(firstname)))
@@ -711,6 +736,12 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 			finishWizard();
 		else 
 			super.switchToEditNoneMode();
+	}
+
+	@Override
+	public void switchToBrowseMode() {
+		selectedOrganizationUnit = null;
+		super.switchToBrowseMode();
 	}
 
 	/**
@@ -1975,5 +2006,16 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		mb.switchToPickMode();
 	}
 
+	public InstitutionDTO getSelectedOrganizationUnit() {
+		return selectedOrganizationUnit;
+	}
+
+	public void setSelectedOrganizationUnit(InstitutionDTO selectedOrganizationUnit) {
+		this.selectedOrganizationUnit = selectedOrganizationUnit;
+	}
+
+	public void setSelectedOrganizationUnit(String controlNumber) {
+		this.selectedOrganizationUnit = (InstitutionDTO) recordDAO.getDTO(controlNumber);
+	}
 
 }
