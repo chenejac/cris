@@ -14,7 +14,7 @@
 
 **E-mail: dboberic@uns.ac.rs**
 
-**Лозинка: 5jFeUtdv **
+**Лозинка: 5jFeUtdv**
 
 После успешне пријаве на систем, корисник може да прегледа, уноси и мења податке, а упутство је [ОВДЕ](../produkcija/casopisi/knrCasopisi.md)
 
