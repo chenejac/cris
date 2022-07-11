@@ -13,10 +13,16 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.faces.model.SelectItem;
 import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.TermQuery;
 import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
 import org.docx4j.jaxb.Context;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -28,13 +34,18 @@ import org.docx4j.wml.Tr;
 
 import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
 import rs.ac.uns.ftn.informatika.bibliography.dao.MyDataSource;
+import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
+import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
+import rs.ac.uns.ftn.informatika.bibliography.dto.OrganizationUnitDTO;
+import rs.ac.uns.ftn.informatika.bibliography.dto.Types;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
 import rs.ac.uns.ftn.informatika.bibliography.reports.obrazci.DocxUtils;
 
 import com.gint.util.string.LatCyrUtils;
 
 import edu.emory.mathcs.backport.java.util.Collections;
+import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
 
 public class Samovrednovanje {
 	
@@ -43,7 +54,9 @@ public class Samovrednovanje {
     public static String lastYear = "2021";
 	private static List<String> ids = null;
 	public static int numberOfYearsForMentors = 5; 
-	public static String generatedReportsDir; 
+	public static String generatedReportsDir;
+
+	private static String[] pmfDepartmants = {"dmi", "dh", "dg", "df", "db"};
 	
 	private static Log log = LogFactory.getLog(Samovrednovanje.class.getName());
 	
@@ -75,7 +88,7 @@ public class Samovrednovanje {
 			generateTabela63();
 			log.info("Report Tabela63 completed.");
 		}
-		if(reportTypesToGenerate.contains("TabelaPMFInterni")){
+		if(reportTypesToGenerate.contains("PMFInterni")){
 			log.info("Generating TabelaPMFInterni...");
 			generateReportPMFInterni();
 			log.info("Report TabelaPMFInterni completed.");
@@ -296,45 +309,32 @@ public class Samovrednovanje {
 	}
 
 	public static void generateReportPMFInterni(){
-		Map<String, List<String>> resultsByCategoryZbirni = new TreeMap<String, List<String>>();
+		Map<String, Map<String, List<String>>> resultsByCategoryZbirni = new TreeMap<String, Map<String, List<String>>>();
+		resultsByCategoryZbirni.putIfAbsent(organisation, new TreeMap<String, List<String>>());
+		List<String> years = new ArrayList<String>();
+		years.add(lastYear);
 		try {
-
-
-
-			List<String> years = new ArrayList<String>();
-			years.add(lastYear);
-
-
 			List<ResultForYearDTO> data = SamovrednovanjeUtils.getAllResultsWord(ids, years);
 
-
-			for(ResultForTypeDTO res:data.get(0).getResultsForType()){
-				if(resultsByCategoryZbirni.get(res.getResultType())==null){
-					resultsByCategoryZbirni.put(res.getResultType(), new ArrayList<String>());
+			if (data!=null){
+				for(ResultForTypeDTO res:data.get(0).getResultsForType()){
+					if(resultsByCategoryZbirni.get(organisation).get(res.getResultType())==null){
+						resultsByCategoryZbirni.get(organisation).put(res.getResultType(), new ArrayList<String>());
+					}
+					resultsByCategoryZbirni.get(organisation).get(res.getResultType()).add(res.getResult());
 				}
-				resultsByCategoryZbirni.get(res.getResultType()).add(res.getResult());
-
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
 		}
-
-		// kreiranje word-a
-
-
-
 
 
 		log.info("Creating word document");
 		try{
 
-
-			File f = new File(generatedReportsDir+"TabelaUNS-"+lastYear+organisation+".docx");
+			File f = new File(generatedReportsDir+"TabelaUNS-"+lastYear+organisation+"Zbirno.docx");
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
-
 			ObjectFactory factory = Context.getWmlObjectFactory();
-
 			P naslov1 = DocxUtils.createParagraphWithText("1.	ЗБИРНИ ПРЕГЛЕД НАУЧНИХ РАДОВА ОБЈАВЉЕНИХ У КАЛЕНДАРСКОЈ " + lastYear + ". ГОДИНИ");
 			wordMLPackage.getMainDocumentPart().addObject(naslov1);
 
@@ -342,21 +342,42 @@ public class Samovrednovanje {
 			Tr tableHeaderZbirni = factory.createTr();
 			DocxUtils.addTableCell(tableHeaderZbirni, "Редни број", wordMLPackage);
 			DocxUtils.addTableCell(tableHeaderZbirni, "Категорија научних радова", wordMLPackage);
-			DocxUtils.addTableCell(tableHeaderZbirni, "Број научних радова објављених у М категорији", wordMLPackage);
+			DocxUtils.addTableCell(tableHeaderZbirni, "" + organisation, wordMLPackage);
+			if(organisation.equals("pmf")) {
+				for (String departmant : pmfDepartmants
+				) {
+					DocxUtils.addTableCell(tableHeaderZbirni, "" + departmant, wordMLPackage);
+					setIdsForOrganisations(departmant, dataSource.getConnection());
+					List<ResultForYearDTO> data = SamovrednovanjeUtils.getAllResultsWord(ids, years);
+					resultsByCategoryZbirni.putIfAbsent(departmant, new TreeMap<String, List<String>>());
+					if (data!=null && data.size() > 0) {
+						for (ResultForTypeDTO res : data.get(0).getResultsForType()) {
+							if (resultsByCategoryZbirni.get(departmant).get(res.getResultType()) == null) {
+								resultsByCategoryZbirni.get(departmant).put(res.getResultType(), new ArrayList<String>());
+							}
+							resultsByCategoryZbirni.get(departmant).get(res.getResultType()).add(res.getResult());
+						}
+					}
+				}
+			}
 			tabelaZbirni.getContent().add(tableHeaderZbirni);
-
 			int i = 0;
+			for(String str:resultsByCategoryZbirni.get(organisation).keySet()){
 
-			for(String str:resultsByCategoryZbirni.keySet()){
-
-				if(!str.equals("M99")){
+//				if(!str.equals("M99")){
 					Tr tableRow = factory.createTr();
 					i++;
 					DocxUtils.addTableCell(tableRow, ""+i, wordMLPackage);
 					DocxUtils.addTableCell(tableRow, str, wordMLPackage);
-					DocxUtils.addTableCell(tableRow, ""+resultsByCategoryZbirni.get(str).size(), wordMLPackage);
+					DocxUtils.addTableCell(tableRow, ""+resultsByCategoryZbirni.get(organisation).get(str).size(), wordMLPackage);
+					if (organisation.equals("pmf")){
+						for (String departmant : pmfDepartmants
+						) {
+							DocxUtils.addTableCell(tableRow, ((resultsByCategoryZbirni.get(departmant).get(str) != null)?"" + resultsByCategoryZbirni.get(departmant).get(str).size():"0"), wordMLPackage);
+						}
+					}
 					tabelaZbirni.getContent().add(tableRow);
-				}
+//				}
 			}
 			DocxUtils.addBorders(tabelaZbirni);
 			wordMLPackage.getMainDocumentPart().addObject(tabelaZbirni);
@@ -373,17 +394,17 @@ public class Samovrednovanje {
 			DocxUtils.addTableCell(tableHeaderZbirni, "Библиографске одреднице научних радова", wordMLPackage);
 			tabelaZbirni.getContent().add(tableHeaderZbirni);
 
-			for(String str:resultsByCategoryZbirni.keySet()){
+			for(String str:resultsByCategoryZbirni.get(organisation).keySet()){
 
 				if(!str.equals("M99")){
 					Tr tableRow = factory.createTr();
 					i++;
 					DocxUtils.addTableCell(tableRow, ""+i, wordMLPackage);
 					DocxUtils.addTableCell(tableRow, str, wordMLPackage);
-					DocxUtils.addTableCell(tableRow, ""+resultsByCategoryZbirni.get(str).size(), wordMLPackage);
+					DocxUtils.addTableCell(tableRow, ""+resultsByCategoryZbirni.get(organisation).get(str).size(), wordMLPackage);
 					int j = 0;
 					StringBuilder reference = new StringBuilder();
-					List<String> list = resultsByCategoryZbirni.get(str);
+					List<String> list = resultsByCategoryZbirni.get(organisation).get(str);
 					for (j=0; j < list.size(); j++) {
 						reference.append(" " + (j+1) + ". " + list.get(j) + "<br/><br/>");
 					}
@@ -506,7 +527,7 @@ public class Samovrednovanje {
 	public static String getGeneratedReportsDir(){
 		if(generatedReportsDir==null){
 			ResourceBundle rbR = PropertyResourceBundle.getBundle("rs.ac.uns.ftn.informatika.bibliography.reports.reports");		
-			generatedReportsDir = rbR.getString("generatedReportsDir");
+			generatedReportsDir =rbR.getString("generatedReportsDir");
 		}
 		return generatedReportsDir;
 	}
