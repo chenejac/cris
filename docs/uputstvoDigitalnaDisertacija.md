@@ -9,7 +9,7 @@
     - [Аутор](uputstvoDR/prvaStrana/autori/autor.md)
     - [Додавање аутора](uputstvoDR/prvaStrana/autori/dodavanjeAutora.md)
     - [Пример када у систему нема аутора са сличним подацима](uputstvoDR/prvaStrana/autori/nemaAutora.md)
-    - [Dodati naslov??????-фајл имаАутора](uputstvoDR/prvaStrana/autori/imaAutora.md)
+    - [Пример када у систему постоји аутор](uputstvoDR/prvaStrana/autori/imaAutora.md)
     - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/pregledAzuriranjePodataka.md)
   - [Сви резултати](uputstvoDR/prvaStrana/sviRezultati.md)
   - [Промоција](uputstvoDR/prvaStrana/promocija.md) 
