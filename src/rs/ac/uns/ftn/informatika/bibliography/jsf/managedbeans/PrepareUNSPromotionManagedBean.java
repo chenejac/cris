@@ -246,8 +246,7 @@ public class PrepareUNSPromotionManagedBean extends CRUDManagedBean {
 			listForPrinting = listForPrinting + number+". "+ reg.getAuthorName().getFirstname() +" "
 								+ reg.getAuthorName().getLastname() + ", "
 								+ (reg.getNameOfAuthorDegree()!=null ? 
-								   reg.getNameOfAuthorDegree().toLowerCase() : "") 
-																																							    + "<br>";
+								   reg.getNameOfAuthorDegree().toLowerCase() : "") + " (email: " + reg.getEmail() + ") <br>" ;
 			listForPrintingAdress = listForPrintingAdress + reg.getAuthorName().getFirstname() +" "
 															+ reg.getAuthorName().getLastname()+"<br>"
 			            + new MaticnaKnjigaItemBean(reg).getAdresa()+"<br><br>"; 
@@ -255,16 +254,16 @@ public class PrepareUNSPromotionManagedBean extends CRUDManagedBean {
 				RegisterEntryDTO regTemp = registerEntryDAO.getRegisterEntryFromDatabase(reg.getDissertation(), true);
 				if(regTemp!=null){
 				regTemp.setFuturePromotionName(getSelectedPromotionName());				
-				listForPrintingForDiploma = listForPrintingForDiploma + "ĐŁĐťĐ�Đ’Đ•Đ Đ—Đ�Đ˘Đ•Đ˘ ĐŁ ĐťĐžĐ’ĐžĐś ĐˇĐ�Đ”ĐŁ <BR>"+
+				listForPrintingForDiploma = listForPrintingForDiploma + "Institucija <BR>"+
 					(regTemp.getInstitution()!=null ? regTemp.getInstitution().toUpperCase():"")+"<BR>"+
 					(regTemp.getInstitutionPlace()!=null ? regTemp.getInstitutionPlace().toUpperCase():"")+"<BR><BR>"+
-					"Đ”Đ�ĐźĐ›ĐžĐśĐ� <BR> Đž ĐˇĐ˘Đ•Đ§Đ•ĐťĐžĐś ĐˇĐ˘Đ•ĐźĐ•ĐťĐŁ Đ”ĐžĐšĐ˘ĐžĐ Đ� ĐťĐ�ĐŁĐšĐ� "+
+					"Autor <BR> "+
 					(regTemp.getAuthorName()!=null ? regTemp.getAuthorName().getFirstname().toUpperCase():"")+"  ("+(regTemp.getFatherName().getFirstname()!=null ? regTemp.getFatherName().getFirstname() : regTemp.getGuardiansName())+") "+(regTemp.getAuthorName()!=null ? regTemp.getAuthorName().getLastname().toUpperCase():"")+"<BR><BR>"+
-					"Đ ĐžĐ‚Đ•Đť(Đ�) "+(regTemp.getBirthDate()!=null ? sdf.format(regTemp.getBirthDate().getTime()) : "")+" ĐŁ "+(regTemp.getBirthPlace()!=null ? regTemp.getBirthPlace().toUpperCase():"")+", ĐžĐźĐ¨Đ˘Đ�ĐťĐ� "+(regTemp.getBirthCity()!=null ? regTemp.getBirthCity().toUpperCase() : "")+" "+(regTemp.getBirthCountry()!=null ? regTemp.getBirthCountry().toUpperCase(): "")+", <BR> "+
-					(regTemp.getPreviouslyNameOfAuthorDegreeDateOld()!=null ? sdf.format(regTemp.getPreviouslyNameOfAuthorDegreeDateOld().getTime()) : "")+" ĐˇĐ˘Đ•ĐšĐ›Đ� Đ�Đ• Đ�ĐšĐ�Đ”Đ•ĐśĐˇĐšĐ� ĐťĐ�Đ—Đ�Đ’ ĐśĐ�Đ“Đ�ĐˇĐ˘Đ Đ� ĐťĐ�ĐŁĐšĐ�, Đ� "+
-					(regTemp.getDefendedOn()!=null ? sdf.format(regTemp.getDefendedOn().getTime()) : "")+" ĐžĐ”Đ‘Đ Đ�ĐťĐ�Đ›Đ� Đ�Đ• Đ”ĐžĐšĐ˘ĐžĐ ĐˇĐšĐŁ Đ”Đ�ĐˇĐ•Đ Đ˘Đ�Đ¦Đ�Đ�ĐŁ ĐťĐ� "+(regTemp.getInstitution()!=null ? regTemp.getInstitution().toUpperCase():"")+" ĐŁ "+(regTemp.getInstitutionPlace()!=null ? regTemp.getInstitutionPlace().toUpperCase() : "")+" ĐźĐžĐ” ĐťĐ�Đ—Đ�Đ’ĐžĐś:<BR>"+
+					"rodjen "+(regTemp.getBirthDate()!=null ? sdf.format(regTemp.getBirthDate().getTime()) : "")+" u "+(regTemp.getBirthPlace()!=null ? regTemp.getBirthPlace().toUpperCase():"")+", "+(regTemp.getBirthCity()!=null ? regTemp.getBirthCity().toUpperCase() : "")+" "+(regTemp.getBirthCountry()!=null ? regTemp.getBirthCountry().toUpperCase(): "")+", <BR> "+
+					(regTemp.getPreviouslyNameOfAuthorDegreeDateOld()!=null ? sdf.format(regTemp.getPreviouslyNameOfAuthorDegreeDateOld().getTime()) : "")+" stečena "+
+					(regTemp.getDefendedOn()!=null ? sdf.format(regTemp.getDefendedOn().getTime()) : "")+" na "+(regTemp.getInstitution()!=null ? regTemp.getInstitution().toUpperCase():"")+" u "+(regTemp.getInstitutionPlace()!=null ? regTemp.getInstitutionPlace().toUpperCase() : "")+" naziv titule:<BR>"+
 					(	regTemp.getTitle()!=null ? regTemp.getTitle().toUpperCase() : "")+"<BR>"+
-					"ĐťĐ� ĐžĐˇĐťĐžĐ’ĐŁ Đ˘ĐžĐ“Đ� Đ�Đ—Đ”Đ�Đ�Đ• Đ�ĐžĐ� ĐˇĐ• Đ”Đ�ĐźĐ›ĐžĐśĐ� Đž ĐťĐ�ĐŁĐ§ĐťĐžĐś ĐˇĐ˘Đ•ĐźĐ•ĐťĐŁ <BR>"+
+					"naziv zvanja koje se stiče <BR>"+
 					(regTemp.getNameOfAuthorDegree()!=null ? regTemp.getNameOfAuthorDegree().toUpperCase():"")+"<BR><BR>";			
 				}																							
 				 																												
