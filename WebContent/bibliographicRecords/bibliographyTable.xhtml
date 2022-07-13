@@ -290,9 +290,9 @@
 						limitRender="true" 
 						execute="@this" 
 						immediate="true"
-						disabled="#{(not (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (bibliographyRow.record.archived == 1)) or (bibliographyRow.record.archived == 2)}"
-						style="#{(((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) and (bibliographyRow.record.archived == 0)) or ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (bibliographyRow.record.archived != 2))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
-						<h:graphicImage library="img" name="archive.png" />
+						disabled="#{(not (bibliographyRow.defended)) or (not (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel])) or (bibliographyRow.record.archived != 0)}"
+						style="#{(((bibliographyRow.defended) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (bibliographyRow.record.archived == 0))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+					<h:graphicImage library="img" name="archive.png" />
 						<f:param name="controlNumber"
 							value="#{bibliographyRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
@@ -376,10 +376,9 @@
 						limitRender="true" 
 						execute="@this" 
 						immediate="true"
-						><!--
-						disabled="#{(not empty bibliographyRow.registerEntry.id)}"
-						style="#{((empty bibliographyRow.registerEntry.id)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}" >
-						-->
+						disabled="#{(not (bibliographyRow.defended))}"
+						style="#{((bibliographyRow.defended)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}"
+						>
 						<h:graphicImage library="img" name="editRegisterEntry.png" />
 						<f:param name="controlNumber"
 							value="#{bibliographyRow.controlNumber}" />
