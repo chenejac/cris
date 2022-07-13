@@ -20,7 +20,7 @@
 			<title><ui:insert name="title">CRIS UNS</ui:insert></title>
 		</h:head>
 		<h:body 
-		rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.browse]))}"
+		rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.browse]))}"
 		>
 			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
 			<h:outputScript library="js" name="functions.js" target="head"/>
@@ -46,47 +46,50 @@
 				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
 				<a4j:region id="form_region">
 					<h:form id="generateReportsForm"
-						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.browse])}" >
-						<h:panelGrid columns="1">
+						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.browse])}" >
+						<h:panelGrid
+								columns="1"
+								>
 							<h:outputLabel value="Forma za pokretanje izvestaja za samovrednovanje: " />
-						</h:panelGrid>						
-						<h:panelGrid 
+						</h:panelGrid>
+						<h:panelGrid
 							columns="2" id="inputPanelReports"
-							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.add]))}"							
+							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.add]))}"
 							>
-							<h:outputLabel value="Godina generisanja: " />	
-							<h:inputText value="#{reportGeneratorManagedBean.year}" />			
+							<h:outputLabel value="Godina generisanja: " />
+							<h:inputText value="#{reportGeneratorSEManagedBean.year}" />
 							<h:outputLabel value="Institucija: " />
-							<h:selectOneMenu value="#{reportGeneratorManagedBean.selectedOrganisation}">
-								<f:selectItems value="#{reportGeneratorManagedBean.organisations}"/>								
+							<h:selectOneMenu value="#{reportGeneratorSEManagedBean.selectedOrganisation}">
+								<f:selectItems value="#{reportGeneratorSEManagedBean.organisations}"/>
 							</h:selectOneMenu>
-							
+
 							<h:outputLabel value="Izvestaj: " />
-							<h:selectOneMenu value="#{reportGeneratorManagedBean.selectedReport}">
+							<h:selectOneMenu value="#{reportGeneratorSEManagedBean.selectedReport}">
 								<f:ajax execute="inputPanelReports" render="inputPanelReports"/>
-								<f:selectItems value="#{reportGeneratorManagedBean.reportTypes}"/>								
-							</h:selectOneMenu>	
-												
-							<h:outputLabel value="Broj godina (za mentore): " rendered="#{reportGeneratorManagedBean.showNumberOfYearsForMenthors()}"/>	
-							<h:inputText value="#{reportGeneratorManagedBean.numberOfYearsForMenthors}" rendered="#{reportGeneratorManagedBean.showNumberOfYearsForMenthors()}" />			
+								<f:selectItems value="#{reportGeneratorSEManagedBean.reportTypes}"/>
+							</h:selectOneMenu>
+
+							<h:outputLabel value="Broj godina (za mentore): " rendered="#{reportGeneratorSEManagedBean.showNumberOfYearsForMenthors()}"/>
+							<h:inputText value="#{reportGeneratorSEManagedBean.numberOfYearsForMenthors}" rendered="#{reportGeneratorSEManagedBean.showNumberOfYearsForMenthors()}" />
 						</h:panelGrid>
 						<br></br>
 						<br></br>
-						
+
 						<h:panelGrid columns="2">
-						<h:commandButton 
-							id="startGenerating"													
-							value="Pokreni generisanje" 
-							action="#{reportGeneratorManagedBean.runReportGenerator()}"	
-							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.add]))}"							
-							execute="@this"				
-							style="margin-left: 80px"/>	
-						<rich:message for="startGenerating" ajaxRendered="true" /> 
+							<h:commandButton
+								id="startGenerating"
+								value="Pokreni generisanje"
+								action="#{reportGeneratorSEManagedBean.runReportGenerator()}"
+								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.add]))}"
+								execute="@this"
+								style="margin-left: 80px"/>
+							<rich:message for="startGenerating" ajaxRendered="true" />
 						</h:panelGrid>
+
 						<h:panelGrid columns="1">
 							<h:outputLabel value="Izgenerisani izvestaji " />
 							
-							<rich:dataTable var="file" value="#{reportGeneratorManagedBean.filesDesc}">
+							<rich:dataTable var="file" value="#{reportGeneratorSEManagedBean.filesDesc}">
 								<rich:column>
 					                <f:facet name="header">
 					                	<h:outputText value="Naziv fajla" />
@@ -104,13 +107,13 @@
 					                <f:facet name="header">
 					                	<h:outputText value="Preuzimanje fajla" />
 					                </f:facet>
-					                 <h:commandLink action="#{reportGeneratorManagedBean.downloadFile(file.file)}" id="downloadBtn" 
+					                 <h:commandLink action="#{reportGeneratorSEManagedBean.downloadFile(file.file)}" id="downloadBtn"
 					                 	value="Preuzmi"/>															
 									</rich:column>							
 							</rich:dataTable>				
 					        <h:commandButton 													
 								value="Osvezi prikaz" 
-								action="#{reportGeneratorManagedBean.loadGeneratedReportsStatus()}"								
+								action="#{reportGeneratorSEManagedBean.loadGeneratedReportsStatus()}"
 								execute="@this"				
 								style="margin-left: 80px"/>	  
 					           

@@ -448,7 +448,7 @@
 								  			<h:outputText value="" />
 								  			
 								  			<h:outputText value="" />
-						  					<h:panelGrid columns="4" columnClasses="width20, width30,width20, width30" >
+						  					<h:panelGrid columns="6" columnClasses="width20, width10,width20, width10, width20, width20" >
 						  						<h:outputText value="#{messages['search.searchDissertationsPanel.publicationTab.fromDate']}"/>
 						  						<h:selectOneMenu 		
 						  							value="#{searchDissertationsManagedBean.fromDate}">
@@ -459,7 +459,17 @@
 						  						<h:selectOneMenu value="#{searchDissertationsManagedBean.toDate}">
 										            <f:selectItem itemLabel="#{messages['search.searchDissertationsPanel.publicationTab.toDateCh0']}" itemValue="#{searchDissertationsManagedBean.searchQueryFieldNameString[0]}"/>
 										            <f:selectItems value="#{searchDissertationsManagedBean.dateRange}"/>
-										    	</h:selectOneMenu> 
+										    	</h:selectOneMenu>
+												<h:commandButton
+														value="Pokreni generisanje"
+														action="#{searchDissertationsManagedBean.generateReportDissertations()}"
+														rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.add]))}"
+														execute="@this"
+														style="margin-left: 80px"/>
+												<h:commandLink
+														action="#{reportGeneratorManagedBean.downloadFile(searchDissertationsManagedBean.getReportFile())}"
+														value="#{'Preuzmi - ' + searchDissertationsManagedBean.getReportFile().creationDate}"
+														rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.browse]))}" />
 						  					</h:panelGrid>
 							  				
 								  			

@@ -86,7 +86,7 @@
 							</rich:menuItem>
 						</rich:menuGroup>	
 						<rich:menuGroup 
-							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formBibliography][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]))}"
+							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formBibliography][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReportPHD][privilegesManagedBean.showInMainMenu]))}"
 							label="#{messages['administration.reports.menu']}" >
 							<rich:menuItem
 								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.showInMainMenu])}"
@@ -109,9 +109,14 @@
 								action="#{evaluationManagedBean.enterPage}">
 							</rich:menuItem>
 							<rich:menuItem
-								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReport][privilegesManagedBean.showInMainMenu])}"
-								label="#{messages['administration.reportGenerator.menu']}"
-								action="#{reportGeneratorManagedBean.enterPage}">
+								rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu])}"
+								label="#{messages['administration.reportGeneratorSE.menu']}"
+								action="#{reportGeneratorSEManagedBean.enterPage}">
+							</rich:menuItem>
+							<rich:menuItem
+									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportPHD][privilegesManagedBean.showInMainMenu])}"
+									label="#{messages['administration.reportGeneratorPHD.menu']}"
+									action="#{reportGeneratorPHDManagedBean.enterPage}">
 							</rich:menuItem>
 						</rich:menuGroup>
 						<rich:menuGroup 

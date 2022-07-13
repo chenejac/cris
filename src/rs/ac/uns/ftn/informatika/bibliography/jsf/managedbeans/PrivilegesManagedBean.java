@@ -36,7 +36,8 @@ public class PrivilegesManagedBean {
 	static String FORM_IMPORT = "importForm";
 	static String FORM_REGISTER_ENTRY = "registerEntryForm";
 	static String FORM_PROMOTION = "promotionForm";
-	static String FORM_REPORT = "reportForm";
+	static String FORM_REPORT_SE = "reportSEForm";
+	static String FORM_REPORT_PHD = "reportPHDForm";
 	static String FORM_JOB_AD = "jobAdForm";
 	static String FORM_RULEBOOK = "ruleBookForm"; 
 	static String FORM_RULEBOOK_IMPLEMENTATION = "ruleBookImplementationForm";
@@ -284,7 +285,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -659,7 +670,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -1026,7 +1047,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, true);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, true);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -1034,7 +1055,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, true);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -1400,7 +1431,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, true);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -1408,7 +1439,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -1774,7 +1815,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -1782,7 +1823,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, true);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, true);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, true);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -2073,7 +2124,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -2081,7 +2132,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -2447,7 +2508,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, true);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -2455,9 +2516,18 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
-		
-		
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
+
 		//patentForm
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
@@ -2822,7 +2892,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -2830,7 +2900,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -3196,7 +3276,7 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
 		group.put(PrivilegesManagedBean.FORM_PROMOTION, form);
 		
-		//report
+		//report SE
 		form = new HashMap<String, Boolean>();
 		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, true);
 		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
@@ -3204,7 +3284,17 @@ public class PrivilegesManagedBean {
 		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
 		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, true);
-		group.put(PrivilegesManagedBean.FORM_REPORT, form);
+		group.put(PrivilegesManagedBean.FORM_REPORT_SE, form);
+
+		//report PHD
+		form = new HashMap<String, Boolean>();
+		form.put(PrivilegesManagedBean.PRIVILEGE_BROWSE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_UPDATE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_ADD, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_DELETE, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_EDIT_FULL_DATA, false);
+		form.put(PrivilegesManagedBean.PRIVILEGE_SHOW_IN_MAIN_MENU, false);
+		group.put(PrivilegesManagedBean.FORM_REPORT_PHD, form);
 		
 		//patentForm
 		form = new HashMap<String, Boolean>();
@@ -3443,8 +3533,12 @@ public class PrivilegesManagedBean {
 		return PrivilegesManagedBean.FORM_PROMOTION;
 	}
 	
-	public String getFormReport(){
-		return PrivilegesManagedBean.FORM_REPORT;
+	public String getFormReportSE(){
+		return PrivilegesManagedBean.FORM_REPORT_SE;
+	}
+
+	public String getFormReportPHD(){
+		return PrivilegesManagedBean.FORM_REPORT_PHD;
 	}
 	
 	public String getFormPatent(){
