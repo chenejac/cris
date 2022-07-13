@@ -20,15 +20,15 @@ body a:active{
 }
 
 .thesisTable {
-	width: 801px !important;
+	width: 99% !important;
 }
 
 .tdLogo {
-	width: 779px !important;
+	width: 97% !important;
 }
 
 .logoPhDImage{
-	width: 801px !important;
+	width: 97% !important;
 }
 
 .innerTable { /* za tabele koje su unutar neke druge tabele*/
@@ -117,32 +117,32 @@ body a:active{
 }
 
 .fullName {
-	width: 71px !important;
+	width: 10% !important;
 	height: 33px !important;
 }
 
 .institution {
-	width: 81px !important;
+	width: 12% !important;
 	height: 33px !important;
 }
 
 .researchArea {
-	width: 94px !important;
+	width: 15% !important;
 	height: 33px !important;
 }
 
 .title {
-	width: 342px !important;
+	width: 51% !important;
 	height: 33px !important;
 }
 
 .publicPeriod {
-	width: 81px !important;
+	width: 12% !important;
 	height: 33px !important;
 }
 
 .documents {
-	width: 71px !important;
+	width: 10% !important;
 	height: 33px !important;
 }
 
