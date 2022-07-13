@@ -1,4 +1,4 @@
-# Унос података
+# Подаци о тези/дисертацији
  
  ![image](https://user-images.githubusercontent.com/29538544/178696179-a17ef90a-b995-47de-ac4d-7e4afbec95e9.png)
 
