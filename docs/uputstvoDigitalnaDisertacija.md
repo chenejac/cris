@@ -13,10 +13,7 @@
     - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/pregledAzuriranjePodataka.md)
   - [Сви резултати](uputstvoDR/prvaStrana/sviRezultati.md)
   - [Промоција](uputstvoDR/prvaStrana/promocija.md) 
-
-Промена лозинке (није урађено!)
-
-- [Унос података](uputstvoDR/unosPodataka.md)
+- [Подаци о тези/дисертацији](uputstvoDR/unosPodataka.md)
 - Основни подаци
 Први део основних података
 
@@ -27,6 +24,10 @@
 Ментори и чланови комисије
 
 Унос података за менторе и комисију
+
+
+
+Промена лозинке (није урађено!)
 
 ## Увод
 За потребе Универзитета у Новом Саду развијен је Информациони систем научне
