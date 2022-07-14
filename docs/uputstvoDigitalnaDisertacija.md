@@ -14,12 +14,12 @@
   - [Сви резултати](uputstvoDR/prvaStrana/sviRezultati.md)
   - [Промоција](uputstvoDR/prvaStrana/promocija.md) 
 - [Подаци о тези/дисертацији](uputstvoDR/unosPodataka.md)
-  - [Основни подаци](kljucnaInformacija.md)
-  - [Први део основних података](kljucnaDokumentacija/osnovniPodaciPrviDeo.md)
-  - [Додавање облика имена](kljucnaDokumentacija/dodavanjeOblikaImena.md)
-  - [Превод наслова](kljucnaDokumentacija/prevodNaslova.md)
-  - [Ментори и чланови комисије](kljucnaDokumentacija/mentoriKomisija.md)
-  - [Унос података за менторе и комисију](kljucnaDokumentacija/mentoriUnosPodataka.md)
+  - [Основни подаци](uputstvoDR/kljucnaInformacija.md)
+  - [Први део основних података](uputstvoDR/kljucnaDokumentacija/osnovniPodaciPrviDeo.md)
+  - [Додавање облика имена](uputstvoDR/kljucnaDokumentacija/dodavanjeOblikaImena.md)
+  - [Превод наслова](uputstvoDR/kljucnaDokumentacija/prevodNaslova.md)
+  - [Ментори и чланови комисије](uputstvoDR/kljucnaDokumentacija/mentoriKomisija.md)
+  - [Унос података за менторе и комисију](uputstvoDR/kljucnaDokumentacija/mentoriUnosPodataka.md)
 
 
 
