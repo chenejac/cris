@@ -18,8 +18,8 @@
   - [Први део основних података](kljucnaDokumentacija/osnovniPodaciPrviDeo.md)
   - [Додавање облика имена](kljucnaDokumentacija/dodavanjeOblikaImena.md)
   - [Превод наслова](kljucnaDokumentacija/prevodNaslova.md)
-  - [Ментори и чланови комисије](kljucnaDokumentacija/mentoriKomisija.md
-  - [Унос података за менторе и комисију](kljucnaDokumentacija/mentoriUnosPodataka.md
+  - [Ментори и чланови комисије](kljucnaDokumentacija/mentoriKomisija.md)
+  - [Унос података за менторе и комисију](kljucnaDokumentacija/mentoriUnosPodataka.md)
 
 
 
