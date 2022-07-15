@@ -1,1 +1,1 @@
-# Fajl sviRezultati.md nije jos uradjem!!!
+# Сви резултати
