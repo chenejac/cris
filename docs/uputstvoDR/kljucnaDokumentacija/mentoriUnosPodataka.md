@@ -6,7 +6,7 @@
  
  ![image](https://user-images.githubusercontent.com/29538544/178784593-888df417-23f1-42c3-81ca-9236d1b1b7a6.png)
 
-Све опције за избор аутора описане су [ОВДЕ](../../dodati)
+Све опције за избор аутора описане су [ОВДЕ](../prvaStrana/autori/odabirAutora.md)
 
 Тражени аутор се већ налази у систему. Селекцијом у падајућем менију опцију *Racković Miloš*, dobija se:
  
