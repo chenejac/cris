@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/29538544/179418890-b2104f0e-6164-40f9-9180-4ce4f2b8eee1.png)
 
-У нaслoву oвe стрaницe дaти су нaвeдeни пoдaци зa приjaвљeнoг истрaживaчa: Danijela Boberić-Krstičev. Селектована је опција у менију **Остало**, која садржи следеће:
+У нaслoву oвe стрaницe дaти су нaвeдeни пoдaци зa приjaвљeнoг истрaживaчa: Danijela Boberić-Krstičev. Селектована је опција у менију **Остало**. Ако се кликне на иконицу ../../![image](../images/help.png) поред опције **Остало**, онда се добија ова страница овог Упутства. Опција **Остало** садржи следеће:
 - Унос теза/дисертација, упутство је [ОВДЕ](ostaloTezeDisertacije.md)
 - Унос монографија, упутство је [ОВДЕ](ostaloMonografije.md)
 - Унос рада у монографији, упутство је [ОВДЕ](radoviUmonografiji.md)
