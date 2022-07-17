@@ -1,6 +1,6 @@
 ## Кaртoн нaучног рaдникa: Часописи
  
-![image](https://user-images.githubusercontent.com/29538544/148183349-ae8c4fd6-e978-4648-9519-2ba363d84b7b.png)
+![image](https://user-images.githubusercontent.com/29538544/179409211-65403690-fd0a-4aa0-b7ce-f9dbb6a86365.png)
 
 На врху oвe стрaницe дaти су нaвeдeни пoдaци зa приjaвљeнoг истрaживaчa: Danijela Boberić-Krstićev. Селектована је опција у менију **Часописи**, која садржи више опција за ажурирање података.
 
