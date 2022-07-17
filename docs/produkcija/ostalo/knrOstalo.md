@@ -1,6 +1,6 @@
 # Картон научног радника: Остало 
 
-![image](https://user-images.githubusercontent.com/29538544/148289480-9b50d48c-37c9-461e-bb31-da36a730ba94.png)
+![image](https://user-images.githubusercontent.com/29538544/179418890-b2104f0e-6164-40f9-9180-4ce4f2b8eee1.png)
 
 У нaслoву oвe стрaницe дaти су нaвeдeни пoдaци зa приjaвљeнoг истрaживaчa: Danijela Boberić-Krstičev. Селектована је опција у менију **Остало**, која садржи следеће:
 - Унос теза/дисертација, упутство је [ОВДЕ](ostaloTezeDisertacije.md)
