@@ -13,6 +13,7 @@
     - [Преглед и ажурирање података](uputstvoDR/prvaStrana/autori/pregledAzuriranjePodataka.md)
   - [Сви резултати](uputstvoDR/prvaStrana/sviRezultati.md)
   - [Промоција](uputstvoDR/prvaStrana/promocija.md) 
+  - [Промена лозинке](uputstvoDR/prvaStrana/promenaLozinke.md)
 - [Подаци о тези/дисертацији](uputstvoDR/unosPodataka.md)
   - [Основни подаци](uputstvoDR/kljucnaInformacija.md)
   - [Први део основних података](uputstvoDR/kljucnaDokumentacija/osnovniPodaciPrviDeo.md)
