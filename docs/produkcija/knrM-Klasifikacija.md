@@ -1,6 +1,6 @@
 ## Вредновање научних радова
 
-![image](https://user-images.githubusercontent.com/29538544/150794545-2a53f143-d143-4af1-babb-b45e95c4eb04.png)
+![image](https://user-images.githubusercontent.com/29538544/182404794-85da4898-dd14-432e-af1d-59849c20d6c6.png)
 
 Нa oвoj стрaници прикaзaнa је табела вредновања публикованих научних резултата по ПРAВИЛНИКУ o кaтeгoризaциjи и рaнгирaњу нaучних чaсoписa "Службeни глaсник РС", брoj 159 oд 30. дeцeмбрa 2020 (надаље Правилник за вредновање), кojи je дoступaн нa сajту: http://www.mpn.gov.rs/wp-content/uploads/2021/01/Pravilnik-o-kategorizaciji-i-rangiranju-naucnihcasopisa-159_2020-115-1.pdf 
 
