@@ -10,41 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import rs.ac.uns.ftn.informatika.bibliography.dto.ResearchAreaDTO;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.AMS;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNO;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOBiologija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOBiotehnologijaIAgroindustrija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOBiotehnologijaIPoljoprivreda;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHN;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNEkonomijaIOrganizacioneNauke;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNFilozofijaITeologija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNInterdisciplinarneNauke;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNIstorijaArheologijaIEtnologija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNNaukaOSportu;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNPravoIPolitikologija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNSociologijaIDemografija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODHNSrpskiJezikIKnjizevnost;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNODrustveneNauke;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOElektronikaITelekomunikacije;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOElektronikaTelekomunikacijeIInformacioneTehnologije;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOEnergetikaRudarstvoIEnergetskaEfikasnost;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOEnergetskaEfikasnost;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOEnergetskeTehnologijeIRudarstvo;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOFizika;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOGeonaukeIAstronomija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOHemija;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOIndustrijskiSoftverIInformatika;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOMasinstvo;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOMatematikaIMehanika;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOMatematikaRacunarskeNaukeIMehanika;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOMaterijaliIHemijskeTehnologije;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOMedicina;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOSaobracajUrbanizamIGradevinarstvo;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOSrpskiJezikIKnjizevnost;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOUredenjeZastitaIKoriscenjeVodaZemljistaIVazduha;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.MNOZastitaIKoriscenjeVodaUSrbiji;
+import rs.ac.uns.ftn.informatika.bibliography.evaluation.MNO.*;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.TT.FTN.CommisionStrucnoVeceTT_FTN_AutomatikaIUpravljanjeSistemima;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.TT.FTN.CommisionStrucnoVeceTT_FTN_AutomatikaIUpravljanjeSistemimaBiomedicinskiInzenjering;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.TT.FTN.CommisionStrucnoVeceTT_FTN_AutomatikaIUpravljanjeSistemimaGeoinformatika;
@@ -1041,6 +1007,174 @@ public class CommissionFactory {
 				
 				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
 				break;
+
+			//MNOGeodezija
+			case CommissionTypes.MNOGeodezija:
+				appointmentBoard = "MNOGeodezija";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Геодезија";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOGeodezija.getMNOGeodezija());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNOGradjevinarstvo
+			case CommissionTypes.MNOGradjevinarstvo:
+				appointmentBoard = "MNOGradjevinarstvo";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Грађевинарство";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOGradjevinarstvo.getMNOGradjevinarstvo());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNOMatematika
+			case CommissionTypes.MNOMatematika:
+				appointmentBoard = "MNOMatematika";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Математика";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOMatematika.getMNOMatematika());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNOMehanika
+			case CommissionTypes.MNOMehanika:
+				appointmentBoard = "MNOMehanika";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Механика";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOMehanika.getMNOMehanika());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNOProstornoPlaniranje
+			case CommissionTypes.MNOProstornoPlaniranje:
+				appointmentBoard = "MNOProstornoPlaniranje";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Просторно Планирање";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOProstornoPlaniranje.getMNOProstornoPlaniranje());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNORacunarskeNauke
+			case CommissionTypes.MNORacunarskeNauke:
+				appointmentBoard = "MNORacunarskeNauke";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Рачунарске науке";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNORacunarskeNauke.getMNORacunarskeNauke());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNOSaobracaj
+			case CommissionTypes.MNOSaobracaj:
+				appointmentBoard = "MNOSaobracaj";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Саобраћај";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOSaobracaj.getMNOSaobracaj());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
+
+			//MNOUrbanizam
+			case CommissionTypes.MNOUrbanizam:
+				appointmentBoard = "MNOUrbanizam";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Урбанизам";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOUrbanizam.getMNOUrbanizam());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
 				
 				//AMS
 			case CommissionTypes.AMS:
@@ -1133,7 +1267,16 @@ public class CommissionFactory {
 				mnoList.add(MNODHNSrpskiJezikIKnjizevnost.getMNODHNSrpskiJezikIKnjizevnost());
 				mnoList.add(MNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost.getMNODHNInostraniIzdavaciSrpskiJezikIKnjizevnost());
 				mnoList.add(AMS.getAMS());
-				
+
+				mnoList.add(MNOGeodezija.getMNOGeodezija());
+				mnoList.add(MNOGradjevinarstvo.getMNOGradjevinarstvo());
+				mnoList.add(MNOMatematika.getMNOMatematika());
+				mnoList.add(MNOMehanika.getMNOMehanika());
+				mnoList.add(MNOProstornoPlaniranje.getMNOProstornoPlaniranje());
+				mnoList.add(MNORacunarskeNauke.getMNORacunarskeNauke());
+				mnoList.add(MNOSaobracaj.getMNOSaobracaj());
+				mnoList.add(MNOUrbanizam.getMNOUrbanizam());
+
 				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
 				break;
 				

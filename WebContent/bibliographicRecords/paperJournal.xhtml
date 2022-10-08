@@ -47,7 +47,18 @@
 					<h:form id="paperJournalTableForm">
 						<h:panelGrid id="mainPanel">
 							<rich:panel id="paperJournalBrowseModalPanel"
-								header="#{messages['records.paperJournal.header']}">
+								>
+								<f:facet name="header">
+									<h:outputText
+											value="#{messages['records.paperJournal.header']}" />
+									<h:outputLink
+											value="https://chenejac.github.io/cris/produkcija/casopisi/izborCasopisa.html"
+											target="_blank" >
+										<h:graphicImage
+												library="img"
+												name="help.png" />
+									</h:outputLink>
+								</f:facet>
 								<ui:include src="../bibliographicRecords/paperJournalTable.xhtml" />
 							</rich:panel>
 						</h:panelGrid>

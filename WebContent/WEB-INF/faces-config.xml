@@ -409,8 +409,13 @@
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <managed-bean>
-  <managed-bean-name>reportGeneratorManagedBean</managed-bean-name>
-  <managed-bean-class>rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.ReportGeneratorManagedBean</managed-bean-class>
+  <managed-bean-name>reportGeneratorSEManagedBean</managed-bean-name>
+  <managed-bean-class>rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.ReportGeneratorSEManagedBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reportGeneratorPHDManagedBean</managed-bean-name>
+  <managed-bean-class>rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.ReportGeneratorPHDManagedBean</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <!-- NAVIGATION RULES -->
@@ -838,11 +843,20 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <display-name>reportsGeneratorPage</display-name>
+  <display-name>reportsGeneratorSEPage</display-name>
   <from-view-id>*</from-view-id>
   <navigation-case>
-   <from-outcome>reportsGeneratorPage</from-outcome>
-   <to-view-id>/reportsGenerator.xhtml</to-view-id>
+   <from-outcome>reportsGeneratorSEPage</from-outcome>
+   <to-view-id>/reportsGeneratorSE.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <display-name>reportsGeneratorPHDPage</display-name>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>reportsGeneratorPHDPage</from-outcome>
+   <to-view-id>/reportsGeneratorPHD.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>

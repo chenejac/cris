@@ -69,6 +69,7 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 	private String levelOfEducation;
 	private Calendar acceptedOn;
 	private Calendar defendedOn;
+	private String defendedStatus = defendedNameString[2];
 	private String holdingData;
 	
 	private List<AuthorDTO> advisors;
@@ -919,8 +920,22 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 	 */
 	public void setDefendedOn(Calendar defendedOn) {
 		this.defendedOn = defendedOn;
-		if(defendedOn != null)
+		if(defendedOn != null) {
 			this.publicationYear = "" + defendedOn.get(Calendar.YEAR);
+			this.defendedStatus = defendedNameString[1];
+		}
+	}
+
+	public String getDefendedStatus() {
+		return defendedStatus;
+	}
+
+	public void setDefendedStatus(String defendedStatus) {
+		this.defendedStatus = defendedStatus;
+	}
+
+	public boolean isDefended(){
+		return defendedNameString[1].equals(defendedStatus);
 	}
 
 	/**
@@ -1055,10 +1070,7 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 		}
 		return retVal;
 	}
-	
-	/**
-	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO#getSomeHarvardRepresentation()
-	 */
+
 	public String getSomeHarvardRepresentation() {
 		if(locale.getLanguage().equals("en")){
 			return getHarvardRepresentationEn();
@@ -1563,9 +1575,6 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 		}
 	}
 
-	/**
-	 * @param eTDMS the eTDMS to set
-	 */
 	public void setHarvardRepresentationEn(String harvardRepresentationEn) {
 		this.harvardRepresentationEn = harvardRepresentationEn;
 	}

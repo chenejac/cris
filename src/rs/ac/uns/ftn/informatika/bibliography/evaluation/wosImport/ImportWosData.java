@@ -69,13 +69,13 @@ private static Connection conn = null;
 	*/
 	private static List<String> getRecordIdsFromISSN(String issn, String eIssn){
 		BooleanQuery booleanQuery = new BooleanQuery();
-		if((issn!= null) && (!issn.equals("")) && (!issn.trim().equals("N/A"))) {
+		if((issn!= null) && (!issn.equals("")) && (!issn.toUpperCase().trim().equals("N/A"))) {
 			WildcardQuery query1 = new WildcardQuery(new Term("ISSN", issn.toLowerCase() + "*"));
 			WildcardQuery query2 = new WildcardQuery(new Term("ISSN", issn + "*"));
 			booleanQuery.add(query1, Occur.SHOULD);
 			booleanQuery.add(query2, Occur.SHOULD);
 		}
-		if((eIssn!= null) && (!eIssn.equals("")) && (!eIssn.trim().equals("N/A"))) {
+		if((eIssn!= null) && (!eIssn.equals("")) && (!eIssn.toUpperCase().trim().equals("N/A"))) {
 			WildcardQuery query1 = new WildcardQuery(new Term("ISSN", eIssn.toLowerCase() + "*"));
 			WildcardQuery query2 = new WildcardQuery(new Term("ISSN", eIssn + "*"));
 			booleanQuery.add(query1, Occur.SHOULD);
@@ -93,8 +93,8 @@ private static Connection conn = null;
 		return controlNumbers;		
 	}
 	
-	private static void printNewJournals(){
-	List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals();		
+	private static void printNewJournals(String folderPath, String year){
+	List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(folderPath, year);
 		System.out.println("Ukupno casopisa:"+allJournals.size());
 		int brNovih = 0;
 		for(ISIJournal journal:allJournals){
@@ -110,8 +110,8 @@ private static Connection conn = null;
 		System.out.println("Broj novih "+brNovih);
 	}
 	
-	private static void printDoubleISSNs(){
-		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals();
+	private static void printDoubleISSNs(String folderPath, String year){
+		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(folderPath, year);
 		System.out.println("Dupli issn-ovi");
 		for(ISIJournal journal1:allJournals){
 			for(ISIJournal journal2:allJournals){
@@ -123,8 +123,8 @@ private static Connection conn = null;
 		}		
 	}
 	
-	private static void printChangedTitle(){
-		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals();
+	private static void printChangedTitle(String folderPath, String year){
+		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(folderPath, year);
 		System.out.println("Promenjeni naslovi");
 		for(ISIJournal j:allJournals){
 			List<String> recordIds = getRecordIdsFromISSN(j.getIssn(), j.geteIssn());
@@ -262,21 +262,21 @@ private static Connection conn = null;
 			List<String> controlNumbers = getRecordIdsFromISSN(isiJournal.getIssn(), isiJournal.geteIssn());
 			//1. ako ne postoji u cris-u prvo ga treba ubaciti			
 			if(controlNumbers==null){			
-				newJournalsList.writeBytes("ISSN: "+isiJournal.getIssn()+", abb. title: "+isiJournal.getAbbvTitle()+"\n");
 				JournalDTO crisJournal = new JournalDTO();
 				String combineIssn = "";
 				String issn = isiJournal.getIssn();
-				if((issn!= null) && (!issn.equals("")) && (!issn.trim().equals("N/A"))) {
+				if((issn!= null) && (!issn.equals("")) && (!issn.toUpperCase().trim().equals("N/A"))) {
 					combineIssn = issn;
 				}
 				String eIssn = isiJournal.geteIssn();
-				if((eIssn!= null) && (!eIssn.equals("")) && (!eIssn.trim().equals("N/A"))) {
+				if((eIssn!= null) && (!eIssn.equals("")) && (!eIssn.toUpperCase().trim().equals("N/A"))) {
 					if(combineIssn.trim().length() == 0)
 						combineIssn = eIssn;
 					else
 						combineIssn = combineIssn + "(pISSN);" + eIssn + "(eISSN);";
 				}
 				System.out.println(combineIssn);
+				newJournalsList.writeBytes("ISSN: "+combineIssn+", abb. title: "+isiJournal.getAbbvTitle()+"\n");
 				crisJournal.setIssn(combineIssn);
 				isiJournal.setIssn(combineIssn);
 				crisJournal.setNameAbbreviation(new MultilingualContentDTO(isiJournal.getAbbvTitle(), MultilingualContentDTO.LANGUAGE_ENGLISH, MultilingualContentDTO.TRANS_HUMAN));
@@ -339,8 +339,8 @@ private static Connection conn = null;
 	}
 	
 	
-	public static void printListByCategory(String filePath){
-		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(filePath, "2020");
+	public static void printListByCategory(String filePath, String year){
+		List<ISIJournal> allJournals = WosFilesProcessor.getAllJournals(filePath, year);
 		//obrisatiSuvisne(allJournals);		
 		Map<String,List<ISIJournal>> byCategory = organizeJournalsByCategoryTwoYearsImpactFactor(allJournals);
 		List<String> sortAttributesForGen = new ArrayList<String>();
@@ -438,11 +438,11 @@ private static Connection conn = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		ispisiRangRadiProvere("e:/CRIS/evaluacija/imports/sci-2015/", "2015");
+		ispisiRangRadiProvere(folderPath, year);
 		try{
 			wosImport(folderPath, year);
-//			printListByCategory("e:/CRIS/evaluacija/imports/sci-2020/");
-//			printNewJournals();
+			printListByCategory(folderPath, year);
+			printNewJournals(folderPath, year);
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -100,33 +100,77 @@
 					switchType="ajax"
 					itemChangeListener="#{researcherProfileManagedBean.changeTab}">
 					<rich:tab
-						header="#{messages['records.researcherPage.journals']}"
 						id="journal"
 						>
+						<f:facet name="header">
+							<h:outputText
+									value="#{messages['records.researcherPage.journals']}" />
+							<h:outputLink
+									rendered="#{userManagedBean.loggedIn}"
+									value="https://chenejac.github.io/cris/produkcija/casopisi/knrCasopisi.html"
+									target="_blank" >
+								<h:graphicImage
+										library="img"
+										name="help.png" />
+							</h:outputLink>
+						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'journal'}">
 							<ui:include src="bibliographicRecords/bibliographyJournalsTable.xhtml" />
 						</h:panelGrid>
 					</rich:tab>
 					<rich:tab
-						header="#{messages['records.researcherPage.conferences']}"
 						id="conference"
 						>
+						<f:facet name="header">
+							<h:outputText
+									value="#{messages['records.researcherPage.conferences']}" />
+							<h:outputLink
+									rendered="#{userManagedBean.loggedIn}"
+									value="https://chenejac.github.io/cris/produkcija/konferencije/knrKonferencije.html"
+									target="_blank" >
+								<h:graphicImage
+										library="img"
+										name="help.png" />
+							</h:outputLink>
+						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'conference'}">
 							<ui:include src="bibliographicRecords/bibliographyConferencesTable.xhtml" />
 						</h:panelGrid>
 					</rich:tab>
 					<rich:tab
-						header="#{messages['records.researcherPage.otherOutputs']}"
 						id="other"
 						>
+						<f:facet name="header">
+							<h:outputText
+									value="#{messages['records.researcherPage.otherOutputs']}" />
+							<h:outputLink
+									rendered="#{userManagedBean.loggedIn}"
+									value="https://chenejac.github.io/cris/produkcija/ostalo/knrOstalo.html"
+									target="_blank" >
+								<h:graphicImage
+										library="img"
+										name="help.png" />
+							</h:outputLink>
+						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'other'}">
 							<ui:include src="bibliographicRecords/bibliographyOtherTable.xhtml" />
 						</h:panelGrid>
 					</rich:tab>
 					<rich:tab
-						header="#{messages['records.researcherPage.mresults']}"
 						id="mresults"
 						>
+						<f:facet name="header">
+							<h:outputText
+									value="#{messages['records.researcherPage.mresults']}" />
+							<h:outputLink
+									rendered="#{userManagedBean.loggedIn}"
+									value="https://chenejac.github.io/cris/produkcija/knrM-Klasifikacija.html"
+									target="_blank" >
+								<h:graphicImage
+										library="img"
+										name="help.png" />
+							</h:outputLink>
+						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'mresults'}">
 							<ui:include src="bibliographicRecords/mResultsViewDetails.xhtml"/>
 						</h:panelGrid>

@@ -350,57 +350,25 @@ public abstract class PublicationDTO extends RecordDTO {
 		boolean newWordCloudImage = false;
 		if(files!=null){
 			for (FileDTO fileDTO : files) {
-				if((fileDTO != null) && (fileDTO.getType() != null) && (fileDTO.getType().equals("document"))){
-					this.file = fileDTO;
-					if(file.getId() == 0){
-						try {
-							newWordCloudImage = true;
-							this.wordCloudImage = new FileDTO();
-							ByteArrayOutputStream bos = new ByteArrayOutputStream();
-							////
-							//WordCloudFromPdfGenerator wcfrompdf = new WordCloudFromPdfGenerator();
-							//wcfrompdf.generateWordCLoud(this.file.getData(), bos);
-							//maybe here
-							/*this.wordCloudImage.setData(bos.toByteArray());
-							this.wordCloudImage.setLength(bos.toByteArray().length);
-							this.wordCloudImage.setFileNameClient("wordCloud.png");
-							this.wordCloudImage.setControlNumber(fileDTO.getControlNumber());
-							this.wordCloudImage.setUploader(fileDTO.getUploader());
-							this.wordCloudImage.setType("wordCloudImage");
-							this.wordCloudImage.setDateModified(new GregorianCalendar());*/
-							break;
-						} catch (Exception e) {
-						}
-					}
-				} else if((fileDTO != null) && (fileDTO.getType() != null) && (fileDTO.getType().equals("wordCloudImage"))){
+				if((fileDTO != null) && (fileDTO.getType() != null) && (fileDTO.getType().equals("wordCloudImage"))){
 					this.wordCloudImage = fileDTO;
 				} else if ((fileDTO != null) && (fileDTO.getType() != null) && (fileDTO.getType().equals("supplement"))){
 					this.supplement = fileDTO;
 				} else if ((fileDTO != null) && (fileDTO.getType() != null) && (fileDTO.getType().equals("copyright"))) {
 					this.fileCopyright = fileDTO;
+				} else if((fileDTO != null) && (fileDTO.getType() != null) && (fileDTO.getType().equals("document"))){
+					this.file = fileDTO;
+//					if(file.getId() == 0){
+//						try {
+//							newWordCloudImage = true;
+//							this.wordCloudImage = new FileDTO();
+//							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//							break;
+//						} catch (Exception e) {
+//						}
+//					}
 				}
 			}
-			/*if(newWordCloudImage)
-				files.add(this.wordCloudImage);
-			if((file != null) && (wordCloudImage == null)){
-				try {
-					this.wordCloudImage = new FileDTO();
-					ByteArrayOutputStream bos = new ByteArrayOutputStream();
-					////
-					WordCloudFromPdfGenerator wcfrompdf = new WordCloudFromPdfGenerator();
-					wcfrompdf.generateWordCLoud(FileStorage.getByteArray(file), bos);
-					//maybe here
-					this.wordCloudImage.setData(bos.toByteArray());
-					this.wordCloudImage.setLength(bos.toByteArray().length);
-					this.wordCloudImage.setFileNameClient("wordCloud.png");
-					this.wordCloudImage.setControlNumber(file.getControlNumber());
-					this.wordCloudImage.setUploader(file.getUploader());
-					this.wordCloudImage.setType("wordCloudImage");
-					this.wordCloudImage.setDateModified(new GregorianCalendar());
-					files.add(this.wordCloudImage);
-				} catch (Exception e) {
-				}
-			}*/
 			
 		}
 		super.setFiles(files);

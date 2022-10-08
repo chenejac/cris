@@ -9,37 +9,11 @@ import java.util.List;
 
 public class WosFilesProcessor {
 	
-	private static String filePath = "e:/CRIS/evaluacija/imports/sci-2016";
-
-	/**
-	 * @param args
-	 * @throws FileNotFoundException 
-	 */
-	public static void main(String[] args) throws Exception {
-		File[] listFilesSE = new File(filePath+"/JCR Science Edition").listFiles();
-		File[] listFilesSSE = new File(filePath+"/JCR Social Science Edition").listFiles();
-		List<ISIJournal> seJournals = getJournalsFromFiles(listFilesSE, "se","2013");
-		for(ISIJournal journal:seJournals){
-			System.out.println("abb title:"+journal.getAbbvTitle()+"issn="+journal.getIssn());
-		}		
-	}
-	
 	public static List<ISIJournal> getAllJournals(String filePath, String year){
 		File[] listFilesSE = new File(filePath+"/JCR Science Edition").listFiles();
 		File[] listFilesSSE = new File(filePath+"/JCR Social Science Edition").listFiles();
 		List<ISIJournal> seJournals = getJournalsFromFiles(listFilesSE, "se",year);
 		List<ISIJournal> sseJournals = getJournalsFromFiles(listFilesSSE, "sse",year);
-		List<ISIJournal> allJournals = new ArrayList<ISIJournal>();
-		allJournals.addAll(sseJournals);
-		allJournals.addAll(seJournals);
-		return allJournals;
-	}
-	
-	public static List<ISIJournal> getAllJournals(){
-		File[] listFilesSE = new File(filePath+"/JCR Science Edition").listFiles();
-		File[] listFilesSSE = new File(filePath+"/JCR Social Science Edition").listFiles();
-		List<ISIJournal> seJournals = getJournalsFromFiles(listFilesSE, "se","2016");
-		List<ISIJournal> sseJournals = getJournalsFromFiles(listFilesSSE, "sse","2016");
 		List<ISIJournal> allJournals = new ArrayList<ISIJournal>();
 		allJournals.addAll(sseJournals);
 		allJournals.addAll(seJournals);
@@ -67,15 +41,29 @@ public class WosFilesProcessor {
 				if(parts[0].trim().equals("")) {
 					break;
 				}
-				ISIJournal journal = new ISIJournal(categoryId,year, list, parts[0].replaceAll("^\"+|\"+$", "").trim(), parts[0].replaceAll("^\"+|\"+$", "").trim(), parts[1].replaceAll("^\"+|\"+$", "").trim(), parts[2].replaceAll("^\"+|\"+$", "").trim(),
-						parts[4].replaceAll("^\"+|\"+$", "").trim(),null, null, null,null, null, null,null);
-				if((!parts[5].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[5].replaceAll("^\"+|\"+$", "").trim().equals("n/a"))){
-					journal.setImpactFactor(Double.parseDouble(parts[5].replaceAll("^\"+|\"+$", "").trim()));
+				ISIJournal journal = new ISIJournal(
+						categoryId,
+						year,
+						list,
+						parts[1].replaceAll("^\"+|\"+$", "").trim(),
+						parts[0].replaceAll("^\"+|\"+$", "").trim(),
+						parts[2].replaceAll("^\"+|\"+$", "").trim(),
+						parts[3].replaceAll("^\"+|\"+$", "").trim(),
+						parts[5].replaceAll("^\"+|\"+$", "").trim(),
+						null,
+						null,
+						null,
+						null,
+						null,
+						null,
+						null);
+				if((!parts[6].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[6].replaceAll("^\"+|\"+$", "").toLowerCase().trim().equals("n/a"))){
+					journal.setImpactFactor(Double.parseDouble(parts[6].replaceAll("^\"+|\"+$", "").trim()));
 				}
 				else
 					journal.setImpactFactor(0.0);
-				if((!parts[6].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[6].replaceAll("^\"+|\"+$", "").trim().equals("n/a"))){
-					journal.setImpactFactor5(Double.parseDouble(parts[6].replaceAll("^\"+|\"+$", "").trim()));
+				if((!parts[8].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[8].replaceAll("^\"+|\"+$", "").toLowerCase().trim().equals("n/a"))){
+					journal.setImpactFactor5(Double.parseDouble(parts[8].replaceAll("^\"+|\"+$", "").trim()));
 				}
 				else
 					journal.setImpactFactor5(0.0);				

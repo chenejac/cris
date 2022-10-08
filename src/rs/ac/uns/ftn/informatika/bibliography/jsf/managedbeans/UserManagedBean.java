@@ -1,16 +1,7 @@
 package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.UUID;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -121,18 +112,36 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 				"messages.messages-administration", new Locale(getLanguage()));
 		UserDTO u = userDAO.getUserByUsername(loggedUser.getEmail());
 		if(u!=null){
-			loggedUser.setPassword(u.getPassword());
-			sendMessage(new EmailMessage(rbAdministration.getString("administration.email.cris"), loggedUser.getEmail(), null, null, rbAdministration.getString("administration.login.notification.subject"), rbAdministration.getString("administration.login.notification.textHeader") + "<br/><br/>" + rbAdministration.getString("administration.login.email") + ": " + loggedUser.getEmail() + "<br/>" + rbAdministration.getString("administration.login.password") + ": " + loggedUser.getPassword() + getEmailFooter()));
-			facesMessages.addToControlFromResourceBundle(
-					"login:general", FacesMessage.SEVERITY_INFO, 
-					"administration.login.notification.success",
-					FacesContext.getCurrentInstance());
+			u.setPassword(generateRandomPassword(8));
+			if(userDAO.update(u)) {
+				loggedUser.setPassword(u.getPassword());
+				sendMessage(new EmailMessage(rbAdministration.getString("administration.email.cris"), loggedUser.getEmail(), null, null, rbAdministration.getString("administration.login.notification.subject"), rbAdministration.getString("administration.login.notification.textHeader") + "<br/><br/>" + rbAdministration.getString("administration.login.email") + ": " + loggedUser.getEmail() + "<br/>" + rbAdministration.getString("administration.login.password") + ": " + loggedUser.getPassword() + getEmailFooter()));
+				facesMessages.addToControlFromResourceBundle(
+						"login:general", FacesMessage.SEVERITY_INFO,
+						"administration.login.notification.success",
+						FacesContext.getCurrentInstance());
+			} else {
+				facesMessages.addToControlFromResourceBundle(
+						"login:general", FacesMessage.SEVERITY_ERROR,
+						"administration.login.notification.error",
+						FacesContext.getCurrentInstance());
+			}
 		} else {
 			facesMessages.addToControlFromResourceBundle(
 					"login:general", FacesMessage.SEVERITY_ERROR, 
 					"administration.login.notification.error",
 					FacesContext.getCurrentInstance());
 		}
+	}
+
+	private String generateRandomPassword(int len) {
+		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
+				+"jklmnopqrstuvwxyz!@#$%&";
+		Random rnd = new Random();
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+			sb.append(chars.charAt(rnd.nextInt(chars.length())));
+		return sb.toString();
 	}
 	
 	/**
@@ -472,13 +481,14 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 
 		mb.setIPickAuthorManagedBean(this);
 		mb.setSelectedAuthor(null);
+		mb.setSelectedOrganizationUnit("(BISIS)5929");
 		mb.setPickMessageFirstTab("administration.user.pickAuthorMessageFirstTab");
-		mb.setPickMessageSecondTabSimilarNotExistFirstSentence("administration.user.pickAuthorMessageSecondTabSimilarNotExistFirstSentence");
-		mb.setPickMessageSecondTabSimilarNotExistSecondSentence("administration.user.pickAuthorMessageSecondTabSimilarNotExistSecondSentence");
+		mb.setPickMessageSecondTabSimilarNotExistFirstSentence("administration.user.pickAuthorForRegistrationMessageSecondTabSimilarNotExistFirstSentence");
+		mb.setPickMessageSecondTabSimilarNotExistSecondSentence("administration.user.pickAuthorForRegistrationMessageSecondTabSimilarNotExistSecondSentence");
 		mb.setPickMessageSecondTabSimilarExistFirstSentence("administration.user.pickAuthorMessageSecondTabSimilarExistFirstSentence");
 		mb.setPickMessageSecondTabSimilarExistSecondSentence("administration.user.pickAuthorMessageSecondTabSimilarExistSecondSentence");
 		mb.setPickMessageSecondTabSimilarExistThirdSentence("administration.user.pickAuthorMessageSecondTabSimilarExistThirdSentence");
-		mb.setPickMessageSecondTabSimilarExistFourthSentence("administration.user.pickAuthorMessageSecondTabSimilarExistFourthSentence");
+		mb.setPickMessageSecondTabSimilarExistFourthSentence("administration.user.pickAuthorForRegistrationMessageSecondTabSimilarExistFourthSentence");
 		mb.setCustomPick(true);
 		if(editMode == ModesManagedBean.MODE_REGISTER){
 			mb.setTableModalPanel("");

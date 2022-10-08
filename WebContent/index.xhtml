@@ -10,14 +10,14 @@
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 	<f:view locale="#{userManagedBean.language}" 
 		beforePhase="#{jobAdManagedBean.jobAdExit}">
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-		<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
-		<meta http-equiv="Pragma" content="no-cache"/>
-		<meta http-equiv="Expires" content="-1"/>
-		<title><ui:insert name="title">CRIS UNS</ui:insert></title>
-	</h:head>
-	<h:body onload="formId='searchTableForm'; setFocus(); ">
+		<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+			<meta http-equiv="Refresh" content="#{session.maxInactiveInterval};url=index.html" />
+			<meta http-equiv="Pragma" content="no-cache"/>
+			<meta http-equiv="Expires" content="-1"/>
+			<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+		</h:head>
+		<h:body onload="formId='searchTableForm'; setFocus(); ">
 			<h:outputStylesheet library="stylesheet" name="theme.css" target="head"/>
 			<h:outputScript library="js" name="functions.js" target="head"/>
 			<f:loadBundle
@@ -45,44 +45,24 @@
 						escape="false"/>
 					<h:panelGroup 
 						rendered="#{not userManagedBean.loggedIn}"
-					>
-						<h1> 
-			    			CRIS UNS (Current Research Information System University of Novi Sad) 
+						>
+						<h1>
+							CRIS UNS (Current Research Information System University of Novi Sad)
 							<br/>
-							Informacioni sistem naučne delatnosti Univerziteta u Novom Sadu 
+							Информациони систем научне делатности Универзитета у Новом Саду
+							<br/>
+							<br/>
 						</h1>
+						Опција CRIS-PMF је јавно доступна.
+						Такође су јавно доступни и следећи линкови:
 						<br/>
-						<br/>
-						<p>
-							CRIS UNS sistem je razvijan po preporukama neprofitne organizacije euroCRIS (<a style="font-size:14px;" href="http://www.eurocris.org">http://www.eurocris.org</a>).
-							<br/> 
-							Model podataka ovog sistema je kompatabilan sa modelom podataka CERIF (<i>Common European Research Information Format</i>). 
-							<br/>
-							Sistem podražava skup metapodataka propisane Dublin Core i EDT-MS formatom metapodataka, odnosno sistem može da razmenjuje podatke u Dublin Core ili ETD-MS formatu putem OAI-PMH protokola.
-							<br/>
-							Implementirana je digitalna biblioteka doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu.
-							<br/>
-							Implementiran je elektronski servis za vrednovanje publikovanih radova u časopisima na osnovu usvojenih pravilnika koji su bazirani na PRAVILNIKU o postupku i načinu vrednovanja, i kvantitativnom iskazivanju naučnoistraživačkih rezultata istraživača („Službeni glasnik RS”, br. 110/05 i 50/06-ispravka, 18/10 i 112/15).
-							<br/>
-							Generisanje svih Izveštaja propisanih za akreditaciju (samovrednovanje) i generisanje Izveštaja za analizu publikovanih naučnih rezultata.
-							<br/>
-							Generisanje kartona naučnih radnika po usvojenim Pravilnicima za vrednovanje naučnih rezultata.
-							<br/>
-						</p>
 						<ul>
-							<li><a style="font-size:16px" href="etheses.jsf">Digitalna biblioteka doktorskih disertacija odbranjenih na Univerzitetu u Novom Sadu</a></li>
+							<li><a style="font-size:16px" href="etheses.jsf">Дигитална библиотека докторских дисертација одбрањених на Универзитету у Новом Саду</a></li>
 							<br/>
 							<br/>
-							<li><a style="font-size:16px" href="pmf.jsf">Prirodno-matematički fakultet u Novom Sadu</a></li>
-							<br/>
-							<ul>
-								<li><a style="font-size:14px" href="dmi.jsf">Departman za matematiku i informatiku</a></li>
-							</ul>
-							<br/>
-							<!--<li><a style="font-size:16px" href="tf.jsf">Tehnološki fakultet Novi Sad</a></li>
-							<br/>
-						--></ul>
-						</h:panelGroup>
+							<li><a style="font-size:16px" href="pmf.jsf">Природно-математички факултет у Новом Саду</a></li>
+						</ul>
+					</h:panelGroup>
 				</h:panelGroup>
 			</div>
 			
@@ -91,6 +71,6 @@
     				<ui:include src="./footer.xhtml"/>
     			</ui:insert>
     		</div>
-	</h:body>
+		</h:body>
 	</f:view>
 </html>

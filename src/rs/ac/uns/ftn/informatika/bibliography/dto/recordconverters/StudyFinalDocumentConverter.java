@@ -57,7 +57,7 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 	 * @param rec
 	 *            MARC21Record which should be converted
 	 * 
-	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.AbstractRecordConverter#getDTO(rs.ac.uns.ftn.informatika.bibliography.marc21.records.MARC21Record)
+	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.AbstractRecordConverter#getDTO(rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record)
 	 * 
 	 * @return true if everything is ok, otherwise false
 	 */
@@ -1830,7 +1830,7 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 	/**
 	 *
 	 * 
-	 * @see rs.ac.ns.ftn.informatika.bibliography.dto.recordconverters.ABibliographicRecordConverter#getControlField006(rs.ac.uns.ftn.informatika.bibliography.dto.ARecordDTO)
+	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.ABibliographicRecordConverter#getControlField006(rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO)
 	 */
 	@Override
 	protected ControlField getControlField006(RecordDTO dto) {
@@ -1852,10 +1852,7 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 	}
 
 	/**
-	 * @see yu.ac.ns.ftn.informatika.bibliography.dto.recordconverters.
-	 * ABibliographicRecordConverter
-	 * #getControlField008(rs.ac.uns.ftn.informatika
-	 * .bibliography.dto.ARecordDTO)
+	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.ABibliographicRecordConverter#getControlField008(rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO)
 	 */
 	@Override
 	protected ControlField getControlField008(RecordDTO dto) {

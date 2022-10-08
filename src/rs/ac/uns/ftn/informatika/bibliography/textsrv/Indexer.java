@@ -352,7 +352,6 @@ public class Indexer {
 		notAnalyzedNotStored.add("RBCN");
 		notAnalyzedNotStored.add("RBICN");
 		notAnalyzedNotStored.add("SVLCN");
-		notAnalyzedNotStored.add("DEFENDED");
 	}
 	
 	private static List<String> notAnalyzed = new ArrayList<String>();
@@ -376,6 +375,7 @@ public class Indexer {
 		notAnalyzed.add("COMMISSIONMEMBERPADISSERTATIONS");
 		notAnalyzed.add("COMMISSIONCHAIRPADISSERTATIONS");
 		notAnalyzed.add("ARCHIVED");
+		notAnalyzed.add("DEFENDED");
 	}
 
 	private static List<String> notIndexed = new ArrayList<String>();

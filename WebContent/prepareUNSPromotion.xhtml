@@ -142,7 +142,7 @@
 											<h:outputText value="#{messages['records.prepareUNSPromotion.promotion']}" />
 											<h:selectOneMenu id="promotionNames" value="#{prepareUNSPromotionManagedBean.selectedPromotionName}">
 												<f:selectItems value="#{prepareUNSPromotionManagedBean.distinctPromotionNames}"/> 
-												<a4j:ajax event="valueChange" immediate="true" execute="@this" render="regEntriesForPromotionTable" />												
+												<a4j:ajax event="valueChange" immediate="true" execute="@this" render="regEntriesForPromotionTable" />
 											</h:selectOneMenu>
 										</h:panelGrid>
 										<rich:dataTable 
@@ -150,8 +150,7 @@
 											value="#{prepareUNSPromotionManagedBean.selectedForNamedPromotion}"
 											var="regEntryRow"
 											rowKeyVar="regEntryRowKey" 
-											rows="15"
-											styleClass="stable"													
+											styleClass="stable"
 											>
 											<!--  
 											<rich:column			
@@ -230,7 +229,7 @@
 											</rich:column>										
 										</rich:dataTable>
 										<h:panelGrid columns="1">
-										<h:panelGroup>
+										<h:panelGroup >
 											<rich:dataScroller 
 											    maxPages="10"
 												id="downDataScroller1" 
@@ -374,7 +373,7 @@
 									        	   />
 												<h:outputText value="#{messages['records.prepareUNSPromotion.dateTo']}" />	
 												<rich:calendar 
-									        	   id="dateToInput"
+									        	   id="dateToInputRegister"
 									        	   value="#{prepareUNSPromotionManagedBean.dateToRegister}"
 									        	   enableManualInput="true"
 												   datePattern="dd/MM/yyyy"

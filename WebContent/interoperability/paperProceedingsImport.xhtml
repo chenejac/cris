@@ -47,8 +47,18 @@
 						<h:panelGrid 
 							id="mainPanel">	
 							<rich:panel id="scopusImport"
-								header="#{messages['records.import.paperProceedings.scopus.header']}"
-								 >		
+								>
+								<f:facet name="header">
+									<h:outputText
+											value="#{messages['records.import.paperProceedings.scopus.header']}" />
+									<h:outputLink
+											value="https://chenejac.github.io/cris/uvoz/importKonferencije.html"
+											target="_blank" >
+										<h:graphicImage
+												library="img"
+												name="help.png" />
+									</h:outputLink>
+								</f:facet>
 								<h:panelGrid columns="3" columnClasses="width20, width60, width25" width="100%">
 									<!-- ....... SCOPUS ID .......           -->
 									<a4j:outputPanel 

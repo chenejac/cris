@@ -236,6 +236,8 @@ public class Retriever {
 							((StudyFinalDocumentDTO)rec.getDto()).setReportURL(doc.getField("REPORTURL").stringValue());
 						if (doc.getField("RELATEDPUBLICATIONS") != null)
 							((StudyFinalDocumentDTO)rec.getDto()).setRelatedPublicationsHTMLRepresentation(doc.getField("RELATEDPUBLICATIONS").stringValue());
+						if (doc.getField("DEFENDED") != null)
+							((StudyFinalDocumentDTO)rec.getDto()).setDefendedStatus(doc.getField("DEFENDED").stringValue());
 					}
 					if(rec.getDto() instanceof PublicationDTO){ 
 						if (doc.getField("YEAR") != null)

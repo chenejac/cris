@@ -231,8 +231,8 @@
 							limitRender="true" 
 							execute="@this" 
 							immediate="true"
-							disabled="#{(not (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (studyFinalDocumentRow.record.archived == 0)) or (studyFinalDocumentRow.record.archived == 2)}"
-							style="#{(((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) and (studyFinalDocumentRow.record.archived == 0)) or ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (studyFinalDocumentRow.record.archived == 0))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
+							disabled="#{(not (studyFinalDocumentRow.defended)) or (not (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel])) or (studyFinalDocumentRow.record.archived != 0)}"
+							style="#{(((studyFinalDocumentRow.defended) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]) and (studyFinalDocumentRow.record.archived == 0))?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
 							<h:graphicImage library="img" name="archive.png" />
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
@@ -316,10 +316,8 @@
 							limitRender="true" 
 							execute="@this" 
 							immediate="true"
-							><!--
-							disabled="#{(not empty studyFinalDocumentRow.registerEntry.id)}"
-							style="#{((empty studyFinalDocumentRow.registerEntry.id)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
-							-->
+							disabled="#{(not (studyFinalDocumentRow.defended))}"
+							style="#{((studyFinalDocumentRow.defended)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
 							<h:graphicImage library="img" name="editRegisterEntry.png" />
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
