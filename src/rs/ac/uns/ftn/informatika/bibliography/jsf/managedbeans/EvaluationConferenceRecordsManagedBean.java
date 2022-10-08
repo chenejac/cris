@@ -51,9 +51,9 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles;
 
 public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 
-	private Integer startYear = 2020;
+	private Integer startYear = 2021;
 
-	private Integer endYear = 2020;
+	private Integer endYear = 2021;
 
 	protected List<SelectItem> yearRange = null;
 
@@ -238,10 +238,10 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		commissionNumber = 711;
 		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 		try{
-			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
-			institution.add(orgUnitQuery, Occur.SHOULD);
+//			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
+//			institution.add(orgUnitQuery, Occur.SHOULD);
 		
-			orgUnitQuery = qparser.parse("+(INS:\"departman za matematiku i informatiku\" INS:\"katedra za opstu algebru i teorijsko racunarstvo\" INS:\"katedra za analizu verovatnocu i diferencijalne jednacine\" INS:\"katedra za numericku matematiku\" INS:\"katedra za primenjenu algebru\" INS:\"katedra za funkcionalnu analizu geometriju i topologiju\" INS:\"katedra za racunarske nauke\" INS:\"katedra za matematicku logiku i diskretnu matematiku\" INS:\"katedra za primenjenu analizu\" INS:\"katedra za informacione tehnologije i sisteme\" INS:\"katedra za teorijske osnove informatike\")");
+			Query orgUnitQuery = qparser.parse("+(INS:\"departman za matematiku i informatiku\" INS:\"katedra za opstu algebru i teorijsko racunarstvo\" INS:\"katedra za analizu verovatnocu i diferencijalne jednacine\" INS:\"katedra za numericku matematiku\" INS:\"katedra za primenjenu algebru\" INS:\"katedra za funkcionalnu analizu geometriju i topologiju\" INS:\"katedra za racunarske nauke\" INS:\"katedra za matematicku logiku i diskretnu matematiku\" INS:\"katedra za primenjenu analizu\" INS:\"katedra za informacione tehnologije i sisteme\" INS:\"katedra za teorijske osnove informatike\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
 			String query = "(";
 			for(int i=startYear;i<=endYear;i++) {
@@ -269,10 +269,10 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		commissionNumber = 713;
 		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 		try{
-			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
-			institution.add(orgUnitQuery, Occur.SHOULD);
+//			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
+//			institution.add(orgUnitQuery, Occur.SHOULD);
 		
-			orgUnitQuery = qparser.parse("+(INS:\"departman za geografiju turizam i hotelijerstvo\" INS:\"katedra za fizicku geografiju\" INS:\"katedra za drustvenu geografiju\" INS:\"katedra za regionalnu geografiju\" INS:\"katedra za turizam\" INS:\"katedra za hotelijerstvo\" INS:\"katedra za lovni turizam\")");
+			Query orgUnitQuery = qparser.parse("+(INS:\"departman za geografiju turizam i hotelijerstvo\" INS:\"katedra za fizicku geografiju\" INS:\"katedra za drustvenu geografiju\" INS:\"katedra za regionalnu geografiju\" INS:\"katedra za turizam\" INS:\"katedra za hotelijerstvo\" INS:\"katedra za lovni turizam\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
 			String query = "(";
 			for(int i=startYear;i<=endYear;i++) {
@@ -300,10 +300,10 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		commissionNumber = 714;
 		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 		try{
-			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
-			institution.add(orgUnitQuery, Occur.SHOULD);
+//			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
+//			institution.add(orgUnitQuery, Occur.SHOULD);
 		
-			orgUnitQuery = qparser.parse("+(INS:\"departman za fiziku\" INS:\"katedra za eksperimentalnu fiziku kondenzovane materije\" INS:\"katedra za fizicku elektroniku\" INS:\"katedra za nuklearnu fiziku\" INS:\"katedra za teorijsku fiziku\" INS:\"katedra za opstu fiziku i metodiku nastave fizike\")");
+			Query orgUnitQuery = qparser.parse("+(INS:\"departman za fiziku\" INS:\"katedra za eksperimentalnu fiziku kondenzovane materije\" INS:\"katedra za fizicku elektroniku\" INS:\"katedra za nuklearnu fiziku\" INS:\"katedra za teorijsku fiziku\" INS:\"katedra za opstu fiziku i metodiku nastave fizike\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
 			String query = "(";
 			for(int i=startYear;i<=endYear;i++) {
@@ -331,10 +331,10 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		commissionNumber = 712;
 		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 		try{
-			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
-			institution.add(orgUnitQuery, Occur.SHOULD);
+//			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
+//			institution.add(orgUnitQuery, Occur.SHOULD);
 		
-			orgUnitQuery = qparser.parse("+(INS:\"departman za hemiju biohemiju i zastitu zivotne sredine\" INS:\"katedra za analiticku hemiju\" INS:\"katedra za biohemiju i hemiju prirodnih proizvoda\" INS:\"katedra za fizicku hemiju\" INS:\"katedra za hemijsko obrazovanje i metodiku nastave hemije\" INS:\"katedra za hemijsku tehnologiju i zastitu zivotne sredine\" INS:\"katedra za opstu i neorgansku hemiju\" INS:\"katedra za organsku hemiju\")");
+			Query orgUnitQuery = qparser.parse("+(INS:\"departman za hemiju biohemiju i zastitu zivotne sredine\" INS:\"katedra za analiticku hemiju\" INS:\"katedra za biohemiju i hemiju prirodnih proizvoda\" INS:\"katedra za fizicku hemiju\" INS:\"katedra za hemijsko obrazovanje i metodiku nastave hemije\" INS:\"katedra za hemijsku tehnologiju i zastitu zivotne sredine\" INS:\"katedra za opstu i neorgansku hemiju\" INS:\"katedra za organsku hemiju\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
 			String query = "(";
 			for(int i=startYear;i<=endYear;i++) {
@@ -362,10 +362,10 @@ public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 		commissionNumber = 715;
 		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 		try{
-			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
-			institution.add(orgUnitQuery, Occur.SHOULD);
+//			Query orgUnitQuery = qparser.parse("+(INS:\"prirodno matematicki fakultet\")");
+//			institution.add(orgUnitQuery, Occur.SHOULD);
 		
-			orgUnitQuery = qparser.parse("+(INS:\"departman za biologiju i ekologiju\" INS:\"katedra za botaniku\" INS:\"katedra za fiziologiju\" INS:\"katedra za zoologiju\" INS:\"katedra za mikrobiologiju\" INS:\"katedra za humanu biologiju i metodiku nastave biologije\" INS:\"katedra za ekologiju i zastitu zivotne sredine\")");
+			Query orgUnitQuery = qparser.parse("+(INS:\"departman za biologiju i ekologiju\" INS:\"katedra za botaniku\" INS:\"katedra za fiziologiju\" INS:\"katedra za zoologiju\" INS:\"katedra za mikrobiologiju\" INS:\"katedra za humanu biologiju i metodiku nastave biologije\" INS:\"katedra za ekologiju i zastitu zivotne sredine\")");
 			institution.add(orgUnitQuery, Occur.SHOULD);
 			String query = "(";
 			for(int i=startYear;i<=endYear;i++) {

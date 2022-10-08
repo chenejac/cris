@@ -266,7 +266,7 @@ public class ImportAuthorsTehnoloski{
 
 	public static void main (String[] args){
 		
-		String  xlsPath    = "E:/zaposleniPMF2021.xlsx";
+		String  xlsPath    = "E:/zaposleniPMF2021korekcija.xlsx";
 		ImportAuthorsTehnoloski.importFromExcel (xlsPath);
 //		String  xlsPath    = "E:/autoriPMF.xlsx";
 //		ImportAuthorsTehnoloski.importFromExcelORCID (xlsPath);

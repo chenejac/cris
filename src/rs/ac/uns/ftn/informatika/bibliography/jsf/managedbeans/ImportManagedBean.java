@@ -46,16 +46,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.StudyFinalDocumentDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.Types;
 import rs.ac.uns.ftn.informatika.bibliography.interoperability.ImportRecordsDTO;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.AndrejevicSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.AuthorSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.BibtexPaperJournalSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.BibtexPaperProceedingsSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.DiglibSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.GroupSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.ScopusPaperJournalSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.ScopusPaperProceedingsSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.UNSArchiveSerializer;
-import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.UNSDissertationsSerializer;
+import rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers.*;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils;
 import rs.ac.uns.ftn.informatika.bibliography.utils.Sanitizer;
@@ -82,6 +73,8 @@ public class ImportManagedBean extends CRUDManagedBean implements Serializable,
 	private String selectedRecordIdentifier;
 	
 	private String serializedDataPath;
+
+	private String scopusdatapath = "/opt/cris/import/scopus.xlsx";
 	
 	private Integer counter;
 	
@@ -560,6 +553,14 @@ public class ImportManagedBean extends CRUDManagedBean implements Serializable,
 //		serializedDataPath = "/opt/cris/import/archiveDissertations/2005";
 //		((UNSArchiveSerializer)groupSerializer).setYear("2005"); //TODO Set appropriated year
 		//TODO 
+		switchToImportMode();
+		automaticImport = true;
+	}
+
+	public void importScopusPaperJournalXLS(){
+		groupSerializer = new ScopusPaperJournalXLSSerializer();
+		//serializedDataPath = "D:/archiveDissertations/2006";
+		((ScopusPaperJournalXLSSerializer)groupSerializer).setXlsPath(scopusdatapath);
 		switchToImportMode();
 		automaticImport = true;
 	}
@@ -2313,6 +2314,14 @@ public class ImportManagedBean extends CRUDManagedBean implements Serializable,
 	 */
 	public void setEndYear(Integer endYear) {
 		this.endYear = endYear;
+	}
+
+	public String getScopusdatapath() {
+		return scopusdatapath;
+	}
+
+	public void setScopusdatapath(String scopusdatapath) {
+		this.scopusdatapath = scopusdatapath;
 	}
 
 	/**
