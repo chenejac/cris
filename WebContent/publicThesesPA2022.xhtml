@@ -7,11 +7,11 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 <f:view contentType="text/html; charset=iso-8859-1"
-	beforePhase="#{publicThesesPAManagedBean.loadPublicTheses}" />
+	beforePhase="#{publicThesesPAManagedBean.loadTheses2022}" />
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<meta http-equiv="Refresh"
-		content="#{session.maxInactiveInterval};url=publicThesesPA.jsf" />
+		content="#{session.maxInactiveInterval};url=publicThesesPA2022.jsf" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
 	<link rel="stylesheet" type="text/css"
@@ -42,22 +42,13 @@
 				<table class="innerTable">
 					<tr>
 						<td class="sectionTitle sectionTitleFont normal" colspan="2">
-							#{messages['records.publicTheses.phdPart1']} <br/> #{messages['records.publicTheses.phdPart2']}
+							#{messages['records.publicTheses.phdPart1']} <br/> #{messages['records.publicTheses.phdPart2']} #{messages['records.publicTheses.phdYear2022']}
 						</td>
 					</tr>
 					<tr>
 						<td class="notificationFont normal indent">
 							<br/>
-							<span class="redFont">#{messages['records.publicTheses.importantPA']}</span> #{messages['records.publicTheses.importantPANotificationPart1']}
-							<b>#{messages['records.publicTheses.importantPANotificationPart2']}</b>#{messages['records.publicTheses.importantPANotificationPart3']}
-							<b>#{messages['records.publicTheses.importantPANotificationPart4']}</b>.
-							<br/>
-						</td>
-					</tr>
-					<tr>
-						<td class="notificationFont normal indent">
-							<br/>
-							#{messages['records.publicTheses.notDefended.text']} <a href="./publicThesesPANotDefended.jsf" style="font-size: 13px">#{messages['records.publicTheses.notDefended.link']}</a>.
+							<b>#{messages['records.publicTheses.notice']}</b> #{messages['records.publicTheses.noticeMessagePA']}.
 							<br/>
 						</td>
 					</tr>
@@ -76,7 +67,7 @@
 								<h:panelGrid id="publicThesesTablePanel" >
 									<rich:dataTable 
 										id="publicThesesTable"
-										value="#{publicThesesPAManagedBean.publicTheses}"
+										value="#{publicThesesPAManagedBean.theses2022}"
 										var="studyFinalDocumentRow" 
 										styleClass="candidates"
 										>
@@ -97,7 +88,7 @@
 													value="#{messages['records.publicTheses.tablePanel.institution']}" />
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.someInstitutionName}" />
-										</rich:column> 
+										</rich:column>
 										<!--     ........  researchArea   .......-->
 										<rich:column
 											styleClass="researchArea" >
@@ -125,41 +116,6 @@
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.publicPeriod}" />
 										</rich:column>
-										<!--     ........  documents   .......-->
-										<rich:column
-											styleClass="documents" >
-											<f:facet name="header">
-												<h:outputText
-													value="#{messages['records.publicTheses.tablePanel.documents']}" />
-											</f:facet>
-											<h:outputLink
-												value="#{studyFinalDocumentRow.preliminaryThesesURL}"
-												target="_blank"
-												rendered="#{not empty studyFinalDocumentRow.preliminaryThesesURL}"
-												>
-												<h:outputText
-													value="#{messages['records.publicTheses.tablePanel.dissertation']}" />
-											</h:outputLink> 
-											<br/>
-											<h:outputLink
-												value="#{studyFinalDocumentRow.preliminarySupplementURL}"
-												target="_blank"
-												rendered="#{not empty studyFinalDocumentRow.preliminarySupplementURL}"
-												>
-												<h:outputText
-													value="#{messages['records.publicTheses.tablePanel.supplement']}" />
-												<br/>
-											</h:outputLink> 
-											<h:outputLink
-												value="#{studyFinalDocumentRow.reportURL}"
-												target="_blank"
-												rendered="#{not empty studyFinalDocumentRow.reportURL}"
-												title="#{messages['records.publicTheses.tablePanel.report']}"
-												>
-												<h:outputText
-													value="#{messages['records.publicTheses.tablePanel.report']}" />
-											</h:outputLink> 
-										</rich:column>
 									</rich:dataTable>
 								</h:panelGrid>
 							</h:panelGrid>
@@ -167,49 +123,16 @@
 						</td>
 					</tr>
 					<tr>
-						<td height="20px">&nbsp;
-							<!-- prazan red -->
-						</td>
-					</tr>
-					<tr>
-						<td class="notificationFont normal"><strong>#{messages['records.publicTheses.hardCopyPA']}</strong>
-						</td>
-					</tr>
-					<tr>
-						<td height="20px">&nbsp;
-							<!-- prazan red -->
-						</td>
-					</tr>
-					<tr>
 						<td class="sectionTitle sectionTitleFont normal" colspan="2">
-							#{messages['records.publicTheses.archive']}
+							Backup 2022
 						</td>
 					</tr>
 					<tr>
-						<td class="notificationFont normal"><strong>#{messages['records.publicTheses.listPart1']}</strong> #{messages['records.publicTheses.listPart2']}
+						<td height="20px">&nbsp;
+							<!-- prazan red -->
 						</td>
 					</tr>
-					<tr>
-						<td class="notificationFont normal">
-							<a href="./publicThesesPA2022.jsf" target="_blank" style="font-size: 13px">2022</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2021.jsf" target="_blank" style="font-size: 13px">2021</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2020.jsf" target="_blank" style="font-size: 13px">2020</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2019.jsf" target="_blank" style="font-size: 13px">2019</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2018.jsf" target="_blank" style="font-size: 13px">2018</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2017.jsf" target="_blank" style="font-size: 13px">2017</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2016.jsf" target="_blank" style="font-size: 13px">2016</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2015.jsf" target="_blank" style="font-size: 13px">2015</a>
-							<span class="doubleSemicolon">::</span>
-							<a href="./publicThesesPA2014.jsf" target="_blank" style="font-size: 13px">2014</a>
-						</td>
-					</tr>
+					
 				</table>
 			</td>
 		</tr>

@@ -51,9 +51,9 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles;
 
 public class EvaluationConferenceRecordsManagedBean extends CRUDManagedBean {
 
-	private Integer startYear = 2021;
+	private Integer startYear = 2022;
 
-	private Integer endYear = 2021;
+	private Integer endYear = 2022;
 
 	protected List<SelectItem> yearRange = null;
 

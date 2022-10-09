@@ -157,7 +157,7 @@ public class UserDB {
 					} else
 						return null;
 				}
-				String activationCode = rset.getString(8);
+				String activationCode = rset.getString(7);
 				user = new UserDTO(email, "alozinka", note, language, author, institution, organizationUnit,
 						type, activationCode);
 			}

@@ -27,6 +27,7 @@ public class PublicThesesPAManagedBean extends PublicThesesManagedBean{
 	protected List<StudyFinalDocumentDTO> list2019;
 	protected List<StudyFinalDocumentDTO> list2020;
 	protected List<StudyFinalDocumentDTO> list2021;
+	protected List<StudyFinalDocumentDTO> list2022;
 	
 	public static String PUBLIC_THESES_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' and LICENSE like 'Temporary available') AND (RECORDSTRING like '%710_2#__0(BISIS)9489%' OR RECORDSTRING like '%710_2#__0(BISIS)107024%')";
 	
@@ -47,6 +48,8 @@ public class PublicThesesPAManagedBean extends PublicThesesManagedBean{
 	public static String THESES_2020_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2020-__-__') AND (RECORDSTRING like '%710_2#__0(BISIS)9489%' OR RECORDSTRING like '%710_2#__0(BISIS)107024%')";
 
 	public static String THESES_2021_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2021-__-__') AND (RECORDSTRING like '%710_2#__0(BISIS)9489%' OR RECORDSTRING like '%710_2#__0(BISIS)107024%')";
+
+	public static String THESES_2022_WHERE_CLAUSE = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' AND DATEMODIFIED like '2022-__-__') AND (RECORDSTRING like '%710_2#__0(BISIS)9489%' OR RECORDSTRING like '%710_2#__0(BISIS)107024%')";
 
 	/**
 	 * 
@@ -98,6 +101,10 @@ public class PublicThesesPAManagedBean extends PublicThesesManagedBean{
 	public synchronized void loadTheses2021(PhaseEvent event){
 		list2021 = getThesesByWhereClause(PublicThesesPAManagedBean.THESES_2021_WHERE_CLAUSE);
 	}
+
+	public synchronized void loadTheses2022(PhaseEvent event){
+		list2022 = getThesesByWhereClause(PublicThesesPAManagedBean.THESES_2022_WHERE_CLAUSE);
+	}
 	
 	/**
 	 * @return the list
@@ -140,6 +147,10 @@ public class PublicThesesPAManagedBean extends PublicThesesManagedBean{
 
 	public List<StudyFinalDocumentDTO> getTheses2021() {
 		return list2021;
+	}
+
+	public List<StudyFinalDocumentDTO> getTheses2022() {
+		return list2022;
 	}
 	
 	/**

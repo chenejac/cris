@@ -386,7 +386,7 @@ public class ResultEvaluator {
 //			type.add(new TermQuery(new Term("TYPE", Types.PRODUCT)), Occur.SHOULD);
 			bq.add(type, Occur.MUST);
 			
-			bq.add(new TermQuery(new Term("PY", "2021")), Occur.MUST);
+			bq.add(new TermQuery(new Term("PY", "2022")), Occur.MUST);
 			
 			List<Record> records = Retriever.select(bq, new AllDocCollector(false));
 			

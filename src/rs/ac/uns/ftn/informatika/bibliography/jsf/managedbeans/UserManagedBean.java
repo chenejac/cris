@@ -113,7 +113,7 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 		UserDTO u = userDAO.getUserByUsername(loggedUser.getEmail());
 		if(u!=null){
 			u.setPassword(generateRandomPassword(8));
-			if(userDAO.update(u)) {
+			if(userDAO.changePassword(u)) {
 				loggedUser.setPassword(u.getPassword());
 				sendMessage(new EmailMessage(rbAdministration.getString("administration.email.cris"), loggedUser.getEmail(), null, null, rbAdministration.getString("administration.login.notification.subject"), rbAdministration.getString("administration.login.notification.textHeader") + "<br/><br/>" + rbAdministration.getString("administration.login.email") + ": " + loggedUser.getEmail() + "<br/>" + rbAdministration.getString("administration.login.password") + ": " + loggedUser.getPassword() + getEmailFooter()));
 				facesMessages.addToControlFromResourceBundle(
