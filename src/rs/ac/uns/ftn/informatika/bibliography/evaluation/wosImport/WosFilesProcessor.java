@@ -41,6 +41,9 @@ public class WosFilesProcessor {
 				if(parts[0].trim().equals("")) {
 					break;
 				}
+				if(parts[7].replaceAll("^\"+|\"+$", "").trim().toLowerCase().equals("n/a")) {
+					continue;
+				}
 				ISIJournal journal = new ISIJournal(
 						categoryId,
 						year,
