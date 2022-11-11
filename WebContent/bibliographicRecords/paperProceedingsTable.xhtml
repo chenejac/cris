@@ -2,25 +2,21 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="paperProceedingsTableFormPanel" >
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Conference .......           -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
@@ -39,7 +35,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(paperProceedingsManagedBean.conference != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperProceedingsManagedBean.pickConference}"
 				render="conferenceBrowseModalPanel"
 				value="#{messages['records.paperProceedings.tablePanel.btnPickOtherConference']}"
@@ -49,7 +45,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(paperProceedingsManagedBean.conference != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperProceedingsManagedBean.pickConference}"
 				render="conferenceBrowseModalPanel"
 				value="#{messages['records.paperProceedings.tablePanel.btnPickConference']}"
@@ -74,29 +70,29 @@
 				<h2>
 					<h:outputText
 						value="#{messages['records.paperProceedings.tablePanel.proceedings']}: "  />
-					<h:selectOneMenu 
+					<p:selectOneMenu
 						value="#{paperProceedingsManagedBean.proceedings}"
 						style="width:100%"
 						converter="proceedingsSelectConverter"
 						>
 						<f:selectItems
 							value="#{paperProceedingsManagedBean.allProceedingsSelectItems}" />
-						<a4j:ajax 
+						<p:ajax
 			    			event="change" 
 			    			render="@form" 
 			    			limitRender="true" 
 			    			execute="@form" 
 			    			/>
-					</h:selectOneMenu>
+					</p:selectOneMenu>
 				</h2>
 			</h:panelGroup>
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperProceedingsManagedBean.addProceedings}"
 				render="proceedingsEditModalPanel"
 				value="#{messages['records.paperProceedings.tablePanel.btnAddOtherProceedings']}"
 				limitRender="true" 
 				rendered="#{(paperProceedingsManagedBean.conferenceProceedings != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperProceedingsManagedBean.addProceedings}"
 				render="proceedingsEditModalPanel"
 				value="#{messages['records.paperProceedings.tablePanel.btnAddProceedings']}"
@@ -114,10 +110,7 @@
 		<h:panelGrid
 			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)||(paperProceedingsManagedBean.proceedings != null)}">
 			<!-- ===========================   searchPanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				rendered="#{(paperProceedingsManagedBean.proceedings==null)}"
@@ -128,34 +121,34 @@
 				columns="6">
 				<h:panelGroup>
 					<h2>
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.paperProceedings.searchPanel.header']}: " 
 								for="whereStr" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h2>
 				</h:panelGroup>
-				<h:inputText 
+				<p:inputText
 					id="whereStr"
 					onkeydown="keyDownHandler(event, 'paperProceedingsTableForm:btnFind')"
 					value="#{paperProceedingsManagedBean.whereStr}" 
 					styleClass="searchBox" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnFind"
 					value="#{messages['records.paperProceedings.searchPanel.btnFind']}"
 					render="paperProceedingsTablePanel" 
 					limitRender="true" 
 					execute="@form" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowAll"
 					action="#{paperProceedingsManagedBean.removeFilter}"
 					value="#{messages['records.paperProceedings.searchPanel.btnShowAll']}"
 					render="paperProceedingsTablePanel, paperProceedingsSearchPanel"
 					execute="@this" 
 					limitRender="true" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowM99PMF"
 					action="#{paperProceedingsManagedBean.populateM99PMF}"
 					value="#{messages['records.paperProceedings.searchPanel.btnShowM99PMF']}"
@@ -163,7 +156,7 @@
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}" 
 					execute="@this" 
 					limitRender="true" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowM99TF"
 					action="#{paperProceedingsManagedBean.populateM99TF}"
 					value="#{messages['records.paperProceedings.searchPanel.btnShowM99TF']}"
@@ -173,27 +166,28 @@
 					limitRender="true" />
 			</h:panelGrid>
 			<!-- ===========================   tablePanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				/>
 			<h:panelGrid id="paperProceedingsTablePanel">
 			<h:panelGrid 
 				rendered="#{(not empty paperProceedingsManagedBean.whereStr)||(paperProceedingsManagedBean.proceedings != null)}">
-				<rich:dataTable 
+				<p:dataTable
 					id="paperProceedingsTable"
 					value="#{paperProceedingsManagedBean.paperProceedings}"
 					var="paperProceedingsRow" 
 					rows="10"
+					paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+					rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 					>
 					<!--     ........  reference   .......-->
-					<rich:column
+					<p:column
 						style="#{paperProceedingsManagedBean.selectedPaperProceedings.controlNumber == paperProceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{paperProceedingsManagedBean.sort}"
 								render="paperProceedingsTable"
 								limitRender="true" 
@@ -208,15 +202,15 @@
 									library="img" name="down.gif"
 									rendered="#{(paperProceedingsManagedBean.orderBy=='stringRepresentation') and (paperProceedingsManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="stringRepresentation" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{paperProceedingsRow.stringRepresentation}" />
-					</rich:column>
+					</p:column>
 					<!--     ........  paperType   .......-->
-					<rich:column
+					<p:column
 						style="#{paperProceedingsManagedBean.selectedPaperProceedings.controlNumber == paperProceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{paperProceedingsManagedBean.sort}"
 								render="paperProceedingsTableForm"
 								limitRender="true" 
@@ -229,18 +223,18 @@
 								<h:graphicImage library="img" name="down.gif"
 									rendered="#{(paperProceedingsManagedBean.orderBy=='localizedPaperType') and (paperProceedingsManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="localizedPaperType" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{paperProceedingsRow.localizedPaperType}" />
-					</rich:column>
+					</p:column>
 					<!--     ........  actions   .......-->
-					<rich:column
+					<p:column
 						style="#{paperProceedingsManagedBean.selectedPaperProceedings.controlNumber == paperProceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.paperProceedings.tablePanel.actions']}" />
 						</f:facet>
-						<a4j:commandLink
+						<p:commandLink
 							action="#{paperProceedingsManagedBean.switchToViewDetailsMode}"
 							render="paperProceedingsEditModalPanel" 
 							limitRender="true" 
@@ -250,8 +244,8 @@
 							<f:param name="controlNumber"
 								value="#{paperProceedingsRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.update]}"
 							action="#{paperProceedingsManagedBean.switchToSimpleUpdateMode}"
 							render="paperProceedingsSimpleEditModalPanel"
@@ -262,8 +256,8 @@
 							<f:param name="controlNumber"
 								value="#{paperProceedingsRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.delete]}"
 							action="#{paperProceedingsManagedBean.delete}"
 							onclick="if(!confirmDecision()) return false"
@@ -275,24 +269,16 @@
 							<f:param name="controlNumber"
 								value="#{paperProceedingsRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
-						</a4j:commandLink>
-					</rich:column>
-				</rich:dataTable>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
 				<h:panelGrid columns="1">
-					<h:panelGroup>
-						<rich:dataScroller 
-							id="downDataScroller" 
-							align="left"
-							for="paperProceedingsTable" 
-							render="paperProceedingsTablePanel"
-							renderIfSinglePage="false"/> 
-					</h:panelGroup>
 					<h:panelGroup 
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.add]}">
 						<h3>
 							<h:outputText
 									value="#{messages['records.paperProceedings.tablePanel.btnCreate']}: " />
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{paperProceedingsManagedBean.switchToSimpleAddMode}"
 								render="paperProceedingsSimpleEditModalPanel"
 								limitRender="true" 
@@ -300,7 +286,7 @@
 								immediate="true" >
 								<h:graphicImage library="img" name="create.png" />
 								<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml"/>
-							</a4j:commandLink>
+							</p:commandLink>
 						</h3>
 					</h:panelGroup>
 				</h:panelGrid>

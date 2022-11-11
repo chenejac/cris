@@ -19,9 +19,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.richfaces.component.UITree;
-import org.richfaces.event.TreeSelectionChangeEvent;
-
+import org.primefaces.component.api.UITree;
+import org.primefaces.event.ItemSelectEvent;
+import org.primefaces.event.NodeSelectEvent;
 import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.ConferenceDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.InstitutionDTO;
@@ -1074,7 +1074,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			populateAll();
 		}
 		if(treeState!=null)
-			treeState.getSelection().clear();
+			treeState.clearInitialState();
 		
 		return root;
 	}
@@ -1230,7 +1230,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		}
 		
 		if(parent != null){
-			List <TreeNodeDTO<InstitutionDTO>> tempTreeOgranizfation = getOrganizationTree(parent.getElement());
+			List <TreeNodeDTO<InstitutionDTO>> tempTreeOgranizfation = getOrganizationTree(parent.getData());
 			if (tempTreeOgranizfation.isEmpty()){
 				return;
 			}
@@ -1332,17 +1332,15 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		}
 	}
 	
-	public void selectionChanged(TreeSelectionChangeEvent selectionChangeEvent){
-		
-        List<Object> selection = new ArrayList<Object>(selectionChangeEvent.getNewSelection());
-        Object currentSelectionKey = selection.get(0);
+	public void selectionChanged(NodeSelectEvent selectionChangeEvent){
+
         treeState = (UITree) selectionChangeEvent.getSource();
  
-        Object storedKey = treeState.getRowKey();
-        treeState.setRowKey(currentSelectionKey);
+        String storedKey = treeState.getRowKey();
+        treeState.setRowKey(selectionChangeEvent.getTreeNode().getRowKey());
         
-        if(((TreeNodeDTO<InstitutionDTO>)treeState.getRowData()).getElement()!=null)
-			changeSelectionOnTree(((TreeNodeDTO<InstitutionDTO>)treeState.getRowData()).getElement().getControlNumber());
+        if(((TreeNodeDTO<InstitutionDTO>)treeState.getRowNode()).getData()!=null)
+			changeSelectionOnTree(((TreeNodeDTO<InstitutionDTO>)treeState.getRowNode()).getData().getControlNumber());
         treeState.setRowKey(storedKey);	
 	}
 
@@ -1367,7 +1365,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		expandAll=false;	
 		TreeNodeDTO<InstitutionDTO> selectedInstitutionDTO = null;
  		for (TreeNodeDTO<InstitutionDTO> dto : allInstitutionsAndOrganizations) {
- 			if ((dto.getElement().getControlNumber() != null)&& (dto.getElement().getControlNumber().equalsIgnoreCase(controlNumber))) {
+ 			if ((dto.getData().getControlNumber() != null)&& (dto.getData().getControlNumber().equalsIgnoreCase(controlNumber))) {
  				selectedInstitutionDTO = dto;
  				break;
  			}
@@ -1732,7 +1730,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 				if ((dto.isCheckbox_state())) {
 					if(foundFirst == true)
 						retVal.append(" OR ");
-	 				retVal.append("dc.contributor adj \"" + dto.getElement().getSomeName()+"\"");
+	 				retVal.append("dc.contributor adj \"" + dto.getData().getSomeName()+"\"");
 	 				foundFirst = true;
 	 			}
 			}
@@ -1758,76 +1756,76 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 				
 				//Pretrazuje se PMF i sve njegove katedre
 				
-				/*if(dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)5929")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6782")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6887")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6888")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6889")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6890")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6891")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6892")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6893")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6894")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6895"))*/
+				/*if(dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)5929")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6782")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6887")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6888")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6889")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6890")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6891")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6892")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6893")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6894")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6895"))*/
 				
-				if(dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)5929") // Prirodno Matematicki fakultet u Novom Sadu
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6782") // Departman za matematiku i informatiku 
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6887") // Departman za matematiku i informatiku  Katedra za opštu algebru i teorijsko računarstvo
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6888") // Departman za matematiku i informatiku  Katedra za analizu, verovatnoću i diferencijalne jednačine
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6889") // Departman za matematiku i informatiku  Katedra za numeričku matematiku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6890") // Departman za matematiku i informatiku  Katedra za primenjenu algebru
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6891") // Departman za matematiku i informatiku  Katedra za funkcionalnu analizu, geometriju i topologiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6892") // Departman za matematiku i informatiku  Katedra za računarske nauke
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6893") // Departman za matematiku i informatiku  Katedra za matematičku logiku i diskretnu matematiku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6894") // Departman za matematiku i informatiku  Katedra za primenjenu analizu
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6895") // Departman za matematiku i informatiku  Katedra za informacione tehnologije i sisteme
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)27362") // Departman za matematiku i informatiku  Katedra za teorijske osnove informatike
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6778") // Departman za biologiju i ekologiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6864") // Departman za biologiju i ekologiju Katedra za botaniku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6865") // Departman za biologiju i ekologiju Katedra za fiziologiju, genetiku i histologiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6866") // Departman za biologiju i ekologiju Katedra za zoologiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6867") // Departman za biologiju i ekologiju Katedra za mikrobiologiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6868") // Departman za biologiju i ekologiju Katedra za humanu biologiju i metodiku nastave biologije
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)7098") // Departman za biologiju i ekologiju Katedra za ekologiju i zaštitu životne sredine
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)106923") // Departman za biologiju i ekologiju Katedra za biohemiju, molekularnu biologiju i genetiku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6779") // Departman za fiziku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6869") // Departman za fiziku Katedra za eksperimentalnu fiziku kondenzovane materije
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6870") // Departman za fiziku Katedra za fizičku elektroniku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6871") // Departman za fiziku Katedra za nuklearnu fiziku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6872") // Departman za fiziku Katedra za teorijsku fiziku
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6873") // Departman za fiziku Katedra za opštu fiziku i metodiku nastave fizike
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6780") // Departman za geografiju, turizam i hotelijerstvo
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6874") // Departman za geografiju, turizam i hotelijerstvo Katedra za fizičku geografiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6875") // Departman za geografiju, turizam i hotelijerstvo Katedra za društvenu geografiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6876") // Departman za geografiju, turizam i hotelijerstvo Katedra za regionalnu geografiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6877") // Departman za geografiju, turizam i hotelijerstvo Katedra za turizam
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6878") // Departman za geografiju, turizam i hotelijerstvo Katedra za hotelijerstvo
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6879") // Departman za geografiju, turizam i hotelijerstvo Katedra za lovni turizam
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)106924") // Departman za geografiju, turizam i hotelijerstvo Katedra za gastronomiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6781") // Departman za hemiju, biohemiju i zaštitu životne sredine
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6880") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za analitičku hemiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6881") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za biohemiju i hemiju prirodnih proizvoda
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6882") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za fizičku hemiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6883") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za hemijsko obrazovanje i metodiku nastave hemije
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6884") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za hemijsku tehnologiju i zaštitu životne sredine
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6885") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za opštu i neorgansku hemiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)6886") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za organsku hemiju
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)5933") // Tehnicko tehnoloski fakultet
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85798") //katedre
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85799")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85800")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85801")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85802")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85803")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85804")
-						||dto.getElement().getControlNumber().equalsIgnoreCase("(BISIS)85805")
+				if(dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)5929") // Prirodno Matematicki fakultet u Novom Sadu
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6782") // Departman za matematiku i informatiku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6887") // Departman za matematiku i informatiku  Katedra za opštu algebru i teorijsko računarstvo
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6888") // Departman za matematiku i informatiku  Katedra za analizu, verovatnoću i diferencijalne jednačine
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6889") // Departman za matematiku i informatiku  Katedra za numeričku matematiku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6890") // Departman za matematiku i informatiku  Katedra za primenjenu algebru
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6891") // Departman za matematiku i informatiku  Katedra za funkcionalnu analizu, geometriju i topologiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6892") // Departman za matematiku i informatiku  Katedra za računarske nauke
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6893") // Departman za matematiku i informatiku  Katedra za matematičku logiku i diskretnu matematiku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6894") // Departman za matematiku i informatiku  Katedra za primenjenu analizu
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6895") // Departman za matematiku i informatiku  Katedra za informacione tehnologije i sisteme
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)27362") // Departman za matematiku i informatiku  Katedra za teorijske osnove informatike
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6778") // Departman za biologiju i ekologiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6864") // Departman za biologiju i ekologiju Katedra za botaniku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6865") // Departman za biologiju i ekologiju Katedra za fiziologiju, genetiku i histologiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6866") // Departman za biologiju i ekologiju Katedra za zoologiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6867") // Departman za biologiju i ekologiju Katedra za mikrobiologiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6868") // Departman za biologiju i ekologiju Katedra za humanu biologiju i metodiku nastave biologije
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)7098") // Departman za biologiju i ekologiju Katedra za ekologiju i zaštitu životne sredine
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)106923") // Departman za biologiju i ekologiju Katedra za biohemiju, molekularnu biologiju i genetiku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6779") // Departman za fiziku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6869") // Departman za fiziku Katedra za eksperimentalnu fiziku kondenzovane materije
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6870") // Departman za fiziku Katedra za fizičku elektroniku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6871") // Departman za fiziku Katedra za nuklearnu fiziku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6872") // Departman za fiziku Katedra za teorijsku fiziku
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6873") // Departman za fiziku Katedra za opštu fiziku i metodiku nastave fizike
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6780") // Departman za geografiju, turizam i hotelijerstvo
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6874") // Departman za geografiju, turizam i hotelijerstvo Katedra za fizičku geografiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6875") // Departman za geografiju, turizam i hotelijerstvo Katedra za društvenu geografiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6876") // Departman za geografiju, turizam i hotelijerstvo Katedra za regionalnu geografiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6877") // Departman za geografiju, turizam i hotelijerstvo Katedra za turizam
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6878") // Departman za geografiju, turizam i hotelijerstvo Katedra za hotelijerstvo
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6879") // Departman za geografiju, turizam i hotelijerstvo Katedra za lovni turizam
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)106924") // Departman za geografiju, turizam i hotelijerstvo Katedra za gastronomiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6781") // Departman za hemiju, biohemiju i zaštitu životne sredine
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6880") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za analitičku hemiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6881") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za biohemiju i hemiju prirodnih proizvoda
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6882") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za fizičku hemiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6883") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za hemijsko obrazovanje i metodiku nastave hemije
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6884") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za hemijsku tehnologiju i zaštitu životne sredine
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6885") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za opštu i neorgansku hemiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)6886") // Departman za hemiju, biohemiju i zaštitu životne sredine Katedra za organsku hemiju
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)5933") // Tehnicko tehnoloski fakultet
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85798") //katedre
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85799")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85800")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85801")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85802")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85803")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85804")
+						||dto.getData().getControlNumber().equalsIgnoreCase("(BISIS)85805")
 						) 
 				
 				
 				{
 					if(foundFirst == true)
 						retVal.append(" OR ");
-	 				retVal.append("dc.contributor adj \"" + dto.getElement().getSomeName()+"\"");
+	 				retVal.append("dc.contributor adj \"" + dto.getData().getSomeName()+"\"");
 	 				foundFirst = true;
 				}
 			}

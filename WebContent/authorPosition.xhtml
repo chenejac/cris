@@ -2,21 +2,20 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="authorPositionFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<rich:panel 
+		</p:outputPanel>
+		<p:panel
 			id="scrollableBody" 
 			styleClass="scrollableBody"	>
 			<h:panelGrid 
@@ -25,39 +24,39 @@
 				columnClasses="width10, width70, width10, width10"
 				width="100%">
 				<!-- ....... position .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.authorPosition.editPanel.position']}*" 
 						for="position" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:selectOneMenu 
+				</p:outputPanel>
+				<p:selectOneMenu
 					id="position"
 					value="#{authorPositionManagedBean.position}"
 					required="true"
 					converter="positionSelectConverter"
 					>
 					<f:selectItems value="#{positionManagedBean.allList}"/>
-				</h:selectOneMenu>	
+				</p:selectOneMenu>
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="position" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... startDate.......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.authorPosition.editPanel.startDate']}*" 
 						for="startDate" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<rich:calendar 
+				</p:outputPanel>
+				<p:calendar
 					id="startDate"
 					value="#{authorPositionManagedBean.startDate}"
 					enableManualInput="true"
@@ -71,23 +70,23 @@
 					showWeeksBar="false" 
 					inputStyle="width:120px" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="startDate" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... endDate.......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.authorPosition.editPanel.endDate']}" 
 						for="endDate" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<rich:calendar 
+				</p:outputPanel>
+				<p:calendar
 					id="endDate"
 					value="#{authorPositionManagedBean.endDate}"
 					enableManualInput="true"
@@ -100,86 +99,86 @@
 					showWeeksBar="false" 
 					inputStyle="width:120px" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="endDate" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... researchArea .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.authorPosition.editPanel.researchArea']}*" 
 						for="researchArea" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:inputText 
+				</p:outputPanel>
+				<p:inputText
 					id="researchArea"
 					value="#{authorPositionManagedBean.researchArea}" 
 					maxlength="200"
 					required="true" /> 
-				<a4j:commandButton 
+				<p:commandButton
 					action="#{authorPositionManagedBean.add}"
 					value="#{messages['records.authorPosition.editPanel.btnAdd']}"
-					render="authorPositionEditModalPanel" 
+					update="authorPositionEditModalPanel"
 					execute="@form"/>
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="endDate" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h:panelGrid>
 			<!-- .......positions.......           -->
-			<rich:dataTable id="authorPositionTable"
+			<p:dataTable id="authorPositionTable"
 				value="#{authorPositionManagedBean.positions}"
 				var="positionRow"
 				rowKeyVar="positionKeyVar">
 				<!--     ........  position   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.authorPosition.editPanel.position']}" />
 					</f:facet>
 					<h:outputText value="#{positionRow.position}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  startDate   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.authorPosition.editPanel.startDate']}" />
 					</f:facet>
 					<h:outputText value="#{positionRow.startDate.time}" converter="dateConverter" />
-				</rich:column>
+				</p:column>
 				<!--     ........  endDate   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.authorPosition.editPanel.endDate']}" />
 					</f:facet>
 					<h:outputText value="#{((positionRow.startDate==positionRow.endDate)?(''):(positionRow.endDate.time))}" converter="dateConverter" />
-				</rich:column>
+				</p:column>
 				<!--     ........  researchArea   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.authorPosition.editPanel.researchArea']}" />
 					</f:facet>
 					<h:outputText value="#{positionRow.researchArea}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  remove  .......-->
-				<rich:column
+				<p:column
 					rendered="#{(authorPositionManagedBean.editMode != modesManagedBean.viewDetails)}" >
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.authorPosition.editPanel.remove']}" />
 					</f:facet>
-					<a4j:commandLink
+					<p:commandLink
 						action="#{authorPositionManagedBean.remove}"
 						render="scrollableBody"
 						limitRender="true" 
@@ -187,16 +186,16 @@
 						execute="@this" >
 						<h:graphicImage library="img" name="delete.png" />
 						<f:param name="ordNum" value="#{positionKeyVar}" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
-		</rich:panel>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="1">
-			<a4j:commandButton 
+			<p:commandButton
 				action="#{authorPositionManagedBean.exit}"
 				value="#{messages['records.authorPosition.editPanel.btnExit']}"
-				render="authorPositionEditModalPanel"
+				update="authorPositionEditModalPanel"
 				limitRender="true"
 				immediate="true" 
 				execute="@this" />

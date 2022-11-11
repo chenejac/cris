@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
 	 xmlns:lc="lc">
 	
@@ -31,28 +30,25 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:fragment id="form_region">
 					<!-- MAIN testAuthorEvaluatedRecord PANEL -->	
 						
 					<h:panelGrid id="mainPanel">
-						<rich:panel id="testAuthorEvaluatedRecordTablePanel"
+						<p:panel id="testAuthorEvaluatedRecordTablePanel"
 						header="#{messages['administration.testAuthorEvaluatedRecordPanel.header']}" rendered="#{testAuthorEvaluatedRecordManagedBean.tableMode == modesManagedBean.browse}">
 							<h:panelGrid id="testAuthorEvaluatedRecordTableFormPanel">
-								<h:inputText id="general" rendered="false" value="" />
+								<p:inputText id="general" rendered="false" value="" />
 								<!--<ui:include src="./normativeRecords/apvRegisteredResearchersTable.xhtml"/>-->
 							</h:panelGrid>
-						</rich:panel>
+						</p:panel>
 					</h:panelGrid>		
 							
 					<!-- testAuthorEvaluatedRecord PANEL -->
@@ -60,7 +56,7 @@
 					<h:panelGrid id="modalPanel2s" columns="1" width="100%">
 					<h:form id="testAuthorEvaluatedRecordViewDetailsForm">
 						<h:panelGrid id="testAuthorEvaluatedRecordViewDetailsModalPanel" columns="1" width="100%">
-								<rich:panel rendered="#{testAuthorEvaluatedRecordManagedBean.editMode == modesManagedBean.viewDetails}">
+								<p:panel rendered="#{testAuthorEvaluatedRecordManagedBean.editMode == modesManagedBean.viewDetails}">
 									
 									 <h:outputStylesheet>
 								        .wide-panel {
@@ -73,17 +69,17 @@
 								        }      
 								     </h:outputStylesheet>
 								    <!--================= Registered Researcher Short Info ====================  -->
-								    <rich:panel id="testAuthorEvaluatedRecordViewDetailsAuthorPanel" header="#{messages['records.testAuthorEvaluatedRecord.viewDetailsPanel.header']}" styleClass="wide-panel"> 
+								    <p:panel id="testAuthorEvaluatedRecordViewDetailsAuthorPanel" header="#{messages['records.testAuthorEvaluatedRecord.viewDetailsPanel.header']}" styleClass="wide-panel">
 										<h:panelGrid columns="2" id="testAuthorEvaluatedRecordShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left" >
-								    		<h:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.lastname']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorLastName"/>
+								    		<p:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.lastname']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorLastName"/>
 								    		<h:outputText value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthor.name.lastname}" style="font-weight:bold" id="viewDetailsAuthorLastName"/>
-								    		<h:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.firstname']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorFirstName"/>
+								    		<p:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.firstname']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorFirstName"/>
 								    		<h:outputText value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthor.name.firstname}" style="font-weight:bold" id="viewDetailsAuthorFirstName"/>
-								    		<h:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.organisation']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorInstitutionName"/>
+								    		<p:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.organisation']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorInstitutionName"/>
 								    		<h:outputText value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthor.institutionName}" style="font-weight:bold" id="viewDetailsAuthorInstitutionName"/>
-									 		<h:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.commisionFreeText']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorCommissionLastName"/>    	
+									 		<p:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.commisionFreeText']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorCommissionLastName"/>
 								    		<h:outputText value="#{testAuthorEvaluatedRecordManagedBean.selectedCommisionName}" id="viewDetailsAuthorCommissionLastName"/>
-								    		<h:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.usedRuleBook']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorDownloadImage"/>
+								    		<p:outputLabel value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.person.usedRuleBook']}" for="testAuthorEvaluatedRecordViewDetailsForm:viewDetailsAuthorDownloadImage"/>
 								    		<h:outputLink 
 												value="#{testAuthorEvaluatedRecordManagedBean.pdfUrl}"
 												target="_blank" 
@@ -94,67 +90,64 @@
 								    				
 								    	</h:panelGrid>
 								    	<br/>
-								 		<rich:dataTable value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthorEvaluatedResults.resultsGroups}" var="list" id="expandableTable" styleClass="wide-panel" rendered = "true">
+								 		<p:dataTable value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthorEvaluatedResults.resultsGroups}" var="list" id="expandableTable" styleClass="wide-panel" rendered = "true">
 								     		<f:facet name="header">  
-								                <rich:columnGroup>
-								                    <rich:column colspan="4">
+								                <p:columnGroup>
+								                    <p:column colspan="4">
 								                        <h:outputText value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.productionTable.summary']}" />
-								                    </rich:column>
-								                    <rich:column breakRowBefore="true">
+								                    </p:column>
+								                    <p:column breakRowBefore="true">
 								                        <h:outputText value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.productionTable.resultType']}" />
-								                    </rich:column>
-								                    <rich:column>
+								                    </p:column>
+								                    <p:column>
 								                        <h:outputText value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.productionTable.resultName']}" />
-								                    </rich:column>
-								                    <rich:column>
+								                    </p:column>
+								                    <p:column>
 								                        <h:outputText value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.productionTable.count']}" />
-								                    </rich:column>
-								                    <rich:column>
+								                    </p:column>
+								                    <p:column>
 								                        <h:outputText value="#{messages['records.testAuthorEvaluatedRecord.viewDetails.productionTable.points']}" />
-								                    </rich:column>
-								                </rich:columnGroup>
+								                    </p:column>
+								                </p:columnGroup>
 								            </f:facet>
-								                    <rich:column>                		
+								                    <p:column>
 								                		<h:outputText value="#{list.resultType.classId}" />
-								            		</rich:column> 
-								            		<rich:column style="width:80%"> 
-								            		<a4j:outputPanel ajaxRendered="true" >           		  		 
-								            			<a4j:commandLink id="link" value="#{list.resultType.someTerm}" render="testAuthorEvaluatedRecordViewDetailsAuthorPanel" limitRender="true" execute="@this">
+								            		</p:column>
+								            		<p:column style="width:80%">
+								            		<p:outputPanel ajaxRendered="true" >
+								            			<p:commandLink id="link" value="#{list.resultType.someTerm}" render="testAuthorEvaluatedRecordViewDetailsAuthorPanel" limitRender="true" execute="@this">
 									 						<a4j:param name="val" value="#{true}" assignTo="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" />
-									 					</a4j:commandLink> 			
-									 					 <a4j:region id="collapsablePanel">      		
-													     <rich:list value="#{list.results}" var="item" rendered="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" type="unordered">
+									 					</p:commandLink>
+									 					 <p:fragment id="collapsablePanel">
+													     <p:dataList value="#{list.results}" var="item" rendered="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" type="unordered">
 													     <div style="margin-bottom: 10px;">	
 													     	<h:outputText value="#{item.publication.harvardRepresentation}" rendred="true" escape="false"  />
 													     </div>						     	
-													     </rich:list>
-													     <a4j:commandLink render="testAuthorEvaluatedRecordViewDetailsAuthorPanel" execute="@this" limitRender="true" rendered="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}">
+													     </p:dataList>
+													     <p:commandLink render="testAuthorEvaluatedRecordViewDetailsAuthorPanel" execute="@this" limitRender="true" rendered="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}">
 													     	<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
 									 						<a4j:param name="val" value="#{false}" assignTo="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" />
-									 					</a4j:commandLink> 	
-													   </a4j:region>					 
-													</a4j:outputPanel >            					            		
-								            		</rich:column>            		
-								            		<rich:column style="text-align: center;">                		
+									 					</p:commandLink>
+													   </p:fragment>
+													</p:outputPanel >
+								            		</p:column>
+								            		<p:column style="text-align: center;">
 								                		<h:outputText value="#{list.results.size()}" />
 								                		<f:facet name="footer"><h:outputText value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthorEvaluatedResults.totalPapers}"/></f:facet>
-								            		</rich:column>       
-								            		<rich:column style="text-align: center;">                		
+								            		</p:column>
+								            		<p:column style="text-align: center;">
 								                		<h:outputText value="#{list.quantitativeMeasure*list.results.size()}" />
 								                		<f:facet name="footer"><h:outputText value="#{testAuthorEvaluatedRecordManagedBean.selectedAuthorEvaluatedResults.totalPoints}"/></f:facet>	                       
-								            		</rich:column>            		    		
-								     	</rich:dataTable>
-								     </rich:panel>
-								</rich:panel>
+								            		</p:column>
+								     	</p:dataTable>
+								     </p:panel>
+								</p:panel>
 						</h:panelGrid>
 					</h:form>
 					</h:panelGrid>					
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

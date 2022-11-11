@@ -18,10 +18,10 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.SwingTreeNodeImpl;
-import org.richfaces.model.UploadedFile;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.file.UploadedFile;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.eval.EntityResultsTypeDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.eval.ResultsTypeMeasureDAO;
@@ -65,7 +65,7 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 	
 	List<RuleBookImplementationDTO> similarRuleBookImplementations = null;
 	
-	private SwingTreeNodeImpl<RuleBookImplementationDTO> root = null;
+	private DefaultTreeNode<RuleBookImplementationDTO> root = null;
 	
 	private RecordDAO recordDAO = new RecordDAO(new RecordDB());
 	private ModesManagedBean modesManagedBean = new ModesManagedBean();
@@ -915,14 +915,16 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 	public void getTree() {
 		debug("getTree");
 		try {
-			root = new SwingTreeNodeImpl<RuleBookImplementationDTO>(); 
+			root = new DefaultTreeNode<RuleBookImplementationDTO>();
 			List<RuleBookImplementationDTO> allRuleBookImplementations = getRuleBookImplementations();
 			for(RuleBookImplementationDTO el:allRuleBookImplementations){
 				if(((superRuleBook == null) && (el.getSuperRuleBook() == null)) || ((superRuleBook != null) && (superRuleBook.equals(el.getSuperRuleBook())))){
-					SwingTreeNodeImpl<RuleBookImplementationDTO> node = new SwingTreeNodeImpl<RuleBookImplementationDTO>();
+					DefaultTreeNode<RuleBookImplementationDTO> node = new DefaultTreeNode<RuleBookImplementationDTO>();
 					node.setData(el);
 					addSubnodesToNode(node, ((RuleBookImplementationDTO)node.getData()));
-					root.addChild(node);
+					if (root.getChildren() == null)
+						root.setChildren(new ArrayList<>());
+					root.getChildren().add(node);
 				}
 			}	 
 	    } catch (Exception e) {
@@ -930,12 +932,14 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 	    }
 	}
 	
-	private void addSubnodesToNode(SwingTreeNodeImpl<RuleBookImplementationDTO> parentNode, RuleBookImplementationDTO parentRuleBook) {
-		for(RuleBookImplementationDTO el:getAllSubElements(parentRuleBook)){		
-			SwingTreeNodeImpl<RuleBookImplementationDTO> node = new SwingTreeNodeImpl<RuleBookImplementationDTO>();
+	private void addSubnodesToNode(DefaultTreeNode<RuleBookImplementationDTO> parentNode, RuleBookImplementationDTO parentRuleBook) {
+		for(RuleBookImplementationDTO el:getAllSubElements(parentRuleBook)){
+			DefaultTreeNode<RuleBookImplementationDTO> node = new DefaultTreeNode<RuleBookImplementationDTO>();
 			node.setData(el);
 			addSubnodesToNode(node, el);
-			parentNode.addChild(node);
+			if (parentNode.getChildren() == null)
+				parentNode.setChildren(new ArrayList<>());
+			parentNode.getChildren().add(node);
 		}
 	 }
 	
@@ -956,7 +960,7 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 	/**
 	 * @return the root
 	 */
-	public SwingTreeNodeImpl<RuleBookImplementationDTO> getRoot() {
+	public DefaultTreeNode<RuleBookImplementationDTO> getRoot() {
 		if(populateList){
 			getTree();
 		}
@@ -966,7 +970,7 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 	/**
 	 * @param root the root to set
 	 */
-	public void setRoot(SwingTreeNodeImpl<RuleBookImplementationDTO> root) {
+	public void setRoot(DefaultTreeNode<RuleBookImplementationDTO> root) {
 		this.root = root;
 	}
 
@@ -980,7 +984,7 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 	public void uploadListener(FileUploadEvent event) {
         try{
 	        FileDTO fileDTO = new FileDTO();
-	        UploadedFile item = event.getUploadedFile();
+	        UploadedFile item = event.getFile();
 //	        if (item. isTempFile()) {
 //	        	 byte[] fileInBytes = new byte[(int)item.getFile().length()];
 //	        	 java.io.File tempFile = item.getFile();
@@ -990,10 +994,10 @@ public class RuleBookImplementationManagedBean extends CRUDManagedBean {
 //	        	 fileDTO.setData(fileInBytes);
 //	        	 fileDTO.setLength(item.getFile().length());
 //	        } else {
-	        	 fileDTO.setData(item.getData());
-	        	 fileDTO.setLength(item.getData().length);
+	        	 fileDTO.setData(item.getContent());
+	        	 fileDTO.setLength(item.getContent().length);
 //	        }
-	        fileDTO.setFileName((item.getName().lastIndexOf("\\") != -1)?item.getName().substring(item.getName().lastIndexOf("\\")+1):item.getName());
+	        fileDTO.setFileName((item.getFileName().lastIndexOf("\\") != -1)?item.getFileName().substring(item.getFileName().lastIndexOf("\\")+1):item.getFileName());
 	        fileDTO.setControlNumber(selectedRuleBookImplementation.getControlNumber());
 	        fileDTO.setUploader(getUserManagedBean().getLoggedUser().getEmail());
 	        selectedRuleBookImplementation.setFile(fileDTO);

@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
 	<f:view locale="#{userManagedBean.language}" >
@@ -29,21 +28,18 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region" >
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region" >
 					<h:form id="evaluationTableForm">
 						<h:panelGrid id="mainPanel">
-							<rich:panel id="evaluationBrowseModalPanel">
+							<p:panel id="evaluationBrowseModalPanel">
 								<f:facet name="header">
 									<h:panelGroup>
 										<h:outputText
@@ -57,15 +53,12 @@
 									</h:panelGroup>
 								</f:facet>
 								<ui:include src="../bibliographicRecords/evaluationTable.xhtml"/>
-							</rich:panel>
+							</p:panel>
 						</h:panelGrid>
 					</h:form>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

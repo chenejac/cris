@@ -10,8 +10,7 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.richfaces.event.DropEvent;
-
+import org.primefaces.event.DragDropEvent;
 import rs.ac.uns.ftn.informatika.bibliography.dao.ResearchAreaDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.EmailMessage;
 import rs.ac.uns.ftn.informatika.bibliography.dto.InstitutionDTO;
@@ -287,14 +286,20 @@ public class ResearchAreaManagedBean extends CRUDManagedBean {
 
 	private ResearchAreaDTO findResearchAreaByClassId(List<ResearchAreaDTO> researchAreasList) {
 		ResearchAreaDTO retVal = null;
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		String classId = facesCtx.getExternalContext()
+				.getRequestParameterMap().get("classId");
+		retVal = findResearchAreaByClassId(researchAreasList, classId);
+		return retVal;
+	}
+
+	private ResearchAreaDTO findResearchAreaByClassId(List<ResearchAreaDTO> researchAreasList, String classId) {
+		ResearchAreaDTO retVal = null;
 		try {
-			FacesContext facesCtx = FacesContext.getCurrentInstance();
-			String classId = facesCtx.getExternalContext()
-					.getRequestParameterMap().get("classId");
 			for (ResearchAreaDTO ra : researchAreasList) {
 				if ((ra.getClassId() != null)
 						&& (ra.getClassId()
-								.equalsIgnoreCase(classId))) {
+						.equalsIgnoreCase(classId))) {
 					retVal = ra;
 					if(retVal.getSuperResearchArea() == null)
 						retVal.setSuperResearchArea(new ResearchAreaDTO());
@@ -330,9 +335,9 @@ public class ResearchAreaManagedBean extends CRUDManagedBean {
 		this.openMultilingualContentForm(editMode, selectedResearchArea.getDescriptionTranslations(), false, "cerif.researchArea.editPanel.descriptionTranslations.panelHeader", "cerif.researchArea.editPanel.descriptionTranslations.contentHeader");
 	}
 	
-	public void processDrop(DropEvent event){
-		ResearchAreaDTO drop = (ResearchAreaDTO)event.getDropValue();
-		ResearchAreaDTO drag = (ResearchAreaDTO)event.getDragValue();
+	public void processDrop(DragDropEvent event){
+		ResearchAreaDTO drop = (ResearchAreaDTO)findResearchAreaByClassId(list, event.getDropId());
+		ResearchAreaDTO drag = (ResearchAreaDTO)findResearchAreaByClassId(list, event.getDragId());
 		if(!(drag.equals(drop)) && (!(isChild(drop, drag)))) {
 			drag.setSuperResearchArea(drop);
 			researchAreaDAO.update(drag);

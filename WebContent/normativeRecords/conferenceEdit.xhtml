@@ -2,55 +2,54 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="conferenceEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Conference.......           -->
-		<rich:panel id="conferencePreview"
+		<p:panel id="conferencePreview"
 			header="#{messages['records.conference.editPanel.preview']}"
 			rendered="#{conferenceManagedBean.editTabNumber == 2}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{conferenceManagedBean.selectedConference.stringRepresentation}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
-		<rich:panel 
+			</p:outputPanel>
+		</p:panel>
+		<p:panel
 			id="scrollableBody"
 			rendered="#{conferenceManagedBean.editTabNumber lt 2}"
 			styleClass="scrollableBody">
-			<rich:panel id="conferenceFullPreview"
+			<p:panel id="conferenceFullPreview"
 				header="#{messages['records.conference.editPanel.preview']}"
 				rendered="#{(conferenceManagedBean.editMode == modesManagedBean.import) and (conferenceManagedBean.editTabNumber == 1)}">
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<h:panelGrid columns="1">
 						<h:outputText
 							value="#{conferenceManagedBean.selectedConference.HTMLRepresentation}"
 							styleClass="preview" 
 							escape="false"/>
 					</h:panelGrid>
-				</a4j:outputPanel>
-				<a4j:commandLink 
+				</p:outputPanel>
+				<p:commandLink
 					render="relatedRecordsEditModalPanel"
 				    execute="@this" 
 				    limitRender="true">
 				    <h:graphicImage library="img" name="publications.png" />
 				    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 				        value="#{conferenceManagedBean.selectedConference}" />
-				    <rich:tooltip followMouse="true" direction="topRight"
+				    <p:tooltip followMouse="true" direction="topRight"
 						showDelay="1000" styleClass="tooltip" mode="client">
 						<span class="tooltipSpan"> 
 							<h:panelGrid columns="2">
@@ -59,314 +58,311 @@
 									value="#{messages['records.conference.tablePanel.btnPublications']}" />
 							</h:panelGrid> 
 						</span>
-					</rich:tooltip>
-				</a4j:commandLink>
-			</rich:panel>
-			<rich:tabPanel 
+					</p:tooltip>
+				</p:commandLink>
+			</p:panel>
+			<p:tabView
 				switchType="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
 				activeItem="#{conferenceManagedBean.activeEditTab}" >
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					header="#{messages['records.conference.editPanel.firstTab']}"
 					rendered="#{conferenceManagedBean.editTabNumber == 0}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!--  ...... language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.nameLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{conferenceManagedBean.selectedConference.name.language}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Name .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.name']}*" 
 								for="name" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="name"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.name.content}"
 							rows="3" 
 							required="#{empty conferenceManagedBean.selectedConference.nameTranslations}"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{conferenceManagedBean.nameTranslations}"
 							value="#{messages['records.conference.editPanel.btnNameTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="name" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Place .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.place']}" 
 								for="place" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="place"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.place}"
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="place" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... State .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.state']}" 
 								for="state" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="state"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.state}"
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="state" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Year .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.year']}*" 
 								for="year" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="year"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.year}"
 							required="true"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="year" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Period .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.period']}" 
 								for="period" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="period"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.period}"
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="period" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Number .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.number']}" 
 								for="number" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="number"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.number}" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="number" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Description .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.description']}" 
 								for="description" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="description"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.description.content}"
 							rows="3"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{conferenceManagedBean.descriptionTranslations}"
 							value="#{messages['records.conference.editPanel.btnDescriptionTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="description" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Keywords .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.keywords']}" 
 								for="keywords" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="keywords"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{conferenceManagedBean.selectedConference.keywords.content}"
 							rows="3"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{conferenceManagedBean.keywordsTranslations}"
 							value="#{messages['records.conference.editPanel.btnKeywordsTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="keywords" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... URI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.conference.editPanel.uri']}" 
 								for="uri" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea
+						</p:outputPanel>
+						<p:inputTextarea
 							id="uri"
 							readonly="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{conferenceManagedBean.selectedConference.uri}"
 							rows="3"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="uri" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab1"
 					header="#{messages['records.conference.editPanel.secondTab']}"
 					rendered="#{(conferenceManagedBean.editTabNumber == 1) and ((conferenceManagedBean.editMode == modesManagedBean.add) or (conferenceManagedBean.editMode == modesManagedBean.import))}">
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<h:panelGrid columns="2">
 							<h:graphicImage library="img" name="info.png" />
 							<h:outputText value="#{conferenceManagedBean.pickSimilarMessage}"
 								styleClass="rf-msg-inf" />
 						</h:panelGrid>
-					</a4j:outputPanel>
-					<h:graphicImage 
-						library="img"
-						name="spacer.gif" 
-						alt="" 
+					</p:outputPanel>
+					<p:spacer
 						height="10"
 						width="1"
 						/>
-					<rich:dataTable 
+					<p:dataTable
 						id="conferenceTable" 
 						value="#{conferenceManagedBean.similarConferences}"
 						var="conferenceRow" >
 						<!--     ........  name   .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.conference.tablePanel.name']}" />
 							</f:facet>
 							<h:outputText value="#{conferenceRow.someName}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  place   .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.conference.tablePanel.place']}" />
 							</f:facet>
 							<h:outputText value="#{conferenceRow.place}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  year  .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.conference.tablePanel.year']}" />
 							</f:facet>
 							<h:outputText value="#{conferenceRow.year}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  number   .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.conference.tablePanel.number']}" />
 							</f:facet>
 							<h:outputText value="#{conferenceRow.number}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  chooseSimilar   .......-->
-						<rich:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.conference.tablePanel.chooseSimilar']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{conferenceManagedBean.chooseSimilar}"
 								render="mainPanel, #{conferenceManagedBean.renderModalPanels}"
 								rendered="#{(conferenceManagedBean.editMode != modesManagedBean.import)}"
@@ -375,7 +371,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -384,9 +380,9 @@
 												value="#{messages['records.conference.tablePanel.btnPick']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-							<a4j:commandLink 
+								</p:tooltip>
+							</p:commandLink>
+							<p:commandLink
 								action="#{conferenceManagedBean.examineData}"
 								render="mainPanel, #{conferenceManagedBean.renderModalPanels}"
 								rendered="#{(conferenceManagedBean.editMode == modesManagedBean.import) }"
@@ -395,7 +391,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{conferenceRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -404,16 +400,16 @@
 												value="#{messages['records.conference.tablePanel.btnExamine']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-							<a4j:commandLink 
+								</p:tooltip>
+							</p:commandLink>
+							<p:commandLink
 								render="relatedRecordsEditModalPanel"
 							    execute="@this" 
 							    limitRender="true">
 							    <h:graphicImage library="img" name="publications.png" />
 							    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 							        value="#{conferenceRow}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -422,33 +418,33 @@
 												value="#{messages['records.conference.tablePanel.btnPublications']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
-					</rich:dataTable>
-				</rich:tab>
-				<rich:tab 
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+				<p:tab
 					name="tab2"
 					header="#{messages['records.conference.editPanel.thirdTab']}"
 					rendered="#{(conferenceManagedBean.editMode == modesManagedBean.viewDetails)}">
-					<a4j:outputPanel ajaxRendered="true">
-						<h:inputTextarea
+					<p:outputPanel ajaxRendered="true">
+						<p:inputTextarea
 							value="#{conferenceManagedBean.selectedConference.record.MARC21Record.printableString}"
 							readonly="true" cols="60" styleClass="marc21TextArea" />
-					</a4j:outputPanel>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+					</p:outputPanel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid>
-		<a4j:commandButton
+		<p:commandButton
 				rendered="#{((conferenceManagedBean.editMode == modesManagedBean.update) or ((conferenceManagedBean.editMode == modesManagedBean.import) and (not empty conferenceManagedBean.selectedConference.controlNumber))) and ((conferenceManagedBean.editTabNumber == 0) or (conferenceManagedBean.editTabNumber == 1))}"
 				action="#{conferenceManagedBean.update}"
 				value="#{messages['records.conference.editPanel.btnUpdate']}"
-				render="conferenceEditModalPanel" 
+				update="conferenceEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{((conferenceManagedBean.editMode == modesManagedBean.add) or ((conferenceManagedBean.editMode == modesManagedBean.import) and (empty conferenceManagedBean.selectedConference.controlNumber))) and ((conferenceManagedBean.editTabNumber == 0) or (conferenceManagedBean.editTabNumber == 1))}"
 				action="#{conferenceManagedBean.add}"
 				value="#{messages['records.conference.editPanel.btnCreate']}"
@@ -456,14 +452,14 @@
 				limitRender="true" 
 				execute="@form"
 				/>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(conferenceManagedBean.editMode == modesManagedBean.import) and (conferenceManagedBean.editTabNumber == 5)}"
 				action="#{conferenceManagedBean.examineData}"
 				value="#{messages['records.conference.editPanel.btnExamine']}"
 				render="conferenceEditModalPanel" 
 				limitRender="true" 
 				execute="@this" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(conferenceManagedBean.editTabNumber == 2)}" 
 				action="#{conferenceManagedBean.finishWizard}"
 				value="#{messages['records.conference.editPanel.btnAllRight']}"

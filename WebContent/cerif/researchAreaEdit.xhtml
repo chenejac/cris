@@ -2,52 +2,51 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="researchAreaEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......ResearchArea.......           -->
-		<rich:panel id="researchAreaPreview"
+		<p:panel id="researchAreaPreview"
 			header="#{messages['cerif.researchArea.editPanel.preview']}"
 			rendered="#{researchAreaManagedBean.editTabNumber == 1}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{researchAreaManagedBean.selectedResearchArea}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
-		<rich:panel 
+			</p:outputPanel>
+		</p:panel>
+		<p:panel
 			id="scrollableBody"
 			rendered="#{researchAreaManagedBean.editTabNumber lt 1}"
 			styleClass="scrollableBody">
-			<rich:tabPanel 
+			<p:tabView
 				switchType="#{(researchAreaManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
 				activeItem="#{researchAreaManagedBean.activeEditTab}" >
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					header="#{messages['cerif.researchArea.editPanel.firstTab']}"
 					rendered="#{researchAreaManagedBean.editTabNumber == 0}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!-- ....... classId .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.researchArea.editPanel.classId']}*" 
 								for="classId" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="classId"
 							readonly="#{(researchAreaManagedBean.editMode == modesManagedBean.viewDetails) or (researchAreaManagedBean.editMode == modesManagedBean.update)}" 
 							value="#{researchAreaManagedBean.selectedResearchArea.classId}"
@@ -55,74 +54,74 @@
 							required="true"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="classId" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!--  ...... language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.researchArea.editPanel.termLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(researchAreaManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{researchAreaManagedBean.selectedResearchArea.originalLanguage}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Term .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.researchArea.editPanel.term']}*" 
 								for="term" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="term"
 							readonly="#{(researchAreaManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{researchAreaManagedBean.selectedResearchArea.term.content}"
 							rows="3" 
 							required="#{empty researchAreaManagedBean.selectedResearchArea.termTranslations}"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{researchAreaManagedBean.termTranslations}"
 							value="#{messages['cerif.researchArea.editPanel.btnTermTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="term" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... superResearchArea .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.researchArea.editPanel.superResearchArea']}" 
 								for="superResearchArea" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="superResearchArea"
 							readonly="true" 
 							value="#{researchAreaManagedBean.selectedResearchArea.superResearchArea.fullHierarchy}"
@@ -134,63 +133,63 @@
 						<h:outputText 
 							value=""  
 							/>
-						<a4j:outputPanel 
+						<p:outputPanel
 							ajaxRendered="true" 
 							>
-							<rich:message 
+							<p:message
 								for="superResearchArea" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Description .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.researchArea.editPanel.description']}" 
 								for="description" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="description"
 							readonly="#{(researchAreaManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{researchAreaManagedBean.selectedResearchArea.description.content}"
 							rows="3"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{researchAreaManagedBean.descriptionTranslations}"
 							value="#{messages['cerif.researchArea.editPanel.btnDescriptionTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="description" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(researchAreaManagedBean.editMode == modesManagedBean.update) and (researchAreaManagedBean.editTabNumber == 0)}"
 				action="#{researchAreaManagedBean.update}"
 				value="#{messages['cerif.researchArea.editPanel.btnUpdate']}"
 				render="researchAreaEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(researchAreaManagedBean.editMode == modesManagedBean.add) and (researchAreaManagedBean.editTabNumber == 0)}"
 				action="#{researchAreaManagedBean.add}"
 				value="#{messages['cerif.researchArea.editPanel.btnCreate']}"
 				render="researchAreaEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(researchAreaManagedBean.editTabNumber == 1)}" 
 				action="#{researchAreaManagedBean.finishWizard}"
 				value="#{messages['cerif.researchArea.editPanel.btnAllRight']}"

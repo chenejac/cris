@@ -3,35 +3,34 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="userEditFormatNamesFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......User.......           -->
-		<rich:panel id="userPreview"
+		<p:panel id="userPreview"
 			header="#{messages['administration.user.editPanel.preview']}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText value="#{userManagedBean.selectedUser}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
+			</p:outputPanel>
+		</p:panel>
 		<h:panelGrid rendered="#{userManagedBean.editTabNumber == 0}">
 			<h:panelGrid columns="1"  width="100%"
 				rendered="#{(userManagedBean.editMode != modesManagedBean.register) and (userManagedBean.editMode != modesManagedBean.updateUserBasicData) and (userManagedBean.editMode != modesManagedBean.updateUserAdvancedData) and (userManagedBean.editMode != modesManagedBean.viewDetails) and (userManagedBean.editMode != modesManagedBean.addFormatName)}">
 				<!--  pick Author -->
-				<a4j:commandButton 
+				<p:commandButton
 					action="#{userManagedBean.pickAuthor}"
 					render="#{authorManagedBean.renderModalPanels}"
 					value="#{messages['administration.user.editPanel.btnPickAuthor']}" 
@@ -40,49 +39,49 @@
 			<h:panelGrid id="authorNames" columns="1"
 				rendered="#{(userManagedBean.selectedUser.author.controlNumber!=null)}">
 				<!-- ===========================   tablePanel  ============================= -->
-				<rich:panel id="authorNameTablePanel"
+				<p:panel id="authorNameTablePanel"
 					header="#{messages['administration.user.editPanel.nameTablePanel.header']}">
-					<rich:dataTable id="authorNameTable"
+					<p:dataTable id="authorNameTable"
 						value="#{userManagedBean.selectedUser.author.allNames}"
 						var="authorNameRow">
 						<!--     ........  name   .......-->
-						<rich:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['administration.user.editPanel.nameTablePanel.name']}" />
 							</f:facet>
 							<h:outputText value="#{authorNameRow}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  change position   .......-->
-						<rich:column rendered="#{(userManagedBean.editMode != modesManagedBean.viewDetails)}">
+						<p:column rendered="#{(userManagedBean.editMode != modesManagedBean.viewDetails)}">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['administration.user.editPanel.nameTablePanel.changePosition']}" />
 							</f:facet>
-							<a4j:commandLink action="#{userManagedBean.moveAuthorNameUp}"
+							<p:commandLink action="#{userManagedBean.moveAuthorNameUp}"
 								render="authorNameTable"
 								limitRender="true"
 								execute="@this">
 								<h:graphicImage library="img" name="up.gif" />
 								<f:param name="firstname" value="#{authorNameRow.firstname}" />
 								<f:param name="lastname" value="#{authorNameRow.lastname}" />
-							</a4j:commandLink>
-							<a4j:commandLink action="#{userManagedBean.moveAuthorNameDown}"
+							</p:commandLink>
+							<p:commandLink action="#{userManagedBean.moveAuthorNameDown}"
 								render="authorNameTable"
 								limitRender="true"
 								execute="@this">
 								<h:graphicImage library="img" name="down.gif" />
 								<f:param name="firstname" value="#{authorNameRow.firstname}" />
 								<f:param name="lastname" value="#{authorNameRow.lastname}" />
-							</a4j:commandLink>
-						</rich:column>
+							</p:commandLink>
+						</p:column>
 						<!--     ........  remove name   .......-->
-						<rich:column rendered="#{(userManagedBean.editMode != modesManagedBean.viewDetails)}">
+						<p:column rendered="#{(userManagedBean.editMode != modesManagedBean.viewDetails)}">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['administration.user.editPanel.nameTablePanel.remove']}" />
 							</f:facet>
-							<a4j:commandLink action="#{userManagedBean.removeAuthorName}"
+							<p:commandLink action="#{userManagedBean.removeAuthorName}"
 								render="authorNameTable"
 								immediate="true"
 								limitRender="true"
@@ -91,83 +90,83 @@
 								<h:graphicImage library="img" name="delete.png" />
 								<f:param name="firstname" value="#{authorNameRow.firstname}" />
 								<f:param name="lastname" value="#{authorNameRow.lastname}" />
-							</a4j:commandLink>
-						</rich:column>
-					</rich:dataTable>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
 					<h:panelGrid columns="5" 
 						columnClasses="width20, width30, width10, width10, width30"
 						width="100%"
 						rendered="#{userManagedBean.editMode == modesManagedBean.addFormatName}">
 						<!-- ....... Lastname other format.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['administration.user.editPanel.lastname']}*" 
 								for="lastname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="lastname"
 							value="#{userManagedBean.lastnameOtherFormat}" 
 							maxlength="30" 
 							required="true" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{userManagedBean.addAuthorName}"
 							value="#{messages['administration.user.editPanel.btnAddName']}"
 							render="authorNames" 
 							execute="@form" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="lastname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Firstname other format.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['administration.user.editPanel.firstname']}*" 
 								for="firstname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="firstname"
 							value="#{userManagedBean.firstnameOtherFormat}" 
 							maxlength="30" 
 							required="true"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="firstname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:panel>
+				</p:panel>
 			</h:panelGrid>
 		</h:panelGrid>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="2">
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{userManagedBean.editTabNumber == 0}"
 				action="#{userManagedBean.update}"
 				value="#{messages['administration.user.editPanel.btnUpdate']}"
 				render="userEditFormatNamesModalPanel" 
 				immediate="true"
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{userManagedBean.editTabNumber == 0}"
 				action="#{userManagedBean.exit}"
 				value="#{messages['administration.user.editPanel.btnCancel']}"
 				immediate="true" 
 				execute="@this" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{userManagedBean.editTabNumber == 1}" 
 				action="#{userManagedBean.finishWizard}"
 				value="#{messages['administration.user.editPanel.btnAllRight']}"

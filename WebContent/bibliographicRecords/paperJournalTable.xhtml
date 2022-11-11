@@ -2,25 +2,21 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 	
 	<h:panelGrid id="paperJournalTableFormPanel" >
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Journal....... -->
-		<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+		<p:spacer
 				height="10"
 				width="1"
 				/>
@@ -38,7 +34,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(paperJournalManagedBean.journal != null)}"/>
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperJournalManagedBean.pickJournal}"
 				render="journalBrowseModalPanel"
 				value="#{messages['records.paperJournal.tablePanel.btnPickOtherJournal']}"
@@ -47,7 +43,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(paperJournalManagedBean.journal != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperJournalManagedBean.pickJournal}"
 				render="journalBrowseModalPanel"
 				value="#{messages['records.paperJournal.tablePanel.btnPickJournal']}"
@@ -64,10 +60,7 @@
 		<h:panelGrid
 			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)||(paperJournalManagedBean.journal != null)}">
 			<!-- ===========================   searchPanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				rendered="#{(paperJournalManagedBean.journal==null)}"
@@ -78,34 +71,34 @@
 				columns="6">
 				<h:panelGroup>
 					<h2>
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.paperJournal.searchPanel.header']}: " 
 								for="whereStr" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h2>
 				</h:panelGroup>
-				<h:inputText 
+				<p:inputText
 					id="whereStr"
 					onkeydown="keyDownHandler(event, 'paperJournalTableForm:btnFind')"
 					value="#{paperJournalManagedBean.whereStr}" 
 					styleClass="searchBox" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnFind"
 					value="#{messages['records.paperJournal.searchPanel.btnFind']}"
 					render="paperJournalTablePanel" 
 					limitRender="true" 
 					execute="@form" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowAll"
 					action="#{paperJournalManagedBean.removeFilter}"
 					value="#{messages['records.paperJournal.searchPanel.btnShowAll']}"
 					render="paperJournalTablePanel, paperJournalSearchPanel"
 					execute="@this" 
 					limitRender="true" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowM99PMF"
 					action="#{paperJournalManagedBean.populateM99PMF}"
 					value="#{messages['records.paperJournal.searchPanel.btnShowM99PMF']}"
@@ -113,7 +106,7 @@
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}" 
 					execute="@this" 
 					limitRender="true" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowM99TF"
 					action="#{paperJournalManagedBean.populateM99TF}"
 					value="#{messages['records.paperJournal.searchPanel.btnShowM99TF']}"
@@ -123,27 +116,28 @@
 					limitRender="true" />
 			</h:panelGrid>
 			<!-- ===========================   tablePanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				/>
 			<h:panelGrid id="paperJournalTablePanel" >
 			<h:panelGrid
 				rendered="#{(not empty paperJournalManagedBean.whereStr)||(paperJournalManagedBean.journal != null)}">
-				<rich:dataTable 
+				<p:dataTable
 					id="paperJournalTable"
 					value="#{paperJournalManagedBean.paperJournals}"
 					var="paperJournalRow" 
 					rows="10"
+					paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+					rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 					 >
 					<!--     ........  reference   .......-->
-					<rich:column
+					<p:column
 					  style="#{paperJournalManagedBean.selectedPaperJournal.controlNumber == paperJournalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{paperJournalManagedBean.sort}"
 								render="paperJournalTable"
 								limitRender="true" 
@@ -158,15 +152,15 @@
 									library="img" name="down.gif"
 									rendered="#{(paperJournalManagedBean.orderBy=='stringRepresentation') and (paperJournalManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="stringRepresentation" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{paperJournalRow.stringRepresentation}"/>
-					</rich:column>
+					</p:column>
 					<!--     ........  paperType   .......-->
-					<rich:column
+					<p:column
 						style="#{paperJournalManagedBean.selectedPaperJournal.controlNumber == paperJournalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{paperJournalManagedBean.sort}"
 								render="paperJournalTableForm"
 								limitRender="true" 
@@ -179,18 +173,18 @@
 								<h:graphicImage library="img" name="down.gif"
 									rendered="#{(paperJournalManagedBean.orderBy=='localizedPaperType') and (paperJournalManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="localizedPaperType" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{paperJournalRow.localizedPaperType}" />
-					</rich:column>
+					</p:column>
 					<!--     ........  actions   .......-->
-					<rich:column
+					<p:column
 						style="#{paperJournalManagedBean.selectedPaperJournal.controlNumber == paperJournalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.paperJournal.tablePanel.actions']}" />
 						</f:facet>
-						<a4j:commandLink
+						<p:commandLink
 							action="#{paperJournalManagedBean.switchToViewDetailsMode}"
 							render="paperJournalEditModalPanel" 
 							limitRender="true" 
@@ -200,8 +194,8 @@
 							<f:param name="controlNumber"
 								value="#{paperJournalRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml"/>
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.update]}"
 							action="#{paperJournalManagedBean.switchToSimpleUpdateMode}"
 							render="paperJournalSimpleEditModalPanel"
@@ -212,8 +206,8 @@
 							<f:param name="controlNumber"
 								value="#{paperJournalRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml"/>
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.delete]}"
 							action="#{paperJournalManagedBean.delete}"
 							onclick="if(!confirmDecision()) return false"
@@ -225,24 +219,16 @@
 							<f:param name="controlNumber"
 								value="#{paperJournalRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml"/>
-						</a4j:commandLink>
-					</rich:column>
-				</rich:dataTable>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
 				<h:panelGrid columns="1">
-					<h:panelGroup>
-						<rich:dataScroller 
-							id="downDataScroller" 
-							align="left"
-							for="paperJournalTable" 
-							render="paperJournalTablePanel"
-							renderIfSinglePage="false"/> 
-					</h:panelGroup>
 					<h:panelGroup>
 						<h3>
 							<h:outputText
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add]}"
 									value="#{messages['records.paperJournal.tablePanel.btnCreate']}: " />
-							<a4j:commandLink 
+							<p:commandLink
 								rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.add]}"
 								action="#{paperJournalManagedBean.switchToSimpleAddMode}"
 								render="paperJournalSimpleEditModalPanel"
@@ -251,7 +237,7 @@
 								immediate="true" >
 								<h:graphicImage library="img" name="create.png" />
 								<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml"/>
-							</a4j:commandLink>
+							</p:commandLink>
 						</h3>
 					</h:panelGroup>
 				</h:panelGrid>

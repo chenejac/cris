@@ -2,23 +2,19 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<a4j:outputPanel ajaxRendered="true">
+	<p:outputPanel ajaxRendered="true">
 		<h:panelGrid columns="2"
 			rendered="#{(not specVerLstManagedBean.customPick) and (specVerLstManagedBean.pickMessage!=null)}">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{specVerLstManagedBean.pickMessage}"
 				styleClass="rf-msg-inf" />
 		</h:panelGrid>
-	</a4j:outputPanel>
+	</p:outputPanel>
 	<!-- ===========================   searchPanel  ============================= -->
-	<h:graphicImage 
-		library="img"
-		name="spacer.gif" 
-		alt="" 
+	<p:spacer
 		height="10"
 		width="1"
 		/>
@@ -28,27 +24,27 @@
 		rendered="#{not specVerLstManagedBean.customPick}">
 		<h:panelGroup>
 			<h2>
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.specVerLst.searchPanel.header']}: " 
 						for="whereStr" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h2>
 		</h:panelGroup>
-		<h:inputText 
+		<p:inputText
 			id="whereStr"
 			onkeydown="keyDownHandler(event, 'specVerLstPickForm:btnFind')"
 			value="#{specVerLstManagedBean.whereStr}" 
 			styleClass="searchBox" />
-		<a4j:commandButton 
+		<p:commandButton
 			id="btnFind"
 			value="#{messages['records.specVerLst.searchPanel.btnFind']}"
 			render="specVerLstTablePanel" 
 			limitRender="true" 
 			execute="@form" />
-		<a4j:commandButton 
+		<p:commandButton
 			id="btnShowAll"
 			action="#{specVerLstManagedBean.removeFilter}"
 			value="#{messages['records.specVerLst.searchPanel.btnShowAll']}"
@@ -57,31 +53,32 @@
 			execute="@this"/>
 	</h:panelGrid>
 	
-	<rich:panel 
+	<p:panel
 		id="scrollableBody"
 		styleClass="scrollableBody" 
 		rendered="#{(not empty specVerLstManagedBean.specVerLsts) or (not specVerLstManagedBean.customPick)}" >
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="specVerLstTablePanel">
-			<rich:dataTable 
+			<p:dataTable
 				id="specVerLstTable"
 				value="#{specVerLstManagedBean.specVerLsts}" 
 				var="specVerLstRow"
-				rows="10" 
+				rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  name   .......-->
-				<rich:column
+				<p:column
 					style="#{specVerLstManagedBean.selectedSpecVerLst.controlNumber == specVerLstRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
 					styleClass="rich-table-wide-cell" >
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{specVerLstManagedBean.sort}"
 							render="specVerLstTablePanel"
 							limitRender="true"
@@ -94,18 +91,18 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(specVerLstManagedBean.orderBy=='someName') and (specVerLstManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="someName" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{specVerLstRow.someName}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  actions   .......-->
-				<rich:column
+				<p:column
 					style="#{specVerLstManagedBean.selectedSpecVerLst.controlNumber == specVerLstRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.specVerLst.tablePanel.actions']}" />
 					</f:facet>
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{specVerLstManagedBean.switchToViewDetailsMode}"
 						render="specVerLstEditModalPanel" 
 						limitRender="true"
@@ -115,8 +112,8 @@
 						<f:param name="controlNumber"
 							value="#{specVerLstRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/specVerLstToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formSpeciallyVerifiedList][privilegesManagedBean.update]}"
 						action="#{specVerLstManagedBean.switchToUpdateMode}"
 						render="specVerLstEditModalPanel"
@@ -127,8 +124,8 @@
 						<f:param name="controlNumber"
 							value="#{specVerLstRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/specVerLstToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formSpeciallyVerifiedList][privilegesManagedBean.delete]}"
 						action="#{specVerLstManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -140,8 +137,8 @@
 						<f:param name="controlNumber"
 							value="#{specVerLstRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/specVerLstToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						action="#{specVerLstManagedBean.chooseSpecVerLst}"
 						rendered="#{specVerLstManagedBean.tableMode == modesManagedBean.pick}"
 						render="mainPanel, #{specVerLstManagedBean.renderModalPanels}"
@@ -151,8 +148,8 @@
 						<f:param name="controlNumber"
 							value="#{specVerLstRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/specVerLstToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						render="relatedRecordsEditModalPanel"
 					    execute="@this" 
 					    limitRender="true">
@@ -160,25 +157,17 @@
 					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 					        value="#{specVerLstRow}" />
 					    <ui:include src="../bibliographicRecords/specVerLstToolTip.xhtml" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
 			<h:panelGrid columns="1">
-				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScroller" 
-						align="left"
-						for="specVerLstTable" 
-						render="specVerLstTablePanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
 				<h:panelGroup
 					rendered="#{(specVerLstManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formSpeciallyVerifiedList][privilegesManagedBean.add])}">
 					<h3>
 						<h:outputText
 							value="#{messages['records.specVerLst.tablePanel.btnCreate']}: "
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formSpeciallyVerifiedList][privilegesManagedBean.add]}" />
-						<a4j:commandLink 
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formSpeciallyVerifiedList][privilegesManagedBean.add]}"
 							action="#{specVerLstManagedBean.switchToAddMode}"
 							render="specVerLstEditModalPanel"
@@ -187,10 +176,10 @@
 							immediate="true">
 							<h:graphicImage library="img" name="create.png" />
 							<ui:include src="../bibliographicRecords/specVerLstToolTip.xhtml"/>
-						</a4j:commandLink>
+						</p:commandLink>
 					</h3>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

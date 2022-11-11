@@ -2,52 +2,51 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="positionEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Position.......           -->
-		<rich:panel id="positionPreview"
+		<p:panel id="positionPreview"
 			header="#{messages['cerif.position.editPanel.preview']}"
 			rendered="#{positionManagedBean.editTabNumber == 1}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{positionManagedBean.selectedPosition}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
-		<rich:panel 
+			</p:outputPanel>
+		</p:panel>
+		<p:panel
 			id="scrollableBody"
 			rendered="#{positionManagedBean.editTabNumber lt 1}"
 			styleClass="scrollableBody">
-			<rich:tabPanel 
+			<p:tabView
 				switchType="#{(positionManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
 				activeItem="#{positionManagedBean.activeEditTab}" >
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					header="#{messages['cerif.position.editPanel.firstTab']}"
 					rendered="#{positionManagedBean.editTabNumber == 0}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!-- ....... classId .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.position.editPanel.classId']}*" 
 								for="classId" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="classId"
 							readonly="#{(positionManagedBean.editMode == modesManagedBean.viewDetails) or (positionManagedBean.editMode == modesManagedBean.update)}" 
 							value="#{positionManagedBean.selectedPosition.classId}"
@@ -55,112 +54,112 @@
 							required="true"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="classId" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!--  ...... language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.position.editPanel.termLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(positionManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{positionManagedBean.selectedPosition.originalLanguage}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Term .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.position.editPanel.term']}*" 
 								for="term" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="term"
 							readonly="#{(positionManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{positionManagedBean.selectedPosition.term.content}"
 							rows="3" 
 							required="#{empty positionManagedBean.selectedPosition.termTranslations}"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{positionManagedBean.termTranslations}"
 							value="#{messages['cerif.position.editPanel.btnTermTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="term" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Description .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.position.editPanel.description']}" 
 								for="description" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="description"
 							readonly="#{(positionManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{positionManagedBean.selectedPosition.description.content}"
 							rows="3"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{positionManagedBean.descriptionTranslations}"
 							value="#{messages['cerif.position.editPanel.btnDescriptionTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="description" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(positionManagedBean.editMode == modesManagedBean.update) and (positionManagedBean.editTabNumber == 0)}"
 				action="#{positionManagedBean.update}"
 				value="#{messages['cerif.position.editPanel.btnUpdate']}"
 				render="positionEditModalPanel" 
 				limitRender="true" 
 				execute="@form"/>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(positionManagedBean.editMode == modesManagedBean.add) and (positionManagedBean.editTabNumber == 0)}"
 				action="#{positionManagedBean.add}"
 				value="#{messages['cerif.position.editPanel.btnCreate']}"
 				render="positionEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(positionManagedBean.editTabNumber == 1)}" 
 				action="#{positionManagedBean.finishWizard}"
 				value="#{messages['cerif.position.editPanel.btnAllRight']}"

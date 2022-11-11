@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 	<f:view locale="#{userManagedBean.language}">
 	<h:head>
@@ -31,122 +30,116 @@
 			</div>
 			
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region" >
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region" >
 					<h:form id="importForm">
 						<h:panelGrid id="mainPanel">
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importDiglib}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportDiglib']}"
 								execute="@this"
 								rendered="false"
 								/>
 								
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importDMIResearchers}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportDMIResearchers']}"
 								execute="@this"
 								rendered="false"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importDFResearchers}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportDFResearchers']}"
 								execute="@this"
 								rendered="false"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importDHResearchers}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportDHResearchers']}"
 								execute="@this"
 								rendered="false"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importDBEResearchers}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportDBEResearchers']}"
 								execute="@this"
 								rendered="false"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importDGTResearchers}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportDGTResearchers']}"
 								execute="@this"
 								rendered="false"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importAndrejevic}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportAndrejevic']}"
 								execute="@this"
 								rendered="false"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importPMFDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportPMFDissertations']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importFiloDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportFiloDissertations']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importMediDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportMediDissertations']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importTFDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportTFDissertations']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importPoljoDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportPoljoDissertations']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importOstaloDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportOstaloDissertations']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importScopusPaperJournal}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportScopusPaperJournal']}"
 								execute="@this"
 								/>
-							<a4j:commandButton
+							<p:commandButton
 								action="#{importManagedBean.importPreskocenoDissertations}"
-								render="importWizardModalPanel"
+								update="importWizardModalPanel"
 								value="#{messages['records.import.btnImportPreskocenoDissertations']}"
 								execute="@this"
 								/>
-							<h:graphicImage 
-								library="img"
-								name="spacer.gif" 
-								alt="" 
+							<p:spacer
 								height="200"
 								width="1"
 								/>	
@@ -159,7 +152,7 @@
 						<h:form id="importWizardForm">
 							<h:panelGrid id="importWizardModalPanel">
 								
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(importManagedBean.editMode == modesManagedBean.import)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -172,7 +165,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{importManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{importManagedBean.renderModalPanels}" 
@@ -180,10 +173,10 @@
 											immediate="true"
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../interoperability/importWizard.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Import end ============= -->
@@ -194,7 +187,7 @@
 						<!-- ======================== PaperJournal Edit panel ============= -->
 						<h:form id="paperJournalEditForm">
 							<h:panelGrid id="paperJournalEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									id="paperJournalEditPopupPanel"
 									rendered="#{(paperJournalManagedBean.simpleForm == false) and ((paperJournalManagedBean.editMode == modesManagedBean.import) or (paperJournalManagedBean.editMode == modesManagedBean.update) or (paperJournalManagedBean.editMode == modesManagedBean.viewDetails) or (paperJournalManagedBean.editMode == modesManagedBean.add))}"
 									show="true" 
@@ -208,7 +201,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{paperJournalManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{paperJournalManagedBean.renderModalPanels}" 
@@ -217,16 +210,16 @@
 											execute="@this"
 											>
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/paperJournalEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== PaperJournal Simple Edit panel ============= -->
 						<h:form id="paperJournalSimpleEditForm">
 							<h:panelGrid id="paperJournalSimpleEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									id="paperJournalSimpleEditPopupPanel"
 									rendered="#{(paperJournalManagedBean.simpleForm == true) and ((paperJournalManagedBean.editMode == modesManagedBean.import) or (paperJournalManagedBean.editMode == modesManagedBean.update) or (paperJournalManagedBean.editMode == modesManagedBean.viewDetails) or (paperJournalManagedBean.editMode == modesManagedBean.add))}"
 									show="true" 
@@ -240,7 +233,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{paperJournalManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{paperJournalManagedBean.renderModalPanels}" 
@@ -250,10 +243,10 @@
 											onclick="copiedReference='';"
 											>
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/paperJournalSimpleEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== PaperJournal end ============= -->
@@ -262,7 +255,7 @@
 						<!-- ======================== Journal Pick panel ============= -->
 						<h:form id="journalPickForm">
 							<h:panelGrid id="journalBrowseModalPanel">
-								<rich:popupPanel 
+								<p:dialog modal="true"
 									rendered="#{(journalManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -274,7 +267,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{journalManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{journalManagedBean.renderModalPanels}"
@@ -282,16 +275,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/journalPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>				
 						<!-- ======================== Journal Edit panel ============= -->
 						<h:form id="journalEditForm">
 							<h:panelGrid id="journalEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(journalManagedBean.editMode == modesManagedBean.import) or (journalManagedBean.editMode == modesManagedBean.update) or (journalManagedBean.editMode == modesManagedBean.viewDetails) or (journalManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -304,7 +297,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{journalManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{journalManagedBean.renderModalPanels}"
@@ -312,10 +305,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/journalEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Journal end ============= -->
@@ -327,7 +320,7 @@
 						<!-- ======================== PaperProceedings Edit panel ============= -->
 						<h:form id="paperProceedingsEditForm">
 							<h:panelGrid id="paperProceedingsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									id="paperProceedingsEditPopupPanel"
 									rendered="#{(paperProceedingsManagedBean.simpleForm == false) and ((paperProceedingsManagedBean.editMode == modesManagedBean.import) or (paperProceedingsManagedBean.editMode == modesManagedBean.update) or (paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails) or (paperProceedingsManagedBean.editMode == modesManagedBean.add))}"
 									show="true" 
@@ -341,7 +334,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{paperProceedingsManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}" 
@@ -350,16 +343,16 @@
 											execute="@this"
 											>
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/paperProceedingsEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== PaperProceedings Simple Edit panel ============= -->
 						<h:form id="paperProceedingsSimpleEditForm">
 							<h:panelGrid id="paperProceedingsSimpleEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									id="paperProceedingsSimpleEditPopupPanel"
 									rendered="#{(paperProceedingsManagedBean.simpleForm == true) and ((paperProceedingsManagedBean.editMode == modesManagedBean.import) or (paperProceedingsManagedBean.editMode == modesManagedBean.update) or (paperProceedingsManagedBean.editMode == modesManagedBean.viewDetails) or (paperProceedingsManagedBean.editMode == modesManagedBean.add))}"
 									show="true" 
@@ -373,7 +366,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{paperProceedingsManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{paperProceedingsManagedBean.renderModalPanels}" 
@@ -383,10 +376,10 @@
 											onclick="copiedReference='';"
 											>
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/paperProceedingsSimpleEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== PaperProceedings end ============= -->
@@ -395,7 +388,7 @@
 						<!-- ======================== Proceedings Pick panel ============= -->
 						<h:form id="proceedingsPickForm">
 							<h:panelGrid id="proceedingsBrowseModalPanel">
-								<rich:popupPanel 
+								<p:dialog modal="true"
 									rendered="#{(proceedingsManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -407,7 +400,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{proceedingsManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
@@ -415,16 +408,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/proceedingsPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>				
 						<!-- ======================== Proceedings Edit panel ============= -->
 						<h:form id="proceedingsEditForm">
 							<h:panelGrid id="proceedingsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(proceedingsManagedBean.editMode == modesManagedBean.import) or (proceedingsManagedBean.editMode == modesManagedBean.update) or (proceedingsManagedBean.editMode == modesManagedBean.viewDetails) or (proceedingsManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -437,7 +430,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{proceedingsManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
@@ -445,10 +438,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/proceedingsEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Proceedings end ============= -->
@@ -457,7 +450,7 @@
 						<!-- ======================== Conference Pick panel ============= -->
 						<h:form id="conferencePickForm">
 							<h:panelGrid id="conferenceBrowseModalPanel">
-								<rich:popupPanel 
+								<p:dialog modal="true"
 									rendered="#{(conferenceManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -469,7 +462,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{conferenceManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{conferenceManagedBean.renderModalPanels}"
@@ -477,16 +470,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/conferencePick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>				
 						<!-- ======================== Conference Edit panel ============= -->
 						<h:form id="conferenceEditForm">
 							<h:panelGrid id="conferenceEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(conferenceManagedBean.editMode == modesManagedBean.import) or (conferenceManagedBean.editMode == modesManagedBean.update) or (conferenceManagedBean.editMode == modesManagedBean.viewDetails) or (conferenceManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -499,7 +492,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{conferenceManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{conferenceManagedBean.renderModalPanels}"
@@ -507,10 +500,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/conferenceEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Conference end ============= -->
@@ -520,7 +513,7 @@
 						<!-- ======================== Monograph Pick panel ============= -->
 						<h:form id="monographPickForm" >
 							<h:panelGrid id="monographBrowseModalPanel">
-								<rich:popupPanel 
+								<p:dialog modal="true"
 									rendered="#{(monographManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -532,7 +525,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{monographManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{monographManagedBean.renderModalPanels}"
@@ -540,16 +533,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/monographPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>				
 						<!-- ======================== Monograph Edit panel ============= -->
 						<h:form id="monographEditForm" >
 							<h:panelGrid id="monographEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(monographManagedBean.editMode == modesManagedBean.import) or (monographManagedBean.editMode == modesManagedBean.update) or (monographManagedBean.editMode == modesManagedBean.viewDetails) or (monographManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -562,7 +555,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{monographManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{monographManagedBean.renderModalPanels}"
@@ -570,10 +563,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/monographEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Monograph end ============= -->
@@ -585,7 +578,7 @@
 						<!-- ======================== StudyFinalDocument Edit panel ============= -->
 						<h:form id="studyFinalDocumentEditForm">
 							<h:panelGrid id="studyFinalDocumentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.import) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.update) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewDetails) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -598,7 +591,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{studyFinalDocumentManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{studyFinalDocumentManagedBean.renderModalPanels}" 
@@ -606,10 +599,10 @@
 											immediate="true"
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/studyFinalDocumentEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== StudyFinalDocument end ============= -->
@@ -618,7 +611,7 @@
 						<!-- ======================== Author Pick panel ============= -->
 						<h:form id="authorPickForm">
 							<h:panelGrid id="authorBrowseModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(authorManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -630,7 +623,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{authorManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{authorManagedBean.renderModalPanels}" 
@@ -638,16 +631,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/authorPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Author Edit panel ============= -->
 						<h:form id="authorEditForm">
 							<h:panelGrid id="authorEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(authorManagedBean.editMode == modesManagedBean.import) or (authorManagedBean.editMode == modesManagedBean.update) or (authorManagedBean.editMode == modesManagedBean.viewDetails) or (authorManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -660,7 +653,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{authorManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{authorManagedBean.renderModalPanels}"
@@ -668,16 +661,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/authorEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Author Name Formats panel ============= -->
 						<h:form id="authorNameFormatsForm">
 							<h:panelGrid id="authorNameFormatsModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{authorManagedBean.editMode == modesManagedBean.addFormatName}"
 									show="true" 
 									domElementAttachment="parent"
@@ -690,7 +683,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{authorManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{authorManagedBean.renderModalPanels}"
@@ -698,10 +691,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/authorNameFormats.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Author end ============= -->
@@ -710,7 +703,7 @@
 						<!-- ======================== Institution Pick panel ============= -->
 						<h:form id="institutionPickForm">
 							<h:panelGrid id="institutionBrowseModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(institutionManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -722,7 +715,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{institutionManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{institutionManagedBean.renderModalPanels}" 
@@ -730,16 +723,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/institutionPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Institution Edit panel ============= -->
 						<h:form id="institutionEditForm">
 							<h:panelGrid id="institutionEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(institutionManagedBean.editMode == modesManagedBean.import) or (institutionManagedBean.editMode == modesManagedBean.update) or (institutionManagedBean.editMode == modesManagedBean.viewDetails) or (institutionManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -752,7 +745,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{institutionManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{institutionManagedBean.renderModalPanels}"
@@ -760,10 +753,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/institutionEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Institution end ============= -->
@@ -774,7 +767,7 @@
 						<!-- ======================== Author Position Edit panel ============= -->
 						<h:form id="authorPositionForm">
 							<h:panelGrid id="authorPositionEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(authorPositionManagedBean.editMode == modesManagedBean.update) or (authorPositionManagedBean.editMode == modesManagedBean.viewDetails) or (authorPositionManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -787,7 +780,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{authorPositionManagedBean.exit}"
 											styleClass="hidelink" 
 											render="authorPositionEditModalPanel"
@@ -795,10 +788,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../authorPosition.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Author Position end ============= -->	
@@ -807,7 +800,7 @@
 						<!-- ======================== ResearchArea Pick panel ============= -->
 						<h:form id="researchAreaPickForm">
 							<h:panelGrid id="researchAreaBrowseModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(researchAreaManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -819,7 +812,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{researchAreaManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{researchAreaManagedBean.renderModalPanels}" 
@@ -827,16 +820,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/researchAreaPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== ResearchArea Edit panel ============= -->
 						<h:form id="researchAreaEditForm">
 							<h:panelGrid id="researchAreaEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(researchAreaManagedBean.editMode == modesManagedBean.update) or (researchAreaManagedBean.editMode == modesManagedBean.viewDetails) or (researchAreaManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -849,7 +842,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{researchAreaManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{researchAreaManagedBean.renderModalPanels}"
@@ -857,10 +850,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/researchAreaEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== ResearchArea end ============= -->
@@ -869,7 +862,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -882,7 +875,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -890,10 +883,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
@@ -902,7 +895,7 @@
 						<!-- ======================== Multilingual content Publisher Edit panel ============= -->
 						<h:form id="multilingualContentPublisherForm">
 							<h:panelGrid id="multilingualContentPublisherEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentPublisherManagedBean.editMode == modesManagedBean.update) or (multilingualContentPublisherManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentPublisherManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -915,7 +908,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentPublisherManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentPublisherEditModalPanel"
@@ -923,10 +916,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContentPublisher.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content publisher end ============= -->
@@ -934,7 +927,7 @@
 						<!-- ======================== Related Records  ============= -->
 						<h:form id="relatedRecordsForm">
 							<h:panelGrid id="relatedRecordsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty relatedRecordsManagedBean.selectedRecord)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -946,7 +939,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{relatedRecordsManagedBean.exit}"
 											styleClass="hidelink" 
 											render="relatedRecordsEditModalPanel"
@@ -954,26 +947,23 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../relatedRecords.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Related records end ============= -->
 					
-						<rich:popupPanel
+						<p:dialog modal="true"
 							rendered="true"
 							show="false">
-							<rich:editor/> 
-						</rich:popupPanel>
+							<p:textEditor/>
+						</p:dialog>
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			

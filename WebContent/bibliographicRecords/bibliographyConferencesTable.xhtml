@@ -2,27 +2,23 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="bibliographyConferencesTableFormPanel" >
-		<h:inputText id="generalConferences" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="generalConferences" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="generalConferences"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<h:panelGrid
 			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)}">
 			<!-- ===========================   searchPanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				/>
@@ -31,28 +27,28 @@
 				columns="4">
 				<h:panelGroup>
 					<h2>
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.bibliography.searchPanel.header']}: " 
 								for="whereStrConferences"
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h2>
 				</h:panelGroup>
-				<h:inputText 
+				<p:inputText
 					id="whereStrConferences"
 					onkeydown="keyDownHandler(event, 'bibliographyConferencesTableForm:btnFindConferences')"
 					value="#{bibliographyManagedBean.whereStr}" 
 					styleClass="searchBox" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnFindConferences"
 					value="#{messages['records.bibliography.searchPanel.btnFind']}"
 					render="bibliographyConferencesTablePanel" 
 					limitRender="true" 
 					execute="@form"
 					image="./resources/img/filter.png"/>
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowAllConferences"
 					action="#{bibliographyManagedBean.removeFilter}"
 					value="#{messages['records.bibliography.searchPanel.btnShowAll']}"
@@ -68,12 +64,12 @@
 				<h3>
 					<h:outputText
 							value="#{messages['records.paperProceedings.tablePanel.btnCreate']}: " />
-					<a4j:commandLink
+					<p:commandLink
 							action="#{paperProceedingsManagedBean.enterCRUDPage}"
 					>
 						<h:graphicImage library="img" name="create.png" />
 						<ui:include src="../bibliographicRecords/paperJournalToolTip.xhtml"/>
-					</a4j:commandLink>
+					</p:commandLink>
 				</h3>
 			</h:panelGroup>
 			<h:panelGroup
@@ -81,33 +77,34 @@
 				<h3>
 					<h:outputText
 							value="#{messages['administration.import.menu']}: " />
-					<a4j:commandLink
+					<p:commandLink
 							action="#{importManagedBean.enterCRUDPageProceedings}"
 					>
 						<h:graphicImage library="img" name="import.png" />
 						<ui:include src="../bibliographicRecords/monographToolTip.xhtml"/>
-					</a4j:commandLink>
+					</p:commandLink>
 				</h3>
 			</h:panelGroup>
 		</h:panelGrid>
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="bibliographyConferencesTablePanel">
-			<rich:dataTable 
+			<p:dataTable
 				id="bibliographyConferencesTable"
 				value="#{bibliographyManagedBean.publications}"
 				var="bibliographyRow" 
 				rowKeyVar="bibliographyRowKey"
-				rows="10" 
+				rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  counter   .......-->
-				<rich:column
+				<p:column
 					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
 					<f:facet name="header">
 						<h:outputText
@@ -118,9 +115,9 @@
 						value="#{bibliographyRowKey + 1}" 
 						escape="false"
 						/>
-				</rich:column>
+				</p:column>
 				<!--     ........  reference   .......-->
-				<rich:column
+				<p:column
 					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
 					<f:facet name="header">
 						<h:outputText
@@ -131,13 +128,13 @@
 						value="#{bibliographyRow.HTMLRepresentation}" 
 						escape="false"
 						/>
-				</rich:column>
+				</p:column>
 				<!--     ........  PublicationYear   .......-->
-				<rich:column
+				<p:column
 					rendered = "#{(empty bibliographyManagedBean.startYear) or (empty bibliographyManagedBean.endYear) or (bibliographyManagedBean.startYear != bibliographyManagedBean.endYear)}"
 					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{bibliographyManagedBean.sort}"
 							render="bibliographyConferencesTablePanel"
 							limitRender="true"
@@ -152,12 +149,12 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="publicationYear" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{bibliographyRow.publicationYear}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  actions   .......-->
-				<rich:column
+				<p:column
 						rendered="#{userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber}"
 					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; font-size: 14px;">
 					<f:facet name="header">
@@ -165,7 +162,7 @@
 							value="#{messages['records.bibliography.tablePanel.actions']}"
 							style="font-size: 14px;"/>
 					</f:facet>
-					<a4j:commandLink 
+					<p:commandLink
 						rendered="#{(bibliographyRow.class.simpleName=='PaperProceedingsDTO') and (userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.update])}"
 						action="#{bibliographyManagedBean.switchToUpdateMode}"
 						render="paperProceedingsSimpleEditModalPanel"
@@ -176,8 +173,8 @@
 						<f:param name="controlNumber"
 							value="#{bibliographyRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(bibliographyRow.class.simpleName=='PaperProceedingsDTO') and (userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.delete])}"
 						action="#{bibliographyManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -189,19 +186,9 @@
 						<f:param name="controlNumber"
 							value="#{bibliographyRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/paperProceedingsToolTip.xhtml" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
-			<h:panelGrid columns="1" >
-				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScrollerConferences"
-						align="left"
-						for="bibliographyConferencesTable" 
-						render="bibliographyConferencesTablePanel"
-						renderIfSinglePage="false"/> 
-				</h:panelGroup>
-			</h:panelGrid>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
 		</h:panelGrid>
 	</h:panelGrid>
 </ui:composition>

@@ -2,39 +2,35 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<rich:panel 
+	<p:panel
 		id="scrollableBodyTree" 
 		styleClass="scrollableBody">
 		<!-- ===========================   treePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="resultsTypeTreePanel">
-			<rich:panel id="SuperResultsTypeGroupPreview"
+			<p:panel id="SuperResultsTypeGroupPreview"
 				header="#{messages['cerif.resultsTypeGroup.editPanel.preview']}"
 				rendered="#{resultsTypeManagedBean.superResultsTypeGroup!=null}">
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<h:panelGrid columns="1">
 						<h:outputText
 							value="#{resultsTypeManagedBean.superResultsTypeGroup}"
 							styleClass="preview" />
 					</h:panelGrid>
-				</a4j:outputPanel>
-			</rich:panel>
-			<rich:tree 
-				selectionType="client"
+				</p:outputPanel>
+			</p:panel>
+			<p:tree
+				dynamic="true"
 				value="#{resultsTypeManagedBean.rootNodes}"
 				var="resultsType" 
 				nodeType="#{resultsType.type}"	>			 
-				<rich:treeNode 
+				<p:treeNode
 					expanded="#{resultsType.expanded}"
 					iconCollapsed="/resources/img/resultsType32.png"
 					iconExpanded="/resources/img/resultsType32.png"
@@ -42,7 +38,7 @@
 					type="ResultsTypeDTO"
 					>
 					<h:outputText value="#{resultsType.element}" />
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{resultsTypeManagedBean.switchToViewDetailsMode}"
 						render="resultsTypeEditModalPanel" 
 						limitRender="true"
@@ -51,8 +47,8 @@
 						<h:graphicImage library="img" name="details.png" />
 						<f:param name="classId" value="#{resultsType.element.classId}" />
 						<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.update]}"
 						action="#{resultsTypeManagedBean.switchToUpdateMode}"
 						render="resultsTypeEditModalPanel" 
@@ -62,8 +58,8 @@
 						<h:graphicImage library="img" name="edit.png" />
 						<f:param name="classId" value="#{resultsType.element.classId}" />
 						<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.delete]}"
 						action="#{resultsTypeManagedBean.delete}"
 						render="resultsTypeBrowseModalPanel"
@@ -74,8 +70,8 @@
 						<h:graphicImage library="img" name="delete.png" />
 						<f:param name="classId" value="#{resultsType.element.classId}" />
 						<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(resultsTypeManagedBean.tableMode == modesManagedBean.pick)}" 
 						action="#{resultsTypeManagedBean.chooseResultsType}"
 						render="mainPanel, #{resultsTypeManagedBean.renderModalPanels}"
@@ -84,8 +80,8 @@
 						<h:graphicImage library="img" name="pick.png" />
 						<f:param name="classId" value="#{resultsType.element.classId}" />
 						<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						action="#{resultsTypeManagedBean.switchToAddMode}"
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.add]) and (resultsTypeManagedBean.superResultsTypeGroup!=null)}" 
 						render="resultsTypeEditModalPanel" 
@@ -95,11 +91,11 @@
 						<h:graphicImage library="img" name="create24.png" />
 						<f:param name="classId" value="#{resultsType.element.classId}" />
 						<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-					</a4j:commandLink>
-				</rich:treeNode>
-	        </rich:tree>
+					</p:commandLink>
+				</p:treeNode>
+	        </p:tree>
 			<h:panelGrid columns="1">
-				<a4j:commandLink 
+				<p:commandLink
 					action="#{resultsTypeManagedBean.switchToAddMode}"
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.add]) and (resultsTypeManagedBean.superResultsTypeGroup!=null)}" 
 					render="resultsTypeEditModalPanel" 
@@ -108,8 +104,8 @@
 					immediate="true">
 					<h:graphicImage library="img" name="create.png" />
 					<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-				</a4j:commandLink>
+				</p:commandLink>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

@@ -37,9 +37,10 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RangeQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.component.UITree;
-import org.richfaces.event.TreeSelectionChangeEvent;
 
+import org.primefaces.component.api.UITree;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.TabChangeEvent;
 import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.CERIFSemanticLayerDB;
@@ -232,7 +233,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		return searchQueries;
 	}
 	/**
-	 * @param searchQueries the searchQueries to set
+	 * @param searchQuerys the searchQueries to set
 	 */
 	public void setSearchQueries(List<QueryDTO> searchQuerys) {
 		this.searchQueries = searchQuerys;
@@ -562,7 +563,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		return authorName;
 	}
 	/**
-	 * @param authorName the authorName to set
+	 * @param firstLastName the authorName to set
 	 */
 	public void setAuthorName(String firstLastName) {
 		this.authorName = firstLastName;
@@ -1117,7 +1118,6 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		this.records = records;
 	}
 	/**
-	 * @param records the records to set
 	 */
 	public int getRecordSize() {
 		if(records!=null)
@@ -1238,7 +1238,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 			populateAll();
 		}
 		if(treeState!=null)
-			treeState.getSelection().clear();
+			treeState.clearInitialState();
 		
 		return root;
 	}
@@ -1367,38 +1367,36 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 //			}
 //		}
 //	}
-	
-	public void selectionChanged(TreeSelectionChangeEvent selectionChangeEvent){
-		
-        List<Object> selection = new ArrayList<Object>(selectionChangeEvent.getNewSelection());
-        Object currentSelectionKey = selection.get(0);
-        treeState = (UITree) selectionChangeEvent.getSource();
- 
-        Object storedKey = treeState.getRowKey();
-        treeState.setRowKey(currentSelectionKey);
-        
-        if(((TreeNodeDTO<Object>)treeState.getRowData()).getElement()!=null){
-			if(((TreeNodeDTO<Object>)treeState.getRowData()).getElement() instanceof InstitutionDTO)
-				changeSelectionOnTree(((InstitutionDTO)((TreeNodeDTO<Object>)treeState.getRowData()).getElement()).getControlNumber());
-			else if (((TreeNodeDTO<Object>)treeState.getRowData()).getElement() instanceof ClassDTO)
-				changeSelectionOnTree(((ClassDTO)((TreeNodeDTO<Object>)treeState.getRowData()).getElement()).getClassId());
-        }
-        treeState.setRowKey(storedKey);	
+
+
+	public void selectionChanged(NodeSelectEvent selectionChangeEvent){
+
+		treeState = (UITree) selectionChangeEvent.getSource();
+
+		String storedKey = treeState.getRowKey();
+		treeState.setRowKey(selectionChangeEvent.getTreeNode().getRowKey());
+
+		if(((TreeNodeDTO<InstitutionDTO>)treeState.getRowNode()).getData()!=null)
+			if(((TreeNodeDTO<Object>)treeState.getRowNode()).getData() instanceof InstitutionDTO)
+				changeSelectionOnTree(((InstitutionDTO)((TreeNodeDTO<Object>)treeState.getRowNode()).getData()).getControlNumber());
+			else if (((TreeNodeDTO<Object>)treeState.getRowNode()).getData() instanceof ClassDTO)
+				changeSelectionOnTree(((ClassDTO)((TreeNodeDTO<Object>)treeState.getRowNode()).getData()).getClassId());
+		treeState.setRowKey(storedKey);
 	}
 	
 	
 	public void changeSelectionOnTree(String controlNumber) {
 		TreeNodeDTO<Object> selectedNode = null;
  		for (TreeNodeDTO<Object> obj : allInstitutionsAndDegrees) {
- 			if(obj.getElement() instanceof InstitutionDTO){
-	 			InstitutionDTO dto = (InstitutionDTO)obj.getElement();
+ 			if(obj.getData() instanceof InstitutionDTO){
+	 			InstitutionDTO dto = (InstitutionDTO)obj.getData();
  				if ((dto.getControlNumber() != null)&& (dto.getControlNumber().equalsIgnoreCase(controlNumber))) {
 	 				selectedNode = obj;
 	 				break;
 	 			}
  			}
- 			if(obj.getElement() instanceof ClassDTO){
-	 			ClassDTO dto = (ClassDTO)obj.getElement();
+ 			if(obj.getData() instanceof ClassDTO){
+	 			ClassDTO dto = (ClassDTO)obj.getData();
  				if ((dto.getClassId() != null)&& (dto.getClassId().equalsIgnoreCase(controlNumber))) {
 	 				selectedNode = obj;
 	 				break;
@@ -1696,12 +1694,12 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		Query retVal = null;
 		for (TreeNodeDTO<Object> dto : root){
 			if (dto.isCheckbox_state()) {
-				InstitutionDTO institution = (InstitutionDTO) dto.getElement();
+				InstitutionDTO institution = (InstitutionDTO) dto.getData();
 				Query tempInsQuery = new TermQuery(new Term("INCN", institution.getControlNumber()));
 				Query tempDegreesQuery = null;
 				for (TreeNodeDTO<Object> degreeObject : dto.getChildren()) {
 					if (degreeObject.isCheckbox_state()) {
-						String degree = ((ClassDTO)degreeObject.getElement()).getTerm().getContent();
+						String degree = ((ClassDTO)degreeObject.getData()).getTerm().getContent();
 						QueryDTO queryDTO = new QueryDTO(0, QueryDTO.OR, "DT", QueryDTO.EXACT_PHRASE);
 		
 						queryDTO.setValue(degree);
@@ -1733,8 +1731,8 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	{
 		return (searchQueryError!=null)||(records!=null);
 	}
-	
-	public void changeTab(javax.faces.event.FacesEvent event){
+
+	public void changeTab(TabChangeEvent event){
 		records = null;
 		searchQueryError = null;
 	}

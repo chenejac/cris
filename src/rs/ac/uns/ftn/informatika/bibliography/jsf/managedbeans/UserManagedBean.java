@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.richfaces.component.UIDataTable;
-
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.UserDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorNameDTO;
@@ -192,7 +191,7 @@ public class UserManagedBean extends CRUDManagedBean implements IPickAuthorManag
 				}
 			}
 			if (index != -1) {
-				UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("userTable");
+				DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("userTable");
 				if(table!=null){
 					int page = index / table.getRows();
 					table.setFirst(table.getRows()*page);

@@ -2,35 +2,35 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<rich:panel 
+	<p:panel
 		id="scrollableBody"
 		styleClass="scrollableBody" 
 		rendered="#{(not empty positionManagedBean.positions) or (not positionManagedBean.customPick)}" >
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="positionTablePanel">
-			<rich:dataTable 
+			<p:dataTable
 				id="positionTable"
 				value="#{positionManagedBean.positions}" 
 				var="positionRow"
-				rows="10" 
+				rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  term   .......-->
-				<rich:column
+				<p:column
 					style="#{positionManagedBean.selectedPosition.classId == positionRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
 					styleClass="rich-table-wide-cell" >
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{positionManagedBean.sort}"
 							render="positionTablePanel"
 							limitRender="true"
@@ -43,18 +43,18 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(positionManagedBean.orderBy=='someTerm') and (positionManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="someTerm" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{positionRow.someTerm}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  actions   .......-->
-				<rich:column
+				<p:column
 					style="#{positionManagedBean.selectedPosition.classId == positionRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['cerif.position.tablePanel.actions']}" />
 					</f:facet>
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{positionManagedBean.switchToViewDetailsMode}"
 						render="positionEditModalPanel" 
 						limitRender="true"
@@ -64,8 +64,8 @@
 						<f:param name="classId"
 							value="#{positionRow.classId}" />
 						<ui:include src="../cerif/positionToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.update]}"
 						action="#{positionManagedBean.switchToUpdateMode}"
 						render="positionEditModalPanel"
@@ -76,8 +76,8 @@
 						<f:param name="classId"
 							value="#{positionRow.classId}" />
 						<ui:include src="../cerif/positionToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.delete]}"
 						action="#{positionManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -89,8 +89,8 @@
 						<f:param name="classId"
 							value="#{positionRow.classId}" />
 						<ui:include src="../cerif/positionToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						action="#{positionManagedBean.choosePosition}"
 						rendered="#{positionManagedBean.tableMode == modesManagedBean.pick}"
 						render="mainPanel, #{positionManagedBean.renderModalPanels}"
@@ -100,25 +100,17 @@
 						<f:param name="classId"
 							value="#{positionRow.classId}" />
 						<ui:include src="../cerif/positionToolTip.xhtml" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
 			<h:panelGrid columns="1">
-				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScroller" 
-						align="left"
-						for="positionTable" 
-						render="positionTablePanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
 				<h:panelGroup
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.add])}">
 					<h3>
 						<h:outputText
 							value="#{messages['cerif.position.tablePanel.btnCreate']}: "
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.add]}" />
-						<a4j:commandLink 
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPosition][privilegesManagedBean.add]}"
 							action="#{positionManagedBean.switchToAddMode}"
 							render="positionEditModalPanel"
@@ -127,10 +119,10 @@
 							immediate="true">
 							<h:graphicImage library="img" name="create.png" />
 							<ui:include src="../cerif/positionToolTip.xhtml" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</h3>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

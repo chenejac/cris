@@ -5,8 +5,7 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:a4j="http://richfaces.org/a4j"
-	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:p="http://primefaces.org/ui"
 	  xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
 >
 
@@ -54,10 +53,10 @@
 	<div id="pleaseWait" class="transparent"></div>
 	<div id="progressBar" class="progressbar"><h:graphicImage
 			library="img" name="progressbar.gif"></h:graphicImage></div>
-	<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
-	<a4j:region id="form_region">
+	<p:ajaxStatus onstart="onStart()" oncomplete="onStop()"/>
+	<p:fragment id="form_region">
 		<h:form id="organizationPageForm">
-			<rich:panel id="organizationViewDetailsPanel" header="#{messages['records.organizationPage.header']}" styleClass="wide-panel">
+			<p:panel id="organizationViewDetailsPanel" header="#{messages['records.organizationPage.header']}" styleClass="wide-panel">
 				<h:panelGrid columns="2" id="organizationPhotoShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left" >
 					<h:panelGroup>
 						<h:graphicImage library="img" name="institution_blue.png"  alt="none" styleClass="width50"/>
@@ -68,14 +67,16 @@
 						<h:outputText
 							rendered="#{not empty organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
 							value="#{messages['records.organizationPage.super.name']}"/>
-						<h:link outcome="organizationPage" >
+						<p:link
+								outcome="organizationPage"
+								rendered="#{not empty organizationProfileManagedBean.selectedSuperOrgUnit.someName}">
 							<h:outputText
 									value="#{organizationProfileManagedBean.selectedSuperOrgUnit.someName}"
 									style="font-weight:bold;font-size: 22px"
 							/>
 							<h:graphicImage library="img" name="enter.png" />
 							<f:param name="organization" value="#{organizationProfileManagedBean.selectedSuperOrgUnit.controlNumber}" />
-						</h:link>
+						</p:link>
 						<h:outputText
 							rendered="#{not empty organizationProfileManagedBean.selectedOrganizationUnit.uri}"
 							value="#{messages['records.organizationPage.webSite']}"
@@ -89,38 +90,40 @@
 						</h:outputLink>
 					</h:panelGrid>
 				</h:panelGrid>
-				<rich:panel
+				<p:panel
 					id="scrollableBody"
 					styleClass="scrollableBody">
-					<rich:tabPanel
-						switchType="ajax"
-						itemChangeListener="#{organizationProfileManagedBean.changeTab}" >
-						<rich:tab
-							header="#{messages['records.organizationPage.researchers']}"
+					<p:tabView
+						dynamic="true"
+						id="tabView"
+						>
+						<p:ajax event="tabChange" listener="#{organizationProfileManagedBean.changeTab}" process="@this" />
+						<p:tab
+							title="#{messages['records.organizationPage.researchers']}"
 							id="researchers">
 							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'researchers'}">
 								<ui:include src="normativeRecords/organizationResearchersTable.xhtml" />
 							</h:panelGrid>
-						</rich:tab>
-						<rich:tab
-								header="#{messages['records.organizationPage.hierarchy']}"
+						</p:tab>
+						<p:tab
+								title="#{messages['records.organizationPage.hierarchy']}"
 								id="hierarchy">
 							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'hierarchy'}">
 								<ui:include src="normativeRecords/organizationHierarchyTree.xhtml" />
 							</h:panelGrid>
-						</rich:tab>
-						<rich:tab
-							header="#{messages['records.organizationPage.search']}"
+						</p:tab>
+						<p:tab
+								title="#{messages['records.organizationPage.search']}"
 							id="searchProduction">
 							<h:panelGrid rendered="#{organizationProfileManagedBean.activeItem eq 'searchProduction'}">
 								<ui:include src="bibliographicRecords/organizationProductionSearch.xhtml"/>
 							</h:panelGrid>
-						</rich:tab>
-					</rich:tabPanel>
-				</rich:panel>
-			</rich:panel>
+						</p:tab>
+					</p:tabView>
+				</p:panel>
+			</p:panel>
 		</h:form>
-	</a4j:region>
+	</p:fragment>
 	</div>
 		<h:graphicImage
 				library="img"

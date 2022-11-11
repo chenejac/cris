@@ -2,62 +2,61 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">    
      
      
      <h:panelGrid id="monographEvaluationDataEditPanelGrid" >
-     	<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+     	<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true" style="border: 2px !important, margin: 20 px ">			
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true" style="border: 2px !important, margin: 20 px ">
 					<h:outputText 
 						value="#{monographManagedBean.selectedMonograph.HTMLRepresentation}"						
 						escape="false"/>		
-	    </a4j:outputPanel>				
-		<rich:tabPanel>
-			<rich:tab 
+	    </p:outputPanel>
+		<p:tabView>
+			<p:tab
 				name="tab0" 
 				rendered="#{(monographManagedBean.editTabNumber == 0) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 				header="#{messages['evaluation.evaluationData.evaluationData']}">
 				
 				<h:panelGrid columns="2" columnClasses="width40, width60">
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['evaluation.evaluationData.numberOfPages']} *" 
 								for="numberOfPages"  
 								errorStyleClass="errorMessage"
 								/>								
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="numberOfPages"
 							readonly="#{! empty monographManagedBean.selectedMonograph.numberOfPages}" 
 							value="#{monographManagedBean.selectedMonograph.numberOfPages}" />
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['evaluation.evaluationData.hаsReviewInInternationJournal']} *" 
 								for="hasReviewInInternationJornal"  
 								errorStyleClass="errorMessage"
 								/>								
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="hasReviewInInternationJornal"							 
 							value="#{monographManagedBean.selectedMonograph.evaluationData.hasReviewInInternationalJournal}" />	
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['evaluation.evaluationData.numberOfReviewers']} *" 
 								for="numberOfReviewer"  
 								errorStyleClass="errorMessage"
 								/>								
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="numberOfReviewer"							 
 							value="#{monographManagedBean.selectedMonograph.evaluationData.numberOfReviewers}" />							
 				</h:panelGrid>
@@ -66,68 +65,68 @@
 					<h:outputText 
 							value="#{messages['evaluation.evaluationData.autocitations']} *"						
 							escape="false"/>
-					<rich:dataTable
+					<p:dataTable
 						value="#{monographManagedBean.selectedMonographEvaluationData.autocitations}"
 						var = "autocitation">
-						<rich:column>
+						<p:column>
 			            	<f:facet name="header">
 			                	<h:outputText value="#{messages['evaluation.evaluationData.lastnameAndFirstname']}" />
 			            	</f:facet>
 			            	<h:outputText value="#{autocitation.forResearcher.name.lastname} #{autocitation.forResearcher.name.firstname}" />		            
-			        	</rich:column>		        	
-						<rich:column>
+			        	</p:column>
+						<p:column>
 							<f:facet name="header">
 			                	<h:outputText value="#{messages['evaluation.evaluationData.autocitationsM20']}" />
 			            	</f:facet>
-			            	<h:inputText value="#{autocitation.numberOfAutocitationM20}" /> 
-						</rich:column>	
-						<rich:column>
+			            	<p:inputText value="#{autocitation.numberOfAutocitationM20}" />
+						</p:column>
+						<p:column>
 							<f:facet name="header">
 			                	<h:outputText value="#{messages['evaluation.evaluationData.autocitationsM50']}" />
 			            	</f:facet>
-			            	<h:inputText value="#{autocitation.numberOfAutocitationM50}" /> 
-						</rich:column>			
-					</rich:dataTable>	
+			            	<p:inputText value="#{autocitation.numberOfAutocitationM50}" />
+						</p:column>
+					</p:dataTable>
 				</h:panelGrid>				
-			</rich:tab>
-			<rich:tab
+			</p:tab>
+			<p:tab
 				name="tab1" 
 				rendered="#{(monographManagedBean.editTabNumber == 1) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 				header="Dokumenata">
 				<h:panelGrid id="uploadFilePanelGrid">
-				<rich:dataTable 
+				<p:dataTable
 					value="#{monographManagedBean.selectedMonographEvaluationData.attachedFiles}"
 					var="file"
 					id="uploadedFilesDataTable"
-					styleClass="stable"	>
-					<rich:column>
+					styleClass="stable" tableStyle="width:auto"	>
+					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{messages['evaluation.evaluationData.nameOfFile']}" />
 						</f:facet>
 						<h:outputText value="#{file.fileNameClient}" />
-					</rich:column>					
-					<rich:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{messages['evaluation.evaluationData.link']}" />
 						</f:facet>
 						<h:outputLink value="#{monographManagedBean.getFileURL(file)}" target="_blank">
 							<h:outputText value="#{messages['evaluation.evaluationData.openFile']}" />
 						</h:outputLink>						
-					</rich:column>
-					<rich:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{messages['evaluation.evaluationData.deletion']}" />
 						</f:facet>
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{monographManagedBean.deleteAttachedFile(file)}"				
 							execute="@this"
 							render="uploadFilePanelGrid"
 							>
 							<h:graphicImage library="img" name="delete.png" />
-						</a4j:commandLink>
-					</rich:column>				
-				</rich:dataTable>
-				<rich:fileUpload 
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+				<p:fileUpload
 						id="fileUpload"
 						rendered="true"
 						fileUploadListener="#{monographManagedBean.uploadListener}"				        
@@ -141,23 +140,23 @@
 				        doneLabel="#{messages['evaluation.evaluationData.done']}"
 				        sizeExceededLabel="#{messages['evaluation.evaluationData.sizeExceeded']}"				        
 				        allowFlash="auto">
-				      <a4j:ajax event="uploadcomplete" render="monographEvaluationDataModalPanel" execute="@form" />
-				  </rich:fileUpload>				
+				      <p:ajax event="uploadcomplete" render="monographEvaluationDataModalPanel" execute="@form" />
+				  </p:fileUpload>
 				</h:panelGrid>			
-			</rich:tab>		
-		</rich:tabPanel>
-		<a4j:commandButton				
+			</p:tab>
+		</p:tabView>
+		<p:commandButton
 					action="#{monographManagedBean.nextEditTab()}"
 					value="#{messages['records.monograph.editPanel.btnNext']}"
 					rendered="#{(monographManagedBean.editTabNumber == 0) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
-					render="monographEvaluationDataModalPanel" 
+					update="monographEvaluationDataModalPanel"
 					limitRender="true" 
 					execute="@form" />					
-		<a4j:commandButton				
+		<p:commandButton
 					action="#{monographManagedBean.saveEvaluationData()}"
 					value="#{messages['records.monograph.editPanel.btnUpdate']}"
 					rendered="#{(monographManagedBean.editTabNumber == 1) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
-					render="monographEvaluationDataModalPanel" 
+					update="monographEvaluationDataModalPanel"
 					limitRender="true" 
 					execute="@form" />     	
      </h:panelGrid>     

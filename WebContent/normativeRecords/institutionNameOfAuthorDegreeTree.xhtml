@@ -2,16 +2,14 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 	<h:panelGrid id="institutionTreePanel">
-		<rich:tree
+		<p:tree
 			id="richTreeInstitutionTreePanel"
 			value="#{searchDissertationsManagedBean.root}"
 			var="node"
-			toggleType="client"
-            selectionType="ajax"
+			dynamic="true"
             nodeType="#{node.type}"
             render="@this"
             execute="@form"
@@ -19,7 +17,7 @@
            	<rich:treeSelectionChangeListener 
            		listener="#{searchDissertationsManagedBean.selectionChanged}" 
            		/>
-          	<rich:treeNode 
+          	<p:treeNode
 			iconCollapsed="/resources/img/institution.jpg"
 			iconExpanded="/resources/img/institution.jpg"
 			iconLeaf="/resources/img/institution.jpg"
@@ -36,9 +34,9 @@
 					rendered="#{node.tree_state eq 'partial'}"
 					value="/resources/img/cp16.jpg" />
 				<h:outputText value="#{node}"/>
-			</rich:treeNode>
+			</p:treeNode>
 			
-			<rich:treeNode 
+			<p:treeNode
 			iconCollapsed="/resources/img/spacer.gif"
 			iconExpanded="/resources/img/spacer.gif"
 			iconLeaf="/resources/img/spacer.gif"
@@ -55,8 +53,8 @@
 					rendered="#{node.tree_state eq 'partial'}"
 					value="/resources/img/cp16.jpg" />
 				<h:outputText value="#{node}"/>
-			</rich:treeNode>
-        </rich:tree>
+			</p:treeNode>
+        </p:tree>
 	</h:panelGrid>
 </ui:composition>
 	

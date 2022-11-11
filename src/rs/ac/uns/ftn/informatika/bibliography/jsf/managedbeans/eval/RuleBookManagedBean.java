@@ -20,9 +20,10 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.TreeNode;
+import org.primefaces.model.file.UploadedFile;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.eval.EntityResultsTypeDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.eval.EntityTypesDAO;
@@ -32,10 +33,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dao.eval.RuleBookEntityTypeDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.eval.RuleBookResultsTypeDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.eval.RuleBookResultsTypeMappingDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
-import rs.ac.uns.ftn.informatika.bibliography.dto.ClassDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.MultilingualContentDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.TreeNodeDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.Types;
+import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.dto.eval.EntityResultsTypeDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.eval.ResultsTypeDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.eval.ResultsTypeGroupDTO;
@@ -1416,11 +1414,19 @@ public class RuleBookManagedBean extends CRUDManagedBean implements IPickResults
 	/**
 	 * @return the rootNodes
 	 */
-	public List<TreeNodeDTO<RuleBookDTO>> getRootNodes() {
+	public TreeNode getRootNodes() {
 		if((populateList) || ((includeRuleBookImplementations)&&(getRuleBookImplementationManagedBean().isPopulateList()))){
 			getTree();
 		}
-		return rootNodes;
+		TreeNode retVal = new TreeNodeDTO<RuleBookDTO>(new RuleBookDTO());
+		retVal.setExpanded(true);
+		for (Object node:rootNodes
+		) {
+			TreeNodeDTO<OrganizationUnitDTO> nodeOrgUnit = (TreeNodeDTO<OrganizationUnitDTO>) node;
+			nodeOrgUnit.setParent(retVal);
+			retVal.getChildren().add(nodeOrgUnit);
+		}
+		return retVal;
 	}
 	
 	/**
@@ -1495,7 +1501,7 @@ public class RuleBookManagedBean extends CRUDManagedBean implements IPickResults
 	public void uploadListener(FileUploadEvent event) {
         try{
 	        FileDTO fileDTO = new FileDTO();
-	        UploadedFile item = event.getUploadedFile();
+	        UploadedFile item = event.getFile();
 //	        if (item. isTempFile()) {
 //	        	 byte[] fileInBytes = new byte[(int)item.getFile().length()];
 //	        	 java.io.File tempFile = item.getFile();
@@ -1505,10 +1511,10 @@ public class RuleBookManagedBean extends CRUDManagedBean implements IPickResults
 //	        	 fileDTO.setData(fileInBytes);
 //	        	 fileDTO.setLength(item.getFile().length());
 //	        } else {
-	        	 fileDTO.setData(item.getData());
-	        	 fileDTO.setLength(item.getData().length);
+	        	 fileDTO.setData(item.getContent());
+	        	 fileDTO.setLength(item.getContent().length);
 //	        }
-	        fileDTO.setFileName((item.getName().lastIndexOf("\\") != -1)?item.getName().substring(item.getName().lastIndexOf("\\")+1):item.getName());
+	        fileDTO.setFileName((item.getFileName().lastIndexOf("\\") != -1)?item.getFileName().substring(item.getFileName().lastIndexOf("\\")+1):item.getFileName());
 	        fileDTO.setControlNumber(selectedRuleBook.getControlNumber());
 	        fileDTO.setUploader(getUserManagedBean().getLoggedUser().getEmail());
 	        selectedRuleBook.setFile(fileDTO);

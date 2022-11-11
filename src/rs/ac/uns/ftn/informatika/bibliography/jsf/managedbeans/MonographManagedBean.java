@@ -21,10 +21,10 @@ import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.component.UIDataTable;
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
 
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 import rs.ac.uns.ftn.informatika.bibliography.dao.EvaluationDataDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.EvaluationDataDB;
@@ -126,7 +126,7 @@ public class MonographManagedBean extends CRUDManagedBean implements
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("monographTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("monographTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);
@@ -2123,10 +2123,10 @@ public class MonographManagedBean extends CRUDManagedBean implements
 	public void uploadListener(FileUploadEvent event) {
   try{
    FileDTO fileDTO = new FileDTO();
-   UploadedFile item = event.getUploadedFile();
- 	 fileDTO.setData(item.getData());
- 	 fileDTO.setLength(item.getData().length);
-   fileDTO.setFileName((item.getName().lastIndexOf("\\") != -1)?item.getName().substring(item.getName().lastIndexOf("\\")+1):item.getName());
+   UploadedFile item = event.getFile();
+ 	 fileDTO.setData(item.getContent());
+ 	 fileDTO.setLength(item.getContent().length);
+   fileDTO.setFileName((item.getFileName().lastIndexOf("\\") != -1)?item.getFileName().substring(item.getFileName().lastIndexOf("\\")+1):item.getFileName());
    fileDTO.setControlNumber(selectedMonograph.getControlNumber());
    fileDTO.setUploader(getUserManagedBean().getLoggedUser().getEmail());
    selectedMonographEvaluationData.getAttachedFiles().add(fileDTO);

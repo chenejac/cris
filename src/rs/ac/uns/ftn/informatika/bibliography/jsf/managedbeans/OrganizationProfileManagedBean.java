@@ -4,7 +4,9 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.*;
-import org.richfaces.component.UITabPanel;
+
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.TreeNode;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
@@ -206,8 +208,16 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 		return retVal;
 	}
 
-	public List<TreeNodeDTO<OrganizationUnitDTO>> getRootNodes() {
-		return rootNodes;
+	public TreeNode getRootNodes() {
+		TreeNode retVal = new TreeNodeDTO<OrganizationUnitDTO>(new OrganizationUnitDTO());
+		retVal.setExpanded(true);
+		for (Object node:rootNodes
+			 ) {
+			TreeNodeDTO<OrganizationUnitDTO> nodeOrgUnit = (TreeNodeDTO<OrganizationUnitDTO>) node;
+			nodeOrgUnit.setParent(retVal);
+			retVal.getChildren().add(nodeOrgUnit);
+		}
+		return retVal;
 	}
 
 	public void setRootNodes(List<TreeNodeDTO<OrganizationUnitDTO>> rootNodes) {
@@ -415,8 +425,8 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 
 	private String activeItem = "researchers";
 
-	public void changeTab(javax.faces.event.FacesEvent event){
-		changeTabAndLoad(((UITabPanel)event.getComponent()).getActiveItem().toString());
+	public void changeTab(TabChangeEvent event){
+		changeTabAndLoad(event.getTab().getId().toString());
 	}
 
 	public void changeTabAndLoad(String newActiveItem){

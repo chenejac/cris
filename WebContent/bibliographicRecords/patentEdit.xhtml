@@ -2,202 +2,201 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="patentEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Conference.......           -->
-		<rich:panel id="patentPreview"
+		<p:panel id="patentPreview"
 			header="#{messages['records.patent.editPanel.preview']}"
 			rendered="#{patentManagedBean.editTabNumber == 2}" >
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{patentManagedBean.selectedPatent.stringRepresentation}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
-		<rich:panel 
+			</p:outputPanel>
+		</p:panel>
+		<p:panel
 			id="scrollableBody"
 			rendered="#{patentManagedBean.editTabNumber lt 2}"
 			styleClass="scrollableBody">
-			<rich:tabPanel 
+			<p:tabView
 				switchType="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
 				activeItem="#{patentManagedBean.activeEditTab}" >
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					header="#{messages['records.patent.editPanel.firstTab']}"
 					rendered="#{patentManagedBean.editTabNumber == 0}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!--  ...... language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.titleLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{patentManagedBean.selectedPatent.title.language}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml" />
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Title .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.title']}*" 
 								for="title" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="title"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.title.content}"
 							rows="3" 
 							required="#{empty patentManagedBean.selectedPatent.titleTranslations}"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{patentManagedBean.titleTranslations}"
 							value="#{messages['records.patent.editPanel.btnTitleTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="title" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Number .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.number']}*" 
 								for="number" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="number"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.number}"
 							required="true"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="number" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publisherName .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.publisherName']}" 
 								for="publisherName" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="publisherName"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.publisher.originalPublisher.name}"
 							rows="3"  />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{patentManagedBean.publisherTranslations}"
 							value="#{messages['records.patent.editPanel.btnPublisherTranslations']}"
 							render="multilingualContentPublisherEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publisherName" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publisherPlace .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.publisherPlace']}" 
 								for="publisherPlace" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="publisherPlace"
 							readonly="#{(proceedingsManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.publisher.originalPublisher.place}"
 							maxlength="200"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publisherPlace" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publisherState .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.publisherState']}" 
 								for="publisherState" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="publisherState"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.publisher.originalPublisher.state}"
 							maxlength="200"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publisherState" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Publication Year .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.publicationYear']}*"
 								for="publicationYear" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="publicationYear"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.publicationYear}"
@@ -205,126 +204,126 @@
 							validatorMessage="#{messages['records.patent.editPanel.publicationYear.format']}"
 							 >
 							<f:validateRegex pattern="[1-2][0-9]{3}" />
-						</h:inputText>
+						</p:inputText>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publicationYear" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Keywords .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.keywords']}"
 								for="keywords" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="keywords"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.keywords.content}"
 							rows="3" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{patentManagedBean.keywordsTranslations}"
 							value="#{messages['records.patent.editPanel.btnKeywordsTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="keywords" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Abstract .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.abstract']}"
 								for="abstract" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="abstract"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{patentManagedBean.selectedPatent.abstracT.content}"
 							rows="3" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{patentManagedBean.abstractTranslations}"
 							value="#{messages['records.patent.editPanel.btnAbstractTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="abstract" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... DOI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.doi']}" 
 								for="doi" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="doi"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{patentManagedBean.selectedPatent.doi}"
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="doi" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... URI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.patent.editPanel.uri']}"
 								for="uri" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea
+						</p:outputPanel>
+						<p:inputTextarea
 							id="uri"
 							readonly="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{patentManagedBean.selectedPatent.uri}"
 							rows="3"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="uri" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab1"
 					rendered="#{(patentManagedBean.editTabNumber == 1) or (patentManagedBean.editMode == modesManagedBean.viewDetails)}"
 					header="#{messages['records.patent.editPanel.secondTab']}">
 					<h:panelGrid columns="1">
 						<!--  Add Author -->
-						<a4j:commandButton
+						<p:commandButton
 							rendered="#{(patentManagedBean.editMode != modesManagedBean.viewDetails)}" 
 							action="#{patentManagedBean.pickAuthor}"
 							render="authorBrowseModalPanel"
@@ -333,53 +332,53 @@
 					</h:panelGrid>
 					<h:panelGrid id="authors" columns="1">
 						<!-- ===========================   tablePanel  ============================= -->
-						<rich:dataTable id="authorTable"
+						<p:dataTable id="authorTable"
 							value="#{patentManagedBean.selectedPatent.allAuthors}"
 							var="authorRow">
 							<!--     ........  author name   .......-->
-							<rich:column>
+							<p:column>
 								<f:facet name="header">
 									<h:outputText
 										value="#{messages['records.patent.editPanel.authorTablePanel.name']}*" />
 								</f:facet>
-								<h:selectOneMenu 
+								<p:selectOneMenu
 									value="#{authorRow.name}"
 									disabled="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}">
 									<f:selectItems value="#{authorRow.allNamesSelectItems}" />
-								</h:selectOneMenu>
-							</rich:column>
+								</p:selectOneMenu>
+							</p:column>
 							<!--     ........  change position   .......-->
-							<rich:column
+							<p:column
 								rendered="#{(patentManagedBean.editMode != modesManagedBean.viewDetails)}">
 								<f:facet name="header">
 									<h:outputText
 										value="#{messages['records.patent.editPanel.authorTablePanel.changePosition']}" />
 								</f:facet>
-								<a4j:commandLink
+								<p:commandLink
 									action="#{patentManagedBean.moveAuthorUp}"
 									render="authors"
 									execute="@form" >
 									<h:graphicImage library="img" name="up.gif"  />
 									<f:param name="controlNumber"
 										value="#{authorRow.controlNumber}" />
-								</a4j:commandLink>
-								<a4j:commandLink
+								</p:commandLink>
+								<p:commandLink
 									action="#{patentManagedBean.moveAuthorDown}"
 									render="authors" 
 									execute="@form" >
 									<h:graphicImage library="img" name="down.gif"  />
 									<f:param name="controlNumber"
 										value="#{authorRow.controlNumber}" />
-								</a4j:commandLink>
-							</rich:column>
+								</p:commandLink>
+							</p:column>
 							<!--     ........  remove author   .......-->
-								<rich:column
+								<p:column
 									rendered="#{(patentManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.patent.editPanel.authorTablePanel.remove']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										rendered="#{authorRow.controlNumber != userManagedBean.loggedUser.author.controlNumber}"
 										action="#{patentManagedBean.removeAuthor}"
 										render="authors" 
@@ -387,70 +386,70 @@
 										<h:graphicImage library="img" name="delete.png" />
 										<f:param name="controlNumber"
 											value="#{authorRow.controlNumber}" />
-									</a4j:commandLink>
-								</rich:column>
+									</p:commandLink>
+								</p:column>
 								<!--     ........  add author other format name    .......-->
-								<rich:column
+								<p:column
 									rendered="#{(patentManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.patent.editPanel.authorTablePanel.addOtherFormatName']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										action="#{patentManagedBean.addAuthorOtherFormatName}"
 										render="authorNameFormatsModalPanel" 
 										execute="@form" >
 										<h:graphicImage library="img" name="edit.png"  />
 										<f:param name="controlNumber"
 											value="#{authorRow.controlNumber}" />
-									</a4j:commandLink>
-								</rich:column>
-						</rich:dataTable>
+									</p:commandLink>
+								</p:column>
+						</p:dataTable>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab2"
 					header="#{messages['records.patent.editPanel.thirdTab']}"
 					rendered="#{(patentManagedBean.editMode == modesManagedBean.viewDetails)}">
-					<a4j:outputPanel ajaxRendered="true">
-						<h:inputTextarea
+					<p:outputPanel ajaxRendered="true">
+						<p:inputTextarea
 							value="#{patentManagedBean.selectedPatent.record.MARC21Record.printableString}"
 							readonly="true" cols="60" styleClass="marc21TextArea" />
-					</a4j:outputPanel>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+					</p:outputPanel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="2">
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{((patentManagedBean.editMode != modesManagedBean.viewDetails) and (patentManagedBean.editTabNumber gt 0)  and (patentManagedBean.editTabNumber lt 2)) }"
 				action="#{patentManagedBean.previousEditTab}"
 				value="#{messages['records.patent.editPanel.btnPrevious']}"
 				render="patentEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(patentManagedBean.editMode != modesManagedBean.viewDetails) and (patentManagedBean.editTabNumber lt 1)}"
 				action="#{patentManagedBean.nextEditTab}"
 				value="#{messages['records.patent.editPanel.btnNext']}"
 				render="patentEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(patentManagedBean.editMode == modesManagedBean.update) and (patentManagedBean.editTabNumber == 1)}"
 				action="#{patentManagedBean.update}"
 				value="#{messages['records.patent.editPanel.btnUpdate']}"
 				render="patentEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(patentManagedBean.editMode == modesManagedBean.add) and (patentManagedBean.editTabNumber == 1)}"
 				action="#{patentManagedBean.add}"
 				value="#{messages['records.patent.editPanel.btnCreate']}"
 				render="patentEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(patentManagedBean.editTabNumber == 2)}" 
 				action="#{patentManagedBean.finishWizard}"
 				value="#{messages['records.patent.editPanel.btnAllRight']}"

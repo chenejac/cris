@@ -2,8 +2,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
      <h:outputStylesheet>
@@ -37,20 +36,20 @@
 	<h:panelGrid columns="1">
 		<h:panelGrid columns="6" columnClasses="width10, width10,width10, width10, width20, width20" width="100%">
 			<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.fromDate']}" style="align:left;font-size: 22px"/>
-			<h:selectOneMenu value="#{apvRegisteredResearchersManagedBean.fromDate}">
+			<p:selectOneMenu value="#{apvRegisteredResearchersManagedBean.fromDate}">
 				<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.fromDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
 				<f:selectItems value="#{searchManagedBean.dateRange}"/>
-			</h:selectOneMenu>
+			</p:selectOneMenu>
 			<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.toDate']}" style="align:left;font-size: 22px"/>
-			<h:selectOneMenu value="#{apvRegisteredResearchersManagedBean.toDate}">
+			<p:selectOneMenu value="#{apvRegisteredResearchersManagedBean.toDate}">
 				<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.toDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
 				<f:selectItems value="#{searchManagedBean.dateRange}"/>
-			</h:selectOneMenu>
+			</p:selectOneMenu>
 			<h:commandButton
 				action="#{apvRegisteredResearchersManagedBean.calculateAgain}"
 				value="#{messages['records.apvRegisteredResearcher.viewDetails.btnCalculateAgain']}"
 				image="./resources/img/filter.png" />
-			<!-- <a4j:commandButton
+			<!-- <p:commandButton
 				action="#{apvRegisteredResearchersManagedBean.prepareReportGeneration}"
 				value="#{messages['records.apvRegisteredResearcher.viewDetails.btnPrepareReportGeneration']}"
 				render="reportPublicationsEditModalPanel"
@@ -60,54 +59,54 @@
 	</h:panelGrid>
 	<br/>
 
-	<rich:dataTable
+	<p:dataTable
 		value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.resultsGroups}"
 		var="list"
 		styleClass="wide-panel">
 		<f:facet name="header">
-			<rich:columnGroup>
-				<rich:column colspan="4">
+			<p:columnGroup>
+				<p:column colspan="4">
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.summary']}"
 						style="font-size: 22px;font-weight: bold"
 					/>
-				</rich:column>
-				<rich:column breakRowBefore="true">
+				</p:column>
+				<p:column breakRowBefore="true">
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultType']}"
 						style="font-size: 14px"/>
-				</rich:column>
-				<rich:column>
+				</p:column>
+				<p:column>
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultName']}"
 						style="font-size: 14px"
 					/>
-				</rich:column>
-				<rich:column
+				</p:column>
+				<p:column
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}" >
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.count']}"
 						style="font-size: 14px"
 					/>
-				</rich:column>
-				<rich:column
+				</p:column>
+				<p:column
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}" >
 					<h:outputText
 						value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.points']}"
 						style="font-size: 14px"
 					/>
-				</rich:column>
-			  </rich:columnGroup>
+				</p:column>
+			  </p:columnGroup>
 			  </f:facet>
-				<rich:column>
+				<p:column>
 					<h:outputText
 						value="#{list.resultType.classId}"
 						style="font-size: 14px" />
-				</rich:column>
-				<rich:column style="width:80%">
+				</p:column>
+				<p:column style="width:80%">
 				<h:form id="f456">
-					<a4j:outputPanel ajaxRendered="true" >
-						<a4j:commandLink
+					<p:outputPanel ajaxRendered="true" >
+						<p:commandLink
 							id="link"
 							value="#{list.resultType.someTerm}"
 							render="researcherPageForm"
@@ -121,9 +120,9 @@
 								value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
 								assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
 								/>
-						</a4j:commandLink>
-						<a4j:region id="collapsablePanelM">
-							<rich:list
+						</p:commandLink>
+						<p:fragment id="collapsablePanelM">
+							<p:dataList
 								value="#{list.results}"
 								var="item"
 								rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
@@ -135,8 +134,8 @@
 										escape="false"
 										style="font-size: 14px" />
 								 </div>
-							</rich:list>
-							<a4j:commandLink
+							</p:dataList>
+							<p:commandLink
 								render="researcherPageForm"
 								rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
 								execute="@this">
@@ -145,12 +144,12 @@
 									name="val"
 									value="#{! apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
 									assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
-							</a4j:commandLink>
-						</a4j:region>
-					</a4j:outputPanel >
+							</p:commandLink>
+						</p:fragment>
+					</p:outputPanel >
 				</h:form>
-				</rich:column>
-				<rich:column
+				</p:column>
+				<p:column
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}"
 					style="text-align: center;font-size: 14px">
 					<h:outputText value="#{list.results.size()}" />
@@ -159,8 +158,8 @@
 							value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPapers}"
 							style="font-size: 14px"/>
 					</f:facet>
-				</rich:column>
-				<rich:column
+				</p:column>
+				<p:column
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}"
 					style="text-align: center;font-size: 14px">
 					<h:outputText
@@ -174,6 +173,6 @@
 							style="font-size: 14px"
 						/>
 					</f:facet>
-				</rich:column>
-	</rich:dataTable>
+				</p:column>
+	</p:dataTable>
 </ui:composition>     

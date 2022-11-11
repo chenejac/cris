@@ -3,322 +3,321 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 <h:form id="header-form">
 	<f:subview id="header-subview">
 		<div class="bibliography-menu">
-			<rich:toolbar>
-				<rich:toolbarGroup location="left" >
-					<rich:menuItem 
+			<p:menubar>
+				<p:submenu style="float:left!important;">
+					<p:menuitem
 						rendered="#{not userManagedBean.jobAd}"
 						action="#{searchManagedBean.searchPageEnter}" 
-						label="#{messages['search.searchPanel.header']}">
-					</rich:menuItem>
-					<rich:menuItem 
+						value="#{messages['search.searchPanel.header']}">
+					</p:menuitem>
+					<p:menuitem
 						rendered="#{(userManagedBean.jobAd) and (userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.showInMainMenu]))}"
 						action="#{jobAdManagedBean.enterCRUDPage}" 
-						label="#{messages['administration.jobAd.menu']}">
-					</rich:menuItem>
-					<rich:menuItem
+						value="#{messages['administration.jobAd.menu']}">
+					</p:menuitem>
+					<p:menuitem
 							rendered="#{(userManagedBean.jobAd) and (userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.showInMainMenu]))}"
 							action="#{jobAdManagedBean.enterCRUDPage}"
-							label="#{messages['administration.jobAd.menu']}">
-					</rich:menuItem>
-					<rich:dropDownMenu
+							value="#{messages['administration.jobAd.menu']}">
+					</p:menuitem>
+					<p:submenu
 							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formEvaluationConference][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]))}"
 							label="#{messages['administration.publishedResults.menu']}" >
-						<rich:menuGroup
+						<p:submenu
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPublication][privilegesManagedBean.showInMainMenu]))}"
 								label="#{messages['administration.create.menu']}" >
-							<rich:menuItem
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.paperProceedings.menu']}"
+									value="#{messages['administration.paperProceedings.menu']}"
 									action="#{paperProceedingsManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.paperJournal.menu']}"
+									value="#{messages['administration.paperJournal.menu']}"
 									action="#{paperJournalManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formMonograph][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.monograph.menu']}"
+									value="#{messages['administration.monograph.menu']}"
 									action="#{monographManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.paperMonograph.menu']}"
+									value="#{messages['administration.paperMonograph.menu']}"
 									action="#{paperMonographManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.studyFinalDocument.menu']}"
+									value="#{messages['administration.studyFinalDocument.menu']}"
 									action="#{studyFinalDocumentManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPatent][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.patent.menu']}"
+									value="#{messages['administration.patent.menu']}"
 									action="#{patentManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formProduct][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.product.menu']}"
+									value="#{messages['administration.product.menu']}"
 									action="#{productManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-						</rich:menuGroup>
-						<rich:menuGroup
+							</p:menuitem>
+						</p:submenu>
+						<p:submenu
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.showInMainMenu]))}"
 								label="#{messages['administration.import.menu']}" >
-							<rich:menuItem
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.paperJournal.menu']}"
+									value="#{messages['administration.paperJournal.menu']}"
 									action="#{importManagedBean.enterCRUDPageJournals}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.paperProceedings.menu']}"
+									value="#{messages['administration.paperProceedings.menu']}"
 									action="#{importManagedBean.enterCRUDPageProceedings}">
-							</rich:menuItem>
-						</rich:menuGroup>
-						<rich:menuGroup
+							</p:menuitem>
+						</p:submenu>
+						<p:submenu
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formBibliography][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.privileges[privilegesManagedBean.formReportPHD][privilegesManagedBean.showInMainMenu]))}"
 								label="#{messages['administration.reports.menu']}" >
-							<rich:menuItem
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperProceedings][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.bibliography.conferences.menu']}"
+									value="#{messages['administration.bibliography.conferences.menu']}"
 									action="#{bibliographyManagedBean.enterCRUDPageConferences}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formPaperJournal][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.bibliography.journals.menu']}"
+									value="#{messages['administration.bibliography.journals.menu']}"
 									action="#{bibliographyManagedBean.enterCRUDPageJournals}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formBibliography][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.bibliography.menu']}"
+									value="#{messages['administration.bibliography.menu']}"
 									action="#{bibliographyManagedBean.enterCRUDPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(not userManagedBean.jobAd) and (userManagedBean.privileges[privilegesManagedBean.formEvaluation][privilegesManagedBean.showInMainMenu]) and (userManagedBean.facultyOfSciences)}"
-									label="#{messages['administration.evaluation.menu']}"
+									value="#{messages['administration.evaluation.menu']}"
 									action="#{evaluationManagedBean.enterPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.reportGenerator.menu']}"
+									value="#{messages['administration.reportGenerator.menu']}"
 									action="#{reportGeneratorManagedBean.enterPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportPHD][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.reportGeneratorPHD.menu']}"
+									value="#{messages['administration.reportGeneratorPHD.menu']}"
 									action="#{reportGeneratorPHDManagedBean.enterPage}">
-							</rich:menuItem>
-						</rich:menuGroup>
-						<rich:menuGroup
+							</p:menuitem>
+						</p:submenu>
+						<p:submenu
 								rendered="#{(not userManagedBean.jobAd) and (userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}"
 								label="#{messages['administration.selfevaluation.menu']}" >
-							<rich:menuItem
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.bibliography.journals20022011.menu']}"
+									value="#{messages['administration.bibliography.journals20022011.menu']}"
 									action="#{bibliographyManagedBean.enterCRUDPageJournals20022011}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu])}"
-									label="#{messages['administration.bibliography.2011.menu']}"
+									value="#{messages['administration.bibliography.2011.menu']}"
 									action="#{bibliographyManagedBean.enterCRUDPage2011}">
-							</rich:menuItem>
-						</rich:menuGroup>
-						<rich:menuItem
+							</p:menuitem>
+						</p:submenu>
+						<p:menuitem
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formPromotion][privilegesManagedBean.showInMainMenu]))}"
 								action="#{prepareUNSPromotionManagedBean.enterCRUDPage}"
-								label="#{messages['administration.promotion.menu']}" >
-						</rich:menuItem>
-						<rich:menuItem
+								value="#{messages['administration.promotion.menu']}" >
+						</p:menuitem>
+						<p:menuitem
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formEvaluationConference][privilegesManagedBean.showInMainMenu]))}"
 								action="#{evaluationConferenceRecordsManagedBean.enterPage}"
-								label="#{messages['administration.evaluation.conference.menu']}" >
-						</rich:menuItem>
-					</rich:dropDownMenu>
-					<rich:dropDownMenu
+								value="#{messages['administration.evaluation.conference.menu']}" >
+						</p:menuitem>
+					</p:submenu>
+					<p:submenu
 							rendered="#{userManagedBean.loggedIn}"
 							label="#{messages['administration.myData.menu']}" >
-						<rich:menuItem
+						<p:menuitem
 								rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber)}"
-								label="#{messages['administration.changeLoggedUserBasicData.menu']}"
+								value="#{messages['administration.changeLoggedUserBasicData.menu']}"
 								action="#{userManagedBean.changeLoggedUserBasicDataPageEnter}">
-						</rich:menuItem>
-						<rich:menuItem
+						</p:menuitem>
+						<p:menuitem
 								rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber)}"
-								label="#{messages['administration.changeLoggedUserAdvancedData.menu']}"
+								value="#{messages['administration.changeLoggedUserAdvancedData.menu']}"
 								action="#{userManagedBean.changeLoggedUserAdvancedDataPageEnter}">
-						</rich:menuItem>
-						<rich:menuItem
+						</p:menuitem>
+						<p:menuitem
 								rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber)}"
-								label="#{messages['administration.addLoggedUserFormatName.menu']}"
+								value="#{messages['administration.addLoggedUserFormatName.menu']}"
 								action="#{userManagedBean.addLoggedUserFormatNamePageEnter}">
-						</rich:menuItem>
-						<rich:menuItem
-								label="#{messages['administration.changePassword.menu']}"
+						</p:menuitem>
+						<p:menuitem
+								value="#{messages['administration.changePassword.menu']}"
 								action="#{userManagedBean.changePasswordPageEnter}">
-						</rich:menuItem>
-						<rich:menuItem
+						</p:menuitem>
+						<p:menuitem
 								rendered="#{(not userManagedBean.jobAd) and (userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber)}"
-								label="#{messages['administration.coauthors.menu']}"
+								value="#{messages['administration.coauthors.menu']}"
 								action="#{userManagedBean.coauthorsPageEnter}">
-						</rich:menuItem>
-					</rich:dropDownMenu>
-					<rich:dropDownMenu
+						</p:menuitem>
+					</p:submenu>
+					<p:submenu
 							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}"
 							label="#{messages['administration.administration.menu']}" >
-						<rich:menuItem
-								label="#{messages['administration.institution.menu']}"
+						<p:menuitem
+								value="#{messages['administration.institution.menu']}"
 								action="#{institutionManagedBean.enterCRUDPage}"
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}">
-						</rich:menuItem>
-						<rich:menuGroup
+						</p:menuitem>
+						<p:submenu
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}"
 								label="#{messages['administration.administration.evaluation']}" >
-							<rich:menuItem
+							<p:menuitem
 									rendered="true"
-									label="#{messages['administration.evaluationAllRecordsThread.menu']}"
+									value="#{messages['administration.evaluationAllRecordsThread.menu']}"
 									action="#{evaluationAllRecordsManagedBean.enterPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 									rendered="true"
-									label="#{messages['administration.evaluation.conference.menu']}"
+									value="#{messages['administration.evaluation.conference.menu']}"
 									action="#{evaluationConferenceRecordsManagedBean.enterPage}">
-							</rich:menuItem>
-							<!--<rich:menuItem
+							</p:menuitem>
+							<!--<p:menuitem
 								rendered="true"
-								label="#{messages['administration.evaluationJournal.menu']}"
+								value="#{messages['administration.evaluationJournal.menu']}"
 								action="#{evaluationJournalManagedBean.enterPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 								rendered="true"
-								label="#{messages['administration.evaluationJournalStrucnoVecePM.menu']}"
+								value="#{messages['administration.evaluationJournalStrucnoVecePM.menu']}"
 								action="#{evaluationStrucnoVecePMManagedBean.enterPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 								rendered="true"
-								label="#{messages['administration.evaluationJournalStrucnoVeceTT.menu']}"
+								value="#{messages['administration.evaluationJournalStrucnoVeceTT.menu']}"
 								action="#{evaluationStrucnoVeceTTManagedBean.enterPage}">
-							</rich:menuItem>
-							<rich:menuItem
+							</p:menuitem>
+							<p:menuitem
 								rendered="true"
-								label="#{messages['administration.evaluationTechnologyFaculty.menu']}"
+								value="#{messages['administration.evaluationTechnologyFaculty.menu']}"
 								action="#{evaluationTechnologyFacultyManagedBean.enterPage}">
-							</rich:menuItem>
-							--><rich:menuItem
+							</p:menuitem>
+							--><p:menuitem
 								rendered="true"
-								label="#{messages['administration.evaluationForAuthorData.menu']}"
+								value="#{messages['administration.evaluationForAuthorData.menu']}"
 								action="#{testAuthorEvaluatedRecordManagedBean.testAuthorEvaluatedRecordPagePageEnter}">
-						</rich:menuItem>
-							<rich:menuItem
-									label="#{messages['administration.evaluation.monograph.menu']}"
+						</p:menuitem>
+							<p:menuitem
+									value="#{messages['administration.evaluation.monograph.menu']}"
 									action="#{monographManagedBean.sendMonographEvaluationDMIEmails}"
 									rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-							<rich:menuItem
-									label="#{messages['administration.evaluation.paperMonograph.menu']}"
+							</p:menuitem>
+							<p:menuitem
+									value="#{messages['administration.evaluation.paperMonograph.menu']}"
 									action="#{paperMonographManagedBean.sendPaperMonographEvaluationDMIEmails}"
 									rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-						</rich:menuGroup>
-						<rich:menuItem
-								label="#{messages['administration.import.menu']}"
+							</p:menuitem>
+						</p:submenu>
+						<p:menuitem
+								value="#{messages['administration.import.menu']}"
 								action="#{importManagedBean.enterCRUDPage}"
 								rendered="#{((userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.showInMainMenu]))}">
-						</rich:menuItem>
-						<rich:menuItem
-								label="#{messages['administration.position.menu']}"
+						</p:menuitem>
+						<p:menuitem
+								value="#{messages['administration.position.menu']}"
 								action="#{positionManagedBean.enterCRUDPage}"
 								rendered="#{((userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.showInMainMenu]))}">
-						</rich:menuItem>
-						<!--<rich:menuItem
+						</p:menuitem>
+						<!--<p:menuitem
 							rendered="true"
 							action="#{apvRegisteredResearchersManagedBean.apvRegisteredResearchersPageEnter}"
-							label="#{messages['administration.apvRegisteredResearchersPanel.header']}">
-						</rich:menuItem>
+							value="#{messages['administration.apvRegisteredResearchersPanel.header']}">
+						</p:menuitem>
 
 						-->
-						<!--<rich:menuItem
+						<!--<p:menuitem
 							rendered="true"
 							action="#{searchAndrejevicManagedBean.searchPageEnter}"
-							label="#{messages['search.searchPanel.header']}">
-						</rich:menuItem>
-						<rich:menuItem
+							value="#{messages['search.searchPanel.header']}">
+						</p:menuitem>
+						<p:menuitem
 							rendered="true"
 							action="#{searchDissertationsManagedBean.searchPageEnter}"
-							label="#{messages['search.searchDissertationsPanel.header']}">
-						</rich:menuItem>
-						--><!--<rich:menuItem
-							label="#{messages['administration.jobAd.menu']}"
+							value="#{messages['search.searchDissertationsPanel.header']}">
+						</p:menuitem>
+						--><!--<p:menuitem
+							value="#{messages['administration.jobAd.menu']}"
 							action="#{jobAdManagedBean.enterCRUDPage}"
 							rendered="#{((userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.showInMainMenu]))}">
-						</rich:menuItem>
+						</p:menuitem>
 						-->
-						<rich:menuGroup
+						<p:submenu
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.showInMainMenu]))}"
 								label="#{messages['administration.administration.rulebooks']}" >
-							<rich:menuItem
-									label="#{messages['administration.ruleBook.menu']}"
+							<p:menuitem
+									value="#{messages['administration.ruleBook.menu']}"
 									action="#{ruleBookManagedBean.enterCRUDPage}"
 									rendered="#{((userManagedBean.privileges[privilegesManagedBean.formRuleBook][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-							<rich:menuItem
-									label="#{messages['administration.sciencesGroup.menu']}"
+							</p:menuitem>
+							<p:menuitem
+									value="#{messages['administration.sciencesGroup.menu']}"
 									action="#{sciencesGroupManagedBean.enterCRUDPage}"
 									rendered="#{((userManagedBean.privileges[privilegesManagedBean.formSciencesGroup][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-							<rich:menuItem
-									label="#{messages['administration.resultsTypeGroup.menu']}"
+							</p:menuitem>
+							<p:menuitem
+									value="#{messages['administration.resultsTypeGroup.menu']}"
 									action="#{resultsTypeGroupManagedBean.enterCRUDPage}"
 									rendered="#{((userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-							<rich:menuItem
-									label="#{messages['administration.resultsType.menu']}"
+							</p:menuitem>
+							<p:menuitem
+									value="#{messages['administration.resultsType.menu']}"
 									action="#{resultsTypeManagedBean.enterCRUDPage}"
 									rendered="#{((userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-							<rich:menuItem
-									label="#{messages['administration.specVerLst.menu']}"
+							</p:menuitem>
+							<p:menuitem
+									value="#{messages['administration.specVerLst.menu']}"
 									action="#{specVerLstManagedBean.enterCRUDPage}"
 									rendered="#{((userManagedBean.privileges[privilegesManagedBean.formSpeciallyVerifiedList][privilegesManagedBean.showInMainMenu]))}">
-							</rich:menuItem>
-						</rich:menuGroup>
-					</rich:dropDownMenu>
-					<rich:menuItem 
+							</p:menuitem>
+						</p:submenu>
+					</p:submenu>
+					<p:menuitem
 						rendered="#{not userManagedBean.loggedIn}"
 						action="#{userManagedBean.loginPageEnter}"
-						label="#{messages['administration.login.menu']}" >
-					</rich:menuItem>
-					<rich:menuItem 
+						value="#{messages['administration.login.menu']}" >
+					</p:menuitem>
+					<p:menuitem
 						rendered="#{not userManagedBean.loggedIn}"
-						action="#{userManagedBean.registrationPageEnter}" 
-						label="#{messages['administration.registration.menu']}" >
-					</rich:menuItem>
-					<!--  <rich:menuItem 
+						action="#{userManagedBean.registrationPageEnter}"
+						value="#{messages['administration.registration.menu']}" >
+					</p:menuitem>
+					<!--  <p:menuitem
 						rendered="#{(userManagedBean.jobAd) and (not userManagedBean.loggedIn)}"
 						action="#{userManagedBean.registrationCommissionPageEnter}" 
-						label="#{messages['administration.registrationCommission.menu']}" >
-					</rich:menuItem> -->
-					<rich:menuItem 
+						value="#{messages['administration.registrationCommission.menu']}" >
+					</p:menuitem> -->
+					<p:menuitem
 						action="#{userManagedBean.logout}"
 						rendered="#{userManagedBean.loggedIn}"
-						label="#{messages['administration.logout.menu']}" >
-					</rich:menuItem>
-				</rich:toolbarGroup>
-				<rich:toolbarGroup location="right">
+						value="#{messages['administration.logout.menu']}" >
+					</p:menuitem>
+				</p:submenu>
+				<p:submenu style="float:right!important;">
 					 
-					<h:commandLink action="#{searchManagedBean.serbianLanguage}">
+					<p:commandLink ajax="false" action="#{searchManagedBean.serbianLanguage}">
 						<h:graphicImage library="img" name="serbian.png" />
-					</h:commandLink>
-					<h:commandLink action="#{searchManagedBean.englishLanguage}">
+					</p:commandLink>
+					<p:commandLink ajax="false" action="#{searchManagedBean.englishLanguage}">
 						<h:graphicImage library="img" name="english.png" />
-					</h:commandLink>
+					</p:commandLink>
 					<h:outputText 
 						rendered="true"
 						style="width:0px;"/>
@@ -363,13 +362,13 @@
 							library="img"
 							name="help.png" />
 					</h:outputLink>
-				</rich:toolbarGroup>
-			</rich:toolbar>
+				</p:submenu>
+			</p:menubar>
 		</div>
 	</f:subview>
 </h:form>
-<a4j:log mode="popup" level="DEBUG" style="width: 800px; height: 300px;" >
-</a4j:log>
+<p:log mode="popup" rendered="#{initParam['facelets.DEVELOPMENT']}" level="DEBUG" style="width: 800px; height: 300px;" >
+</p:log>
 <ui:debug hotkey="K" rendered="#{initParam['facelets.DEVELOPMENT']}" />
 
 </ui:composition>

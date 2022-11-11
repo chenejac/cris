@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
     >
 	<f:view locale="#{userManagedBean.language}">
@@ -29,10 +28,7 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
@@ -40,25 +36,25 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
 				</div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region">
 					<h:panelGrid id="mainPanel">
-						<rich:panel id="specVerLstBrowseModalPanel"
+						<p:panel id="specVerLstBrowseModalPanel"
 							header="#{messages['records.specVerLst.header']}">
 							<h:form id="specVerLstTableForm">
 								<h:panelGrid id="specVerLstTableFormPanel" >
-									<h:inputText id="general" rendered="false" value="" />
+									<p:inputText id="general" rendered="false" value="" />
 									<ui:include src="../bibliographicRecords/specVerLstTable.xhtml"/>
 								</h:panelGrid>
 							</h:form>
-						</rich:panel>
+						</p:panel>
 					</h:panelGrid>
 					<h:panelGrid id="modalPanel2s">
 						<!-- ======================== Specially Verified List  ============= -->
 						<!-- ======================== Specially Verified List Pick panel ============= -->
 						<h:form id="specVerLstPickForm">
 							<h:panelGrid id="specVerLstBrowseModalPanel">
-								<rich:popupPanel 
+								<p:dialog modal="true"
 									rendered="#{(specVerLstManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -70,7 +66,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{specVerLstManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{specVerLstManagedBean.renderModalPanels}"
@@ -78,16 +74,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/specVerLstPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Specially Verified List Edit panel ============= -->
 						<h:form id="specVerLstEditForm">
 							<h:panelGrid id="specVerLstEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(specVerLstManagedBean.editMode == modesManagedBean.update) or (specVerLstManagedBean.editMode == modesManagedBean.viewDetails) or (specVerLstManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -100,7 +96,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{specVerLstManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{specVerLstManagedBean.renderModalPanels}"
@@ -108,10 +104,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/specVerLstEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Specially Verified List end ============= -->
@@ -119,7 +115,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -132,7 +128,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -140,17 +136,17 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
 						<!-- ======================== Related Records  ============= -->
 						<h:form id="relatedRecordsForm">
 							<h:panelGrid id="relatedRecordsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty relatedRecordsManagedBean.selectedRecord)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -162,7 +158,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{relatedRecordsManagedBean.exit}"
 											styleClass="hidelink" 
 											render="relatedRecordsEditModalPanel"
@@ -170,10 +166,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../relatedRecords.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Related records end ============= -->
@@ -182,7 +178,7 @@
 						<!-- ======================== Specially Verified List Results Type Of Result Publication Edit panel ============= -->
 						<h:form id="specVerLstResultsTypeOfResPublEditForm">
 							<h:panelGrid id="specVerLstResultsTypeOfResPublEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(specVerLstManagedBean.specVerLstResultsTypeOfResPublAddMode)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -195,7 +191,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink
+										<p:commandLink
 											action="#{specVerLstManagedBean.switchSpecVerLstResultsTypeOfResPublToNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, specVerLstEditModalPanel, specVerLstResultsTypeOfResPublEditModalPanel"
@@ -203,32 +199,32 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<h:panelGrid id="specVerLstResultsTypeOfResPublEditFormPanel">
-										<h:inputText id="general" rendered="false" value="" />
-										<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+										<p:inputText id="general" rendered="false" value="" />
+										<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="general"
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage"/>
-										</a4j:outputPanel>
-										<rich:panel 
+										</p:outputPanel>
+										<p:panel
 											id="scrollableBody"
 											styleClass="scrollableBody">
 											<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 
 												<!-- ....... publication .......-->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.publication']}" 
 														for="selectedPublication" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<h:panelGroup id="selectedPublication">
-													<rich:autocomplete id="publication" 
+													<p:autoComplete id="publication"
 														mode="ajax" minChars="3" selectFirst="false"
 														value="#{specVerLstManagedBean.selectedPublicationControlNumber}" 
 														autocompleteMethod="#{journalManagedBean.autocompleteName}"
@@ -240,136 +236,135 @@
 														inputClass="width98"
 														rendered="#{specVerLstManagedBean.selectedPublication eq null}"
 							            				>
-							            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-											            <!--     ........  name   ISSN .......-->
-											            <rich:column 
+							            			 	<!--     ........  name   ISSN .......-->
+											            <p:column
 															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 															styleClass="rich-table-wide-cell">
 															<h:outputText value="#{_journalRow.someName} &nbsp; ( &nbsp; #{_journalRow.issn} &nbsp;)"/>	
-														</rich:column>
-													</rich:autocomplete>
+														</p:column>
+													</p:autoComplete>
 													<h:outputText value="" rendered="#{specVerLstManagedBean.selectedPublication eq null}"/>
 													
 													<h:outputText value="#{specVerLstManagedBean.selectedPublication}" rendered="#{specVerLstManagedBean.selectedPublication != null}"/>
-													<a4j:commandLink 
+													<p:commandLink
 														action="#{specVerLstManagedBean.clearPublication}"
 														render="selectedPublication" 
 														execute="@form"
 														rendered="#{specVerLstManagedBean.selectedPublication != null}">
 														<h:graphicImage library="img" name="delete.png" />
-													</a4j:commandLink>
+													</p:commandLink>
 												</h:panelGroup>
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="selectedPublication" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... java script funkcije.......           -->
-												<a4j:jsFunction 
+												<p:remoteCommand
 														name="jsFuncChooseJournal"
 														execute="@form"
 														action="#{specVerLstManagedBean.setPublication}" 
 														render="specVerLstResultsTypeOfResPublEditFormPanel"
 														>
-												</a4j:jsFunction>
+												</p:remoteCommand>
 												
 												<!-- ....... publication human readable id .......-->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.publHumanReadId']}*" 
 														for="selectedPublHumanReadId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:inputText value="#{specVerLstManagedBean.selectedPublHumanReadId}" id="selectedPublHumanReadId" style="width:100% !important;"/>
+												</p:outputPanel>
+												<p:inputText value="#{specVerLstManagedBean.selectedPublHumanReadId}" id="selectedPublHumanReadId" style="width:100% !important;"/>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="selectedPublHumanReadId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												
 												<!-- ....... publication display name id .......-->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.publDisplName']}*" 
 														for="selectedPublDisplName" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:inputTextarea 
+												</p:outputPanel>
+												<p:inputTextarea
 													id="selectedPublDisplName"
 													value="#{specVerLstManagedBean.selectedPublDisplName}"
 													rows="3" 
 													style="width:100% !important;"/>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="selectedPublDisplName" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												
 												<!-- ....... year .......-->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.year']}*" 
 														for="year" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:inputText value="#{specVerLstManagedBean.selectedYear}" maxlength="10" id="year" />
+												</p:outputPanel>
+												<p:inputText value="#{specVerLstManagedBean.selectedYear}" maxlength="10" id="year" />
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="year" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												
 												<!-- ....... results Type .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.resultsType']}*" 
 														for="resultsTypeCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{specVerLstManagedBean.selectedResultsTypeCompariableId}" id="resultsTypeCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{specVerLstManagedBean.selectedResultsTypeCompariableId}" id="resultsTypeCompariableId">
 													<f:selectItems value="#{specVerLstManagedBean.allResultsTypes}" var="resultsTypeRow"
 				                      						 itemLabel="#{resultsTypeRow}" itemValue="#{resultsTypeRow.classComparableId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="resultsTypeCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 											</h:panelGrid>
-										</rich:panel>
+										</p:panel>
 										<!--================= Create, Cancel buttons ====================  -->
 										<h:panelGrid columns="2">
-											<a4j:commandButton
+											<p:commandButton
 												action="#{specVerLstManagedBean.addSpecVerLstResultsTypeOfResPublToDatabase}"
 												value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.btnAdd']}"
 												render="specVerLstResultsTypeOfResPublEditModalPanel"
 												limitRender="true" 
 												execute="@form" />
-											<a4j:commandButton
+											<p:commandButton
 												action="#{specVerLstManagedBean.switchSpecVerLstResultsTypeOfResPublToNoneMode}"
 												value="#{messages['records.specVerLstResultsTypeOfResPubl.editPanel.bteClose']}"
 												render="mainPanel, specVerLstEditModalPanel, specVerLstResultsTypeOfResPublEditModalPanel"
@@ -377,17 +372,14 @@
 												execute="@this" />
 										</h:panelGrid>
 									</h:panelGrid>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Specially Verified List Results Type Of Result Publication end ============= -->
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

@@ -23,8 +23,8 @@ import org.apache.lucene.search.TopDocCollector;
 import org.docx4j.model.fields.merge.DataFieldName;
 import org.docx4j.model.fields.merge.MailMerger.OutputField;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.richfaces.component.UIDataTable;
 
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.UserDAO;
@@ -323,7 +323,7 @@ public class ApvRegisteredResearchersManagedBean extends CRUDManagedBean {
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("apvRegistredResearchersTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("apvRegistredResearchersTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);

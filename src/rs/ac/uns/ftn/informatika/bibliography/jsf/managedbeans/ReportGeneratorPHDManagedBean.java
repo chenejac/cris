@@ -171,7 +171,7 @@ public class ReportGeneratorPHDManagedBean extends ReportGeneratorManagedBean{
 			extCtx.getSessionMap().put("searchDissertationsManagedBean", mb);
 		}
 		for (ListIterator<TreeNodeDTO<Object>> it = mb.getRoot().listIterator(); it.hasNext(); ) {
-			InstitutionDTO ins = (InstitutionDTO)it.next().getElement();
+			InstitutionDTO ins = (InstitutionDTO)it.next().getData();
 			retVal.add(ins);
 		}
 		return retVal;
@@ -188,7 +188,7 @@ public class ReportGeneratorPHDManagedBean extends ReportGeneratorManagedBean{
 			extCtx.getSessionMap().put("searchDissertationsPAManagedBean", mb);
 		}
 		for (ListIterator<TreeNodeDTO<Object>> it = mb.getRoot().listIterator(); it.hasNext(); ) {
-			InstitutionDTO ins = (InstitutionDTO)it.next().getElement();
+			InstitutionDTO ins = (InstitutionDTO)it.next().getData();
 			retVal.add(ins);
 		}
 		return retVal;

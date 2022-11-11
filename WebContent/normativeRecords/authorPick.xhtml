@@ -2,28 +2,27 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="authorPickFormPanel" >
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(authorManagedBean.customPick) and (authorManagedBean.tableTabNumber == 0) and (authorManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{authorManagedBean.pickMessageFirstTab}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(authorManagedBean.customPick) and (authorManagedBean.tableTabNumber == 1) and (empty authorManagedBean.authors)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{authorManagedBean.lastname} #{authorManagedBean.firstname}"
@@ -31,8 +30,8 @@
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(authorManagedBean.customPick) and (authorManagedBean.tableTabNumber == 1) and (not empty authorManagedBean.authors)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{authorManagedBean.lastname} #{authorManagedBean.firstname}"
@@ -47,25 +46,22 @@
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		</p:outputPanel>
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%"
 			rendered="#{(authorManagedBean.tableTabNumber == 0) and (authorManagedBean.customPick)}">
 			<!-- ....... Lastname .......           -->
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<mytags:outputLabel 
 					value="#{messages['records.author.editPanel.lastname']}*" 
 					for="lastname" 
 					errorStyleClass="errorMessage" />
-			</a4j:outputPanel>
-			<a4j:region>
-				<rich:autocomplete
+			</p:outputPanel>
+			<p:fragment>
+				<p:autoComplete
 		            id="lastname"
 		            value="#{authorManagedBean.lastname}" 
 					required="true"
@@ -78,75 +74,71 @@
 		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
 		            onfocus="activeElId = this.id;"
 		            >
-		            <a4j:attachQueue 
-		            	ignoreDupResponses="true" 
-		            	requestDelay="5000" 
-		            	/>
 		            <!--   ........  names   .......  timeout="5000" -->
-					<rich:column 
+					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 						styleClass="rich-table-wide-cell" >
 						<h:outputText value="#{_authorRow.names}" />
-					</rich:column>
-					<a4j:jsFunction 
+					</p:column>
+					<p:remoteCommand
 						name="choose" 
 						action="#{authorManagedBean.chooseAuthor}" 
 						render="#{((userManagedBean.editMode == modesManagedBean.register) or ((studyFinalDocumentManagedBean.tableMode == modesManagedBean.browse) and (studyFinalDocumentManagedBean.editMode == modesManagedBean.none)))?('mainPanel, '):('')}#{authorManagedBean.renderModalPanels}">
 					<a4j:param 
 						name="param1" 
 						assignTo="#{authorManagedBean.authorControlNumber}"/>
-					</a4j:jsFunction> 
-				</rich:autocomplete>
-			</a4j:region>
+					</p:remoteCommand>
+				</p:autoComplete>
+			</p:fragment>
 			<h:inputHidden id="controlNumber"/>
 			<h:outputText value="" />
-			<a4j:outputPanel ajaxRendered="true">
-				<rich:message 
+			<p:outputPanel ajaxRendered="true">
+				<p:message
 					for="lastname" 
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-			</a4j:outputPanel>
+			</p:outputPanel>
 			<!-- ....... Firstname .......           -->
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<mytags:outputLabel 
 					value="#{messages['records.author.editPanel.firstname']}*" 
 					for="firstname" 
 					errorStyleClass="errorMessage" />
-			</a4j:outputPanel>
-			<h:inputText 
+			</p:outputPanel>
+			<p:inputText
 				id="firstname"
 				value="#{authorManagedBean.firstname}" 
 				maxlength="100"
 				required="true" 
 				onkeydown="keyDownHandler(event, 'authorPickForm:nextBtn')" 
 				>
-			</h:inputText>
+			</p:inputText>
 			<h:outputText value="" />
 			<h:outputText value="" />
-			<a4j:outputPanel ajaxRendered="true">
-				<rich:message 
+			<p:outputPanel ajaxRendered="true">
+				<p:message
 					for="firstname" 
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-			</a4j:outputPanel>
+			</p:outputPanel>
 		</h:panelGrid>
 		<h:panelGrid width="100%"
 			rendered="#{(authorManagedBean.tableTabNumber == 1) or (not authorManagedBean.customPick)}">
 			<ui:include src="../normativeRecords/authorTable.xhtml" />
 		</h:panelGrid>
 		<h:panelGrid columns="2">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(authorManagedBean.tableTabNumber == 1) and (authorManagedBean.customPick)}"
 				action="#{authorManagedBean.previousTableTab}"
 				value="#{messages['records.author.pickPanel.btnPrevious']}"
 				render="authorBrowseModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				id="nextBtn" 
 				rendered="#{(authorManagedBean.tableTabNumber == 0) and (authorManagedBean.customPick)}"
 				action="#{authorManagedBean.nextTableTab}"
@@ -154,7 +146,7 @@
 				render="authorBrowseModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(authorManagedBean.tableTabNumber == 1) and (authorManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formAuthor][privilegesManagedBean.add])}"
 				value="#{messages['records.author.pickPanel.btnNext']}"
 				action="#{authorManagedBean.switchToAddMode}"

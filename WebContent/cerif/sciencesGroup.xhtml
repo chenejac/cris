@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
     >
 	<f:view locale="#{userManagedBean.language}">
@@ -29,10 +28,7 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
@@ -40,18 +36,18 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
 				</div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region">
 					<h:panelGrid id="mainPanel">
-						<rich:panel id="sciencesGroupBrowseModalPanel"
+						<p:panel id="sciencesGroupBrowseModalPanel"
 							header="#{messages['cerif.sciencesGroup.header']}">
 							<h:form id="sciencesGroupTableForm">
 								<h:panelGrid id="sciencesGroupTableFormPanel" >
-									<h:inputText id="general" rendered="false" value="" />
+									<p:inputText id="general" rendered="false" value="" />
 									<ui:include src="../cerif/sciencesGroupTable.xhtml"/>
 								</h:panelGrid>
 							</h:form>
-						</rich:panel>
+						</p:panel>
 					</h:panelGrid>
 					<h:panelGrid id="modalPanel2s">
 						<!-- ======================== Sciences Group  ============= -->
@@ -59,7 +55,7 @@
 						<!-- ======================== SciencesGroup Edit panel ============= -->
 						<h:form id="sciencesGroupEditForm">
 							<h:panelGrid id="sciencesGroupEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(sciencesGroupManagedBean.editMode == modesManagedBean.update) or (sciencesGroupManagedBean.editMode == modesManagedBean.viewDetails) or (sciencesGroupManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -72,7 +68,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{sciencesGroupManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{sciencesGroupManagedBean.renderModalPanels}"
@@ -80,10 +76,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/sciencesGroupEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Results Type Group end ============= -->
@@ -92,7 +88,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -105,7 +101,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -113,21 +109,18 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
 						
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

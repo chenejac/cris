@@ -2,55 +2,54 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 
 	<h:panelGrid id="monographEditFormPanel">	
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Monograph.......           -->
-		<rich:panel id="monographPreview"
+		<p:panel id="monographPreview"
 			header="#{messages['records.monograph.editPanel.preview']}"
 			rendered="#{monographManagedBean.editTabNumber == 4}" >
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{monographManagedBean.selectedMonograph.stringRepresentation}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
-		<rich:panel id="scrollableBody"
+			</p:outputPanel>
+		</p:panel>
+		<p:panel id="scrollableBody"
 			rendered="#{monographManagedBean.editTabNumber lt 4}"
 			styleClass="scrollableBody" >
-			<rich:panel id="monographFullPreview"
+			<p:panel id="monographFullPreview"
 				header="#{messages['records.monograph.editPanel.preview']}"
 				rendered="#{(monographManagedBean.editMode == modesManagedBean.import) and (monographManagedBean.editTabNumber != 4)}">
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<h:panelGrid columns="1">
 						<h:outputText
 							value="#{monographManagedBean.selectedMonograph.HTMLRepresentation}"
 							styleClass="preview" 
 							escape="false"/>
 					</h:panelGrid>
-				</a4j:outputPanel>
-				<a4j:commandLink 
+				</p:outputPanel>
+				<p:commandLink
 					render="relatedRecordsEditModalPanel"
 				    execute="@this" 
 				    limitRender="true">
 				    <h:graphicImage library="img" name="publications.png" />
 				    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 				        value="#{monographManagedBean.selectedMonograph}" />
-				    <rich:tooltip followMouse="true" direction="topRight"
+				    <p:tooltip followMouse="true" direction="topRight"
 						showDelay="1000" styleClass="tooltip" mode="client">
 						<span class="tooltipSpan"> 
 							<h:panelGrid columns="2">
@@ -59,633 +58,633 @@
 									value="#{messages['records.monograph.tablePanel.btnPublications']}" />
 							</h:panelGrid> 
 						</span>
-					</rich:tooltip>
-				</a4j:commandLink>
-			</rich:panel>
-			<rich:tabPanel
+					</p:tooltip>
+				</p:commandLink>
+			</p:panel>
+			<p:tabView
 				switchType="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}"
 				activeItem="#{monographManagedBean.activeEditTab}">
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					rendered="#{(monographManagedBean.editTabNumber == 0) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 					header="#{messages['records.monograph.editPanel.firstTab']}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!--  ...... Language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.titleLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{monographManagedBean.selectedMonograph.title.language}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Title .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.title']}*" 
 								for="title" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="title"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.title.content}"
 							rows="3" 
 							required="#{empty monographManagedBean.selectedMonograph.titleTranslations}" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{monographManagedBean.titleTranslations}"
 							value="#{messages['records.monograph.editPanel.btnTitleTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="title" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Subtitle .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.subtitle']}" 
 								for="subtitle" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="subtitle"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.subtitle.content}"
 							rows="3" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{monographManagedBean.subtitleTranslations}"
 							value="#{messages['records.monograph.editPanel.btnSubtitleTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="subtitle" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... isbn .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.isbn']}" 
 								for="isbn" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="isbn"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.isbn}"
 							maxlength="30" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="isbn" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... numberOfPages .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.numberOfPages']}" 
 								for="numberOfPages" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="numberOfPages"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.numberOfPages}" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="numberOfPages" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... dimension .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.dimension']}" 
 								for="dimension" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="dimension"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.dimension}"
 							maxlength="30"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="dimension" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... count .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.count']}" 
 								for="count" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="count"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.count}"
 							maxlength="30"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="count" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... volumeCode .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.volumeCode']}" 
 								for="volumeCode" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="volumeCode"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.volumeCode}"
 							maxlength="20"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="volumeCode" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... volumeTitle .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.volumeTitle']}" 
 								for="volumeTitle" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="volumeTitle"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.volumeTitle}" 
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="volumeTitle" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... editionTitle .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.editionTitle']}" 
 								for="editionTitle" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="editionTitle"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.editionTitle}"
 							maxlength="200"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="editionTitle" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... editionISSN .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.editionISSN']}" 
 								for="editionISSN" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="editionISSN"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.editionISSN}"
 							maxlength="40"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="editionISSN" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... editionNumber .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.editionNumber']}" 
 								for="editionNumber" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="editionNumber"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.editionNumber}" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="editionNumber" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Note .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.note']}" 
 								for="note" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="note"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.note.content}"
 							rows="3" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{monographManagedBean.noteTranslations}"
 							value="#{messages['records.monograph.editPanel.btnNoteTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="note" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Keywords .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.keywords']}" 
 								for="keywords" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="keywords"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.keywords.content}"
 							rows="3" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{monographManagedBean.keywordsTranslations}"
 							value="#{messages['records.monograph.editPanel.btnKeywordsTranslations']}"
-							render="multilingualContentEditModalPanel" 
+							update="multilingualContentEditModalPanel"
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="keywords" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Abstract .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.abstract']}" 
 								for="abstract" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="abstract"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.abstracT.content}"
 							rows="3" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{monographManagedBean.abstractTranslations}"
 							value="#{messages['records.monograph.editPanel.btnAbstractTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="abstract" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... DOI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.doi']}" 
 								for="doi" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="doi"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{monographManagedBean.selectedMonograph.doi}"
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="doi" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... URI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.uri']}" 
 								for="uri" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea
+						</p:outputPanel>
+						<p:inputTextarea
 							id="uri"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{monographManagedBean.selectedMonograph.uri}"
 							rows="3"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="uri" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab1"
 					rendered="#{(monographManagedBean.editTabNumber == 1) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 					header="#{messages['records.monograph.editPanel.secondTab']}">
-					<rich:panel 
+					<p:panel
 						header="#{messages['records.monograph.editPanel.authorTablePanel.header']}">
-						<h:inputText id="listOfAuthors" rendered="false" value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:inputText id="listOfAuthors" rendered="false" value="" />
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="listOfAuthors"
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage"/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<h:panelGrid id="authors" columns="1">
 							<!--  add Author -->
-							<a4j:commandButton 
+							<p:commandButton
 								action="#{monographManagedBean.pickAuthor}"
 								render="authorBrowseModalPanel"
 								value="#{messages['records.monograph.editPanel.btnAddAuthor']}"
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}" 
 								execute="@form" />
 							<!-- ===========================   tablePanel  ============================= -->
-								<rich:dataTable 
+								<p:dataTable
 									id="authorTable"
 									value="#{monographManagedBean.selectedMonograph.allAuthors}"
 									var="authorRow">
 									<!--     ........  author name   .......-->
-									<rich:column>
+									<p:column>
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.authorTablePanel.name']}" />
 										</f:facet>
-										<h:selectOneMenu 
+										<p:selectOneMenu
 											value="#{authorRow.name}"
 											disabled="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" >
 											<f:selectItems value="#{authorRow.allNamesSelectItems}" />
-										</h:selectOneMenu>
-									</rich:column>
+										</p:selectOneMenu>
+									</p:column>
 									<!--     ........  change position   .......-->
-									<rich:column
+									<p:column
 										rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.authorTablePanel.changePosition']}" />
 										</f:facet>
-										<a4j:commandLink
+										<p:commandLink
 											action="#{monographManagedBean.moveAuthorUp}"
 											render="authors"
 											execute="@form">
 											<h:graphicImage library="img" name="up.gif"  />
 											<f:param name="controlNumber"
 												value="#{authorRow.controlNumber}" />
-										</a4j:commandLink>
-										<a4j:commandLink
+										</p:commandLink>
+										<p:commandLink
 											action="#{monographManagedBean.moveAuthorDown}"
 											render="authors"
 											execute="@form" >
 											<h:graphicImage library="img" name="down.gif"  />
 											<f:param name="controlNumber"
 												value="#{authorRow.controlNumber}" />
-										</a4j:commandLink>
-									</rich:column>
+										</p:commandLink>
+									</p:column>
 									<!--     ........  remove author   .......-->
-									<rich:column
+									<p:column
 										rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.authorTablePanel.remove']}" />
 										</f:facet>
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{monographManagedBean.removeAuthor}"
 											render="authors"
 											execute="@form" >
 											<h:graphicImage library="img" name="delete.png" />
 											<f:param name="controlNumber"
 												value="#{authorRow.controlNumber}" />
-										</a4j:commandLink>
-									</rich:column>
+										</p:commandLink>
+									</p:column>
 									<!--     ........  add author other format name    .......-->
-									<rich:column
+									<p:column
 										rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.authorTablePanel.addOtherFormatName']}" />
 										</f:facet>
-										<a4j:commandLink
+										<p:commandLink
 											action="#{monographManagedBean.addAuthorOtherFormatName}"
 											render="authorNameFormatsModalPanel" 
 											execute="@form" >
 											<h:graphicImage library="img" name="edit.png"  />
 											<f:param name="controlNumber"
 												value="#{authorRow.controlNumber}" />
-										</a4j:commandLink>
-									</rich:column>
-								</rich:dataTable>
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
 						</h:panelGrid>
-					</rich:panel>
-					<rich:panel 
+					</p:panel>
+					<p:panel
 						header="#{messages['records.journal.editPanel.editorTablePanel.header']}">
-						<h:inputText id="listOfEditors" rendered="false" value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:inputText id="listOfEditors" rendered="false" value="" />
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="listOfEditors"
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage"/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<h:panelGrid id="editors" columns="1">
 							<!--  add Editor -->
-							<a4j:commandButton 
+							<p:commandButton
 								action="#{monographManagedBean.pickEditor}"
 								render="authorBrowseModalPanel"
 								value="#{messages['records.monograph.editPanel.btnAddEditor']}"
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}" 
 								execute="@form" />
 							<!-- ===========================   tablePanel  ============================= -->
-								<rich:dataTable 
+								<p:dataTable
 									id="editorTable"
 									value="#{monographManagedBean.selectedMonograph.editors}"
 									var="editorRow">
 									<!--     ........  editor name   .......-->
-									<rich:column>
+									<p:column>
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.editorTablePanel.name']}" />
 										</f:facet>
-										<h:selectOneMenu 
+										<p:selectOneMenu
 											value="#{editorRow.name}"
 											disabled="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" >
 											<f:selectItems value="#{editorRow.allNamesSelectItems}" />
-										</h:selectOneMenu>
-									</rich:column>
+										</p:selectOneMenu>
+									</p:column>
 									<!--     ........  change position   .......-->
-									<rich:column
+									<p:column
 										rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.editorTablePanel.changePosition']}" />
 										</f:facet>
-										<a4j:commandLink
+										<p:commandLink
 											action="#{monographManagedBean.moveEditorUp}"
 											render="editors"
 											execute="@form" >
 											<h:graphicImage library="img" name="up.gif"  />
 											<f:param name="controlNumber"
 												value="#{editorRow.controlNumber}" />
-										</a4j:commandLink>
-										<a4j:commandLink
+										</p:commandLink>
+										<p:commandLink
 											action="#{monographManagedBean.moveEditorDown}"
 											render="editors"
 											execute="@form" >
 											<h:graphicImage library="img" name="down.gif"  />
 											<f:param name="controlNumber"
 												value="#{editorRow.controlNumber}" />
-										</a4j:commandLink>
-									</rich:column>
+										</p:commandLink>
+									</p:column>
 									<!--     ........  remove editor   .......-->
-									<rich:column
+									<p:column
 										rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.editorTablePanel.remove']}" />
 										</f:facet>
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{monographManagedBean.removeEditor}"
 											render="editors"
 											execute="@form" >
 											<h:graphicImage library="img" name="delete.png" />
 											<f:param name="controlNumber"
 												value="#{editorRow.controlNumber}" />
-										</a4j:commandLink>
-									</rich:column>
+										</p:commandLink>
+									</p:column>
 									<!--     ........  add editor other format name    .......-->
-									<rich:column
+									<p:column
 										rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 										<f:facet name="header">
 											<h:outputText
 												value="#{messages['records.monograph.editPanel.editorTablePanel.addOtherFormatName']}" />
 										</f:facet>
-										<a4j:commandLink
+										<p:commandLink
 											action="#{monographManagedBean.addEditorOtherFormatName}"
 											render="authorNameFormatsModalPanel" 
 											execute="@form" >
 											<h:graphicImage library="img" name="edit.png"  />
 											<f:param name="controlNumber"
 												value="#{editorRow.controlNumber}" />
-										</a4j:commandLink>
-									</rich:column>
-								</rich:dataTable>
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
 						</h:panelGrid>
-					</rich:panel>
-				</rich:tab>
-				<rich:tab 
+					</p:panel>
+				</p:tab>
+				<p:tab
 					name="tab2"
 					rendered="#{(monographManagedBean.editTabNumber == 2) or (monographManagedBean.editMode == modesManagedBean.viewDetails)}"
 					header="#{messages['records.monograph.editPanel.thirdTab']}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!-- ....... Research Area.......  -->
-						<a4j:outputPanel 
+						<p:outputPanel
 							ajaxRendered="true"
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}">
 							<mytags:outputLabel 
@@ -693,17 +692,17 @@
 								for="researchArea" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<a4j:outputPanel 
+						</p:outputPanel>
+						<p:outputPanel
 							ajaxRendered="true"
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}" >
-							<h:inputTextarea 
+							<p:inputTextarea
 								id="researchArea"
 								readonly="true" 
 								value="#{monographManagedBean.selectedMonograph.researchArea.term.content}"
 								rows="3"  />
-						</a4j:outputPanel>
-						<a4j:commandButton
+						</p:outputPanel>
+						<p:commandButton
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}" 
 							action="#{monographManagedBean.pickResearchArea}"
 							render="researchAreaBrowseModalPanel"
@@ -712,99 +711,99 @@
 						<h:outputText 
 							value=""
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}" />
-						<a4j:outputPanel 
+						<p:outputPanel
 							ajaxRendered="true" 
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}"
 							>
-							<rich:message 
+							<p:message
 								for="researchArea" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publisherName .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.publisherName']}" 
 								for="publisherName" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="publisherName"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.publisher.originalPublisher.name}"
 							rows="3"  />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{monographManagedBean.publisherTranslations}"
 							value="#{messages['records.monograph.editPanel.btnPublisherTranslations']}"
 							render="multilingualContentPublisherEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publisherName" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publisherPlace .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.publisherPlace']}" 
 								for="publisherPlace" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="publisherPlace"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.publisher.originalPublisher.place}"
 							maxlength="200"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publisherPlace" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publisherState .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.publisherState']}" 
 								for="publisherState" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="publisherState"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.publisher.originalPublisher.state}"
 							maxlength="200"  />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publisherState" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... publicationYear .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.monograph.editPanel.publicationYear']}*" 
 								for="publicationYear" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="publicationYear"
 							readonly="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{monographManagedBean.selectedMonograph.publicationYear}"
@@ -812,51 +811,51 @@
 							validatorMessage="#{messages['records.monograph.editPanel.publicationYear.format']}"
 							 >
 							<f:validateRegex pattern="[1-2][0-9]{3}" />
-						</h:inputText>
+						</p:inputText>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="publicationYear" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-					<rich:panel 
+					<p:panel
 							id="languageTablePanel"
 							header="#{messages['records.monograph.editPanel.languageTablePanel.header']}"
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}"
 							>
-						<h:inputText id="listOfLanguages" rendered="false" value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:inputText id="listOfLanguages" rendered="false" value="" />
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="listOfLanguages"
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage"/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 						
 						<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 							<!--  ....... Text Language ....... -->
-							<a4j:outputPanel ajaxRendered="true">
+							<p:outputPanel ajaxRendered="true">
 								<mytags:outputLabel 
 									rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}"
 									value="#{messages['records.monograph.editPanel.language']}" 
 									for="textLanguage" 
 									errorStyleClass="errorMessage"
 									/>
-							</a4j:outputPanel>
-							<h:selectOneMenu 
+							</p:outputPanel>
+							<p:selectOneMenu
 								id="textLanguage"
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}"
 								value="#{monographManagedBean.language}" 
 								required="false"	>
 								<ui:include src="../languagesSelectItems.xhtml" />
-							</h:selectOneMenu>
-							<a4j:commandButton 
+							</p:selectOneMenu>
+							<p:commandButton
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}" 
 								action="#{monographManagedBean.addLanguage}"
 								value="#{messages['records.monograph.editPanel.btnAddLanguage']}"
@@ -864,82 +863,82 @@
 								execute="@form" />
 							<h:outputText value=""
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}" />
-							<a4j:outputPanel 
+							<p:outputPanel
 								ajaxRendered="true"
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
-								<rich:message 
+								<p:message
 									for="language" 
 									errorClass="errorMessage"
 									infoClass="infoMessage"
 									warnClass="warnMessage"
 									fatalClass="fatalMessage" />
-							</a4j:outputPanel>
+							</p:outputPanel>
 						</h:panelGrid>
 						<h:panelGrid id="languages" columns="1">
 							 <!-- ===========================   tablePanel  ============================= --> 
-							<rich:dataTable 
+							<p:dataTable
 								id="languageTable"
 								value="#{monographManagedBean.selectedMonograph.localizedLanguages}"
 								var="languageRow">
 								   <!--    ........  language   ....... -->
-								<rich:column>
+								<p:column>
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.monograph.editPanel.languageTablePanel.language']}" />
 									</f:facet>
 									<h:outputText value="#{languageRow}" />
-								</rich:column>
+								</p:column>
 								    <!--  ........  remove language   ....... -->
-								<rich:column
+								<p:column
 									rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.monograph.editPanel.languageTablePanel.remove']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										action="#{monographManagedBean.removeLanguage}"
 										render="languageTablePanel"
 										limitRender="true" 
 										execute="@this" >
 										<h:graphicImage library="img" name="delete.png" />
 										<f:param name="language" value="#{languageRow}" />
-									</a4j:commandLink>
-								</rich:column>
-							</rich:dataTable>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
 						</h:panelGrid>
-					</rich:panel>
-					<rich:panel 
+					</p:panel>
+					<p:panel
 							id="originalLanguageTablePanel"
 							header="#{messages['records.monograph.editPanel.originalLanguageTablePanel.header']}"
 							rendered="#{(monographManagedBean.editMode == modesManagedBean.import)}" >
-						<h:inputText id="listOfOriginalLanguages" rendered="false" value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:inputText id="listOfOriginalLanguages" rendered="false" value="" />
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="listOfOriginalLanguages"
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage"/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 						
 						<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 							<!--   ....... OriginalLanguage ....... -->        
-							<a4j:outputPanel ajaxRendered="true">
+							<p:outputPanel ajaxRendered="true">
 								<mytags:outputLabel 
 									rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}"
 									value="#{messages['records.monograph.editPanel.originalLanguage']}" 
 									for="originalLanguage" 
 									errorStyleClass="errorMessage"
 									/>
-							</a4j:outputPanel>
-							<h:selectOneMenu 
+							</p:outputPanel>
+							<p:selectOneMenu
 								id="originalLanguage"
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}"
 								value="#{monographManagedBean.originalLanguage}" 
 								required="false"	>
 								<ui:include src="../languagesSelectItems.xhtml"/>
-							</h:selectOneMenu>
-							<a4j:commandButton 
+							</p:selectOneMenu>
+							<p:commandButton
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}" 
 								action="#{monographManagedBean.addOriginalLanguage}"
 								value="#{messages['records.monograph.editPanel.btnAddOriginalLanguage']}"
@@ -947,97 +946,94 @@
 								execute="@form" />
 							<h:outputText value=""
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}" />
-							<a4j:outputPanel 
+							<p:outputPanel
 								ajaxRendered="true"
 								rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
-								<rich:message 
+								<p:message
 									for="originalLanguage" 
 									errorClass="errorMessage"
 									infoClass="infoMessage"
 									warnClass="warnMessage"
 									fatalClass="fatalMessage" />
-							</a4j:outputPanel>
+							</p:outputPanel>
 						</h:panelGrid>
 						<h:panelGrid id="originalLanguages" columns="1">
 							<!--  ===========================   tablePanel  ============================= -->
-							<rich:dataTable 
+							<p:dataTable
 								id="originalLanguageTable"
 								value="#{monographManagedBean.selectedMonograph.localizedOriginalLanguages}"
 								var="originalLanguageRow">
 								<!--........  originalLanguage   ....... -->
-								<rich:column>
+								<p:column>
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.monograph.editPanel.originalLanguageTablePanel.originalLanguage']}" />
 									</f:facet>
 									<h:outputText value="#{originalLanguageRow}" />
-								</rich:column>
+								</p:column>
 								<!--   ........  remove original language   ....... -->
-								<rich:column
+								<p:column
 									rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.monograph.editPanel.originalLanguageTablePanel.remove']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										action="#{monographManagedBean.removeOriginalLanguage}"
 										render="originalLanguageTablePanel"
 										limitRender="true" 
 										execute="@this" >
 										<h:graphicImage library="img" name="delete.png" />
 										<f:param name="originalLanguage" value="#{originalLanguageRow}" />
-									</a4j:commandLink>
-								</rich:column>
-							</rich:dataTable>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
 						</h:panelGrid>
-					</rich:panel>
-				</rich:tab>
-				<rich:tab 
+					</p:panel>
+				</p:tab>
+				<p:tab
 					name="tab3"
 					header="#{messages['records.monograph.editPanel.fourthTab']}"
 					rendered="#{(monographManagedBean.editTabNumber == 3) and ((monographManagedBean.editMode == modesManagedBean.add) or (monographManagedBean.editMode == modesManagedBean.import))}">
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<h:panelGrid columns="2">
 							<h:graphicImage library="img" name="info.png" />
 							<h:outputText value="#{monographManagedBean.pickSimilarMessage}"
 								styleClass="rf-msg-inf" />
 						</h:panelGrid>
-					</a4j:outputPanel>
-					<h:graphicImage 
-						library="img"
-						name="spacer.gif" 
-						alt="" 
+					</p:outputPanel>
+					<p:spacer
 						height="10"
 						width="1"
 						/>
-					<rich:dataTable 
+					<p:dataTable
 						id="monographTable" 
 						value="#{monographManagedBean.similarMonographs}"
 						var="monographRow" >
 						<!--     ........  title   .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.monograph.tablePanel.title']}" />
 							</f:facet>
 							<h:outputText value="#{monographRow.someTitle}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  isbn  .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.monograph.tablePanel.isbn']}" />
 							</f:facet>
 							<h:outputText value="#{monographRow.isbn}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  chooseSimilar   .......-->
-						<rich:column
+						<p:column
 							rendered="#{monographManagedBean.editMode != modesManagedBean.import}">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.monograph.tablePanel.chooseSimilar']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{monographManagedBean.chooseSimilar}"
 								render="mainPanel, #{monographManagedBean.renderModalPanels}"
 								limitRender="true"
@@ -1045,7 +1041,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{monographRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -1054,16 +1050,16 @@
 												value="#{messages['records.monograph.tablePanel.btnPick']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-							<a4j:commandLink 
+								</p:tooltip>
+							</p:commandLink>
+							<p:commandLink
 								render="relatedRecordsEditModalPanel"
 							    execute="@this" 
 							    limitRender="true">
 							    <h:graphicImage id="relatedRecords" library="img" name="publications.png" />
 							    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 							        value="#{monographRow}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -1072,17 +1068,17 @@
 												value="#{messages['records.monograph.tablePanel.btnPublications']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
 						<!--     ........  examineThis   .......-->
-						<rich:column 
+						<p:column
 							rendered="#{monographManagedBean.editMode == modesManagedBean.import}">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.monograph.tablePanel.examine']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{monographManagedBean.examineData}"
 								render="mainPanel, #{monographManagedBean.renderModalPanels}"
 								limitRender="true"
@@ -1090,7 +1086,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{monographRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -1099,17 +1095,17 @@
 												value="#{messages['records.monograph.tablePanel.btnExamine']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
 						<!--     ........  mergeWithThis   .......-->
-						<rich:column 
+						<p:column
 							rendered="false">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.monograph.tablePanel.merge']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{monographManagedBean.mergeData}"
 								render="mainPanel, #{monographManagedBean.renderModalPanels}"
 								limitRender="true"
@@ -1117,7 +1113,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{monographRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -1126,67 +1122,67 @@
 												value="#{messages['records.monograph.tablePanel.btnMerge']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
-					</rich:dataTable>
-				</rich:tab>
-				<rich:tab 
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+				<p:tab
 					name="tab4"
 					header="#{messages['records.monograph.editPanel.fifthTab']}"
 					rendered="#{(monographManagedBean.editMode == modesManagedBean.viewDetails)}">
-					<a4j:outputPanel ajaxRendered="true">
-						<h:inputTextarea
+					<p:outputPanel ajaxRendered="true">
+						<p:inputTextarea
 							value="#{monographManagedBean.selectedMonograph.record.MARC21Record.printableString}"
 							readonly="true" cols="60" styleClass="marc21TextArea" />
-					</a4j:outputPanel>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+					</p:outputPanel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="3">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails) and (monographManagedBean.editTabNumber gt 0) and (monographManagedBean.editTabNumber lt 3)}"
 				action="#{monographManagedBean.previousEditTab}"
 				value="#{messages['records.monograph.editPanel.btnPrevious']}"
 				render="monographEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(monographManagedBean.editMode != modesManagedBean.viewDetails) and (monographManagedBean.editTabNumber lt 2)}"
 				action="#{monographManagedBean.nextEditTab}"
 				value="#{messages['records.monograph.editPanel.btnNext']}"
 				render="monographEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{((monographManagedBean.editMode == modesManagedBean.update) or ((monographManagedBean.editMode == modesManagedBean.import) and (not empty monographManagedBean.selectedMonograph.controlNumber))) and ((monographManagedBean.editTabNumber == 2) or (monographManagedBean.editTabNumber == 3))}"
 				action="#{monographManagedBean.update}"
 				value="#{messages['records.monograph.editPanel.btnUpdate']}"
 				render="monographEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{((monographManagedBean.editMode == modesManagedBean.add) or ((monographManagedBean.editMode == modesManagedBean.import) and (empty monographManagedBean.selectedMonograph.controlNumber))) and ((monographManagedBean.editTabNumber == 2) or (monographManagedBean.editTabNumber == 3))}"
 				action="#{monographManagedBean.add}"
 				value="#{messages['records.monograph.editPanel.btnCreate']}"
 				render="monographEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(monographManagedBean.editMode == modesManagedBean.import) and (monographManagedBean.editTabNumber == 3)}"
 				action="#{monographManagedBean.examineData}"
 				value="#{messages['records.monograph.editPanel.btnExamine']}"
 				render="monographEditModalPanel" 
 				limitRender="true" 
 				execute="@this" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(monographManagedBean.editTabNumber lt 3)}" 
 				action="#{monographManagedBean.switchSimple}"
 				value="#{messages['records.monograph.editPanel.btnSimpleEdit']}"
 				render="monographSimpleEditModalPanel, monographEditModalPanel" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(monographManagedBean.editTabNumber == 4)}" 
 				action="#{monographManagedBean.finishWizard}"
 				value="#{messages['records.monograph.editPanel.btnAllRight']}"

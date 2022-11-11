@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
 	<f:view locale="#{userManagedBean.language}" 
@@ -33,44 +32,41 @@
 				</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1" 
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:fragment id="form_region">
 					<h:form id="generateReportsForm"
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.browse])}" >
 						<h:panelGrid
 								columns="1"
 								>
-							<h:outputLabel value="Forma za pokretanje izvestaja za samovrednovanje: " />
+							<p:outputLabel value="Forma za pokretanje izvestaja za samovrednovanje: " />
 						</h:panelGrid>
 						<h:panelGrid
 							columns="2" id="inputPanelReports"
 							rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.add]))}"
 							>
-							<h:outputLabel value="Godina generisanja: " />
-							<h:inputText value="#{reportGeneratorSEManagedBean.year}" />
-							<h:outputLabel value="Institucija: " />
-							<h:selectOneMenu value="#{reportGeneratorSEManagedBean.selectedOrganisation}">
+							<p:outputLabel value="Godina generisanja: " />
+							<p:inputText value="#{reportGeneratorSEManagedBean.year}" />
+							<p:outputLabel value="Institucija: " />
+							<p:selectOneMenu value="#{reportGeneratorSEManagedBean.selectedOrganisation}">
 								<f:selectItems value="#{reportGeneratorSEManagedBean.organisations}"/>
-							</h:selectOneMenu>
+							</p:selectOneMenu>
 
-							<h:outputLabel value="Izvestaj: " />
-							<h:selectOneMenu value="#{reportGeneratorSEManagedBean.selectedReport}">
+							<p:outputLabel value="Izvestaj: " />
+							<p:selectOneMenu value="#{reportGeneratorSEManagedBean.selectedReport}">
 								<f:ajax execute="inputPanelReports" render="inputPanelReports"/>
 								<f:selectItems value="#{reportGeneratorSEManagedBean.reportTypes}"/>
-							</h:selectOneMenu>
+							</p:selectOneMenu>
 
-							<h:outputLabel value="Broj godina (za mentore): " rendered="#{reportGeneratorSEManagedBean.showNumberOfYearsForMenthors()}"/>
-							<h:inputText value="#{reportGeneratorSEManagedBean.numberOfYearsForMenthors}" rendered="#{reportGeneratorSEManagedBean.showNumberOfYearsForMenthors()}" />
+							<p:outputLabel value="Broj godina (za mentore): " rendered="#{reportGeneratorSEManagedBean.showNumberOfYearsForMenthors()}"/>
+							<p:inputText value="#{reportGeneratorSEManagedBean.numberOfYearsForMenthors}" rendered="#{reportGeneratorSEManagedBean.showNumberOfYearsForMenthors()}" />
 						</h:panelGrid>
 						<br></br>
 						<br></br>
@@ -83,35 +79,35 @@
 								rendered="#{(userManagedBean.loggedIn) and ((userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.add]))}"
 								execute="@this"
 								style="margin-left: 80px"/>
-							<rich:message for="startGenerating" ajaxRendered="true" />
+							<p:message for="startGenerating" ajaxRendered="true" />
 						</h:panelGrid>
 
 						<h:panelGrid columns="1">
-							<h:outputLabel value="Izgenerisani izvestaji " />
+							<p:outputLabel value="Izgenerisani izvestaji " />
 							
-							<rich:dataTable var="file" value="#{reportGeneratorSEManagedBean.filesDesc}">
-								<rich:column>
+							<p:dataTable var="file" value="#{reportGeneratorSEManagedBean.filesDesc}">
+								<p:column>
 					                <f:facet name="header">
 					                	<h:outputText value="Naziv fajla" />
 					                </f:facet>
 					                <h:outputText value="#{file.fileName}"/>
-					            </rich:column>		
-					            <rich:column>
+					            </p:column>
+					            <p:column>
 					                <f:facet name="header">
 					                	<h:outputText value="Datum kreiranja" />
 					                </f:facet>
 					                <h:outputText value="#{file.creationDate}"/>
-					            </rich:column>	
+					            </p:column>
 					            
-					             <rich:column>
+					             <p:column>
 					                <f:facet name="header">
 					                	<h:outputText value="Preuzimanje fajla" />
 					                </f:facet>
-					                 <h:commandLink action="#{reportGeneratorSEManagedBean.downloadFile(file.file)}" id="downloadBtn"
+					                 <p:commandLink ajax="false" action="#{reportGeneratorSEManagedBean.downloadFile(file.file)}" id="downloadBtn"
 					                 	value="Preuzmi"/>															
-									</rich:column>							
-							</rich:dataTable>				
-					        <h:commandButton 													
+									</p:column>
+							</p:dataTable>
+					        <p:commandButton ajax="false"
 								value="Osvezi prikaz" 
 								action="#{reportGeneratorSEManagedBean.loadGeneratedReportsStatus()}"
 								execute="@this"				
@@ -120,7 +116,7 @@
 						
 						</h:panelGrid>
 					</h:form>
-				</a4j:region>
+				</p:fragment>
 				</div>
 			<div id="footer">
     			<ui:insert name="footer">

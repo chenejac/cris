@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
     >
 	<f:view locale="#{userManagedBean.language}">
@@ -29,10 +28,7 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
@@ -40,18 +36,18 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
 				</div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region">
 					<h:panelGrid id="mainPanel">
-						<rich:panel id="positionBrowseModalPanel"
+						<p:panel id="positionBrowseModalPanel"
 							header="#{messages['cerif.position.header']}">
 							<h:form id="positionTableForm">
 								<h:panelGrid id="positionTableFormPanel" >
-									<h:inputText id="general" rendered="false" value="" />
+									<p:inputText id="general" rendered="false" value="" />
 									<ui:include src="../cerif/positionTable.xhtml"/>
 								</h:panelGrid>
 							</h:form>
-						</rich:panel>
+						</p:panel>
 					</h:panelGrid>
 					<h:panelGrid id="modalPanel2s">
 						<!-- ======================== Position  ============= -->
@@ -60,7 +56,7 @@
 						<!-- ======================== Position Edit panel ============= -->
 						<h:form id="positionEditForm">
 							<h:panelGrid id="positionEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(positionManagedBean.editMode == modesManagedBean.update) or (positionManagedBean.editMode == modesManagedBean.viewDetails) or (positionManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -73,7 +69,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{positionManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{positionManagedBean.renderModalPanels}"
@@ -81,10 +77,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/positionEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Position end ============= -->
@@ -93,7 +89,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -106,7 +102,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -114,21 +110,18 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
 						
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

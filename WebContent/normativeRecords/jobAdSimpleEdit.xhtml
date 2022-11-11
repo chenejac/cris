@@ -2,22 +2,21 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="jobAdSimpleEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......JobAdPreview.......           -->
-		<rich:panel id="jobAdPreview"
+		<p:panel id="jobAdPreview"
 			header="#{messages['records.jobAd.editPanel.preview']}"
 			rendered="#{jobAdManagedBean.editTabNumber == 2}">
 			<h:panelGrid columns="1">
@@ -26,43 +25,43 @@
 					styleClass="preview" 
 					escape="false"/>
 			</h:panelGrid>
-		</rich:panel>
-		<rich:panel 
+		</p:panel>
+		<p:panel
 			id="scrollableBody"
 			styleClass="scrollableBody" 
 			rendered="#{(jobAdManagedBean.editTabNumber == 0)}" >
 			<h:panelGrid columns="4" columnClasses="width20, width60, width10, width10" width="100%">
 				<!-- ....... Place .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.jobAd.editPanel.place']}*" 
 						for="place" 
 						errorStyleClass="errorMessage" />
-				</a4j:outputPanel>
-				<h:inputTextarea 
+				</p:outputPanel>
+				<p:inputTextarea
 					id="place"
 					readonly="#{(jobAdManagedBean.editMode == modesManagedBean.viewDetails)}" 
 					value="#{jobAdManagedBean.selectedJobAd.place}"
 					rows="3" 
 					style="width:100% !important"/>
 				<h:outputText value="" />
-				<a4j:outputPanel ajaxRendered="true">
-					<rich:message 
+				<p:outputPanel ajaxRendered="true">
+					<p:message
 						for="place" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... Institution.......           
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.jobAd.editPanel.institution']}*" 
 						for="institution" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:selectOneMenu 
+				</p:outputPanel>
+				<p:selectOneMenu
 					id="institution"
 					value="#{jobAdManagedBean.selectedJobAd.institution}"
 					required="true"
@@ -70,25 +69,25 @@
 					disabled="#{(jobAdManagedBean.editMode == modesManagedBean.viewDetails)}"
 					>
 					<f:selectItems value="#{institutionManagedBean.allList}"/>
-				</h:selectOneMenu> 
+				</p:selectOneMenu>
 				<h:outputText value="" />
-				<a4j:outputPanel ajaxRendered="true">
-					<rich:message 
+				<p:outputPanel ajaxRendered="true">
+					<p:message
 						for="institution" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel> -->
+				</p:outputPanel> -->
 				<!-- ....... startDate.......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.jobAd.editPanel.startDate']}*" 
 						for="startDate" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<rich:calendar 
+				</p:outputPanel>
+				<p:calendar
 					id="startDate"
 					value="#{jobAdManagedBean.startDate}"
 					enableManualInput="true"
@@ -100,23 +99,23 @@
 					inputStyle="width:120px" 
 					disabled="#{(jobAdManagedBean.editMode == modesManagedBean.viewDetails)}" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="startDate" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... endDate.......           
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.jobAd.editPanel.endDate']}*" 
 						for="endDate" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<rich:calendar 
+				</p:outputPanel>
+				<p:calendar
 					id="endDate"
 					value="#{jobAdManagedBean.endDate}"
 					enableManualInput="true"
@@ -128,74 +127,71 @@
 					inputStyle="width:120px" 
 					disabled="#{(jobAdManagedBean.editMode == modesManagedBean.viewDetails)}" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="endDate" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel> -->
+				</p:outputPanel> -->
 				<!-- ....... Name .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.jobAd.simpleEditPanel.name']}*" 
 						for="name" 
 						errorStyleClass="errorMessage" />
-				</a4j:outputPanel>
-				<h:inputTextarea 
+				</p:outputPanel>
+				<p:inputTextarea
 					id="name"
 					readonly="#{(jobAdManagedBean.editMode == modesManagedBean.viewDetails)}" 
 					value="#{jobAdManagedBean.selectedJobAd.name.content}"
 					rows="3" 
 					style="width:100% !important"/>
 				<h:outputText value="" />
-				<a4j:outputPanel ajaxRendered="true">
-					<rich:message 
+				<p:outputPanel ajaxRendered="true">
+					<p:message
 						for="name" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h:panelGrid>
-		</rich:panel>
-		<rich:panel 
+		</p:panel>
+		<p:panel
 			header="#{messages['records.jobAd.editPanel.secondTab']}"
 			rendered="#{(jobAdManagedBean.editTabNumber == 1) and (jobAdManagedBean.editMode == modesManagedBean.add)}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="2">
 					<h:graphicImage library="img" name="info.png" />
 					<h:outputText value="#{jobAdManagedBean.pickSimilarMessage}"
 						styleClass="rf-msg-inf" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			</p:outputPanel>
+			<p:spacer
 				height="10"
 				width="1"
 				/>
-			<rich:dataTable 
+			<p:dataTable
 				id="jobAdTable" 
 				value="#{jobAdManagedBean.similarJobAds}"
 				var="jobAdRow" >
 				<!--     ........  stringRepresentation   .......-->
-				<rich:column >
+				<p:column >
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.jobAd.tablePanel.stringRepresentation']}" />
 					</f:facet>
 					<h:outputText value="#{jobAdRow.stringRepresentation}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  chooseSimilar   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.jobAd.tablePanel.chooseSimilar']}" />
 					</f:facet>
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{jobAdManagedBean.chooseSimilar}"
 						render="mainPanel, #{jobAdManagedBean.renderModalPanels}"
 						limitRender="true"
@@ -203,7 +199,7 @@
 						execute="@this">
 						<h:graphicImage library="img" name="pick.png" />
 						<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
-						<rich:tooltip followMouse="true" direction="topRight"
+						<p:tooltip followMouse="true" direction="topRight"
 							showDelay="1000" styleClass="tooltip" mode="client">
 							<span class="tooltipSpan"> 
 								<h:panelGrid columns="2">
@@ -212,16 +208,16 @@
 										value="#{messages['records.jobAd.tablePanel.btnPick']}" />
 								</h:panelGrid> 
 							</span>
-						</rich:tooltip>
-					</a4j:commandLink>
-					<a4j:commandLink 
+						</p:tooltip>
+					</p:commandLink>
+					<p:commandLink
 						render="relatedRecordsEditModalPanel"
 					    execute="@this" 
 					    limitRender="true">
 					    <h:graphicImage library="img" name="publications.png" />
 					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 					        value="#{jobAdRow}" />
-						<rich:tooltip followMouse="true" direction="topRight"
+						<p:tooltip followMouse="true" direction="topRight"
 							showDelay="1000" styleClass="tooltip" mode="client">
 							<span class="tooltipSpan"> 
 								<h:panelGrid columns="2">
@@ -230,34 +226,34 @@
 										value="#{messages['records.jobAd.tablePanel.btnPublications']}" />
 								</h:panelGrid> 
 							</span>
-						</rich:tooltip>
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
-		</rich:panel>
+						</p:tooltip>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="2">
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(jobAdManagedBean.editMode == modesManagedBean.update) and ((jobAdManagedBean.editTabNumber == 0) or (jobAdManagedBean.editTabNumber == 1))}"
 				action="#{jobAdManagedBean.update}"
 				value="#{messages['records.jobAd.editPanel.btnUpdate']}"
 				render="jobAdSimpleEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(jobAdManagedBean.editMode == modesManagedBean.add) and ((jobAdManagedBean.editTabNumber == 0) or (jobAdManagedBean.editTabNumber == 1))}"
 				action="#{jobAdManagedBean.add}"
 				value="#{messages['records.jobAd.editPanel.btnCreate']}"
 				render="jobAdSimpleEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(jobAdManagedBean.editTabNumber == 0) and (userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.editFullData])}" 
 				action="#{jobAdManagedBean.switchSimple}"
 				value="#{messages['records.jobAd.editPanel.btnAdvancedEdit']}"
 				render="jobAdSimpleEditModalPanel, jobAdEditModalPanel" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(jobAdManagedBean.editTabNumber == 2)}" 
 				action="#{jobAdManagedBean.finishWizard}"
 				value="#{messages['records.jobAd.editPanel.btnAllRight']}"

@@ -2,23 +2,19 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<a4j:outputPanel ajaxRendered="true"
+	<p:outputPanel ajaxRendered="true"
 		rendered="#{(not jobAdManagedBean.customPick) and (jobAdManagedBean.pickMessage!=null)}" >
 		<h:panelGrid columns="2">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{jobAdManagedBean.pickMessage}"
 				styleClass="rf-msg-inf" />
 		</h:panelGrid>
-	</a4j:outputPanel>
+	</p:outputPanel>
 	<!-- ===========================   searchPanel  ============================= -->
-	<h:graphicImage 
-		library="img"
-		name="spacer.gif" 
-		alt="" 
+	<p:spacer
 		height="10"
 		width="1"
 		/>
@@ -26,58 +22,59 @@
 		rendered="false">
 		<h:panelGroup>
 			<h2>
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.jobAd.searchPanel.header']}: " 
 						for="whereStr" 
 						errorStyleClass="errorMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h2>
 		</h:panelGroup>
-		<h:inputText 
+		<p:inputText
 			id="whereStr"
 			onkeydown="keyDownHandler(event, 'jobAdPickForm:btnFind')"
 			value="#{jobAdManagedBean.whereStr}" 
 			styleClass="searchBox" />
-		<a4j:commandButton 
+		<p:commandButton
 			id="btnFind"
 			value="#{messages['records.jobAd.searchPanel.btnFind']}"
-			render="jobAdTablePanel" 
+			update="jobAdTablePanel"
 			limitRender="true" 
 			execute="@form" />
-		<a4j:commandButton 
+		<p:commandButton
 			id="btnShowAll"
 			action="#{jobAdManagedBean.removeFilter}"
 			value="#{messages['records.jobAd.searchPanel.btnShowAll']}"
-			render="jobAdTablePanel, jobAdSearchPanel"
+			update="jobAdTablePanel, jobAdSearchPanel"
 			limitRender="true"
 			immediate="true" 
 			execute="@this" />
 	</h:panelGrid>
-	<rich:panel 
+	<p:panel
 		id="scrollableBody" 
 		styleClass="scrollableBody"
 		rendered="#{(not empty jobAdManagedBean.jobAds) or (not jobAdManagedBean.customPick)}">
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="jobAdTablePanel">
-			<rich:dataGrid 
+			<p:dataGrid
 				id="jobAdTable"
 				value="#{jobAdManagedBean.jobAds}" 
 				var="jobAdRow"
 				columns="1" 
 				elements="5" 
-				border="0" 
+				border="0"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  harvardRepresentation   .......-->
-				<rich:column>
-					<rich:panel>
+				<p:column>
+					<p:panel>
 						<!--  <f:facet name="header">
 							<h:outputText
 									value="#{jobAdRow.someName}" />
@@ -89,7 +86,7 @@
 							<h:outputText value="#{jobAdRow.HTMLRepresentation}" escape="false"/>
 							<!--     ........  actions   .......-->
 							<h:panelGroup>
-								<a4j:commandLink 
+								<p:commandLink
 									action="#{jobAdManagedBean.switchToSimpleViewDetailsMode}"
 									render="jobAdSimpleEditModalPanel" 
 									limitRender="true"
@@ -98,8 +95,8 @@
 									<h:graphicImage library="img" name="details.png" />
 									<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
 									<ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-								</a4j:commandLink>
-								<a4j:commandLink 
+								</p:commandLink>
+								<p:commandLink
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.update]}"
 									action="#{jobAdManagedBean.switchToSimpleUpdateMode}"
 									render="jobAdSimpleEditModalPanel" 
@@ -109,8 +106,8 @@
 									<h:graphicImage library="img" name="edit.png" />
 									<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
 									<ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-								</a4j:commandLink>
-								<a4j:commandLink 
+								</p:commandLink>
+								<p:commandLink
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.delete]}"
 									action="#{jobAdManagedBean.delete}"
 									render="jobAdBrowseModalPanel"
@@ -121,8 +118,8 @@
 									<h:graphicImage library="img" name="delete.png" />
 									<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
 									<ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-								</a4j:commandLink>
-								<a4j:commandLink 
+								</p:commandLink>
+								<p:commandLink
 									rendered="#{jobAdManagedBean.tableMode == modesManagedBean.pick}" 
 									action="#{jobAdManagedBean.chooseJobAd}"
 									render="mainPanel, #{jobAdManagedBean.renderModalPanels}"
@@ -131,8 +128,8 @@
 									<h:graphicImage library="img" name="pick.png" />
 									<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
 									<ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-								</a4j:commandLink>
-								<a4j:commandLink 
+								</p:commandLink>
+								<p:commandLink
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.editFullData]}"
 									render="applicationsEditModalPanel"
 								    execute="@this" 
@@ -141,8 +138,8 @@
 								    <f:setPropertyActionListener target="#{jobAdManagedBean.selectedJobAdApplications}"
 								        value="#{jobAdRow}" />
 								    <ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-								</a4j:commandLink>
-								<a4j:commandLink 
+								</p:commandLink>
+								<p:commandLink
 									rendered="#{(userManagedBean.loggedIn) and (not empty userManagedBean.loggedUser.author.controlNumber) and (userManagedBean.loggedUser.author.controlNumber eq jobAdManagedBean.selectedAuthor.controlNumber)}"
 									render="publicationsEditModalPanel"
 								    execute="@this" 
@@ -151,25 +148,25 @@
 								    <f:setPropertyActionListener target="#{jobAdManagedBean.selectedJobAdPublications}"
 								        value="#{jobAdRow}" />
 								    <ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-								</a4j:commandLink>
-								<a4j:commandButton 
+								</p:commandLink>
+								<p:commandButton
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.delete]}"
 									value="#{messages['records.jobAd.tablePanel.btnChooseDuplicate']}"
 									action="#{jobAdManagedBean.chooseDuplicateJobAd}"
-									render="jobAdTablePanel"
+									update="jobAdTablePanel"
 									limitRender="true" 
 									execute="@this" >
 									<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
-								</a4j:commandButton>
-								<a4j:commandButton 
+								</p:commandButton>
+								<p:commandButton
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.delete]}"
 									value="#{messages['records.jobAd.tablePanel.btnReplaceDuplicate']}"
 									action="#{jobAdManagedBean.replaceDuplicateJobAds}"
-									render="jobAdBrowseModalPanel" 
+									update="jobAdBrowseModalPanel"
 									limitRender="true"
 									execute="@this" >
 									<f:param name="controlNumber" value="#{jobAdRow.controlNumber}" />
-									<rich:tooltip followMouse="true" direction="topRight"
+									<p:tooltip followMouse="true" direction="topRight"
 										showDelay="1000" styleClass="tooltip" mode="ajax">
 										<span class="tooltipSpan"> 
 											<h:panelGrid columns="1">
@@ -177,28 +174,20 @@
 													value="#{jobAdManagedBean.duplicateJobAdsAsString}" />
 											</h:panelGrid> 
 										</span>
-									</rich:tooltip>
-								</a4j:commandButton>
+									</p:tooltip>
+								</p:commandButton>
 							</h:panelGroup>
 						</h:panelGrid>
-					</rich:panel>
-				</rich:column>
-			</rich:dataGrid>
+					</p:panel>
+				</p:column>
+			</p:dataGrid>
 			<h:panelGrid columns="1">
-				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScroller" 
-						align="left"
-						for="jobAdTable" 
-						render="jobAdTablePanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
 				<h:panelGroup 
 					rendered="#{(jobAdManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.add])}" >
 					<h3>
 						<h:outputText
 							value="#{messages['records.jobAd.tablePanel.btnCreate']}: " />
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{jobAdManagedBean.switchToSimpleAddMode}"
 							render="jobAdSimpleEditModalPanel" 
 							limitRender="true"
@@ -206,10 +195,10 @@
 							immediate="true">
 							<h:graphicImage library="img" name="create.png" />
 							<ui:include src="../normativeRecords/jobAdToolTip.xhtml" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</h3>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

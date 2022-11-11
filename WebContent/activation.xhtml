@@ -4,8 +4,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich">
+xmlns:p="http://primefaces.org/ui">
 	<f:view 
 		contentType="text/html; charset=iso-8859-1" 
 		beforePhase="#{userManagedBean.performActivation}"/>
@@ -28,10 +27,7 @@
 			</ui:insert>
 		</div>
 	    <div id="center">
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="80"
 				width="1"
 				/>

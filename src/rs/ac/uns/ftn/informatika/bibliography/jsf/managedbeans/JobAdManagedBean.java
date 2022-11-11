@@ -23,9 +23,9 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RangeQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.component.UIDataGrid;
-import org.richfaces.component.UIDataTable;
 
+import org.primefaces.component.datagrid.DataGrid;
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
@@ -140,10 +140,10 @@ public class JobAdManagedBean extends CRUDManagedBean {
 					}
 				}
 				if (index != -1) {
-					UIDataGrid table = (UIDataGrid)FacesContext.getCurrentInstance().getViewRoot().findComponent("jobAdTable");
+					DataGrid table = (DataGrid)FacesContext.getCurrentInstance().getViewRoot().findComponent("jobAdTable");
 					if(table!=null){
-						int page = index / table.getElements();
-						table.setFirst(table.getElements()*page);
+						int page = index / table.getRows();
+						table.setFirst(table.getRows()*page);
 					}
 				}
 				init = false;
@@ -174,7 +174,7 @@ public class JobAdManagedBean extends CRUDManagedBean {
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("authorsTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("authorsTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);
@@ -219,7 +219,7 @@ public class JobAdManagedBean extends CRUDManagedBean {
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("publicationsTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("publicationsTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);

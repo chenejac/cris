@@ -20,10 +20,10 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import org.richfaces.component.UIDataTable;
 
 import com.gint.util.string.StringUtils;
 
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
@@ -105,7 +105,7 @@ public class PaperMonographManagedBean extends CRUDManagedBean implements
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("paperMonographTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("paperMonographTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);

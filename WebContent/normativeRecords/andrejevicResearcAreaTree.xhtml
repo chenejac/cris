@@ -2,33 +2,31 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="andrejevicResearchAreaPanel">
 		
-		<a4j:jsFunction name="mySelectFunc" action="#{searchAndrejevicManagedBean.selectAndrejevicTreeTroughCommand}"
+		<p:remoteCommand name="mySelectFunc" action="#{searchAndrejevicManagedBean.selectAndrejevicTreeTroughCommand}"
 	            	execute="@form"
 					render="@form">
 					<a4j:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
-	    </a4j:jsFunction>
+	    </p:remoteCommand>
 	    
-	    <a4j:jsFunction name="myToggleFunc" action="#{searchAndrejevicManagedBean.processTreeToggle}"
+	    <p:remoteCommand name="myToggleFunc" action="#{searchAndrejevicManagedBean.processTreeToggle}"
 	            	execute="@form"
 					render="@form">
 					<a4j:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
-	    </a4j:jsFunction>
+	    </p:remoteCommand>
 	          	
-		<rich:tree
+		<p:tree
 			id="richTreeAndrejevicResearchAreaTreePanel"
 			value="#{searchAndrejevicManagedBean.rootAndrejevicResearchArea}"
 			var="andrejevicResearchAreaNode"
-			toggleType="ajax"
-            selectionType="ajax"
+			dynamic="true"
             nodeType="#{andrejevicResearchAreaNode.tree_state}"
 	          >
-	          	<rich:treeNode 
+	          	<p:treeNode
 				iconCollapsed="/resources/img/institution.jpg"
 				iconExpanded="/resources/img/institution.jpg"
 				iconLeaf="/resources/img/institution.jpg"
@@ -43,9 +41,9 @@
 						
 						
 						
-				</rich:treeNode>
+				</p:treeNode>
 				
-				<rich:treeNode 
+				<p:treeNode
 				iconCollapsed="/resources/img/institution.jpg"
 				iconExpanded="/resources/img/institution.jpg"
 				iconLeaf="/resources/img/institution.jpg"
@@ -57,9 +55,9 @@
 						<h:outputText value="#{andrejevicResearchAreaNode}"/>
 					</h:outputLink>
 					
-				</rich:treeNode>
+				</p:treeNode>
 				
-				<rich:treeNode 
+				<p:treeNode
 				iconCollapsed="/resources/img/institution.jpg"
 				iconExpanded="/resources/img/institution.jpg"
 				iconLeaf="/resources/img/institution.jpg"
@@ -71,8 +69,8 @@
 							<h:outputText value="#{andrejevicResearchAreaNode}"/>
 						</h:outputLink>
 					
-				</rich:treeNode>
-        </rich:tree>
+				</p:treeNode>
+        </p:tree>
 	</h:panelGrid>
 	
 	</ui:composition>

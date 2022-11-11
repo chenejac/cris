@@ -2,28 +2,27 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="jobAdPickFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(jobAdManagedBean.customPick) and (jobAdManagedBean.tableTabNumber == 0) and (jobAdManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{jobAdManagedBean.pickMessageFirstTab}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(jobAdManagedBean.customPick) and (jobAdManagedBean.tableTabNumber == 1) and (empty jobAdManagedBean.jobAds)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{jobAdManagedBean.year} #{jobAdManagedBean.name}"
@@ -31,8 +30,8 @@
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(jobAdManagedBean.customPick) and (jobAdManagedBean.tableTabNumber == 1) and (not empty jobAdManagedBean.jobAds)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{jobAdManagedBean.year} #{jobAdManagedBean.name}"
@@ -47,25 +46,22 @@
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		</p:outputPanel>
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%"
 			rendered="#{(jobAdManagedBean.tableTabNumber == 0) and (jobAdManagedBean.customPick)}">
 			<!-- ....... Name .......           -->
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<mytags:outputLabel 
 					value="#{messages['records.jobAd.editPanel.name']}*" 
 					for="name" 
 					errorStyleClass="errorMessage" />
-			</a4j:outputPanel>
-			<a4j:region>
-				<rich:autocomplete 
+			</p:outputPanel>
+			<p:fragment>
+				<p:autoComplete
 		            id="name" 
 		            value="#{jobAdManagedBean.name}"
 		            required="true"
@@ -78,47 +74,46 @@
 		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"   
 		            onfocus="activeElId = this.id;"
 		            >
-		            <a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
 		            <!--     ........  stringRepresentation   .......-->
-					<rich:column 
+					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 						styleClass="rich-table-wide-cell" >
 						<h:outputText value="#{_jobAdRow.stringRepresentation}" />
-					</rich:column>
-					<a4j:jsFunction 
+					</p:column>
+					<p:remoteCommand
 						name="choose" 
 						action="#{jobAdManagedBean.chooseJobAd}" 
 						render="mainPanel, #{jobAdManagedBean.renderModalPanels}">
 						<a4j:param 
 							name="param1" 
 							assignTo="#{jobAdManagedBean.jobAdControlNumber}"/>
-					</a4j:jsFunction> 
-				</rich:autocomplete>
-		    </a4j:region>
+					</p:remoteCommand>
+				</p:autoComplete>
+		    </p:fragment>
 			<h:inputHidden id="controlNumber"/>
 			<h:outputText value="" />
-			<a4j:outputPanel ajaxRendered="true">
-				<rich:message 
+			<p:outputPanel ajaxRendered="true">
+				<p:message
 					for="name" 
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-			</a4j:outputPanel>
+			</p:outputPanel>
 		</h:panelGrid>
 		<h:panelGrid width="100%"
 			rendered="#{(jobAdManagedBean.tableTabNumber == 1) or (not jobAdManagedBean.customPick)}">
 			<ui:include src="../normativeRecords/jobAdTable.xhtml" />
 		</h:panelGrid>
 		<h:panelGrid columns="2">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(jobAdManagedBean.tableTabNumber == 1) and (jobAdManagedBean.customPick)}"
 				action="#{jobAdManagedBean.previousTableTab}"
 				value="#{messages['records.jobAd.pickPanel.btnPrevious']}"
 				render="jobAdBrowseModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				id="nextBtn"
 				action="#{jobAdManagedBean.nextTableTab}"
 				value="#{messages['records.jobAd.pickPanel.btnNext']}"
@@ -126,7 +121,7 @@
 				rendered="#{(jobAdManagedBean.tableTabNumber == 0) and (jobAdManagedBean.customPick)}"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(jobAdManagedBean.tableTabNumber == 1) and (jobAdManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formJobAd][privilegesManagedBean.add])}"
 				action="#{jobAdManagedBean.switchToAddMode}"
 				value="#{messages['records.jobAd.pickPanel.btnNext']}"

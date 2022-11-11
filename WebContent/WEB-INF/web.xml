@@ -15,6 +15,10 @@
   <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
   <param-value>true</param-value>
  </context-param>
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>false</param-value>
+    </context-param>
  <context-param>
   <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
   <param-value>true</param-value>
@@ -23,22 +27,35 @@
   <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
   <param-value>server</param-value>
  </context-param>
- <context-param>
-  <param-name>org.richfaces.enableControlSkinning</param-name>
-  <param-value>true</param-value>
- </context-param>
- <context-param>
-  <param-name>org.richfaces.enableControlSkinningClasses</param-name>
-  <param-value>true</param-value>
- </context-param>
- <context-param>
-  <param-name>org.richfaces.fileUpload.createTempFiles</param-name>
-  <param-value>false</param-value>
- </context-param>
- <context-param>
-  <param-name>org.richfaces.skin</param-name>
-  <param-value>blueSky</param-value>
- </context-param>
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/x-font-woff2</mime-type>
+    </mime-mapping>
+
+    <!-- <context-param>
+     <param-name>org.richfaces.enableControlSkinning</param-name>
+     <param-value>true</param-value>
+    </context-param>
+    <context-param>
+     <param-name>org.richfaces.enableControlSkinningClasses</param-name>
+     <param-value>true</param-value>
+    </context-param>
+    <context-param>
+     <param-name>org.richfaces.fileUpload.createTempFiles</param-name>
+     <param-value>false</param-value>
+    </context-param>
+    <context-param>
+     <param-name>org.richfaces.skin</param-name>
+     <param-value>blueSky</param-value>
+    </context-param> -->
  <filter>
   <filter-name>LoginFilter</filter-name>
   <filter-class>rs.ac.uns.ftn.informatika.bibliography.utils.LoginFilter</filter-class>
@@ -53,6 +70,19 @@
   <url-pattern>/cerif/*</url-pattern>
   <url-pattern>/interoperability/import*</url-pattern>
  </filter-mapping>
+<filter>
+    <filter-name>primeFacesFileUploadFilter</filter-name>
+    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+    <init-param>
+        <param-name>thresholdSize</param-name>
+        <param-value>1048576</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>primeFacesFileUploadFilter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+    <!-- servlet-name here should match servlet-name in servlet section -->
+</filter-mapping>
  <servlet>
   <servlet-name>Faces Servlet</servlet-name>
   <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

@@ -2,21 +2,20 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="multilingualContentFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<rich:panel 
+		</p:outputPanel>
+		<p:panel
 			id="scrollableBody" 
 			styleClass="scrollableBody"	>
 			<h:panelGrid 
@@ -25,20 +24,20 @@
 				columnClasses="width20, width30, width10, width10, width30"
 				width="100%">
 				<!-- ....... content .......   -->        
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{multilingualContentManagedBean.contentHeader}*" 
 						for="#{multilingualContentManagedBean.htmlContent=='true'?'htmlContent':'content'}" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:inputTextarea 
+				</p:outputPanel>
+				<p:inputTextarea
 					id="content"
 					value="#{multilingualContentManagedBean.content}" 
 					rows="3" 
 					required="true"
 					rendered="#{not multilingualContentManagedBean.htmlContent}"/>
-				<rich:editor 
+				<p:textEditor
 					id="htmlContent"
 					value="#{multilingualContentManagedBean.content}"
 					rendered="#{multilingualContentManagedBean.htmlContent}"
@@ -87,77 +86,77 @@
 				
 				    
           			</f:facet>
-				</rich:editor>
+				</p:textEditor>
 				
 				
 				<h:outputText value="" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="#{multilingualContentManagedBean.htmlContent=='true'?'htmlContent':'content'}" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... Language.......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.multilingualContent.editPanel.language']}*" 
 						for="language" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:selectOneMenu 
+				</p:outputPanel>
+				<p:selectOneMenu
 					id="language"
 					value="#{multilingualContentManagedBean.language}" 
 					required="true"	>
 					<ui:include src="./languagesSelectItems.xhtml"/>
-				</h:selectOneMenu>
-				<a4j:commandButton 
+				</p:selectOneMenu>
+				<p:commandButton
 					action="#{multilingualContentManagedBean.add}"
 					value="#{messages['records.multilingualContent.editPanel.btnAddContent']}"
 					render="multilingualContentEditModalPanel" 
 					execute="@form" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="language" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h:panelGrid>
 			<!-- .......translated contents.......           -->
-			<rich:dataTable id="multilingualContentTable"
+			<p:dataTable id="multilingualContentTable"
 				value="#{multilingualContentManagedBean.contents}"
 				var="contentRow"
 				rowKeyVar="contentKeyVar">
 				<!--     ........  content   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{multilingualContentManagedBean.contentHeader}" />
 					</f:facet>
 					<h:outputText value="#{contentRow.content}" escape="false"/>
-				</rich:column>
+				</p:column>
 				<!--     ........  language   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContent.editPanel.language']}" />
 					</f:facet>
 					<h:outputText value="#{contentRow.localizedLanguage}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  remove  .......-->
-				<rich:column
+				<p:column
 					rendered="#{(multilingualContentManagedBean.editMode != modesManagedBean.viewDetails)}" >
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContent.editPanel.remove']}" />
 					</f:facet>
-					<a4j:commandLink
+					<p:commandLink
 						action="#{multilingualContentManagedBean.remove}"
 						render="scrollableBody"
 						limitRender="true" 
@@ -165,13 +164,13 @@
 						execute="@this" >
 						<h:graphicImage library="img" name="delete.png" />
 						<f:param name="ordNum" value="#{contentKeyVar}" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
-		</rich:panel>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="1">
-			<a4j:commandButton 
+			<p:commandButton
 				action="#{multilingualContentManagedBean.exit}"
 				value="#{messages['records.multilingualContent.editPanel.btnExit']}"
 				render="multilingualContentEditModalPanel"

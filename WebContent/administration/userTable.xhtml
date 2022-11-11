@@ -3,58 +3,61 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 <h:form id="userTableForm">
 	<h:panelGrid id="userTableFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- ===========================   searchPanel  ============================= -->
-		<rich:panel id="userSearchPanel"
+		<p:panel id="userSearchPanel"
 			header="#{messages['administration.user.searchPanel.header']}">
 			<h:panelGrid columns="3">
-				<h:inputText 
+				<p:inputText
 					id="whereStr"
 					onkeydown="keyDownHandler(event, 'userTableForm:btnFind')"
 					value="#{userManagedBean.whereStr}" styleClass="searchBox" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnFind"
 					value="#{messages['administration.user.searchPanel.btnFind']}"
-					render="userTablePanel" 
+					update="userTablePanel"
 					limitRender="true" 
 					execute="@form" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowAll"
 					action="#{userManagedBean.removeFilter}"
 					value="#{messages['administration.user.searchPanel.btnShowAll']}"
-					render="userTablePanel, userSearchPanel" 
+					update="userTablePanel, userSearchPanel"
 					limitRender="true" 
 					execute="@form" />
 			</h:panelGrid>
-		</rich:panel>
+		</p:panel>
 		<!-- ===========================   tablePanel  ============================= -->
-		<rich:panel id="userTablePanel"
+		<p:panel id="userTablePanel"
 			header="#{messages['administration.user.tablePanel.header']}">
-			<rich:dataTable 
+			<p:dataTable
 				id="userTable" 
 				value="#{userManagedBean.users}"
 				var="userRow" 
 				rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  email   .......-->
-				<rich:column 
+				<p:column
 					style="#{userManagedBean.selectedUser.email == userRow.email?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; cursor:pointer;">
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{userManagedBean.sort}"
 							render="userTablePanel" 
 							execute="@form" >
@@ -65,15 +68,15 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(userManagedBean.orderBy=='email') and (userManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="email" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{userRow.email}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  type   .......-->
-				<rich:column
+				<p:column
 					style="#{userManagedBean.selectedUser.email == userRow.email?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; cursor:pointer;">
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{userManagedBean.sort}"
 							render="userTablePanel"
 							execute="@form" >
@@ -84,15 +87,15 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(userManagedBean.orderBy=='type') and (userManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="type" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{userRow.type}" />
-				</rich:column>
+				</p:column>
 				<!--     ........ FK_author   .......-->
-				<rich:column
+				<p:column
 					style="#{userManagedBean.selectedUser.email == userRow.email?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; cursor:pointer;">
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{userManagedBean.sort}"
 							render="userTablePanel"
 							execute="@form" >
@@ -103,67 +106,56 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(userManagedBean.orderBy=='author.name.lastname') and (userManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="author.name.lastname" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText
 						value="#{userRow.author.names}" />
-				</rich:column>
-			</rich:dataTable>
-			<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				</p:column>
+			</p:dataTable>
+			<p:spacer
 					height="20"
 					width="1"
 					/>
 			<h:panelGrid columns="2">
 				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScroller" 
-						align="left"
-						for="userTable" 
-						render="userTablePanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
-				<h:panelGroup>
-					<a4j:commandButton 
+					<p:commandButton
 						disabled="#{(userManagedBean.selectedUser == null ) or (empty userManagedBean.selectedUser.email)}" 
 						action="#{userManagedBean.switchToViewDetailsMode}"
 						value="#{messages['administration.user.tablePanel.btnDetails']}"
-						render="#{userManagedBean.renderModalPanels}" 
+						update="#{userManagedBean.renderModalPanels}"
 						limitRender="true"
 						execute="@this" 
 						immediate="true" />
-					<a4j:commandButton 
+					<p:commandButton
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formUser][privilegesManagedBean.update]}"
 						disabled="#{(userManagedBean.selectedUser == null ) or (empty userManagedBean.selectedUser.email)}" 
 						action="#{userManagedBean.switchToUpdateMode}"
 						value="#{messages['administration.user.tablePanel.btnEdit']}"
-						render="#{userManagedBean.renderModalPanels}" 
+						update="#{userManagedBean.renderModalPanels}"
 						limitRender="true" 
 						execute="@this"
 						immediate="true" />
-					<a4j:commandButton 
+					<p:commandButton
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formUser][privilegesManagedBean.add]}"
 						action="#{userManagedBean.switchToAddMode}"
 						value="#{messages['administration.user.tablePanel.btnCreate']}"
-						render="#{userManagedBean.renderModalPanels}" 
+						update="#{userManagedBean.renderModalPanels}"
 						limitRender="true" 
 						execute="@this"
 						immediate="true" />
-					<a4j:commandButton 
+					<p:commandButton
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formUser][privilegesManagedBean.delete]}"
 						disabled="#{(userManagedBean.selectedUser == null) or (empty userManagedBean.selectedUser.email)}" 
 						action="#{userManagedBean.delete}"
 						value="#{messages['administration.user.tablePanel.btnDelete']}"
 						onclick="if(!confirmDecision()) return false"
-						render="userTableFormPanel"
+						update="userTableFormPanel"
 						limitRender="true" 
 						execute="@this" 
 						immediate="true" />
 				</h:panelGroup>
 			</h:panelGrid>
-		</rich:panel>
+		</p:panel>
 	</h:panelGrid>
 </h:form>
 

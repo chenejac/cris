@@ -2,23 +2,22 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<rich:panel id="publicationPreview"
+	<p:panel id="publicationPreview"
 		header="#{messages['records.apvRegisteredResearcher.report.publications.preview']}">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		
-		<a4j:outputPanel ajaxRendered="true">
+		<p:outputPanel ajaxRendered="true">
 			<h:panelGrid columns="2" id="apvRegisteredResearcherShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left" >
 	    		<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.person.lastname']}"/>
 	    		<h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthor.name.lastname}" style="font-weight:bold"/>
@@ -29,54 +28,47 @@
 	    		<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.person.APVNTnumber']}"/>
 	    		<h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthor.apvnt}" style="font-weight:bold"/>	  				
 	    	</h:panelGrid>
-		</a4j:outputPanel>
-	</rich:panel>
-	<rich:panel 
+		</p:outputPanel>
+	</p:panel>
+	<p:panel
 		id="scrollableBody"
 		styleClass="scrollableBody"
 		>	
 			<h:panelGrid 
 				rendered="#{not empty apvRegisteredResearchersManagedBean.publications}"
 				>
-				<rich:dataTable 
+				<p:dataTable
 					id="publicationTable"
 					value="#{apvRegisteredResearchersManagedBean.publications}"
 					var="publicationRow" 
-					rows="10" 
+					rows="10"
+					paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+					rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 					>
-					<rich:column>
+					<p:column>
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.apvRegisteredResearcher.report.publications.category']}" />
 						</f:facet>
 						<h:outputText value="#{publicationRow.resultEvaluation.resultType.classId}" />
-					</rich:column>
-					<rich:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.apvRegisteredResearcher.report.publications.record']}" />
 						</f:facet>
 						<h:outputText value="#{publicationRow.publication.stringRepresentation}" />
-					</rich:column>
-					<rich:column >
+					</p:column>
+					<p:column >
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.apvRegisteredResearcher.report.publications.actions']}" />
 						</f:facet>
-						<h:selectBooleanCheckbox value="#{publicationRow.selected}" />
-					</rich:column>
-				</rich:dataTable>
-				<h:panelGrid >
-					<h:panelGroup>
-						<rich:dataScroller 
-							id="downDataScroller" 
-							align="left"
-							for="publicationTable" 
-							render="scrollableBody"
-							renderIfSinglePage="false"
-							/> 
-					</h:panelGroup>
-				</h:panelGrid>
+						<p:selectBooleanCheckbox value="#{publicationRow.selected}" />
+					</p:column>
+				</p:dataTable>
 			</h:panelGrid>
 			<h:panelGrid 
 				rendered="#{empty apvRegisteredResearchersManagedBean.publications}">
@@ -84,19 +76,19 @@
 					value="#{messages['records.apvRegisteredResearcher.report.publications.norecords']}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 	<!--=================command buttons ====================  -->
 	<h:panelGrid 
 		columns="4"
 		id="commands"
 		>
-		<a4j:commandButton
+		<p:commandButton
 			action="#{apvRegisteredResearchersManagedBean.generateReport}"
 			value="#{messages['records.apvRegisteredResearcher.report.publications.btnGenerate']}"
-			render="commands" 
+			update="commands"
 			limitRender="true" 
 			execute="@form" />
-		<h:commandLink 
+		<p:commandLink ajax="false"
 			action="#{apvRegisteredResearchersManagedBean.getReport}"			
 			disabled="#{empty apvRegisteredResearchersManagedBean.wordMLPackage}"
 			target="_blank"
@@ -105,17 +97,17 @@
 				value="#{messages['records.apvRegisteredResearcher.report.publications.btnDownload']}"
 				disabled="#{empty apvRegisteredResearchersManagedBean.wordMLPackage}"
 			/>
-		</h:commandLink>
-		<a4j:commandButton
+		</p:commandLink>
+		<p:commandButton
 			action="#{apvRegisteredResearchersManagedBean.selectAllPublications}"
 			value="#{messages['records.apvRegisteredResearcher.report.publications.btnSelectAll']}"
-			render="scrollableBody" 
+			update="scrollableBody"
 			limitRender="true" 
 			execute="this" />
-		<a4j:commandButton
+		<p:commandButton
 			action="#{apvRegisteredResearchersManagedBean.deselectAllPublications}"
 			value="#{messages['records.apvRegisteredResearcher.report.publications.btnDeselectAll']}"
-			render="scrollableBody" 
+			update="scrollableBody"
 			limitRender="true" 
 			execute="this" />
 	</h:panelGrid>

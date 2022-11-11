@@ -2,55 +2,50 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich"
+		xmlns:p="http://primefaces.org/ui"
       xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<rich:panel 
+	<p:panel
 		id="scrollableBody" 
 		styleClass="scrollableBody">
 		<!-- ===========================   treePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="institutionTreePanel">
-			<rich:tree 
+			<p:tree
 				id = "institutionAndOrganizationTree"
-				selectionType="client"
-				toggleType="ajax"
+				dynamic="true"
 				value="#{institutionManagedBean.rootNodes}"
 				var="institution" 
 				nodeType="#{institution.type}" 
 				>
-				<rich:treeNode 
+				<p:treeNode
 					expanded="#{institution.expanded}"
 					iconCollapsed="/resources/img/institution_blue.png"
 					iconExpanded="/resources/img/institution_blue.png"
 					iconLeaf="/resources/img/institution_blue.png"  
 					type="InstitutionDTO"
 					>
-					<rich:dragSource 
+					<p:draggable
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.update])}"
-						dragValue="#{institution.element}" 
+						dragValue="#{institution.element}"
 						type="InstitutionDTO" />
-					<rich:dropTarget 
+					<p:droppable
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.update])}"
 						render="institutionBrowseModalPanel" 
 						acceptedTypes="InstitutionDTO" 
 						dropListener="#{institutionManagedBean.processDropInstitution}"
 						dropValue="#{institution.element}"/>
-					<rich:dropTarget 
+					<p:droppable
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.update])}"
 						render="institutionBrowseModalPanel" 
 						acceptedTypes="OrganizationUnitDTO" 
 						dropListener="#{institutionManagedBean.processDropOrganizationUnit}"
 						dropValue="#{institution.element}"/>
 					<h:outputText value="#{institution.element}" />
-					<a4j:commandLink 
+					<p:commandLink
 						rendered="#{(not empty institution.element.superInstitution) and (not empty institution.element.superInstitution.controlNumber)}"
 						action="#{institutionManagedBean.switchToViewDetailsMode}"
 						render="institutionEditModalPanel" 
@@ -60,8 +55,8 @@
 						<h:graphicImage library="img" name="details.png" />
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/institutionToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.update])}"
 						action="#{institutionManagedBean.switchToUpdateMode}"
 						render="institutionEditModalPanel"
@@ -72,8 +67,8 @@
 							<f:param name="controlNumber"
 								value="#{institution.element.controlNumber}" />
 							<ui:include src="../normativeRecords/institutionToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.delete])}"
 						action="#{institutionManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -85,8 +80,8 @@
 						<f:param name="controlNumber"
 							value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/institutionToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(institutionManagedBean.tableMode == modesManagedBean.pick) and (not empty institution.element.superInstitution) and (not empty institution.element.superInstitution.controlNumber)}" 
 						action="#{institutionManagedBean.chooseInstitution}"
 						render="mainPanel, #{institutionManagedBean.renderModalPanels}"
@@ -94,8 +89,8 @@
 						<h:graphicImage library="img" name="pick.png" />
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/institutionToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						render="relatedRecordsEditModalPanel"
 					    execute="@this" 
 					    limitRender="true"
@@ -103,8 +98,8 @@
 					    <h:graphicImage library="img" name="publications.png" />
 					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 					        value="#{institution.element}" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.add])}" 
 						action="#{institutionManagedBean.switchToAddMode}"
 						render="institutionEditModalPanel" 
@@ -114,8 +109,8 @@
 						<h:graphicImage library="img" name="create24_ins.png" />
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/institutionToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.add])}" 
 						action="#{institutionManagedBean.switchOrganizationUnitToAddMode}"
 						render="organizationUnitEditModalPanel" 
@@ -126,8 +121,8 @@
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<f:param name="institutionType" value="organizationUnit" />
 						<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandButton 
+					</p:commandLink>
+					<p:commandButton
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.delete])}"
 						value="#{messages['records.institution.tablePanel.btnChooseDuplicate']}"
 						action="#{institutionManagedBean.chooseDuplicateInstitution}"
@@ -136,18 +131,18 @@
 						immediate="true" 
 						>
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
-					</a4j:commandButton>
+					</p:commandButton>
 					
-					<a4j:commandButton 
+					<p:commandButton
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.delete])}"
 						value="#{messages['records.institution.tablePanel.btnReplaceDuplicate']}"
 						action="#{institutionManagedBean.replaceDuplicateInstitutions}"
-						render="institutionBrowseModalPanel" 
+						update="institutionBrowseModalPanel"
 						limitRender="true"
 						execute="@this" 
 						immediate="true">
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
-						<rich:tooltip followMouse="true" direction="topRight"
+						<p:tooltip followMouse="true" direction="topRight"
 							showDelay="1000" styleClass="tooltip" mode="ajax">
 							<span class="tooltipSpan"> 
 								<h:panelGrid columns="1">
@@ -155,28 +150,28 @@
 										value="#{institutionManagedBean.duplicateInstitutionsAsString}" />
 								</h:panelGrid> 
 							</span>
-						</rich:tooltip>
-					</a4j:commandButton>
-				</rich:treeNode>
-				<rich:treeNode 
+						</p:tooltip>
+					</p:commandButton>
+				</p:treeNode>
+				<p:treeNode
 					expanded="#{institution.expanded}"
 					iconCollapsed="/resources/img/institution_orange.png"
 					iconExpanded="/resources/img/institution_orange.png"
 					iconLeaf="/resources/img/institution_orange.png" 
 					type="OrganizationUnitDTO"
 					>
-					<rich:dragSource 
+					<p:draggable
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.update])}"
 						dragValue="#{institution.element}" 
 						type="OrganizationUnitDTO"/>
-					<rich:dropTarget 
+					<p:droppable
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.update])}"
 						render="institutionBrowseModalPanel" 
 						acceptedTypes="OrganizationUnitDTO" 
 						dropListener="#{organizationUnitManagedBean.processDrop}"
 						dropValue="#{institution.element}"/>
 					<h:outputText value="#{institution.element}"/>
-					<a4j:commandLink 
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.browse])}"
 						action="#{organizationUnitManagedBean.switchToViewDetailsMode}"
 						render="organizationUnitEditModalPanel" 
@@ -186,8 +181,8 @@
 						<h:graphicImage library="img" name="details.png" />
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.update])}"
 						action="#{organizationUnitManagedBean.switchToUpdateMode}"
 						render="organizationUnitEditModalPanel"
@@ -198,8 +193,8 @@
 						<f:param name="controlNumber"
 							value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.delete])}"
 						action="#{organizationUnitManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -211,8 +206,8 @@
 						<f:param name="controlNumber"
 							value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(institutionManagedBean.tableMode == modesManagedBean.pick)}" 
 						action="#{institutionManagedBean.chooseInstitution}"
 						render="mainPanel, #{institutionManagedBean.renderModalPanels}"
@@ -220,8 +215,8 @@
 						<h:graphicImage library="img" name="pick.png" />
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						render="relatedRecordsEditModalPanel"
 					    execute="@this" 
 					    limitRender="true"
@@ -229,8 +224,8 @@
 					    <h:graphicImage library="img" name="publications.png" />
 					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 					        value="#{institution.element}" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formOrganizationUnit][privilegesManagedBean.add])}" 
 						action="#{organizationUnitManagedBean.switchToAddMode}"
 						render="organizationUnitEditModalPanel" 
@@ -240,19 +235,19 @@
 						<h:graphicImage library="img" name="create24_org.png" />
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
 						<ui:include src="../normativeRecords/organizationUnitToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandButton 
+					</p:commandLink>
+					<p:commandButton
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.delete])}"
 						value="#{messages['records.organizationUnit.tablePanel.btnChooseDuplicate']}"
 						action="#{organizationUnitManagedBean.chooseDuplicateOrganizationUnit}"
-						render="institutionBrowseModalPanel" 
+						update="institutionBrowseModalPanel"
 						limitRender="true"
 						execute="@this" 
 						immediate="true" >
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
-					</a4j:commandButton>
+					</p:commandButton>
 					
-					<a4j:commandButton 
+					<p:commandButton
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.delete])}"
 						value="#{messages['records.institution.tablePanel.btnReplaceDuplicate']}"
 						action="#{organizationUnitManagedBean.replaceDuplicateOrganizationUnits}"
@@ -260,7 +255,7 @@
 						execute="@this" 
 						immediate="true">
 						<f:param name="controlNumber" value="#{institution.element.controlNumber}" />
-						<rich:tooltip followMouse="true" direction="topRight"
+						<p:tooltip followMouse="true" direction="topRight"
 							showDelay="1000" styleClass="tooltip" mode="ajax">
 							<span class="tooltipSpan"> 
 								<h:panelGrid columns="1">
@@ -268,12 +263,12 @@
 										value="#{organizationUnitManagedBean.duplicateOrganizationUnitsAsString}" />
 								</h:panelGrid> 
 							</span>
-						</rich:tooltip>
-					</a4j:commandButton>
-				</rich:treeNode>
-			</rich:tree>
+						</p:tooltip>
+					</p:commandButton>
+				</p:treeNode>
+			</p:tree>
 			<h:panelGrid columns="1">
-				<a4j:commandLink 
+				<p:commandLink
 					action="#{institutionManagedBean.switchToAddMode}"
 					rendered="#{userManagedBean.privileges[privilegesManagedBean.formInstitution][privilegesManagedBean.update]}" 
 					render="institutionEditModalPanel" 
@@ -282,8 +277,8 @@
 					immediate="true">
 					<h:graphicImage library="img" name="create.png" />
 					<ui:include src="../normativeRecords/institutionToolTip.xhtml" />
-				</a4j:commandLink>
+				</p:commandLink>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

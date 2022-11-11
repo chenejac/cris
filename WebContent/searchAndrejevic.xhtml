@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
 	 >
 	<f:view locale="#{userManagedBean.language}"
@@ -31,56 +30,53 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:fragment id="form_region">
 				<!-- PRETRAGA -->
 				
 					<!-- MAIN PANEL -->
 					<h:panelGrid id="mainPanel">
-						<rich:panel id="searchPanel"
+						<p:panel id="searchPanel"
 						header="#{messages['search.searchPanel.header']}">
 							<h:form id="searchTableForm">
 							<h:panelGrid id="searchTableFormPanel" width="100%">
-								<h:inputText id="general" rendered="false" value="" />
-								<a4j:outputPanel ajaxRendered="true">
-									<rich:message 
+								<p:inputText id="general" rendered="false" value="" />
+								<p:outputPanel ajaxRendered="true">
+									<p:message
 										for="general"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
 										warnClass="warnMessage"
 										fatalClass="fatalMessage"/>
-								</a4j:outputPanel>
-								<rich:tabPanel headerAlignment="left" switchType="ajax">
+								</p:outputPanel>
+								<p:tabView headerAlignment="left" switchType="ajax">
 									<!-- ....... BASIC TAB.......           -->
- 									<rich:tab header="#{messages['search.searchPanel.publicationTab.label']}" id="publicationTab" >
+ 									<p:tab header="#{messages['search.searchPanel.publicationTab.label']}" id="publicationTab" >
 								    	<h:panelGrid id="panelPublication" columns="1" width="100%">
-								        	<rich:dataTable id="queryTable" var="query" rowKeyVar="rowKeyVar" value="#{searchAndrejevicManagedBean.searchQuerys}"  columnClasses="width10, width70, width5, width20, width5">
-								          		<rich:column>
+								        	<p:dataTable id="queryTable" var="query" rowKeyVar="rowKeyVar" value="#{searchAndrejevicManagedBean.searchQuerys}"  columnClasses="width10, width70, width5, width20, width5">
+								          		<p:column>
 								                    <h:outputText value="#{messages['search.searchPanel.publicationTab.searchFor']}" rendered="#{query.id==0}"/>                           
 													<h:inputHidden value="#{query.operator}" rendered="#{query.id==0}"/>
 													
-													<h:selectOneMenu value="#{query.operator}" rendered="#{query.id!=0}" >
+													<p:selectOneMenu value="#{query.operator}" rendered="#{query.id!=0}" >
 												           <f:selectItems value="#{searchAndrejevicManagedBean.searchQueryOperator}"/>
-												    </h:selectOneMenu>   
-								            	</rich:column>
-								        		<rich:column>
-								               					<a4j:region>
-								               					<h:inputText value="#{query.inputQuery}" style="width:98% !important"
+												    </p:selectOneMenu>
+								            	</p:column>
+								        		<p:column>
+								               					<p:fragment>
+								               					<p:inputText value="#{query.inputQuery}" style="width:98% !important"
 								               					rendered="#{ (query.inputQueryType != searchAndrejevicManagedBean.searchQueryTypeString[2]) and (query.inputQueryType != searchAndrejevicManagedBean.searchQueryTypeString[3]) and (query.inputQueryType != searchAndrejevicManagedBean.searchQueryTypeString[4])  }">
-								               					</h:inputText>
+								               					</p:inputText>
 								               					
 								               					
-																<rich:autocomplete 
+																<p:autoComplete
 											            			id="author"
 											            			value="#{query.inputQuery}"
 											            			mode="cachedAjax" 
@@ -94,17 +90,16 @@
 										         					inputClass="width100"
 										         					onfocus="activeElId = this.id;"
 													            	>
-													            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-																	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
-																	<rich:column 
+													            	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
+																	<p:column
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 																		styleClass="rich-table-wide-cell" width="100%">
 														                <h:outputText value="#{_authorRow.names}"/>
 														                
-																	</rich:column>
-																</rich:autocomplete>
+																	</p:column>
+																</p:autoComplete>
 																
-																<rich:autocomplete 
+																<p:autoComplete
 											            			id="firstAuthor"
 											            			value="#{query.inputQuery}"
 											            			mode="cachedAjax" 
@@ -118,17 +113,16 @@
 										         					inputClass="width100"
 										         					onfocus="activeElId = this.id;"
 													            	>
-													            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-																	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
-																	<rich:column 
+													            	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
+																	<p:column
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 																		styleClass="rich-table-wide-cell" width="100%">
 														                <h:outputText value="#{_authorRow.names}"/>
 														                
-																	</rich:column>
-																</rich:autocomplete>
+																	</p:column>
+																</p:autoComplete>
 																
-																<rich:autocomplete 
+																<p:autoComplete
 											            			id="monograph"
 											            			value="#{query.inputQuery}"
 											            			mode="cachedAjax" 
@@ -142,25 +136,24 @@
 											            			inputClass="width100"
 											            			onfocus="activeElId = this.id;"
 													            	>
-													            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-																	<!--     ........  IME MONOGRAFIJE .......-->
-																	<rich:column 
+													            	<!--     ........  IME MONOGRAFIJE .......-->
+																	<p:column
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 																		styleClass="rich-table-wide-cell" width="100%">
 														                <h:outputText value="#{_monographRow.someTitle}"/>
 														                
-																	</rich:column>
-																</rich:autocomplete>
+																	</p:column>
+																</p:autoComplete>
 
 																
-																</a4j:region>	  
-								               	</rich:column>
+																</p:fragment>
+								               	</p:column>
 								               
-								               	<rich:column style="text-align:center">
+								               	<p:column style="text-align:center">
 								               			<h:outputText value="#{messages['search.searchPanel.publicationTab.searchIn']}"/>
-								               	</rich:column>
-								               	<rich:column style="text-align:center">
-								                        <rich:select value="#{query.inputQueryType}" valueChangeListener="#{searchAndrejevicManagedBean.switchToPick}" 
+								               	</p:column>
+								               	<p:column style="text-align:center">
+								                        <p:selectOneMenu value="#{query.inputQueryType}" valueChangeListener="#{searchAndrejevicManagedBean.switchToPick}"
 								                        enableManualInput="false" selectFirst="true" onselectitem="jsfSelectItemGlupaFunkcija()">
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh0']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[0]}"/>
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh1']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[1]}"/>
@@ -173,51 +166,48 @@
 												           <!--<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh7']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[7]}"/>
 												           	<f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh8']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[8]}"/>
 												           -->
-												    	</rich:select>
-												    	<a4j:jsFunction 
+												    	</p:selectOneMenu>
+												    	<p:remoteCommand
 																name="jsfSelectItemGlupaFunkcija"
 																execute="@form"
 																render="@form"
 																>
-														</a4j:jsFunction>            
-								               	</rich:column>
-								               	<rich:column style="text-align:center">
-								               			<h:graphicImage 
-															library="img"
-															name="spacer.gif" 
-															alt="" 
+														</p:remoteCommand>
+								               	</p:column>
+								               	<p:column style="text-align:center">
+								               			<p:spacer
 															height="20"
 															width="1"
 															rendered="#{query.id==0}"
 															/>
-								                       <a4j:commandLink 
+								                       <p:commandLink
 								                       			rendered="#{query.id!=0}"
 																action="#{searchAndrejevicManagedBean.removeQuery}"
 																render="panelPublication"
 																limitRender="true">
 															<h:graphicImage library="img" name="delete16.png"/>
 															<f:param name="removedQuery" value="#{query.id}" />
-														</a4j:commandLink>                   
-								               	</rich:column>
+														</p:commandLink>
+								               	</p:column>
 								               	<f:facet name="footer">
-								                      <rich:columnGroup>
-								                      	 <rich:column colspan="4" style="text-align:left">
+								                      <p:columnGroup>
+								                      	 <p:column colspan="4" style="text-align:left">
 								                      	 	<h:outputText value="#{messages['search.searchPanel.publicationTab.fuzzy']}"/>
-								                              <h:selectBooleanCheckbox label="#{messages['search.searchPanel.publicationTab.fuzzy']}" value="#{searchAndrejevicManagedBean.fuzzy}">
-								                              </h:selectBooleanCheckbox>
-								                          </rich:column>
+								                              <p:selectBooleanCheckbox label="#{messages['search.searchPanel.publicationTab.fuzzy']}" value="#{searchAndrejevicManagedBean.fuzzy}">
+								                              </p:selectBooleanCheckbox>
+								                          </p:column>
 								                          
-								                          <rich:column colspan="1">
-								                            <a4j:commandLink 
+								                          <p:column colspan="1">
+								                            <p:commandLink
 																action="#{searchAndrejevicManagedBean.addQuery}"
 																render="panelPublication"
 																limitRender="true">
 																	<h:graphicImage library="img" name="create16.png"/>
-															</a4j:commandLink>  
-								                          </rich:column>
-								                      </rich:columnGroup>
+															</p:commandLink>
+								                          </p:column>
+								                      </p:columnGroup>
 								               	</f:facet>
-								          	</rich:dataTable>
+								          	</p:dataTable>
 								          </h:panelGrid>
 								  			
 								  		<h:panelGrid id="panelPublicationLimit" columns="2" columnClasses="width10, width90">
@@ -226,18 +216,12 @@
 								  			<h:outputText value="#{messages['search.searchPanel.publicationTab.limitTo']}" styleClass="outputTextAsHeader"/>
 								  			
 								  			
-								  			<h:graphicImage 
-															library="img"
-															name="spacer.gif" 
-															alt="" 
+								  			<p:spacer
 															height="20"
 															width="100%"
 															/>
 								  			
-								  			<h:graphicImage 
-															library="img"
-															name="spacer.gif" 
-															alt="" 
+								  			<p:spacer
 															height="20"
 															width="100%"
 															/>
@@ -247,20 +231,20 @@
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.dateRange']}"/>
 								  					<h:panelGrid columns="4" columnClasses="width25, width30,width10, width35" width="100%">
 								  						<h:outputText value="#{messages['search.searchPanel.publicationTab.fromDate']}"/>
-								  						<h:selectOneMenu value="#{searchAndrejevicManagedBean.fromDate}">
+								  						<p:selectOneMenu value="#{searchAndrejevicManagedBean.fromDate}">
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.fromDateCh0']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[0]}"/>
 												            <f:selectItems value="#{searchAndrejevicManagedBean.dateRange}"/>
-												    </h:selectOneMenu> 
+												    </p:selectOneMenu>
 								  						<h:outputText value="#{messages['search.searchPanel.publicationTab.toDate']}"/>
-								  						<h:selectOneMenu value="#{searchAndrejevicManagedBean.toDate}">
+								  						<p:selectOneMenu value="#{searchAndrejevicManagedBean.toDate}">
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.toDateCh0']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[0]}"/>
 												            <f:selectItems value="#{searchAndrejevicManagedBean.dateRange}"/>
-												    </h:selectOneMenu> 
+												    </p:selectOneMenu>
 								  					</h:panelGrid>
 								  				</h:panelGrid>
 								  				<h:panelGrid columns="1" width="100%">
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.libraryType']}"/>
-								  					<h:selectOneMenu value="#{searchAndrejevicManagedBean.publicationType}">
+								  					<p:selectOneMenu value="#{searchAndrejevicManagedBean.publicationType}">
 												    <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.libraryTypeCh0']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[0]}"/>
 												    <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.libraryTypeCh1']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[1]}"/>
 												    <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.libraryTypeCh2']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[2]}"/>
@@ -274,14 +258,11 @@
 												    <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.libraryTypeCh10']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[10]}"/>
 												    <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.libraryTypeCh11']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[11]}"/>
 												    
-												</h:selectOneMenu> 
+												</p:selectOneMenu>
 								  				</h:panelGrid>
 								  			</h:panelGrid>
 								  			
-								  			<h:graphicImage 
-															library="img"
-															name="spacer.gif" 
-															alt="" 
+								  			<p:spacer
 															height="20"
 															width="100%"
 															/>
@@ -289,20 +270,20 @@
 								  	<!--	<h:panelGrid columns="1" width="100%">
 								  				<h:panelGrid columns="1" width="100%">
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.affiliation']}"/>
-								  					<a4j:region> -->
+								  					<p:fragment> -->
 								  					<!--  ....... JSP TREE PART.......           -->
 								  	<!--			<ui:include src="/normativeRecords/institutionOrganizationTree.xhtml"/>
-								  					</a4j:region>  -->
+								  					</p:fragment>  -->
 								           		<!--	
 								  				</h:panelGrid>
 								  			</h:panelGrid>   -->
 								  			<h:panelGrid columns="1" width="100%">
 								  				<h:panelGrid columns="1" width="100%">
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.andrejevicResearchArea']}"/>
-								  					<a4j:region> 
+								  					<p:fragment>
 								  					<!--  ....... JSP ANDREJEVIC RESEARCH AREA TREE PART.......           -->
 								  				<ui:include src="/normativeRecords/andrejevicResearcAreaTree.xhtml"/>
-								  					</a4j:region>  
+								  					</p:fragment>
 								           		
 								  				</h:panelGrid>
 								  			</h:panelGrid>   
@@ -310,27 +291,27 @@
 								  		</h:panelGrid>
 								  		 
 								  		<h:panelGrid id="panelPublicationSearch" columns="1" width="100%">
-								  			<a4j:commandButton 
+								  			<p:commandButton
 											id="btnPublicationFind"
 											action="#{searchAndrejevicManagedBean.sendPublicationForCQL}" 
 											value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
 											render="panelResult" 
 											limitRender="true" />  
 								  		</h:panelGrid>
-								      </rich:tab>
+								      </p:tab>
 								      
 <!-- ....... Author TAB.......     -->     
-								      <rich:tab header="#{messages['search.searchPanel.authorTab.label']}" id="authorTab">
+								      <p:tab header="#{messages['search.searchPanel.authorTab.label']}" id="authorTab">
 									  	<h:panelGrid id="panelAuthor" columns="1" width="100%">
 											<h:panelGrid columns="4" width="100%" columnClasses="width5, width40, width5, width50" style="align:left">
 													<!-- ....... Author .......           -->
-													<h:outputLabel 
+													<p:outputLabel
 															value="#{messages['search.searchPanel.authorTab.FirstLastName']}*" 
 															for="firstLastName" 
 															/>
 															
-													<a4j:region>
-													<rich:autocomplete 
+													<p:fragment>
+													<p:autoComplete
 								            			id="firstLastName"
 								            			value="#{searchAndrejevicManagedBean.firstLastName}"
 								            			mode="cachedAjax" 
@@ -344,18 +325,17 @@
 										         		inputClass="width100"	
 										         		onfocus="activeElId = this.id;"
 										            	>
-										            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-														<!--     ........  IME AUTORA .......-->
-														<rich:column 
+										            	<!--     ........  IME AUTORA .......-->
+														<p:column
 															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 															styleClass="rich-table-wide-cell" width="100%">
 											                <h:outputText value="#{_authorRow.names}"/>
 											                
-														</rich:column>
-													</rich:autocomplete>
-													</a4j:region>
+														</p:column>
+													</p:autoComplete>
+													</p:fragment>
 													
-													<a4j:commandButton 
+													<p:commandButton
 														id="btnAuthorFind"
 														action="#{searchAndrejevicManagedBean.btnAuthorAndrejevicFind1}" 
 														value="#{messages['search.searchPanel.AuthorTab.SearchBtn']}"
@@ -363,10 +343,7 @@
 														limitRender="true"
 														style="align:right"
 														/>
-													<h:graphicImage 
-															library="img"
-															name="spacer.gif" 
-															alt="" 
+													<p:spacer
 															height="20"
 															width="100%"
 															/>
@@ -380,19 +357,19 @@
 													</h2>
 												    </h:panelGroup>
 												    
-												    <rich:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
-								  							<rich:dataTable var="queryAuthorSearched" value="#{searchAndrejevicManagedBean.authorSearched}" columns="6" columnClasses="width75, width5, width5, width5, width5, width5" width="100%" rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
+												    <p:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
+								  							<p:dataTable var="queryAuthorSearched" value="#{searchAndrejevicManagedBean.authorSearched}" columns="6" columnClasses="width75, width5, width5, width5, width5, width5" width="100%" rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
 								  							 <f:facet name="header">
-								  										<rich:columnGroup> 
-								   										<rich:column colspan="1" rowspan="2">
+								  										<p:columnGroup>
+								   										<p:column colspan="1" rowspan="2">
 											                            	<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorDetails']}"/> 
-											                            </rich:column>                    
-											                            <rich:column colspan="5" rowspan="2">
+											                            </p:column>
+											                            <p:column colspan="5" rowspan="2">
 											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"/>
-											                            </rich:column>
-										                        	</rich:columnGroup>
+											                            </p:column>
+										                        	</p:columnGroup>
 										                   </f:facet>
-								  						    <rich:column>
+								  						    <p:column>
 								    								<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>
 								    								<br/>
 								    								<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorTitle']} " />
@@ -402,9 +379,9 @@
 								    									<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorWebpage']}" />
 								    									<br/>
 								    								</h:outputLink>		
-															</rich:column>
-															<rich:column style="text-align:center">
-																<a4j:commandLink
+															</p:column>
+															<p:column style="text-align:center">
+																<p:commandLink
 																	id="linkAuthorMonographFind"
 																	action="#{searchAndrejevicManagedBean.linkAuthorDetailsFind}" 
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
@@ -414,58 +391,55 @@
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}">
 																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
 																	<f:param name="queryType" value="#{searchAndrejevicManagedBean.searchQueryTypeString[3]}" />
-																</a4j:commandLink>
+																</p:commandLink>
 																<h:outputText value="" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-															</rich:column>
-								  							</rich:dataTable>
-								  						</rich:panel>
+															</p:column>
+								  							</p:dataTable>
+								  						</p:panel>
 								  						<!-- ....... Autor DETAILS......     u planu      -->
 											</h:panelGrid>
 									  	</h:panelGrid>
-								      </rich:tab>
+								      </p:tab>
 									<!--  ....... ADVANCE TAB.......           -->
-								      <rich:tab header="#{messages['search.searchPanel.advanceTab.label']}" id="advanceTab" >
+								      <p:tab header="#{messages['search.searchPanel.advanceTab.label']}" id="advanceTab" >
 								      	<h:panelGrid id="panelAdvance" columns="1" width="100%">
 								      	<h:panelGroup>
 											<h2>
 												<h:outputText value="#{messages['search.searchPanel.advanceTab.CQLSearchLabel']}" />		
 											</h2>
 										</h:panelGroup>
-										<h:inputTextarea
+										<p:inputTextarea
 											id="advanceQuery"
 											onkeydown="keyDownHandler(event, 'searchTableForm:btnAdvanceFind')"
 											value="#{searchAndrejevicManagedBean.advanceQuery}"
 											style="width:90%;"
 											rows="5"
 											>
-										</h:inputTextarea>
-										<a4j:commandButton 
+										</p:inputTextarea>
+										<p:commandButton
 											id="btnAdvanceFind"
 											action="#{searchAndrejevicManagedBean.advanceQuerySearch}" 
 											value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
 											render="panelResult" 
 											limitToList="true"/>
 								      	</h:panelGrid>
-								      </rich:tab>	
+								      </p:tab>
 					
-								  </rich:tabPanel>
+								  </p:tabView>
 							</h:panelGrid>
 							</h:form>
-						</rich:panel>
+						</p:panel>
 					</h:panelGrid>
 					<!-- MODAL PANEL -->
 					<h:panelGrid id="panelResult">
 					<!-- ....... SEARCH RESULTS.......           -->
-								  <rich:panel id="panelResultPanel" rendered="#{searchAndrejevicManagedBean.searchResultShow}">
+								  <p:panel id="panelResultPanel" rendered="#{searchAndrejevicManagedBean.searchResultShow}">
 									<h2>
-									<a4j:outputPanel ajaxRendered="true">
+									<p:outputPanel ajaxRendered="true">
 										<h:outputText value="#{messages['search.panelResult.CQLResultLabel']}" rendered="#{searchAndrejevicManagedBean.searchResultShow}"/>
-									</a4j:outputPanel>
+									</p:outputPanel>
 									</h2>
-									<h:graphicImage 
-										library="img"
-										name="spacer.gif" 
-										alt="" 
+									<p:spacer
 										height="20"
 										width="1"
 										/>
@@ -476,49 +450,43 @@
 									<h:form id="panelResultPanelForm" rendered="#{empty searchAndrejevicManagedBean.searchQueryError}">
 									    <!--  
 									    <h:panelGrid columns="2">
-									    <h:outputLabel value="#{messages['search.panelResult.representationStyle.header']}: " />
-									    <h:selectOneMenu value="#{searchAndrejevicManagedBean.representationStyle}">
+									    <p:outputLabel value="#{messages['search.panelResult.representationStyle.header']}: " />
+									    <p:selectOneMenu value="#{searchAndrejevicManagedBean.representationStyle}">
 									    	<f:selectItem 
 												itemValue="htmlRepresentation"
 												itemLabel="#{messages['search.panelResult.representationStyle.htmlRepresentation']}" />
 											<f:selectItem 
 												itemValue="harvardRepresentation"
 												itemLabel="#{messages['search.panelResult.representationStyle.harvardRepresentation']}" />
-									    	<a4j:ajax 
+									    	<p:ajax
 									    		event="change" 
 									    		render="advanceQueryResultsTable" 
 									    		limitRender="true"
 									    		execute="@this" />
-									    </h:selectOneMenu>
+									    </p:selectOneMenu>
 									    </h:panelGrid>
 										-->
 										
-										<rich:dataTable id="advanceQueryResultsTable" var="resultQuery" rowKeyVar="rowKeyVar" value="#{searchAndrejevicManagedBean.records}" rendered="#{empty searchAndrejevicManagedBean.searchQueryError}"
-												rows="100">
-											<rich:column>                 
+										<p:dataTable id="advanceQueryResultsTable" var="resultQuery" rowKeyVar="rowKeyVar" value="#{searchAndrejevicManagedBean.records}" rendered="#{empty searchAndrejevicManagedBean.searchQueryError}"
+												rows="100" paginator="true" paginatorPosition="bottom"
+													 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+													 currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+													 rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}">
+											<p:column>
 									     		<!--   <h:outputText value="#{resultQuery.harvardRepresentation}" escape="false" rendered="#{(not empty resultQuery) and (searchAndrejevicManagedBean.representationStyle == 'harvardRepresentation')}"/>
 									     		<h:outputText value="#{resultQuery.HTMLRepresentation}" escape="false" rendered="#{(not empty resultQuery) and (searchAndrejevicManagedBean.representationStyle == 'htmlRepresentation')}"/> -->
 									     		<h:outputText value="#{resultQuery.harvardRepresentation}" escape="false" rendered="#{(not empty resultQuery)}"/>
-									        </rich:column>
-										</rich:dataTable>
-										<rich:dataScroller 
-												for="advanceQueryResultsTable" 
-												maxPages="25" 
-												rendered="#{(searchAndrejevicManagedBean.recordSize gt 100)}" 
-												renderIfSinglePage="false"
-												/>
-										<!-- maxPages +1 jer je npr 111 podeljeno 100 = 1 a nama treba 2 strane -->						 
+									        </p:column>
+										</p:dataTable>
+										<!-- maxPages +1 jer je npr 111 podeljeno 100 = 1 a nama treba 2 strane -->
 									
 									</h:form>
 									</h:panelGrid>
-								  </rich:panel>
+								  </p:panel>
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

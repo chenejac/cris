@@ -82,7 +82,7 @@ input[type="button"][disabled],input[type="reset"][disabled],input[type="submit"
 	{
 	border: #CCCCCC 1px solid !important;
 	color: #AAAAAA !important;
-	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
+	background-image: url(#{resource['img:grey_gradient_bg.gif']})!important;
 	background-repeat: repeat !important;
 	background-position: top left !important;
 	cursor: default !important;
@@ -93,7 +93,7 @@ input[type="button"][disabled],input[type="reset"][disabled],input[type="submit"
 input[type="button"],input[type="reset"],input[type="submit"] {
 	margin: 3px !important;
 	border: #99BBCC 2px solid !important;
-	background-image: url(../resources/img/light_blue_gradient_bg.gif) !important;
+	background-image: url(#{resource['img:light_blue_gradient_bg.gif']})!important;
 	background-repeat: repeat !important;
 	background-position: top left !important;
 	cursor: pointer !important;
@@ -144,7 +144,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	background-color: #FFFFFF !important;
 	background-position: top left !important;
 	background-repeat: repeat !important;
-	background-image: url(../resources/img/titlebar_bg.gif) !important;
+	background-image: url(#{resource['img:titlebar_bg.gif']})!important;
 	width: 100% !important;
 }
 
@@ -166,7 +166,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	width: auto !important;
 	border-color: #CCCCCC !important;
 	background-color: #FFFFFF !important;
-	background-image: url(../resources/img/white_bottom_gradient.gif) !important;
+	background-image: url(#{resource['img:white_bottom_gradient.gif']})!important;
 	background-repeat: repeat-x !important;
 	background-position: bottom left !important;
 }
@@ -186,7 +186,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	font-size: 22px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	background-color: #FFFFFF !important;
-	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
+	background-image: url(#{resource['img:grey_gradient_bg.gif']})!important;
 	background-repeat: repeat !important;
 	background-position: top left !important;
 }
@@ -205,7 +205,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 
 .rf-dt {
 	border-color: #CCCCCC !important;
-	background-image: url(../resources/img/blue_white_bottom_gradient.gif) !important;
+	background-image: url(#{resource['img:blue_white_bottom_gradient.gif']})!important;
 	background-repeat: repeat-x !important;
 	background-position: bottom left !important;
 }
@@ -247,7 +247,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	font-size: 14px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	height: 20px !important;
-	background-image: url(../resources/img/grey_gradient_bg.gif) !important;
+	background-image: url(#{resource['img:grey_gradient_bg.gif']})!important;
 	background-repeat: repeat !important;
 	background-position: top left !important;
 }
@@ -304,7 +304,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	bottom: 0px !important;
 	left: 0px !important;
 	width: 90% !important;
-	margin: 0%
+	margin: 0%;
 	height: 65px !important;
 	text-align: left !important;
 	border-color: #CCCCCC !important;
@@ -449,7 +449,6 @@ div.progressbar {
 }
 
 .tooltip {
-	background-color: #{richSkin.generalBackgroundColor} !important;
 	border-width: 2px !important;
 	padding: 10px !important;
 }
@@ -466,7 +465,7 @@ img {
 .scrollableBody {
 	overflow: auto !important;
 	border-style: hidden !important;
-	margin: 1 1 1 1 !important;
+	margin: 1px 1px 1px 1px !important;
 	border-width: 0 !important;
 }
 
@@ -605,21 +604,40 @@ label.errorMessage {
 }
 
 .footerText,.footerLink{
-	font-size: 10px !important;
+	font-size: 16px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	font-weight: normal !important;
 }
 
 .footerLink{
-	font-size: 10px !important;
-	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
-	font-weight: normal !important;
-	text-decoration: underline; 
+	margin-left: 10px;
+	text-decoration: underline;
 	color:blue;
 }
 
 .evaluationResultsText{
 	font-size: 14px !important;
+}
+
+.icon_institution_orange {
+	width: 16px;
+	height: 16px;
+	align:up;
+	background-image: url(#{resource['img:institution_orange.png']})!important ;
+}
+
+.icon_ruleBook {
+	width: 16px;
+	height: 16px;
+	align:up;
+	background-image: url(#{resource['img:ruleBook32.png']})!important ;
+}
+
+.icon_ruleBookImplementation {
+	width: 16px;
+	height: 16px;
+	align:up;
+	background-image: url(#{resource['img:ruleBookImplementation32.png']})!important ;
 }
 
 

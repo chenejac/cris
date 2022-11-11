@@ -2,52 +2,51 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="resultsTypeGroupEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Pesults Type Group.......           -->
-		<rich:panel id="Preview"
+		<p:panel id="Preview"
 			header="#{messages['cerif.resultsTypeGroup.editPanel.preview']}"
 			rendered="#{resultsTypeGroupManagedBean.editTabNumber == 2}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
-		<rich:panel 
+			</p:outputPanel>
+		</p:panel>
+		<p:panel
 			id="scrollableBody"
 			rendered="#{resultsTypeGroupManagedBean.editTabNumber lt 2}"
 			styleClass="scrollableBody">
-			<rich:tabPanel 
+			<p:tabView
 				switchType="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}" 
 				activeItem="#{resultsTypeGroupManagedBean.activeEditTab}" >
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					header="#{messages['cerif.resultsTypeGroup.editPanel.firstTab']}"
 					rendered="#{resultsTypeGroupManagedBean.editTabNumber == 0}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!-- ....... classId .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.resultsTypeGroup.editPanel.classId']}*" 
 								for="classId" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="classId"
 							readonly="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.update)}" 
 							value="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup.classId}"
@@ -55,99 +54,99 @@
 							required="true"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="classId" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!--  ...... language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.resultsTypeGroup.editPanel.termLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup.originalLanguage}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Term .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.resultsTypeGroup.editPanel.term']}*" 
 								for="term" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="term"
 							readonly="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup.term.content}"
 							rows="3" 
 							required="#{empty resultsTypeGroupManagedBean.selectedResultsTypeGroup.termTranslations}"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{resultsTypeGroupManagedBean.termTranslations}"
 							value="#{messages['cerif.resultsTypeGroup.editPanel.btnTermTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="term" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Description .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.resultsTypeGroup.editPanel.description']}" 
 								for="description" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="description"
 							readonly="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup.description.content}"
 							rows="3"/>
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{resultsTypeGroupManagedBean.descriptionTranslations}"
 							value="#{messages['cerif.resultsTypeGroup.editPanel.btnDescriptionTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="description" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... START DATE .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.resultsTypeGroup.editPanel.startDate']}" 
 								for="startDate" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="startDate"
 							locale="en/US"
 							disabled="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)}"
@@ -160,22 +159,22 @@
 						/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="startDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... END DATE .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['cerif.resultsTypeGroup.editPanel.endDate']}" 
 								for="endDate" 
 								errorStyleClass="errorMessage" />
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="endDate"
 							locale="en/US"
 							disabled="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)}"
@@ -188,41 +187,38 @@
 						/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="endDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab1"
 					header="#{messages['cerif.resultsTypeGroup.editPanel.secondTab']}"
 					rendered="#{(resultsTypeGroupManagedBean.editTabNumber == 1) and ((resultsTypeGroupManagedBean.editMode == modesManagedBean.update) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails))}">
-						<rich:panel id="resultsTypeBrowseModalPanel"
+						<p:panel id="resultsTypeBrowseModalPanel"
 							header="#{messages['cerif.resultsType.header']}">
 							<h:panelGrid id="resultsTypeTableFormPanel" >
-									<rich:panel 
+									<p:panel
 										id="scrollableBodyTree" 
 										styleClass="scrollableBody">
 										<!-- ===========================   treePanel  ============================= -->
-										<h:graphicImage 
-											library="img"
-											name="spacer.gif" 
-											alt="" 
+										<p:spacer
 											height="10"
 											width="1"
 											/>
 										<h:panelGrid id="resultsTypeTreePanel">
-											<rich:tree 
-												selectionType="client"
+											<p:tree
+												dynamic="true"
 												value="#{resultsTypeManagedBean.rootNodes}"
 												var="resultsType" 
 												nodeType="#{resultsType.type}"	>			 
-												<rich:treeNode 
+												<p:treeNode
 													expanded="#{resultsType.expanded}"
 													iconCollapsed="/resources/img/resultsType32.png"
 													iconExpanded="/resources/img/resultsType32.png"
@@ -230,7 +226,7 @@
 													type="ResultsTypeDTO"
 													>
 													<h:outputText value="#{resultsType.element}" />
-													<a4j:commandLink 
+													<p:commandLink
 														action="#{resultsTypeManagedBean.switchToViewDetailsMode}"
 														render="resultsTypeEditModalPanel" 
 														limitRender="true"
@@ -239,8 +235,8 @@
 														<h:graphicImage library="img" name="details.png" />
 														<f:param name="classId" value="#{resultsType.element.classId}" />
 														<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-													</a4j:commandLink>
-													<a4j:commandLink 
+													</p:commandLink>
+													<p:commandLink
 														rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.update]) and (resultsTypeGroupManagedBean.editMode == modesManagedBean.update)}"
 														action="#{resultsTypeManagedBean.switchToUpdateMode}"
 														render="resultsTypeEditModalPanel" 
@@ -250,8 +246,8 @@
 														<h:graphicImage library="img" name="edit.png" />
 														<f:param name="classId" value="#{resultsType.element.classId}" />
 														<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-													</a4j:commandLink>
-													<a4j:commandLink 
+													</p:commandLink>
+													<p:commandLink
 														rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.delete]) and (resultsTypeGroupManagedBean.editMode == modesManagedBean.update)}"
 														action="#{resultsTypeManagedBean.delete}"
 														render="resultsTypeBrowseModalPanel"
@@ -262,8 +258,8 @@
 														<h:graphicImage library="img" name="delete.png" />
 														<f:param name="classId" value="#{resultsType.element.classId}" />
 														<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-													</a4j:commandLink>
-													<a4j:commandLink 
+													</p:commandLink>
+													<p:commandLink
 														action="#{resultsTypeManagedBean.switchToAddMode}"
 														rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.add]) and (resultsTypeManagedBean.superResultsTypeGroup!=null) and (resultsTypeGroupManagedBean.editMode == modesManagedBean.update)}" 
 														render="resultsTypeEditModalPanel" 
@@ -273,11 +269,11 @@
 														<h:graphicImage library="img" name="create24.png" />
 														<f:param name="classId" value="#{resultsType.element.classId}" />
 														<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-													</a4j:commandLink>
-												</rich:treeNode>
-									        </rich:tree>
+													</p:commandLink>
+												</p:treeNode>
+									        </p:tree>
 											<h:panelGrid columns="1">
-												<a4j:commandLink 
+												<p:commandLink
 													action="#{resultsTypeManagedBean.switchToAddMode}"
 													rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsType][privilegesManagedBean.add]) and (resultsTypeManagedBean.superResultsTypeGroup!=null) and (resultsTypeGroupManagedBean.editMode == modesManagedBean.update)}" 
 													render="resultsTypeEditModalPanel" 
@@ -286,46 +282,46 @@
 													immediate="true">
 													<h:graphicImage library="img" name="create.png" />
 													<ui:include src="../cerif/resultsTypeToolTip.xhtml"/>
-												</a4j:commandLink>
+												</p:commandLink>
 											</h:panelGrid>
 										</h:panelGrid>
-									</rich:panel>
+									</p:panel>
 							</h:panelGrid>
-						</rich:panel>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+						</p:panel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.update) and (resultsTypeGroupManagedBean.editTabNumber == 1)}"
 				action="#{resultsTypeGroupManagedBean.update}"
 				value="#{messages['cerif.resultsTypeGroup.editPanel.btnUpdate']}"
 				render="resultsTypeGroupEditModalPanel" 
 				limitRender="true" 
 				execute="@form"/>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.add) and (resultsTypeGroupManagedBean.editTabNumber == 0)}"
 				action="#{resultsTypeGroupManagedBean.add}"
 				value="#{messages['cerif.resultsTypeGroup.editPanel.btnCreate']}"
 				render="resultsTypeGroupEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{((resultsTypeGroupManagedBean.editMode == modesManagedBean.update) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)) and (resultsTypeGroupManagedBean.editTabNumber == 1)}"
 				action="#{resultsTypeGroupManagedBean.previousEditTab}"
 				value="#{messages['cerif.resultsTypeGroup.editPanel.btnPrevious']}"
 				render="resultsTypeGroupEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{((resultsTypeGroupManagedBean.editMode == modesManagedBean.update) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails)) and (resultsTypeGroupManagedBean.editTabNumber == 0)}"
 				action="#{resultsTypeGroupManagedBean.nextEditTab}"
 				value="#{messages['cerif.resultsTypeGroup.editPanel.editPanel.btnNext']}"
 				render="resultsTypeGroupEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(resultsTypeGroupManagedBean.editTabNumber == 2)}" 
 				action="#{resultsTypeGroupManagedBean.finishWizard}"
 				value="#{messages['cerif.resultsTypeGroup.editPanel.btnAllRight']}"

@@ -2,26 +2,22 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 
 	<h:panelGrid id="paperMonographTableFormPanel" >
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Monograph....... -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
@@ -39,7 +35,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(paperMonographManagedBean.monograph != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperMonographManagedBean.pickMonograph}"
 				render="monographBrowseModalPanel"
 				value="#{messages['records.paperMonograph.tablePanel.btnPickOtherMonograph']}"
@@ -48,7 +44,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(paperMonographManagedBean.monograph != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{paperMonographManagedBean.pickMonograph}"
 				render="monographBrowseModalPanel"
 				value="#{messages['records.paperMonograph.tablePanel.btnPickMonograph']}"
@@ -67,10 +63,7 @@
 		<h:panelGrid
 			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)||(paperMonographManagedBean.monograph != null)}">
 			<!-- ===========================   searchPanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				rendered="#{(paperMonographManagedBean.monograph==null)}"
@@ -81,27 +74,27 @@
 				columns="4">
 				<h:panelGroup>
 					<h2>
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.paperMonograph.searchPanel.header']}: " 
 								for="whereStr" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h2>
 				</h:panelGroup>
-				<h:inputText 
+				<p:inputText
 					id="whereStr"
 					onkeydown="keyDownHandler(event, 'paperMonographTableForm:btnFind')"
 					value="#{paperMonographManagedBean.whereStr}" 
 					styleClass="searchBox" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnFind"
 					value="#{messages['records.paperMonograph.searchPanel.btnFind']}"
 					render="paperMonographTablePanel" 
 					limitRender="true" 
 					execute="@form" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowAll"
 					action="#{paperMonographManagedBean.removeFilter}"
 					value="#{messages['records.paperMonograph.searchPanel.btnShowAll']}"
@@ -110,25 +103,26 @@
 					limitRender="true" />
 			</h:panelGrid>
 			<!-- ===========================   tablePanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				/>
 			<h:panelGrid id="paperMonographTablePanel">
-				<rich:dataTable 
+				<p:dataTable
 					id="paperMonographTable"
 					value="#{paperMonographManagedBean.paperMonographs}"
 					var="paperMonographRow" 
 					rows="10"
+					paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+					rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 					 >
 					<!--     ........  reference   .......-->
-					<rich:column
+					<p:column
 						style="#{paperMonographManagedBean.selectedPaperMonograph.controlNumber == paperMonographRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{paperMonographManagedBean.sort}"
 								render="paperMonographTable"
 								limitRender="true" 
@@ -143,18 +137,18 @@
 									library="img" name="down.gif"
 									rendered="#{(paperMonographManagedBean.orderBy=='mainAuthor.name.firstname') and (paperMonographManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="mainAuthor.name.firstname" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{paperMonographRow.stringRepresentation}" />
-					</rich:column>
+					</p:column>
 					<!--     ........  actions   .......-->
-					<rich:column
+					<p:column
 						style="#{paperMonographManagedBean.selectedPaperMonograph.controlNumber == paperMonographRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.paperMonograph.tablePanel.actions']}" />
 						</f:facet>
-						<a4j:commandLink
+						<p:commandLink
 							action="#{paperMonographManagedBean.switchToViewDetailsMode}"
 							render="paperMonographEditModalPanel" 
 							limitRender="true" 
@@ -164,8 +158,8 @@
 							<f:param name="controlNumber"
 								value="#{paperMonographRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml"/>
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.update]}"
 							action="#{paperMonographManagedBean.switchToSimpleUpdateMode}"
 							render="paperMonographSimpleEditModalPanel"
@@ -176,8 +170,8 @@
 							<f:param name="controlNumber"
 								value="#{paperMonographRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml"/>
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.delete]}"
 							action="#{paperMonographManagedBean.delete}"
 							onclick="if(!confirmDecision()) return false"
@@ -189,24 +183,16 @@
 							<f:param name="controlNumber"
 								value="#{paperMonographRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml"/>
-						</a4j:commandLink>
-					</rich:column>
-				</rich:dataTable>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
 				<h:panelGrid columns="1">
-					<h:panelGroup>
-						<rich:dataScroller 
-							id="downDataScroller" 
-							align="left"
-							for="paperMonographTable" 
-							render="paperMonographTablePanel"
-							renderIfSinglePage="false"/> 
-					</h:panelGroup>
 					<h:panelGroup>
 						<h3>
 							<h:outputText
 									rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.add]}"
 									value="#{messages['records.paperMonograph.tablePanel.btnCreate']}: " />
-							<a4j:commandLink 
+							<p:commandLink
 								rendered="#{userManagedBean.privileges[privilegesManagedBean.formPaperMonograph][privilegesManagedBean.add]}"
 								action="#{paperMonographManagedBean.switchToSimpleAddMode}"
 								render="paperMonographSimpleEditModalPanel"
@@ -215,7 +201,7 @@
 								immediate="true" >
 								<h:graphicImage library="img" name="create.png" />
 								<ui:include src="../bibliographicRecords/paperMonographToolTip.xhtml"/>
-							</a4j:commandLink>
+							</p:commandLink>
 						</h3>	
 					</h:panelGroup>
 				</h:panelGrid>

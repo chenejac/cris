@@ -2,54 +2,53 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="journalEditFormPanel">	
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Journal.......           -->
-		<rich:panel id="journalPreview"
+		<p:panel id="journalPreview"
 			header="#{messages['records.journal.editPanel.preview']}"
 			rendered="#{journalManagedBean.editTabNumber == 2}">
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{journalManagedBean.selectedJournal.stringRepresentation}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>			
-		<rich:panel id="scrollableBody"
+			</p:outputPanel>
+		</p:panel>
+		<p:panel id="scrollableBody"
 			rendered="#{journalManagedBean.editTabNumber lt 2}"
 			styleClass="scrollableBody" >
-			<rich:panel id="journalFullPreview"
+			<p:panel id="journalFullPreview"
 				header="#{messages['records.journal.editPanel.preview']}"
 				rendered="#{(journalManagedBean.editMode == modesManagedBean.import) and (journalManagedBean.editTabNumber == 1)}">
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<h:panelGrid columns="1">
 						<h:outputText
 							value="#{journalManagedBean.selectedJournal.HTMLRepresentation}"
 							styleClass="preview" 
 							escape="false"/>
 					</h:panelGrid>
-				</a4j:outputPanel>
-				<a4j:commandLink 
+				</p:outputPanel>
+				<p:commandLink
 					render="relatedRecordsEditModalPanel"
 				    execute="@this" 
 				    limitRender="true">
 				    <h:graphicImage library="img" name="publications.png" />
 				    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 				        value="#{journalManagedBean.selectedJournal}" />
-				    <rich:tooltip followMouse="true" direction="topRight"
+				    <p:tooltip followMouse="true" direction="topRight"
 						showDelay="1000" styleClass="tooltip" mode="client">
 						<span class="tooltipSpan"> 
 							<h:panelGrid columns="2">
@@ -58,80 +57,80 @@
 									value="#{messages['records.journal.tablePanel.btnPublications']}" />
 							</h:panelGrid> 
 						</span>
-					</rich:tooltip>
-				</a4j:commandLink>
-			</rich:panel>
-			<rich:tabPanel
+					</p:tooltip>
+				</p:commandLink>
+			</p:panel>
+			<p:tabView
 				switchType="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)?'client':'ajax'}"
 				activeItem="#{journalManagedBean.activeEditTab}"
 				>
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					rendered="#{(journalManagedBean.editTabNumber == 0) or (journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 					header="#{messages['records.journal.editPanel.firstTab']}">
 					<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 						<!--  ...... language ..... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.nameLanguage']}*" 
 								for="language" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="language"
 							disabled="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.name.language}" 
 							required="true"	>
 							<ui:include src="../languagesSelectItems.xhtml"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="language" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... name ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.name']}*" 
 								for="name" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="name"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.name.content}"
 							rows="3" 
 							required="#{empty journalManagedBean.selectedJournal.nameTranslations}"/>
 						<h:outputText value="" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{journalManagedBean.nameTranslations}"
 							value="#{messages['records.journal.editPanel.btnNameTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="name" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... ISSN ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.issn']}*" 
 								for="issn" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="issn"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}" 
 							value="#{journalManagedBean.selectedJournal.issn}"
@@ -141,261 +140,258 @@
 							title="Obavezan usnos ISSN u formatu DDDD-DDDX, gde D predstavlja broj, a X pretstavlja slovo X ili broj, u slucaju da postoje vise issn-ova primer za unos je 0886-9383(pISSN);1099-128X(eISSN);1234-5678(oldISSN), gde p oznacava print, e eloktronsku i old staru verziju"
 							 >
 							<f:validateRegex pattern="(((\d{4}-\d{3}[\dxX])((\(pISSN\))|(\(eISSN\))|(\(oldISSN\))))(;((\d{4}-\d{3}[\dxX])((\(pISSN\))|(\(eISSN\))|(\(oldISSN\))))){0,2})|(\d{4}-\d{3}[\dxX])" />
-						</h:inputText>
+						</p:inputText>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="issn" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... nameAbbreviation ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.nameAbbreviation']}" 
 								for="nameAbbreviation" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="nameAbbreviation"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.nameAbbreviation.content}"
 							rows="3" />
 						<h:outputText value="" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{journalManagedBean.nameAbbreviationTranslations}"
 							value="#{messages['records.journal.editPanel.btnNameAbbreviationTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="nameAbbreviation" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... note ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.note']}" 
 								for="note" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="note"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.note.content}"
 							rows="3"/>
 						<h:outputText value="" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{journalManagedBean.noteTranslations}"
 							value="#{messages['records.journal.editPanel.btnNoteTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="note" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... keywords ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.keywords']}" 
 								for="keywords" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="keywords"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.keywords.content}"
 							rows="3"/>
 						<h:outputText value="" />
-						<a4j:commandButton 
+						<p:commandButton
 							action="#{journalManagedBean.keywordsTranslations}"
 							value="#{messages['records.journal.editPanel.btnKeywordsTranslations']}"
 							render="multilingualContentEditModalPanel" 
 							execute="@this"/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="keywords" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... DOI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.doi']}" 
 								for="doi" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="doi"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.doi}"
 							maxlength="200" />
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="doi" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... URI ....... -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.journal.editPanel.uri']}" 
 								for="uri" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea
+						</p:outputPanel>
+						<p:inputTextarea
 							id="uri"
 							readonly="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}"
 							value="#{journalManagedBean.selectedJournal.uri}"
 							rows="3"/>
 						<h:outputText value="" />
 						<h:outputText value="" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="uri" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
 					<!--  Editors -->	
-					<rich:panel 
+					<p:panel
 						header="#{messages['records.journal.editPanel.editorTablePanel.header']}">
 						<h:panelGrid id="editors" columns="1">
 						<!--  add Editor -->
-							<a4j:commandButton 
+							<p:commandButton
 								action="#{journalManagedBean.pickEditor}"
 								render="authorBrowseModalPanel"
 								value="#{messages['records.journal.editPanel.btnAddEditor']}"
 								rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}" 
 								execute="@form" />
 						<!-- ===========================   tablePanel  ============================= -->
-							<rich:dataTable 
+							<p:dataTable
 								id="editorTable"
 								value="#{journalManagedBean.selectedJournal.editors}"
 								var="editorRow">
 								<!--     ........  editor name   .......-->
-								<rich:column>
+								<p:column>
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.journal.editPanel.editorTablePanel.name']}" />
 									</f:facet>
-									<h:selectOneMenu 
+									<p:selectOneMenu
 										value="#{editorRow.name}"
 										disabled="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}" >
 										<f:selectItems value="#{editorRow.allNamesSelectItems}" />
-									</h:selectOneMenu>
-								</rich:column>
+									</p:selectOneMenu>
+								</p:column>
 								<!--     ........  change position   .......-->
-								<rich:column
+								<p:column
 									rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.journal.editPanel.editorTablePanel.changePosition']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										action="#{journalManagedBean.moveEditorUp}"
 										render="editors, journalPreview"
 										execute="@form">
 										<h:graphicImage library="img" name="up.gif"  />
 										<f:param name="controlNumber"
 											value="#{editorRow.controlNumber}" />
-									</a4j:commandLink>
-									<a4j:commandLink
+									</p:commandLink>
+									<p:commandLink
 										action="#{journalManagedBean.moveEditorDown}"
 										render="editors, journalPreview"
 										execute="@form">
 										<h:graphicImage library="img" name="down.gif"  />
 										<f:param name="controlNumber"
 											value="#{editorRow.controlNumber}" />
-									</a4j:commandLink>
-								</rich:column>
+									</p:commandLink>
+								</p:column>
 								<!--     ........  remove editor   .......-->
-								<rich:column
+								<p:column
 									rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.journal.editPanel.editorTablePanel.remove']}" />
 									</f:facet>
-									<a4j:commandLink 
+									<p:commandLink
 										action="#{journalManagedBean.removeEditor}"
 										render="editors, journalPreview"
 										execute="@form" >
 										<h:graphicImage library="img" name="delete.png" />
 										<f:param name="controlNumber"
 											value="#{editorRow.controlNumber}" />
-									</a4j:commandLink>
-								</rich:column>
+									</p:commandLink>
+								</p:column>
 								<!--     ........  add editor other format name    .......-->
-								<rich:column
+								<p:column
 									rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.journal.editPanel.editorTablePanel.addOtherFormatName']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										action="#{journalManagedBean.addEditorOtherFormatName}"
 										render="authorNameFormatsModalPanel" 
 										execute="@form">
 										<h:graphicImage library="img" name="edit.png"  />
 										<f:param name="controlNumber"
 											value="#{editorRow.controlNumber}" />
-									</a4j:commandLink>
-								</rich:column>
-							</rich:dataTable>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
 						</h:panelGrid>
-					</rich:panel>
+					</p:panel>
 					<!-- 
-					 <h:graphicImage 
-						library="img"
-						name="spacer.gif" 
-						alt="" 
+					 <p:spacer
 						height="20"
 						width="1"
 						/>
-					<rich:panel 
+					<p:panel
 							id="languageTablePanel"
 							header="#{messages['records.journal.editPanel.languageTablePanel.header']}">
 						<h:panelGrid id="languages" columns="5">
 							 ....... Language .......           
-							<a4j:outputPanel ajaxRendered="true">
+							<p:outputPanel ajaxRendered="true">
 								<mytags:outputLabel 
 									rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}" 
 									value="#{messages['records.journal.editPanel.language']}" 
 									for="textLanguage" 
 									errorStyleClass="errorMessage"
 									/>
-							</a4j:outputPanel>
-							<h:selectOneMenu 
+							</p:outputPanel>
+							<p:selectOneMenu
 								id="textLanguage"
 								rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}"
 								value="#{journalManagedBean.language}" 
 								required="true"	>
 								<jsp:include page="/languagesSelectItems.xhtml" flush="true" />
-							</h:selectOneMenu>
-							<a4j:commandButton 
+							</p:selectOneMenu>
+							<p:commandButton
 								rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}" 
 								action="#{journalManagedBean.addLanguage}"
 								value="#{messages['records.journal.editPanel.btnAddLanguage']}"
@@ -403,99 +399,96 @@
 								execute="@this" />
 							<h:outputText value=""
 								rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}" />
-							<a4j:outputPanel 
+							<p:outputPanel
 								ajaxRendered="true"
 								rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}">
-								<rich:message 
+								<p:message
 									for="textLanguage" 
 									errorClass="errorMessage"
 									infoClass="infoMessage"
 									warnClass="warnMessage"
 									fatalClass="fatalMessage" />
-							</a4j:outputPanel>
+							</p:outputPanel>
 						</h:panelGrid>
 						<h:panelGrid columns="1">
 							 ===========================   tablePanel  ============================= 
-							<rich:dataTable 
+							<p:dataTable
 								id="languageTable"
 								value="#{journalManagedBean.selectedJournal.localizedLanguages}"
 								var="languageRow">
 								     ........  language   .......
-								<rich:column>
+								<p:column>
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.journal.editPanel.languageTablePanel.language']}" />
 									</f:facet>
 									<h:outputText value="#{languageRow}" />
-								</rich:column>
+								</p:column>
 								     ........  remove language   .......
-								<rich:column
+								<p:column
 									rendered="#{(journalManagedBean.editMode != modesManagedBean.viewDetails)}">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.journal.editPanel.languageTablePanel.remove']}" />
 									</f:facet>
-									<a4j:commandLink
+									<p:commandLink
 										action="#{journalManagedBean.removeLanguage}"
 										render="languageTablePanel"
 										limitRender="true" 
 										execute="@this">
 										<h:graphicImage library="img" name="delete.png" />
 										<f:param name="language" value="#{languageRow}" />
-									</a4j:commandLink>
-								</rich:column>
-							</rich:dataTable>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
 						</h:panelGrid>
-					</rich:panel> -->
-				</rich:tab>
-				<rich:tab 
+					</p:panel> -->
+				</p:tab>
+				<p:tab
 					name="tab1"
 					header="#{messages['records.journal.editPanel.secondTab']}"
 					rendered="#{(journalManagedBean.editTabNumber == 1) and ((journalManagedBean.editMode == modesManagedBean.add) or (journalManagedBean.editMode == modesManagedBean.import))}">
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<h:panelGrid columns="2">
 							<h:graphicImage library="img" name="info.png" />
 							<h:outputText value="#{journalManagedBean.pickSimilarMessage}"
 								styleClass="rf-msg-inf" />
 						</h:panelGrid>
-					</a4j:outputPanel>
-					<h:graphicImage 
-						library="img"
-						name="spacer.gif" 
-						alt="" 
+					</p:outputPanel>
+					<p:spacer
 						height="10"
 						width="1"
 						/>
-					<rich:dataTable 
+					<p:dataTable
 						id="journalTable" 
 						value="#{journalManagedBean.similarJournals}"
 						var="journalRow" >
 						<!--     ........  name   .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.journal.tablePanel.name']}" />
 							</f:facet>
 							<h:outputText value="#{journalRow.someName}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  issn  .......-->
-						<rich:column >
+						<p:column >
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.journal.tablePanel.issn']}" />
 							</f:facet>
 							<h:outputText value="#{journalRow.issn}" />
-						</rich:column>
+						</p:column>
 						<!--     ........  chooseSimilar 
 						 or ((journalManagedBean.editMode == modesManagedBean.import) and (userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData]))
 						 and (userManagedBean.loggedIn) and (not userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])
 						 .......-->
-						<rich:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.journal.tablePanel.chooseSimilar']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{journalManagedBean.chooseSimilar}"
 								render="mainPanel, #{journalManagedBean.renderModalPanels}"
 								rendered="#{(journalManagedBean.editMode != modesManagedBean.import)}"
@@ -504,7 +497,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{journalRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -513,9 +506,9 @@
 												value="#{messages['records.journal.tablePanel.btnPick']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-							<a4j:commandLink 
+								</p:tooltip>
+							</p:commandLink>
+							<p:commandLink
 								action="#{journalManagedBean.examineData}"
 								render="mainPanel, #{journalManagedBean.renderModalPanels}"
 								rendered="#{(journalManagedBean.editMode == modesManagedBean.import)}"
@@ -524,7 +517,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{journalRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -533,16 +526,16 @@
 												value="#{messages['records.journal.tablePanel.btnExamine']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-							<a4j:commandLink 
+								</p:tooltip>
+							</p:commandLink>
+							<p:commandLink
 								render="relatedRecordsEditModalPanel"
 							    execute="@this" 
 							    limitRender="true">
 							    <h:graphicImage id="relatedRecords" library="img" name="publications.png" />
 							    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 							        value="#{journalRow}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -551,19 +544,19 @@
 												value="#{messages['records.journal.tablePanel.btnPublications']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
 						<!--     ........  examineThis   .......
 						"#{(journalManagedBean.editMode == modesManagedBean.import) and (userManagedBean.loggedIn) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}"
 						-->
-						<rich:column 
+						<p:column
 							rendered="false">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.journal.tablePanel.examine']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{journalManagedBean.examineData}"
 								render="mainPanel, #{journalManagedBean.renderModalPanels}"
 								limitRender="true"
@@ -571,7 +564,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{journalRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -580,17 +573,17 @@
 												value="#{messages['records.journal.tablePanel.btnExamine']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
 						<!--     ........  mergeWithThis   .......-->
-						<rich:column 
+						<p:column
 							rendered="false">
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.journal.tablePanel.merge']}" />
 							</f:facet>
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{journalManagedBean.mergeData}"
 								render="mainPanel, #{journalManagedBean.renderModalPanels}"
 								limitRender="true"
@@ -598,7 +591,7 @@
 								execute="@this">
 								<h:graphicImage library="img" name="pick.png" />
 								<f:param name="controlNumber" value="#{journalRow.controlNumber}" />
-								<rich:tooltip followMouse="true" direction="topRight"
+								<p:tooltip followMouse="true" direction="topRight"
 									showDelay="1000" styleClass="tooltip" mode="client">
 									<span class="tooltipSpan"> 
 										<h:panelGrid columns="2">
@@ -607,33 +600,33 @@
 												value="#{messages['records.journal.tablePanel.btnMerge']}" />
 										</h:panelGrid> 
 									</span>
-								</rich:tooltip>
-							</a4j:commandLink>
-						</rich:column>
-					</rich:dataTable>
-				</rich:tab>
-				<rich:tab
+								</p:tooltip>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+				<p:tab
 					name="tab2"
 					header="#{messages['records.journal.editPanel.thirdTab']}"
 					rendered="#{(journalManagedBean.editMode == modesManagedBean.viewDetails)}">
-					<a4j:outputPanel ajaxRendered="true">
-						<h:inputTextarea
+					<p:outputPanel ajaxRendered="true">
+						<p:inputTextarea
 							value="#{journalManagedBean.selectedJournal.record.MARC21Record.printableString}"
 							readonly="true" cols="60" styleClass="marc21TextArea" />
-					</a4j:outputPanel>
-				</rich:tab>
-			</rich:tabPanel>
-		</rich:panel>
+					</p:outputPanel>
+				</p:tab>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="1">
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{((journalManagedBean.editMode == modesManagedBean.update) or ((journalManagedBean.editMode == modesManagedBean.import) and (not empty journalManagedBean.selectedJournal.controlNumber))) and ((journalManagedBean.editTabNumber == 0) or (journalManagedBean.editTabNumber == 1))}"
 				action="#{journalManagedBean.update}"
 				value="#{messages['records.journal.editPanel.btnUpdate']}"
 				render="journalEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{((journalManagedBean.editMode == modesManagedBean.add) or ((journalManagedBean.editMode == modesManagedBean.import) and (empty journalManagedBean.selectedJournal.controlNumber))) and ((journalManagedBean.editTabNumber == 0) or (journalManagedBean.editTabNumber == 1))}"
 				action="#{journalManagedBean.add}"
 				value="#{messages['records.journal.editPanel.btnCreate']}"
@@ -641,14 +634,14 @@
 				limitRender="true" 
 				execute="@form"
 				/>
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(journalManagedBean.editMode == modesManagedBean.import) and (journalManagedBean.editTabNumber == 5)}"
 				action="#{journalManagedBean.examineData}"
 				value="#{messages['records.journal.editPanel.btnExamine']}"
 				render="journalEditModalPanel" 
 				limitRender="true" 
 				execute="@this" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(journalManagedBean.editTabNumber == 2)}" 
 				action="#{journalManagedBean.finishWizard}"
 				value="#{messages['records.journal.editPanel.btnAllRight']}"

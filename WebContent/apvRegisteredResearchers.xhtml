@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
 	 >
 	
@@ -32,29 +31,26 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:fragment id="form_region">
 					<!-- MAIN apvRegisteredResearchers PANEL -->	
 						
 								<h:panelGrid id="mainPanel">
-									<rich:panel id="apvRegisteredResearchersTablePanel"
+									<p:panel id="apvRegisteredResearchersTablePanel"
 									header="#{messages['administration.apvRegisteredResearchersPanel.header']}" rendered="#{apvRegisteredResearchersManagedBean.tableMode == modesManagedBean.browse}">
 										<h:panelGrid id="apvRegisteredResearchersTableFormPanel">
 											<!--<ui:include src="./normativeRecords/authorTable.xhtml"/>-->
-											<h:inputText id="general" rendered="false" value="" />
+											<p:inputText id="general" rendered="false" value="" />
 											<ui:include src="./normativeRecords/apvRegisteredResearchersTable.xhtml"/>
 										</h:panelGrid>
-									</rich:panel>
+									</p:panel>
 								</h:panelGrid>		
 							
 							<!-- APV REGISTRED RESEARCHERS PANEL -->
@@ -62,16 +58,16 @@
 						<!-- ======================== APV Registered Researcher VIEW_DETAILS panel ============= -->
 						<h:form id="apvRegisteredResearchersViewDetailsForm">
 							<h:panelGrid id="apvRegisteredResearcherViewDetailsModalPanel" columns="1" width="100%">
-									<rich:panel rendered="#{apvRegisteredResearchersManagedBean.editMode == modesManagedBean.viewDetails}">
+									<p:panel rendered="#{apvRegisteredResearchersManagedBean.editMode == modesManagedBean.viewDetails}">
 										<ui:include src="./normativeRecords/apvRegisteredResearcherViewDetails.xhtml" />
-									</rich:panel>
+									</p:panel>
 							</h:panelGrid>
 						</h:form>
 						
 						<!-- ======================== Publications  ============= -->
 						<h:form id="reportPublicationsForm">
 							<h:panelGrid id="reportPublicationsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty apvRegisteredResearchersManagedBean.publications)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -83,7 +79,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{apvRegisteredResearchersManagedBean.exitPublications}"
 											styleClass="hidelink" 
 											render="reportPublicationsEditModalPanel"
@@ -91,20 +87,17 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="./normativeRecords/selectReportPublications.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Publications end ============= -->				
 					</h:panelGrid>	
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

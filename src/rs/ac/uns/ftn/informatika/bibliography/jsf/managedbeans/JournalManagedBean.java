@@ -18,8 +18,8 @@ import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.component.UIDataTable;
 
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
@@ -105,7 +105,7 @@ public class JournalManagedBean extends CRUDManagedBean implements IPickAuthorMa
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("journalTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("journalTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);
@@ -300,8 +300,8 @@ public class JournalManagedBean extends CRUDManagedBean implements IPickAuthorMa
 		return retVal;
     }
 	
-	public List<JournalDTO> autocompleteName(String suggest) {
-		List<JournalDTO> retVal = new ArrayList<JournalDTO>();
+	public List<String> autocompleteName(String suggest) {
+		List<String> retVal = new ArrayList<String>();
 		
 		String journalName = suggest;
         
@@ -313,12 +313,12 @@ public class JournalManagedBean extends CRUDManagedBean implements IPickAuthorMa
 		bq.add(new TermQuery(new Term("TYPE", Types.JOURNAL)), Occur.MUST);
 		
 		
-		List<Record> listRecord = recordDAO.getDTOs(bq, new AllDocCollector(true));
+		List<Record> listRecord = recordDAO.getDTOs(bq, new TopDocCollector(10));
 		for (Record recordDTO : listRecord) {
 			try {
 				JournalDTO dto = (JournalDTO) recordDTO.getDto();
 				if (dto != null) {
-					retVal.add(dto);
+					retVal.add(dto.getSomeName());
 				}
 			} catch (Exception e) {
 				log.error(e);

@@ -2,8 +2,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
      >
@@ -20,10 +19,7 @@
            </h:outputStylesheet>     
 
 	<!-- ===========================   searchPanel  ============================= -->
-	<h:graphicImage 
-		library="img"
-		name="spacer.gif" 
-		alt="" 
+	<p:spacer
 		height="10"
 		width="1"
 		/>
@@ -37,7 +33,7 @@
 			errorStyleClass="errorMessage"
 			/>
 
-			<h:inputText
+			<p:inputText
 				id="whereAPVNT"
 				onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
 				value="#{apvRegisteredResearchersManagedBean.filterAPVNT}"
@@ -49,7 +45,7 @@
 				errorStyleClass="errorMessage"
 		/>
 
-		<h:inputText
+		<p:inputText
 				id="whereFirstname"
 				onkeydown="keyDownHandler(event, 'organizationPageForm:btnFindResearchers')"
 				value="#{organizationProfileManagedBean.filterFirstname}"
@@ -64,53 +60,52 @@
 				errorStyleClass="errorMessage"
 		/>
 
-		<h:inputText
+		<p:inputText
 				id="whereLastname"
 				onkeydown="keyDownHandler(event, 'organizationPageForm:btnFindResearchers')"
 				value="#{organizationProfileManagedBean.filterLastname}"
 				styleClass="searchBox" />
 
-		<a4j:commandButton
+		<p:commandButton
 				id="btnFindResearchers"
-				value="#{messages['records.apvRegisteredResearchers.searchPanel.btnFind']}"
+				title="#{messages['records.apvRegisteredResearchers.searchPanel.btnFind']}"
 				action="#{apvRegisteredResearchersManagedBean.btnFind}"
-				render="organizationResearchersPanel, organizationResearchersSearchPanel"
-				limitRender="true"
+				update="@form"
 				execute="@form"
-				image="./resources/img/filter.png"/>
-		<a4j:commandButton
+				icon="pi pi-filter"/>
+		<p:commandButton
 				id="btnShowAll"
 				action="#{organizationProfileManagedBean.btnShowAll}"
-				value="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
-				render="organizationResearchersPanel, organizationResearchersSearchPanel"
-				limitRender="true"
+				title="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
+				update="@form"
 				execute="@form"
-				image="./resources/img/clearFilter.png" />
+				icon="pi pi-filter-slash" />
 
 	</h:panelGrid>
 	<!-- ===========================   tablePanel  ============================= -->
-	<rich:panel 
+	<p:panel
 		id="organizationResearchersPanel"
 		rendered="#{not empty organizationProfileManagedBean.researchers}">
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid>
-			<rich:dataTable 
+			<p:dataTable
 				id="organizationResearchersTable"
 				value="#{organizationProfileManagedBean.researchers}"
 				var="researcherRow"
-				rowKeyVar="researcherRowKey"
+				rowIndexVar="researcherRowKey"
 				rows="10"
-				styleClass="stable"			
+				styleClass="stable"
+				tableStyle="width:auto"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  counter   .......-->
-				<rich:column			
-					styleClass="rbr-column" >						
+				<p:column styleClass="rbr-column">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.apvRegisteredResearchers.tablePanel.counter']}"
@@ -119,10 +114,10 @@
 					<h:outputText
 						value="#{researcherRowKey + 1}."
 						style="font-size: 14px;"/>
-				</rich:column>				
+				</p:column>
 
 				<!--     ........  Names   .......-->
-				<rich:column styleClass="rich-table-wide-cell">
+				<p:column>
 					<f:facet name="header">						
 						<h:outputText
 							value="#{messages['records.apvRegisteredResearchers.tablePanel.names']}"
@@ -133,12 +128,11 @@
 						value="#{researcherRow.names}"
 						style="font-size: 14px;"
 					/>
-				</rich:column>
+				</p:column>
 
 				<!--     ........  position   .......-->
-				<rich:column					
-					styleClass="rich-table-wide-cell" >
-					<f:facet name="header">						
+				<p:column>
+					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.apvRegisteredResearchers.tablePanel.position']}"
 							style="font-size: 14px;" />
@@ -146,35 +140,31 @@
 					<h:outputText
 						value="#{researcherRow.currentPositionName}"
 						style="font-size: 14px;" />
-				</rich:column>
+				</p:column>
 				
 				<!--     ........  actions   .......-->
-				<rich:column style="text-align:center;">
+				<p:column style="text-align:center;">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.apvRegisteredResearchers.tablePanel.karton']}"
 							style="font-size: 14px;" />
 					</f:facet>
-					<h:link outcome="researcherPage" >
+					<p:link outcome="researcherPage" >
 						<h:graphicImage library="img" name="enter.png" />
 						<f:param name="researcher" value="#{researcherRow.controlNumber}" />
-					</h:link>
-				</rich:column>				
-			</rich:dataTable>
-			<h:panelGrid columns="1">
-				<h:panelGroup>
-					<rich:dataScroller 
-					    maxPages="10"
-						id="downDataScroller" 
-						align="left"	
-						fastStep="10"					
-						for="organizationResearchersTable"
-						render="organizationResearchersPanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
-			</h:panelGrid>	
+					</p:link>
+				</p:column>
+			</p:dataTable>
 		</h:panelGrid>
-		<rich:jQuery selector=".stable tr" event="mouseover" query="jQuery(this).addClass('active-row')" />
-		<rich:jQuery selector=".stable tr" event="mouseout" query="jQuery(this).removeClass('active-row')" />
-	</rich:panel>
+		<script>
+			$(function() {
+				$('.stable tr').mouseover(function(){
+					jQuery(this).addClass('active-row')
+				})
+				$('.stable tr').mouseout(function(){
+					jQuery(this).removeClass('active-row')
+				})
+			});
+		</script>
+	</p:panel>
 </ui:composition>

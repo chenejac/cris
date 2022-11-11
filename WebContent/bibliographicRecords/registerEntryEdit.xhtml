@@ -2,45 +2,44 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="registerEntryEditFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Preview.......           -->
-		<rich:panel id="registerEntryPreview"
+		<p:panel id="registerEntryPreview"
 			header="#{messages['records.studyFinalDocument.registerEntry.editPanel.preview']}"
 			rendered="#{studyFinalDocumentManagedBean.editTabNumber == 4}" >
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">				
 					<h:outputText
 						value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.HTMLRepresentation}"
 						styleClass="preview" 
 						escape="false" />	
 				</h:panelGrid>
-			</a4j:outputPanel>					
-		</rich:panel>
+			</p:outputPanel>
+		</p:panel>
 		<!-- .......Review for promotion.......           -->
-		<rich:panel id="reviewForPromotion"					
+		<p:panel id="reviewForPromotion"
 					header="#{messages['records.studyFinalDocument.registerEntry.editPanel.reviwForPromotion']}"
 					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 5)}">
 					<h:panelGrid columns="1">
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<h:panelGrid columns="1" width="100%">					
-						 <h:commandLink 
+						 <p:commandLink ajax="false"
 								value="#{messages['records.studyFinalDocument.registerEntry.linkForReview']}" 
 								action="#{studyFinalDocumentManagedBean.checkMaticnaKnjigaForSingleElement()}"
 								target="_blank">									
-						</h:commandLink>
+						</p:commandLink>
 						<br/>
 						<br/>
 							<p>
@@ -55,90 +54,90 @@
 								</b> 
 								</ul>								 							 
 					</h:panelGrid>					
-				</a4j:outputPanel>
+				</p:outputPanel>
 				</h:panelGrid>						
-			</rich:panel>	
+			</p:panel>
 		
 		<!-- .......Sent for promotion report.......           -->
-		<rich:panel id="sentForPromotionReport"					
+		<p:panel id="sentForPromotionReport"
 					header="#{messages['records.studyFinalDocument.registerEntry.editPanel.reviwForPromotion']}"
 					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 6)}">
 					<h:panelGrid columns="1">
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<h:panelGrid columns="1" width="100%">					
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<h:panelGrid columns="1">				
 								<h:outputText
 									value="#{messages['records.studyFinalDocument.registerEntry.sendToPromotion.success']}"
 									styleClass="preview" 
 									escape="false" />	
 							</h:panelGrid>
-					</a4j:outputPanel>						 							 
+					</p:outputPanel>
 					</h:panelGrid>					
-				</a4j:outputPanel>
+				</p:outputPanel>
 				</h:panelGrid>						
-			</rich:panel>	
-		<rich:panel 
+			</p:panel>
+		<p:panel
 			id="scrollableBody"
 			rendered="#{studyFinalDocumentManagedBean.editTabNumber lt 4}"
 			styleClass="scrollableBody">
-			<rich:tabPanel 
+			<p:tabView
 				switchType="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)?'client':'ajax'}" 
 				activeItem="#{studyFinalDocumentManagedBean.activeEditTab}" >
-				<rich:tab 
+				<p:tab
 					name="tab0"
 					header="#{messages['records.studyFinalDocument.registerEntry.editPanel.firstTab']}"
 					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 0) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}">
 					<h:panelGrid columns="3" columnClasses="width30, width40, width30" width="100%">		
 						<!-- ....... Lastname .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.lastname']}" 
 								for="lastname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="lastname"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.authorName.lastname}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="lastname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Firstname .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.firstname']}" 
 								for="firstname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="firstname"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.authorName.firstname}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="firstname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Birth date .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.birthDate']}" 
 								for="birthDate" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="birthDate"
 							value="#{studyFinalDocumentManagedBean.birthDate}"
 							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}" 
@@ -152,381 +151,381 @@
 							showWeeksBar="false" 
 							inputStyle="width:120px" 
 							/>
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="birthDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Birth place.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.birthPlace']}" 
 								for="birthPlace" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="birthPlace"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.birthPlace}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="birthPlace" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Birth city.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.birthCity']}" 
 								for="birthCity" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="birthCity"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.birthCity}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="birthCity" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Birth country.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.birthCountry']}" 
 								for="birthCountry" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="birthCountry"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.birthCountry}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="birthCountry" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Father firstname.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.fatherFirstname']}" 
 								for="fatherFirstname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="fatherFirstname"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.fatherName.firstname}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="fatherFirstname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Father lastname.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.fatherLastname']}" 
 								for="fatherLastname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="fatherLastname"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.fatherName.lastname}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="fatherLastname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Mother firstname.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.motherFirstname']}" 
 								for="motherFirstname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="motherFirstname"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.motherName.firstname}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="motherFirstname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Mother lastname.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.motherLastname']}" 
 								for="motherLastname" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="motherLastname"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.motherName.lastname}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="motherLastname" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Guardians name .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.guardiansName']}" 
 								for="guardiansName" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="guardiansName"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.guardiansName}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="guardiansName" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab1"
 					header="#{messages['records.studyFinalDocument.registerEntry.editPanel.secondTab']}"
 					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 1) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}">
 					<h:panelGrid columns="3" columnClasses="width30, width40, width30" width="100%">		
 						<!-- ....... Street and number .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.streetAndNumber']}" 
 								for="streetAndNumber" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="streetAndNumber"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.streetAndNumber}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="streetAndNumber" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Place .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.place']}" 
 								for="place" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="place"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.place}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="place" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Postal code .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.postalCode']}" 
 								for="postalCode" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="postalCode"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.postalCode}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="postalCode" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... City.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.city']}" 
 								for="city" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="city"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.city}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="city" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Country.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.country']}" 
 								for="country" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="country"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.country}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="country" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... email .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.email']}*" 
 								for="email" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="email"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.email}" 
 							required="true"
 							requiredMessage="#{messages['records.studyFinalDocument.registerEntry.editPanel.email.required']}"/>
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="email" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... phone.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.phone']}*" 
 								for="phone" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="phone"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.phone}" 
 							required="true"
 							requiredMessage="#{messages['records.studyFinalDocument.registerEntry.editPanel.phone.required']}"/>
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="phone" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab2"
 					header="#{messages['records.studyFinalDocument.registerEntry.editPanel.thirdTab']}"
 					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 2) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}">
 					<h:panelGrid columns="3" columnClasses="width30, width40, width30" width="100%">
 						<!-- ....... Previously graduated.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.previouslyGraduated']}" 
 								for="previouslyGraduated" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="previouslyGraduated"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.previouslyGraduated}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="previouslyGraduated" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Previously graduated place.......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.previouslyGraduatedPlace']}" 
 								for="previouslyGraduatedPlace" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="previouslyGraduatedPlace"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.previouslyGraduatedPlace}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="previouslyGraduatedPlace" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Previously Name of author degree old .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.previouslyNameOfAuthorDegreeOld']}" 
 								for="previoslyNameOfAuthorDegreeAbbreviationOld" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="previoslyNameOfAuthorDegreeAbbreviationOld"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.previouslyNameOfAuthorDegreeAbbreviationOld}" 
 							>
@@ -536,24 +535,24 @@
 							<f:selectItem 
 								itemValue="мр"
 								itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.oldMaster']}" />
-						</h:selectOneMenu>
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						</p:selectOneMenu>
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="previoslyNameOfAuthorDegreeAbbreviationOld" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... previously name of author degree date .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.previouslyNameOfAuthorDegreeDate']}" 
 								for="previouslyNameOfAuthorDegreeDate" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="previouslyNameOfAuthorDegreeDate"
 							value="#{studyFinalDocumentManagedBean.previouslyDefendedOn}"
 							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}" 
@@ -567,23 +566,23 @@
 							showWeeksBar="false" 
 							inputStyle="width:120px" 
 							/>
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="previouslyNameOfAuthorDegreeDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Previously Name of author degree bologna .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.previouslyNameOfAuthorDegreeBologna']}" 
 								for="previoslyNameOfAuthorDegreeAbbreviationBologna" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:selectOneMenu 
+						</p:outputPanel>
+						<p:selectOneMenu
 							id="previoslyNameOfAuthorDegreeAbbreviationBologna"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.previouslyNameOfAuthorDegreeAbbreviationBologna}" 
 							>
@@ -602,196 +601,196 @@
 							<f:selectItem 
 								itemValue="САС"
 								itemLabel="#{messages['records.studyFinalDocument.registerEntry.previouslyNameOfAuthorDegree.specialistic']}" />
-						</h:selectOneMenu>
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						</p:selectOneMenu>
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="previoslyNameOfAuthorDegreeAbbreviationBologna" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... previously name of author degree year bologna .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.previouslyNameOfAuthorDegreeYearBologna']}" 
 								for="previoslyNameOfAuthorDegreeYearBologna" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="previoslyNameOfAuthorDegreeYearBologna"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.previouslyNameOfAuthorDegreeYearBologna}" />
-						<a4j:outputPanel ajaxRendered="true" >
-							<rich:message 
+						<p:outputPanel ajaxRendered="true" >
+							<p:message
 								for="previoslyNameOfAuthorDegreeYearBologna" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
-				<rich:tab 
+				</p:tab>
+				<p:tab
 					name="tab3"
 					header="#{messages['records.studyFinalDocument.registerEntry.editPanel.fourthTab']}"
 					rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 3) or (studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}">
 					<h:panelGrid columns="3" columnClasses="width30, width40, width30" width="100%">		
 						<!-- ....... Id .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.id']}" 
 								for="id" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="id"
 							readonly="#{not userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.editFullData]}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.id}" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="id" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Institution name .......         bira se iz liste sa  Univerziteta  -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.institution']}" 
 								for="institution" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="institution"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.institution}" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="institution" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Institution place .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.institutionPlace']}" 
 								for="institutionPlace" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="institutionPlace"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.institutionPlace}" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="instutionPlace" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Title .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.title']}" 
 								for="title" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText
+						</p:outputPanel>
+						<p:inputText
 							id="title"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.title}" />
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="title" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Advisors .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.advisors']}" 
 								for="advisors" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="advisors"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.advisors}" 
 							rows="2" 
 							style="min-width:400px"/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="advisors" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... CommissionMembers .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.commissionMembers']}" 
 								for="commissionMembers" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputTextarea 
+						</p:outputPanel>
+						<p:inputTextarea
 							id="commissionMembers"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.commissionMembers}" 
 							rows="6" 
 							style="min-width:400px"/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="commissionMembers" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Mark .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.mark']}" 
 								for="mark" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="mark"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.mark}" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="mark" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Defended on .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.defendedOn']}" 
 								for="defendedOn" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="defendedOn"
 							value="#{studyFinalDocumentManagedBean.defendedOn}"
 							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}" 
@@ -805,65 +804,65 @@
 							showWeeksBar="false" 
 							inputStyle="width:120px" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="defendedOn" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Name of author degree .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.nameOfAuthorDegree']}" 
 								for="nameOfAuthorDegree" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="nameOfAuthorDegree"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.nameOfAuthorDegree}" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="nameOfAuthorDegree" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Diploma number .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.diplomaNumber']}" 
 								for="diplomaNumber" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="diplomaNumber"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.diplomaNumber}" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="diplomaNumber" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Diploma publication date .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.diplomaPublicationDate']}" 
 								for="diplomaPublicationDate" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="diplomaPublicationDate"
 							value="#{studyFinalDocumentManagedBean.diplomaPublicationDate}"
 							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}" 
@@ -877,44 +876,44 @@
 							showWeeksBar="false" 
 							inputStyle="width:120px" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="diplomaPublicationDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Supplement number .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.supplementNumber']}" 
 								for="supplementNumber" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<h:inputText 
+						</p:outputPanel>
+						<p:inputText
 							id="supplementNumber"
 							readonly="#{studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry}"
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.supplementNumber}" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="supplementNumber" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Supplement publication date .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.supplementPublicationDate']}" 
 								for="supplementPublicationDate" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="supplementPublicationDate"
 							value="#{studyFinalDocumentManagedBean.supplementPublicationDate}"
 							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}" 
@@ -928,23 +927,23 @@
 							showWeeksBar="false" 
 							inputStyle="width:120px" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="supplementPublicationDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 						<!-- ....... Promotion date .......           -->
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.registerEntry.editPanel.promotionDate']}" 
 								for="promotionDate" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
-						<rich:calendar 
+						</p:outputPanel>
+						<p:calendar
 							id="promotionDate"
 							value="#{studyFinalDocumentManagedBean.promotionDate}"
 							readonly="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.viewRegisterEntry)}"
@@ -958,50 +957,50 @@
 							showWeeksBar="false" 
 							inputStyle="width:120px" 
 							/>
-						<a4j:outputPanel ajaxRendered="true">
-							<rich:message 
+						<p:outputPanel ajaxRendered="true">
+							<p:message
 								for="promotionDate" 
 								errorClass="errorMessage"
 								infoClass="infoMessage"
 								warnClass="warnMessage"
 								fatalClass="fatalMessage" />
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h:panelGrid>
-				</rich:tab>
+				</p:tab>
 				
-			</rich:tabPanel>
-		</rich:panel>
+			</p:tabView>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="2">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewRegisterEntry) and (studyFinalDocumentManagedBean.editTabNumber gt 0) and (studyFinalDocumentManagedBean.editTabNumber lt 4)}"
 				action="#{studyFinalDocumentManagedBean.previousEditTab}"
 				value="#{messages['records.studyFinalDocument.editPanel.btnPrevious']}"
 				render="registerEntryEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(studyFinalDocumentManagedBean.editMode != modesManagedBean.viewRegisterEntry) and (studyFinalDocumentManagedBean.editTabNumber lt 3)}"
 				action="#{studyFinalDocumentManagedBean.nextEditTab}"
 				value="#{messages['records.studyFinalDocument.editPanel.btnNext']}"
 				render="registerEntryEditModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.updateRegisterEntry) and (studyFinalDocumentManagedBean.editTabNumber == 3)}"
 				action="#{studyFinalDocumentManagedBean.updateRegisterEntry}"
 				value="#{messages['records.studyFinalDocument.editPanel.btnUpdate']}"
 				render="registerEntryEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton
+			<p:commandButton
 				rendered="#{(studyFinalDocumentManagedBean.editMode == modesManagedBean.addRegisterEntry) and (studyFinalDocumentManagedBean.editTabNumber == 3)}"
 				action="#{studyFinalDocumentManagedBean.addRegisterEntry}"
 				value="#{messages['records.studyFinalDocument.editPanel.btnCreate']}"
 				render="registerEntryEditModalPanel" 
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 4 || studyFinalDocumentManagedBean.editTabNumber == 6 )}" 
 				action="#{studyFinalDocumentManagedBean.finishWizard}"
 				value="#{messages['records.studyFinalDocument.editPanel.btnAllRight']}"
@@ -1009,7 +1008,7 @@
 				limitRender="true"
 				immediate="true" 
 				execute="@this"/>
-			<a4j:commandButton
+			<p:commandButton
 				disabled="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.id}"
 				rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 4)}" 
 				action="#{studyFinalDocumentManagedBean.sendToPromotion}"
@@ -1019,7 +1018,7 @@
 				immediate="true" 
 				execute="@this"
 				style="position:absolute;right:0px;"/>
-			<a4j:commandButton 
+			<p:commandButton
 				disabled="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.id}"
 				rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 5)}" 
 				action="#{studyFinalDocumentManagedBean.confirmSendingToPromotion}"
@@ -1028,7 +1027,7 @@
 				limitRender="true"
 				immediate="true" 
 				execute="@this"/>
-			<a4j:commandButton 
+			<p:commandButton
 				disabled="#{not empty studyFinalDocumentManagedBean.selectedStudyFinalDocument.registerEntry.id}"
 				rendered="#{(studyFinalDocumentManagedBean.editTabNumber == 5)}" 
 				action="#{studyFinalDocumentManagedBean.quitSendingToPromotion}"

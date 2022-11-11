@@ -2,50 +2,49 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="evaluationTableFormPanel" >
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<!-- <a4j:outputPanel ajaxRendered="true">
+		</p:outputPanel>
+		<!-- <p:outputPanel ajaxRendered="true">
 			<mytags:outputLabel 
 				value="#{messages['records.evaluation.tablePanel.introduction']}" 
 				style="font-size:20pt"
 				/>
-		</a4j:outputPanel> -->
+		</p:outputPanel> -->
 		<h:panelGrid id="ruleBook"
 			columns="1" 
 			rendered="false" >
 			<h:panelGroup>
 				<h2>
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<mytags:outputLabel 
 							value="#{messages['records.evaluation.tablePanel.ruleBook']}: " 
 							for="rb" 
 							errorStyleClass="errorMessage"
 							/>
-					</a4j:outputPanel>
-					<h:selectOneMenu 
+					</p:outputPanel>
+					<p:selectOneMenu
 						id="rb"
 						value="#{evaluationManagedBean.ruleBook}"
 						converter="ruleBookSelectConverter"
 						>
-						<a4j:ajax 
+						<p:ajax
 							event="change"
 							render="commission, evaluationReport" 
 							limitRender="true" 
 							execute="@this" />
 						<f:selectItems value="#{evaluationManagedBean.allRuleBooks}"/>
-					</h:selectOneMenu>  
+					</p:selectOneMenu>
 				</h2>
 			</h:panelGroup>
 		</h:panelGrid>
@@ -54,25 +53,25 @@
 			rendered="false" >
 			<h:panelGroup>
 				<h2>
-					<a4j:outputPanel ajaxRendered="true">
+					<p:outputPanel ajaxRendered="true">
 						<mytags:outputLabel 
 							value="#{messages['records.evaluation.tablePanel.commission']}: " 
 							for="comm" 
 							errorStyleClass="errorMessage"
 							/>
-					</a4j:outputPanel>
-					<h:selectOneMenu 
+					</p:outputPanel>
+					<p:selectOneMenu
 						id="comm"
 						value="#{evaluationManagedBean.commission}"
 						converter="commissionSelectConverter"
 						>
-						<a4j:ajax 
+						<p:ajax
 							event="change"
 							render="evaluationReport" 
 							limitRender="true" 
 							execute="@this" />
 						<f:selectItems value="#{evaluationManagedBean.allCommissions}"/>
-					</h:selectOneMenu>   
+					</p:selectOneMenu>
 				</h2>
 			</h:panelGroup>
 		</h:panelGrid>
@@ -81,10 +80,7 @@
 			
 	
 			<!-- ===========================   tablePanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				/>
@@ -97,14 +93,14 @@
 					>
 					<h:outputText value="#{messages['records.evaluation.pdfReport']}"></h:outputText>
 				</h:outputLink>	
-				<rich:list
+				<p:dataList
 					value="#{evaluationManagedBean.resultTypes}" 
 					var="resultTypeRow" 
 					type="unordered" >
-					<rich:dataTable 
+					<p:dataTable
 						value="#{evaluationManagedBean.evaluatedResults[resultTypeRow]}"
 						var="resultRow" >   
-						<rich:column headerClass="rich-table-subheadercell-wrap"
+						<p:column headerClass="rich-table-subheadercell-wrap"
 							style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';">
 							<f:facet name="header">
 								<h:outputText
@@ -113,9 +109,9 @@
 							<h:outputText 
 								value="#{resultRow.stringRepresentation}" 
 								/>
-						</rich:column>
-					</rich:dataTable>
-				</rich:list>
+						</p:column>
+					</p:dataTable>
+				</p:dataList>
 			</h:panelGrid>
 		</h:panelGrid>
 	</h:panelGrid>

@@ -24,6 +24,10 @@
   <converter-class>rs.ac.uns.ftn.informatika.bibliography.jsf.converters.InstitutionDTOConverter</converter-class>
  </converter>
  <converter>
+  <converter-id>authorSelectConverter</converter-id>
+  <converter-class>rs.ac.uns.ftn.informatika.bibliography.jsf.converters.AuthorDTOConverter</converter-class>
+ </converter>
+ <converter>
   <converter-id>organizationUnitSelectConverter</converter-id>
   <converter-class>rs.ac.uns.ftn.informatika.bibliography.jsf.converters.OrganizationUnitDTOConverter</converter-class>
  </converter>

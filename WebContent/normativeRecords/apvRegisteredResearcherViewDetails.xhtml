@@ -2,8 +2,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
      <h:outputStylesheet>
@@ -21,7 +20,7 @@
 	
     
     <!--=================APV Registered Researcher Short Info ====================  -->
-    <rich:panel id="apvRegisteredResearcherViewDetailsAuthorPanel" header="#{messages['records.apvRegisteredResearcher.viewDetailsPanel.header']}" styleClass="wide-panel"> 
+    <p:panel id="apvRegisteredResearcherViewDetailsAuthorPanel" header="#{messages['records.apvRegisteredResearcher.viewDetailsPanel.header']}" styleClass="wide-panel">
 		<h:panelGrid columns="2" id="apvRegisteredResearcherShortDetailsPanelGrid" columnClasses="width20, width80" style="align:left" >
     		<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.person.lastname']}"/>
     		<h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthor.name.lastname}" style="font-weight:bold"/>
@@ -46,17 +45,17 @@
     	<h:panelGrid columns="1">
 			<h:panelGrid columns="6" columnClasses="width10, width10,width10, width10, width20, width20" width="100%">
 				<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.fromDate']}"/>
-				<h:selectOneMenu value="#{apvRegisteredResearchersManagedBean.fromDate}">
+				<p:selectOneMenu value="#{apvRegisteredResearchersManagedBean.fromDate}">
             		<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.fromDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
             		<f:selectItems value="#{searchManagedBean.dateRange}"/>
-    			</h:selectOneMenu> 
+    			</p:selectOneMenu>
 				<h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.toDate']}"/>
-				<h:selectOneMenu value="#{apvRegisteredResearchersManagedBean.toDate}">
+				<p:selectOneMenu value="#{apvRegisteredResearchersManagedBean.toDate}">
             		<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.toDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
             		<f:selectItems value="#{searchManagedBean.dateRange}"/>
-    			</h:selectOneMenu> 
-				<h:commandButton action="#{apvRegisteredResearchersManagedBean.calculateAgain}" value="#{messages['records.apvRegisteredResearcher.viewDetails.btnCalculateAgain']}" />
-				<a4j:commandButton 
+    			</p:selectOneMenu>
+				<p:commandButton ajax="false"action="#{apvRegisteredResearchersManagedBean.calculateAgain}" value="#{messages['records.apvRegisteredResearcher.viewDetails.btnCalculateAgain']}" />
+				<p:commandButton
 					action="#{apvRegisteredResearchersManagedBean.prepareReportGeneration}" 
 					value="#{messages['records.apvRegisteredResearcher.viewDetails.btnPrepareReportGeneration']}" 
 					render="reportPublicationsEditModalPanel"
@@ -66,63 +65,63 @@
 		</h:panelGrid>
     	<br/>
      	
-     	<rich:dataTable value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.resultsGroups}" var="list" id="expandableTable" styleClass="wide-panel">
+     	<p:dataTable value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.resultsGroups}" var="list" id="expandableTable" styleClass="wide-panel">
      		<f:facet name="header">  
-                <rich:columnGroup>
-                    <rich:column colspan="4">
+                <p:columnGroup>
+                    <p:column colspan="4">
                         <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.summary']}" />
-                    </rich:column>
-                    <rich:column breakRowBefore="true">
+                    </p:column>
+                    <p:column breakRowBefore="true">
                         <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultType']}" />
-                    </rich:column>
-                    <rich:column>
+                    </p:column>
+                    <p:column>
                         <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultName']}" />
-                    </rich:column>
-                    <rich:column>
+                    </p:column>
+                    <p:column>
                         <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.count']}" />
-                    </rich:column>
-                    <rich:column>
+                    </p:column>
+                    <p:column>
                         <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.points']}" />
-                    </rich:column>
-                  </rich:columnGroup>
+                    </p:column>
+                  </p:columnGroup>
                   </f:facet>
-                    <rich:column>                		
+                    <p:column>
                 		<h:outputText value="#{list.resultType.classId}" />
-            		</rich:column> 
-            		<rich:column style="width:80%"> 
-            		<a4j:outputPanel ajaxRendered="true" >           		  		 
-            			<a4j:commandLink id="link" value="#{list.resultType.someTerm}" render="collapsablePanel" execute="@this">
+            		</p:column>
+            		<p:column style="width:80%">
+            		<p:outputPanel ajaxRendered="true" >
+            			<p:commandLink id="link" value="#{list.resultType.someTerm}" render="collapsablePanel" execute="@this">
 	 						<a4j:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
-	 					</a4j:commandLink> 			
-	 					 <a4j:region id="collapsablePanel">      		
-					     <rich:list value="#{list.results}" var="item" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" type="unordered">
+	 					</p:commandLink>
+	 					 <p:fragment id="collapsablePanel">
+					     <p:dataList value="#{list.results}" var="item" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" type="unordered">
 					     <div style="margin-bottom: 10px;">	
 					     	<h:outputText value="#{item.publication.harvardRepresentation}" rendred="true" escape="false"  />
 					     </div>						     	
-					     </rich:list>
-					     <a4j:commandLink render="collapsablePanel" execute="@this" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}">
+					     </p:dataList>
+					     <p:commandLink render="collapsablePanel" execute="@this" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}">
 					     	<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
 	 						<a4j:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
-	 					</a4j:commandLink> 	
-					   </a4j:region>					 
-					</a4j:outputPanel >            					            		
-            		</rich:column>            		
-            		<rich:column style="text-align: center;">                		
+	 					</p:commandLink>
+					   </p:fragment>
+					</p:outputPanel >
+            		</p:column>
+            		<p:column style="text-align: center;">
                 		<h:outputText value="#{list.results.size()}" />
                 		<f:facet name="footer"><h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPapers}"/></f:facet>
-            		</rich:column>       
-            		<rich:column style="text-align: center;">                		
+            		</p:column>
+            		<p:column style="text-align: center;">
                 		<h:outputText value="#{list.quantitativeMeasure.doubleValue()*list.results.size()}" > 
                 			<f:convertNumber maxFractionDigits="1" />
                 		</h:outputText>
                 		<f:facet name="footer"><h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPoints}"/></f:facet>	                       
-            		</rich:column>            		    		
-     	</rich:dataTable>        	
-     </rich:panel>
+            		</p:column>
+     	</p:dataTable>
+     </p:panel>
      
 	<!--=================Back buttons ====================  -->
 		<h:panelGrid columns="1">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(apvRegisteredResearchersManagedBean.editMode == modesManagedBean.viewDetails)}"
 				action="#{apvRegisteredResearchersManagedBean.switchToBrowseMode}"
 				value="#{messages['records.apvRegisteredResearchers.backButton']}"

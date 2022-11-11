@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
 	<f:view locale="#{userManagedBean.language}" 
@@ -26,41 +25,38 @@
 				basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
 				var="messages" />
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1" 
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()"/>
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:fragment id="form_region">
 					<h:form id="evaluationAllRecordsForm">
 						<h:panelGrid id="mainPanel">
-							<h:inputText id="general" rendered="false" value="" />
-							<a4j:outputPanel ajaxRendered="true">
-								<rich:message 
+							<p:inputText id="general" rendered="false" value="" />
+							<p:outputPanel ajaxRendered="true">
+								<p:message
 									for="general"
 									errorClass="errorMessage" 
 									infoClass="infoMessage"
 									warnClass="warnMessage"
 									fatalClass="fatalMessage"/>
-							</a4j:outputPanel>
+							</p:outputPanel>
 							
-							<rich:panel id="CurrentTaskPanel">
+							<p:panel id="CurrentTaskPanel">
 								<f:facet name="header">		
 									<h:outputText value="#{messages['evaluation.evaluationAllRecords.currentTasks']}" />
 								</f:facet>
 								<h:panelGrid id="CurrentTaskPanelGrid" columns="2" columnClasses="width90, width10" width="100%">
-									<a4j:outputPanel ajaxRendered="true">
+									<p:outputPanel ajaxRendered="true">
 										<!-- kada postoji aktivna nit -->
 										<h:outputText value="#{evaluationAllRecordsManagedBean.evaluationScheduledThread}"
 										escape="#{false}"
 										rendered="#{evaluationAllRecordsManagedBean.evaluationScheduledThread != null}"/>
-										<a4j:commandLink
+										<p:commandLink
 														action="#{evaluationAllRecordsManagedBean.stopActiveThread}"
 														render="CurrentTaskPanelGrid"
 														limitRender="true" 
@@ -68,27 +64,27 @@
 														execute="@this" 
 														rendered="#{evaluationAllRecordsManagedBean.evaluationScheduledThread != null}">
 														<h:graphicImage library="img" name="delete.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 										<!-- kada ne postoji aktivna nit -->
 										<h:outputText value="#{messages['evaluation.evaluationAllRecords.noActiveTasks']}" rendered="#{evaluationAllRecordsManagedBean.evaluationScheduledThread == null}"/>
 										<h:outputText value=" " rendered="#{evaluationAllRecordsManagedBean.evaluationScheduledThread == null}"/>
-									</a4j:outputPanel>
+									</p:outputPanel>
 								</h:panelGrid>
-							</rich:panel>
+							</p:panel>
 							
-							<rich:panel id="BasicOptionsPanel">
+							<p:panel id="BasicOptionsPanel">
 								<f:facet name="header">		
 									<h:outputText value="#{messages['evaluation.evaluationAllRecords.basicOptionsPanel.header']}" />
 								</f:facet>
 								
 								<h:panelGrid id="BasicOptionsPanelGrid" columns="3" columnClasses="width15, width75, width10" width="100%">
 									<!-- ....... dugme evaluacije i dugme resetovanja forme.......           -->
-									<a4j:commandButton
+									<p:commandButton
 											action="#{evaluationAllRecordsManagedBean.setEvaluationTask}"
 											render="BasicOptionsPanelGrid"
 											value="#{messages['evaluation.evaluationAllRecords.buttonEvaluationTask']}"
 											/>
-									<a4j:commandButton
+									<p:commandButton
 											action="#{evaluationAllRecordsManagedBean.resetFormForEvaluationTask}"
 											render="mainPanel"
 											value="#{messages['evaluation.evaluationAllRecords.buttonResetFormForEvaluationTask']}"
@@ -103,7 +99,7 @@
 											for="taskDate" 
 											errorStyleClass="errorMessage"
 									/>
-									<rich:calendar 
+									<p:calendar
 											id="taskDate"
 											locale="en/US"
 											value="#{evaluationAllRecordsManagedBean.taskDate}"
@@ -115,21 +111,21 @@
 											enableManualInput="true"
 											defaultTime="23:00"
 									/>
-									<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+									<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="taskDate" 
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage" />
-									</a4j:outputPanel>
+									</p:outputPanel>
 									<!-- ....... tipovi zapisa koji se vrednuju.......           -->
 									<mytags:outputLabel 
 											value="#{messages['evaluation.evaluationAllRecords.evaluationTaskTypeRecordOptions']}"
 											for="evaluationTaskTypeRecordOptions" 
 											errorStyleClass="errorMessage"
 									/>
-									<h:selectOneRadio
+									<p:selectOneRadio
 										 id="evaluationTaskTypeRecordOptions"
 										 value="#{evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions}"
 										 title="#{messages['evaluation.evaluationAllRecords.chooseEvaluationTaskTypeRecordOptions']}"
@@ -139,17 +135,17 @@
 										 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.onlyResearchResultsForSelectedJournals']}" itemValue="#{evaluationAllRecordsManagedBean.onlyResearchResultsForSelectedJournals}"/>
 										 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.onlyResearchConferenceResults']}" itemValue="#{evaluationAllRecordsManagedBean.onlyResearchConferenceResults}"/>
 										 <!--<f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.journalsAndResearchResultsForSelectedJournals']}" itemValue="#{evaluationAllRecordsManagedBean.journalsAndResearchResultsForSelectedJournals}"/>
-									--></h:selectOneRadio>
-									<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+									--></p:selectOneRadio>
+									<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="evaluationTaskTypeRecordOptions" 
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage" />
-									</a4j:outputPanel>
+									</p:outputPanel>
 									<!-- ....... java script funkcije.......           -->
-									<a4j:jsFunction 
+									<p:remoteCommand
 										name="jsFuncChooseTaskTypeRecord"
 										execute="evaluationTaskTypeRecordOptions"
 										action="#{evaluationAllRecordsManagedBean.clearJournalAndResearchResultsOptions}"
@@ -157,11 +153,11 @@
 									/>
 								</h:panelGrid>
 								
-						 	</rich:panel>
+						 	</p:panel>
 						 	
 						 	<h:panelGrid id="JournalsOptionsPanelGrid"
 											 >
-							 	<rich:panel id="JournalsOptionsPanel"
+							 	<p:panel id="JournalsOptionsPanel"
 							 		rendered = "#{evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions != evaluationAllRecordsManagedBean.onlyResearchConferenceResults}"
 												>
 									<f:facet name="header">		
@@ -178,7 +174,7 @@
 															errorStyleClass="errorMessage"
 													/>
 													
-													<h:selectOneRadio
+													<p:selectOneRadio
 														 id="evaluationTaskJournalsOptions"
 														 value="#{evaluationAllRecordsManagedBean.evaluationTaskJournalsOptions}"
 														 title="#{messages['evaluation.evaluationAllRecords.chooseEvaluationTaskJournalsOptions']}" 
@@ -190,18 +186,18 @@
 														 	itemDisabled="#{evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions == evaluationAllRecordsManagedBean.onlyResearchResultsForSelectedJournals}"/>
 														 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.selectedJournals']}" itemValue="#{evaluationAllRecordsManagedBean.selectedJournals}"
 														 	itemDisabled="#{(evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions == evaluationAllRecordsManagedBean.onlyResearchResultsForSelectedJournals) and (not empty evaluationAllRecordsManagedBean.researchResultList)}"/>
-													</h:selectOneRadio>
+													</p:selectOneRadio>
 													
-													<a4j:outputPanel ajaxRendered="true">
-															<rich:message 
+													<p:outputPanel ajaxRendered="true">
+															<p:message
 																for="evaluationTaskJournalsOptions" 
 																errorClass="errorMessage"
 																infoClass="infoMessage"
 																warnClass="warnMessage"
 																fatalClass="fatalMessage" />
-													</a4j:outputPanel>
+													</p:outputPanel>
 													<!-- ....... java script funkcije.......           -->
-													<a4j:jsFunction 
+													<p:remoteCommand
 														name="jsFuncChooseJournalRecords"
 														execute="evaluationTaskJournalsOptions"
 														action="#{evaluationAllRecordsManagedBean.clearJournalOptions}"
@@ -216,7 +212,7 @@
 														for="journalsFromDate" 
 														errorStyleClass="errorMessage"
 													/>
-													<rich:calendar 
+													<p:calendar
 															id="journalsFromDate"
 															disabled="#{evaluationAllRecordsManagedBean.evaluationTaskJournalsOptions != evaluationAllRecordsManagedBean.journalsModifiedWithinTimeRange}"
 															locale="en/US"
@@ -227,21 +223,21 @@
 															enableManualInput="true"
 															defaultTime="00:00:00"
 															/>
-													<a4j:outputPanel ajaxRendered="true">
-															<rich:message 
+													<p:outputPanel ajaxRendered="true">
+															<p:message
 																for="journalsFromDate" 
 																errorClass="errorMessage"
 																infoClass="infoMessage"
 																warnClass="warnMessage"
 																fatalClass="fatalMessage" />
-													</a4j:outputPanel>
+													</p:outputPanel>
 													<!-- ....... end Date for journals.......           -->
 													<mytags:outputLabel 
 														value="#{messages['evaluation.evaluationAllRecords.toDate']}" 
 														for="journalsToDate" 
 														errorStyleClass="errorMessage"
 													/>
-													<rich:calendar 
+													<p:calendar
 															id="journalsToDate"
 															locale="en/US"
 															disabled="#{evaluationAllRecordsManagedBean.evaluationTaskJournalsOptions != evaluationAllRecordsManagedBean.journalsModifiedWithinTimeRange}"
@@ -252,18 +248,18 @@
 															enableManualInput="true"
 															defaultTime="23:59:59"
 															/>
-													<a4j:outputPanel ajaxRendered="true">
-															<rich:message 
+													<p:outputPanel ajaxRendered="true">
+															<p:message
 																for="journalsToDate" 
 																errorClass="errorMessage"
 																infoClass="infoMessage"
 																warnClass="warnMessage"
 																fatalClass="fatalMessage" />
-													</a4j:outputPanel>
+													</p:outputPanel>
 											</h:panelGrid>
 		
 											<h:panelGrid id="JournalsSelectionPanelGrid" columns="1" columnClasses="width100" width="100%">
-												<a4j:region>
+												<p:fragment>
 												<h:panelGrid columns="3" columnClasses="width15, width75, width10" width="100%">
 													<!-- ....... evaluate specific record.......           -->
 													<mytags:outputLabel 
@@ -271,7 +267,7 @@
 														for="journalSelected" 
 														errorStyleClass="errorMessage"
 													/>
-													<rich:autocomplete id="journalSelected" 
+													<p:autoComplete id="journalSelected"
 														disabled="#{evaluationAllRecordsManagedBean.evaluationTaskJournalsOptions != evaluationAllRecordsManagedBean.selectedJournals}"
 														mode="ajax" minChars="3" selectFirst="false"
 														value="#{evaluationAllRecordsManagedBean.journalControlNumber}" 
@@ -283,33 +279,32 @@
 							            				style="width:100% !important;"
 														inputClass="width98"
 							            				>
-							            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-											            <!--     ........  name   ISSN .......-->
-											            <rich:column 
+							            			 	<!--     ........  name   ISSN .......-->
+											            <p:column
 															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 															styleClass="rich-table-wide-cell">
 															<h:outputText value="#{_journalRow.someName} &nbsp; ( &nbsp; #{_journalRow.issn} &nbsp;)"/>	
-														</rich:column>
-													</rich:autocomplete>
-													<a4j:outputPanel ajaxRendered="true">
-															<rich:message 
+														</p:column>
+													</p:autoComplete>
+													<p:outputPanel ajaxRendered="true">
+															<p:message
 																for="journalSelected" 
 																errorClass="errorMessage"
 																infoClass="infoMessage"
 																warnClass="warnMessage"
 																fatalClass="fatalMessage" />
-													</a4j:outputPanel>
+													</p:outputPanel>
 													<!-- ....... java script funkcije.......           -->
-													<a4j:jsFunction 
+													<p:remoteCommand
 															name="jsFuncChooseJournal"
 															execute="journalSelected"
 															action="#{evaluationAllRecordsManagedBean.addSelectedJouranlToList}" 
 															render="JournalsOptionsPanelGrid"
 															>
-													</a4j:jsFunction>
+													</p:remoteCommand>
 												</h:panelGrid>
 												<h:panelGrid id="JournalsSelectionListPanelGrid" columns="1" columnClasses="width100" width="100%">
-													<rich:dataTable id="journalsListTable"
+													<p:dataTable id="journalsListTable"
 														value="#{evaluationAllRecordsManagedBean.journalList}"
 														var="singleRecordRow"
 														rowKeyVar="singleRecordKeyVar"
@@ -317,20 +312,20 @@
 														rendered="#{not empty evaluationAllRecordsManagedBean.journalList}"
 														>
 														<!--     ........  name   .......-->
-														<rich:column>
+														<p:column>
 															<f:facet name="header">
 																<h:outputText
 																	value="#{messages['evaluation.evaluationAllRecords.publicationName']}" />
 															</f:facet>
 															<h:outputText value="#{singleRecordRow}" />
-														</rich:column>
+														</p:column>
 														<!--     ........  remove  .......-->
-														<rich:column>
+														<p:column>
 															<f:facet name="header">
 																<h:outputText
 																	value="#{messages['evaluation.evaluationAllRecords.options']}" />
 															</f:facet>
-															<a4j:commandLink
+															<p:commandLink
 																action="#{evaluationAllRecordsManagedBean.removeSelectedJournalFromList}"
 																render="JournalsSelectionListPanelGrid"
 																limitRender="true" 
@@ -338,25 +333,22 @@
 																execute="@this" >
 																<h:graphicImage library="img" name="delete.png" />
 																<f:param name="ordNum" value="#{singleRecordKeyVar}" />
-															</a4j:commandLink>
-														</rich:column>
-													</rich:dataTable>
-													<h:graphicImage 
-														library="img"
-														name="spacer.gif" 
-														alt="" 
+															</p:commandLink>
+														</p:column>
+													</p:dataTable>
+													<p:spacer
 														height="40"
 														width="100%"
 														rendered="#{not empty evaluationAllRecordsManagedBean.journalList}"
 													/>
 												</h:panelGrid>
-												</a4j:region>
+												</p:fragment>
 											</h:panelGrid>
 											
 										</h:panelGrid>
-								</rich:panel>
+								</p:panel>
 							</h:panelGrid>
-							<rich:panel id="ResearchResultsOptionsPanel">
+							<p:panel id="ResearchResultsOptionsPanel">
 								<f:facet name="header">		
 									<h:outputText value="#{messages['evaluation.evaluationAllRecords.researchResultsOptionsPanel.header']}" />
 								</f:facet>
@@ -371,7 +363,7 @@
 													errorStyleClass="errorMessage"
 											/>
 											
-											<h:selectOneRadio
+											<p:selectOneRadio
 												 id="evaluationTaskResearchResultsOptions"
 												 disabled="#{(evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions != evaluationAllRecordsManagedBean.onlyResearchResultsForSelectedJournals) and (evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions != evaluationAllRecordsManagedBean.onlyResearchConferenceResults)}"
 												 value="#{evaluationAllRecordsManagedBean.evaluationTaskResearchResultsOptions}"
@@ -382,16 +374,16 @@
 												 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.allResearchResults']}"  itemValue="#{evaluationAllRecordsManagedBean.allResearchResults}"/>
 												 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.researchResultsModifiedWithinTimeRange']}" itemValue="#{evaluationAllRecordsManagedBean.researchResultsModifiedWithinTimeRange}"/>
 												 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.selectedResearchResults']}" itemValue="#{evaluationAllRecordsManagedBean.selectedResearchResults}"/>
-											</h:selectOneRadio>
+											</p:selectOneRadio>
 											
-											<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+											<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="evaluationTaskResearchResultsOptions" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-											</a4j:outputPanel>
+											</p:outputPanel>
 											
 											<!-- ....... osnovne opcije naucnih rezultata odabir komisija.......           -->
 											
@@ -401,7 +393,7 @@
 													errorStyleClass="errorMessage"
 											/>
 											
-											<h:selectOneRadio
+											<p:selectOneRadio
 												 id="evaluationTaskResearchResultsCommissionOptions"
 												 disabled="#{(evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions != evaluationAllRecordsManagedBean.onlyResearchResultsForSelectedJournals) and (evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions != evaluationAllRecordsManagedBean.onlyResearchConferenceResults)}"
 												 value="#{evaluationAllRecordsManagedBean.evaluationTaskResearchResultsCommissionOptions}"
@@ -414,18 +406,18 @@
 												 	itemDisabled="#{evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions == evaluationAllRecordsManagedBean.onlyResearchConferenceResults}"
 												 />
 												 <f:selectItem itemLabel="#{messages['evaluation.evaluationAllRecords.researchResultsByAuthorsCommissions']}" itemValue="#{evaluationAllRecordsManagedBean.evaluateResearchResultsByAuthorsCommissions}"/>
-											</h:selectOneRadio>
+											</p:selectOneRadio>
 											
-											<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+											<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="evaluationTaskResearchResultsCommissionOptions" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-											</a4j:outputPanel>
+											</p:outputPanel>
 											<!-- ....... java script funkcije.......           -->
-											<a4j:jsFunction 
+											<p:remoteCommand
 												name="jsFuncChooseResearchResultsRecords"
 												execute="evaluationTaskResearchResultsOptions"
 												action="#{evaluationAllRecordsManagedBean.clearResearchResultsOptions}"
@@ -440,7 +432,7 @@
 													for="researchResultsFromDate" 
 													errorStyleClass="errorMessage"
 												/>
-												<rich:calendar 
+												<p:calendar
 														id="researchResultsFromDate"
 														disabled="#{evaluationAllRecordsManagedBean.evaluationTaskResearchResultsOptions != evaluationAllRecordsManagedBean.researchResultsModifiedWithinTimeRange}"
 														locale="en/US"
@@ -451,21 +443,21 @@
 														enableManualInput="true"
 														defaultTime="00:00:00"
 														/>
-												<a4j:outputPanel ajaxRendered="true">
-														<rich:message 
+												<p:outputPanel ajaxRendered="true">
+														<p:message
 															for="researchResultsFromDate" 
 															errorClass="errorMessage"
 															infoClass="infoMessage"
 															warnClass="warnMessage"
 															fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... end Date for research results.......           -->
 												<mytags:outputLabel 
 													value="#{messages['evaluation.evaluationAllRecords.toDate']}" 
 													for="researchResultsToDate" 
 													errorStyleClass="errorMessage"
 												/>
-												<rich:calendar 
+												<p:calendar
 														id="researchResultsToDate"
 														locale="en/US"
 														disabled="#{evaluationAllRecordsManagedBean.evaluationTaskResearchResultsOptions != evaluationAllRecordsManagedBean.researchResultsModifiedWithinTimeRange}"
@@ -476,18 +468,18 @@
 														enableManualInput="true"
 														defaultTime="23:59:59"
 														/>
-												<a4j:outputPanel ajaxRendered="true">
-														<rich:message 
+												<p:outputPanel ajaxRendered="true">
+														<p:message
 															for="researchResultsToDate" 
 															errorClass="errorMessage"
 															infoClass="infoMessage"
 															warnClass="warnMessage"
 															fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 										</h:panelGrid>
 										
 										<h:panelGrid id="ResearchResultsSelectionPanelGrid" columns="1" columnClasses="width100" width="100%">
-											<a4j:region>
+											<p:fragment>
 											<h:panelGrid 
 												rendered="#{(evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions == evaluationAllRecordsManagedBean.onlyResearchResultsForSelectedJournals)}"
 												columns="3" columnClasses="width15, width75, width10" width="100%">
@@ -497,7 +489,7 @@
 													for="researchResultsSelected" 
 													errorStyleClass="errorMessage"
 												/>
-												<rich:autocomplete id="researchResultsSelected" 
+												<p:autoComplete id="researchResultsSelected"
 													disabled="#{evaluationAllRecordsManagedBean.evaluationTaskResearchResultsOptions != evaluationAllRecordsManagedBean.selectedResearchResults}"
 													mode="ajax" minChars="3" selectFirst="false"
 													value="#{evaluationAllRecordsManagedBean.researchResultControlNumber}" 
@@ -509,30 +501,29 @@
 						            				style="width:100% !important;"
 													inputClass="width98"
 						            				>
-						            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-										            <!--     ........  name .......-->
-										            <rich:column 
+						            			 	<!--     ........  name .......-->
+										            <p:column
 														style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 														styleClass="rich-table-wide-cell">
 														<h:outputText value="#{_researchResultRow}"/>	
-													</rich:column>
-												</rich:autocomplete>
-												<a4j:outputPanel ajaxRendered="true">
-														<rich:message 
+													</p:column>
+												</p:autoComplete>
+												<p:outputPanel ajaxRendered="true">
+														<p:message
 															for="researchResultsSelected" 
 															errorClass="errorMessage"
 															infoClass="infoMessage"
 															warnClass="warnMessage"
 															fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... java script funkcije.......           -->
-												<a4j:jsFunction 
+												<p:remoteCommand
 														name="jsFuncChooseResearchResults"
 														execute="researchResultsSelected"
 														action="#{evaluationAllRecordsManagedBean.addSelectedResearchResultToList}" 
 														render="ResearchResultsSelectionPanelGrid JournalsOptionsPanelGrid"
 														>
-												</a4j:jsFunction>
+												</p:remoteCommand>
 											</h:panelGrid>
 											
 											
@@ -545,7 +536,7 @@
 													for="researchResultsSelected" 
 													errorStyleClass="errorMessage"
 												/>
-												<rich:autocomplete id="researchResultsSelectedConference" 
+												<p:autoComplete id="researchResultsSelectedConference"
 													disabled="#{evaluationAllRecordsManagedBean.evaluationTaskResearchResultsOptions != evaluationAllRecordsManagedBean.selectedResearchResults}"
 													mode="ajax" minChars="3" selectFirst="false"
 													value="#{evaluationAllRecordsManagedBean.researchResultControlNumber}" 
@@ -557,34 +548,33 @@
 						            				style="width:100% !important;"
 													inputClass="width98"
 						            				>
-						            			 	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-										            <!--     ........  name .......-->
-										            <rich:column 
+						            			 	<!--     ........  name .......-->
+										            <p:column
 														style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 														styleClass="rich-table-wide-cell">
 														<h:outputText value="#{_researchResultRow}"/>	
-													</rich:column>
-												</rich:autocomplete>
-												<a4j:outputPanel ajaxRendered="true">
-														<rich:message 
+													</p:column>
+												</p:autoComplete>
+												<p:outputPanel ajaxRendered="true">
+														<p:message
 															for="researchResultsSelectedConference" 
 															errorClass="errorMessage"
 															infoClass="infoMessage"
 															warnClass="warnMessage"
 															fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... java script funkcije.......           -->
-												<a4j:jsFunction 
+												<p:remoteCommand
 														name="jsFuncChooseResearchResultsConference"
 														execute="researchResultsSelectedConference"
 														action="#{evaluationAllRecordsManagedBean.addSelectedResearchResultToList}" 
 														render="ResearchResultsSelectionPanelGrid JournalsOptionsPanelGrid"
 														>
-												</a4j:jsFunction>
+												</p:remoteCommand>
 											</h:panelGrid>
 											
 											<h:panelGrid id="ResearchResultsSelectionListPanelGrid" columns="1" columnClasses="width100" width="100%">
-												<rich:dataTable id="researchResultListTable"
+												<p:dataTable id="researchResultListTable"
 													value="#{evaluationAllRecordsManagedBean.researchResultList}"
 													var="singleResearchResultRow"
 													rowKeyVar="singleResearchResultKeyVar"
@@ -592,20 +582,20 @@
 													rendered="#{not empty evaluationAllRecordsManagedBean.researchResultList}"
 													>
 													<!--     ........  name   .......-->
-													<rich:column>
+													<p:column>
 														<f:facet name="header">
 															<h:outputText
 																value="#{messages['evaluation.evaluationAllRecords.researchResultsName']}"  />
 														</f:facet>
 														<h:outputText value="#{singleResearchResultRow}" />
-													</rich:column>
+													</p:column>
 													<!--     ........  remove  .......-->
-													<rich:column>
+													<p:column>
 														<f:facet name="header">
 															<h:outputText
 																value="#{messages['evaluation.evaluationAllRecords.options']}" />
 														</f:facet>
-														<a4j:commandLink
+														<p:commandLink
 															action="#{evaluationAllRecordsManagedBean.removeSelectedResearchResultFromList}"
 															render="ResearchResultsSelectionListPanelGrid JournalsOptionsPanelGrid"
 															limitRender="true" 
@@ -613,26 +603,23 @@
 															execute="@this" >
 															<h:graphicImage library="img" name="delete.png" />
 															<f:param name="ordNum" value="#{singleResearchResultKeyVar}" />
-														</a4j:commandLink>
-													</rich:column>
-												</rich:dataTable>
-												<h:graphicImage 
-													library="img"
-													name="spacer.gif" 
-													alt="" 
+														</p:commandLink>
+													</p:column>
+												</p:dataTable>
+												<p:spacer
 													height="40"
 													width="100%"
 													rendered="#{not empty evaluationAllRecordsManagedBean.researchResultList}"
 												/>			
 											</h:panelGrid>
-											</a4j:region>
+											</p:fragment>
 										</h:panelGrid>
 										
 									</h:panelGrid>
-						 	</rich:panel>
+						 	</p:panel>
 						 	
 							<h:panelGrid id="CommissionsPanelGrid">
-								<rich:panel id="RuleBookAndCommissionOptionPanel"
+								<p:panel id="RuleBookAndCommissionOptionPanel"
 									rendered = "#{evaluationAllRecordsManagedBean.evaluationTaskTypeRecordOptions != evaluationAllRecordsManagedBean.onlyResearchConferenceResults}"
 												>
 									<f:facet name="header">		
@@ -644,48 +631,45 @@
 												for="commissions" 
 												errorStyleClass="errorMessage"
 										/>
-										<rich:pickList id="commissions" value="#{evaluationAllRecordsManagedBean.selectedCommissionIDList}" sourceCaption="#{messages['evaluation.evaluationAllRecords.commissionsAvailable']}" targetCaption="#{messages['evaluation.evaluationAllRecords.commissionsSelected']}"
+										<p:pickList id="commissions" value="#{evaluationAllRecordsManagedBean.selectedCommissionIDList}" sourceCaption="#{messages['evaluation.evaluationAllRecords.commissionsAvailable']}" targetCaption="#{messages['evaluation.evaluationAllRecords.commissionsSelected']}"
 										listHeight="300px" orderable="true" listWidth="100%" style="width:100% !important;">
 							                <f:selectItems value="#{evaluationAllRecordsManagedBean.commissionList}" var="com" itemValue="#{com.commissionId}" itemLabel="#{com}" />
-							            </rich:pickList>
+							            </p:pickList>
 							            <h:outputText value="" />
-							            <a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+							            <p:outputPanel ajaxRendered="true">
+													<p:message
 														for="commissions" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-										</a4j:outputPanel>
+										</p:outputPanel>
 										<mytags:outputLabel 
 												value="#{messages['evaluation.evaluationAllRecords.ruleBook']}: " 
 												for="ruleBooks" 
 												errorStyleClass="errorMessage"
 										/>
-										<h:selectOneMenu id="ruleBooks" value="#{evaluationAllRecordsManagedBean.ruleBookId}">
+										<p:selectOneMenu id="ruleBooks" value="#{evaluationAllRecordsManagedBean.ruleBookId}">
 											<f:selectItem itemValue="#{null}" itemLabel="#{messages['evaluation.evaluationAllRecords.allRuleBooks']}"/>
 											<f:selectItems value="#{evaluationAllRecordsManagedBean.ruleBookList}" var="ruleBook" itemValue="#{ruleBook.classId}" itemLabel="#{ruleBook}"/>
-										</h:selectOneMenu>
+										</p:selectOneMenu>
 										<h:outputText value="" />
-										<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+										<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="ruleBooks" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-										</a4j:outputPanel>
+										</p:outputPanel>
 									</h:panelGrid>
-							 	</rich:panel>
+							 	</p:panel>
 							 </h:panelGrid>
 						</h:panelGrid>
 					</h:form>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

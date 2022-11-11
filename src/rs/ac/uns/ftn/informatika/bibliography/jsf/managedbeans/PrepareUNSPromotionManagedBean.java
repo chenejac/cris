@@ -13,6 +13,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.primefaces.event.TabChangeEvent;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RegisterEntryDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.RegisterEntryDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.InstitutionDTO;
@@ -158,9 +159,8 @@ public class PrepareUNSPromotionManagedBean extends CRUDManagedBean {
 		retVal = "promotionPage";
 		return retVal;
 	}
-	
-	public void changeTab(javax.faces.event.FacesEvent event){
-		
+
+	public void changeTab(TabChangeEvent event){
 	}
 	
 	public List<SelectItem> getDistinctInstitutionsItems(){

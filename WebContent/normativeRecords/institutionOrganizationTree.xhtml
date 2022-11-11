@@ -2,26 +2,24 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="institutionTreePanel">
 	          	
-		<rich:tree
+		<p:tree
 			id="richTreeInstitutionTreePanel"
 			value="#{searchManagedBean.root}"
 			var="institutionNode"
-			toggleType="client"
-            selectionType="ajax"
-            nodeType="#{institutionNode.tree_state}"
+			dynamic="true"
+			nodeType="#{institutionNode.tree_state}"
             render="@this"
             execute="@form"
 	        >
             	<rich:treeSelectionChangeListener 
             		listener="#{searchManagedBean.selectionChanged}" 
             		/>
-	          	<rich:treeNode 
+	          	<p:treeNode
 				iconCollapsed="/resources/img/institution.jpg"
 				iconExpanded="/resources/img/institution.jpg"
 				iconLeaf="/resources/img/institution.jpg"
@@ -30,9 +28,9 @@
 				>
 					<h:graphicImage value="/resources/img/ce16.jpg"/>
 					<h:outputText value="#{institutionNode}"/>
-				</rich:treeNode>
+				</p:treeNode>
 				
-				<rich:treeNode 
+				<p:treeNode
 				iconCollapsed="/resources/img/institution.jpg"
 				iconExpanded="/resources/img/institution.jpg"
 				iconLeaf="/resources/img/institution.jpg"
@@ -41,9 +39,9 @@
 				>
 					<h:graphicImage value="/resources/img/cf16.jpg" />
 					<h:outputText value="#{institutionNode}"/>
-				</rich:treeNode>
+				</p:treeNode>
 				
-				<rich:treeNode 
+				<p:treeNode
 				iconCollapsed="/resources/img/institution.jpg"
 				iconExpanded="/resources/img/institution.jpg"
 				iconLeaf="/resources/img/institution.jpg"
@@ -52,8 +50,8 @@
 				>
 					<h:graphicImage value="/resources/img/cp16.jpg" />
 					<h:outputText value="#{institutionNode}"/>
-				</rich:treeNode>
-        </rich:tree>
+				</p:treeNode>
+        </p:tree>
 	</h:panelGrid>
 	
 	</ui:composition>

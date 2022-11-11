@@ -2,44 +2,44 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<a4j:outputPanel ajaxRendered="true">
+	<p:outputPanel ajaxRendered="true">
 		<h:panelGrid columns="2"
 			rendered="#{(not resultsTypeGroupManagedBean.customPick) and (resultsTypeGroupManagedBean.pickMessage!=null)}">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{resultsTypeGroupManagedBean.pickMessage}"
 				styleClass="rf-msg-inf" />
 		</h:panelGrid>
-	</a4j:outputPanel>
+	</p:outputPanel>
 	
-	<rich:panel 
+	<p:panel
 		id="scrollableBody"
 		styleClass="scrollableBody" 
 		rendered="#{(not empty resultsTypeGroupManagedBean.resultsTypeGroups) or (not resultsTypeGroupManagedBean.customPick)}" >
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="resultsTypeGroupTablePanel">
-			<rich:dataTable 
+			<p:dataTable
 				id="resultsTypeGroupTable"
 				value="#{resultsTypeGroupManagedBean.resultsTypeGroups}" 
 				var="resultsTypeGroupRow"
-				rows="10" 
+				rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  term   .......-->
-				<rich:column
+				<p:column
 					style="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup.classId == resultsTypeGroupRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
 					styleClass="rich-table-wide-cell" >
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{resultsTypeGroupManagedBean.sort}"
 							render="resultsTypeGroupTablePanel"
 							limitRender="true"
@@ -52,18 +52,18 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(resultsTypeGroupManagedBean.orderBy=='someTerm') and (resultsTypeGroupManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="someTerm" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{resultsTypeGroupRow.someTerm}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  actions   .......-->
-				<rich:column
+				<p:column
 					style="#{resultsTypeGroupManagedBean.selectedResultsTypeGroup.classId == resultsTypeGroupRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['cerif.resultsTypeGroup.tablePanel.actions']}" />
 					</f:facet>
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{resultsTypeGroupManagedBean.switchToViewDetailsMode}"
 						render="resultsTypeGroupEditModalPanel" 
 						limitRender="true"
@@ -73,8 +73,8 @@
 						<f:param name="classId"
 							value="#{resultsTypeGroupRow.classId}" />
 						<ui:include src="../cerif/resultsTypeGroupToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.update]}"
 						action="#{resultsTypeGroupManagedBean.switchToUpdateMode}"
 						render="resultsTypeGroupEditModalPanel"
@@ -85,8 +85,8 @@
 						<f:param name="classId"
 							value="#{resultsTypeGroupRow.classId}" />
 						<ui:include src="../cerif/resultsTypeGroupToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.delete]}"
 						action="#{resultsTypeGroupManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -98,8 +98,8 @@
 						<f:param name="classId"
 							value="#{resultsTypeGroupRow.classId}" />
 						<ui:include src="../cerif/resultsTypeGroupToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						action="#{resultsTypeGroupManagedBean.chooseResultsTypeGroup}"
 						rendered="#{resultsTypeGroupManagedBean.tableMode == modesManagedBean.pick}"
 						render="mainPanel, #{resultsTypeGroupManagedBean.renderModalPanels}"
@@ -109,25 +109,17 @@
 						<f:param name="classId"
 							value="#{resultsTypeGroupRow.classId}" />
 						<ui:include src="../cerif/resultsTypeGroupToolTip.xhtml" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
 			<h:panelGrid columns="1">
-				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScroller" 
-						align="left"
-						for="resultsTypeGroupTable" 
-						render="resultsTypeGroupTablePanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
 				<h:panelGroup
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.add])}">
 					<h3>
 						<h:outputText
 							value="#{messages['cerif.resultsTypeGroup.tablePanel.btnCreate']}: "
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.add]}" />
-						<a4j:commandLink 
+						<p:commandLink
 							rendered="#{userManagedBean.privileges[privilegesManagedBean.formResultsTypeGroup][privilegesManagedBean.add]}"
 							action="#{resultsTypeGroupManagedBean.switchToAddMode}"
 							render="resultsTypeGroupEditModalPanel"
@@ -136,10 +128,10 @@
 							immediate="true">
 							<h:graphicImage library="img" name="create.png" />
 							<ui:include src="../cerif/resultsTypeGroupToolTip.xhtml" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</h3>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

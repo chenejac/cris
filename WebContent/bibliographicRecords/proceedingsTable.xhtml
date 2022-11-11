@@ -2,23 +2,19 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<a4j:outputPanel ajaxRendered="true"
+	<p:outputPanel ajaxRendered="true"
 		rendered="#{(not proceedingsManagedBean.customPick) and (proceedingsManagedBean.pickMessage!=null)}">
 		<h:panelGrid columns="2">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{proceedingsManagedBean.pickMessage}"
 				styleClass="rf-msg-inf" />
 		</h:panelGrid>
-	</a4j:outputPanel>
+	</p:outputPanel>
 	<!-- ===========================   searchPanel  ============================= -->
-	<h:graphicImage 
-		library="img"
-		name="spacer.gif" 
-		alt="" 
+	<p:spacer
 		height="10"
 		width="1"
 		/>
@@ -28,27 +24,27 @@
 		rendered="#{not proceedingsManagedBean.customPick}">
 		<h:panelGroup>
 			<h2>
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.proceedings.searchPanel.header']}: " 
 						for="whereStr" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h2>
 		</h:panelGroup>
-		<h:inputText 
+		<p:inputText
 			id="whereStr"
 			onkeydown="keyDownHandler(event, 'proceedingsPickForm:btnFind')"
 			value="#{proceedingsManagedBean.whereStr}" 
 			styleClass="searchBox" />
-		<a4j:commandButton 
+		<p:commandButton
 			id="btnFind"
 			value="#{messages['records.proceedings.searchPanel.btnFind']}"
 			render="proceedingsTablePanel" 
 			limitRender="true" 
 			execute="@form" />
-		<a4j:commandButton 
+		<p:commandButton
 			id="btnShowAll"
 			action="#{proceedingsManagedBean.removeFilter}"
 			value="#{messages['records.proceedings.searchPanel.btnShowAll']}"
@@ -56,31 +52,32 @@
 			limitRender="true" 
 			execute="@this" />
 	</h:panelGrid>
-	<rich:panel 
+	<p:panel
 			id="scrollableBody"
 			styleClass="scrollableBody" 
 			rendered="#{(not empty proceedingsManagedBean.proceedings) or (not proceedingsManagedBean.customPick)}" >
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="proceedingsTablePanel">
-			<rich:dataTable 
+			<p:dataTable
 				id="proceedingsTable"
 				value="#{proceedingsManagedBean.proceedings}" 
 				var="proceedingsRow"
-				rows="10" 
+				rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+				rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 				>
 				<!--     ........  title   .......-->
-				<rich:column
+				<p:column
 					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
 					styleClass="rich-table-wide-cell" >
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{proceedingsManagedBean.sort}"
 							render="proceedingsTablePanel"
 							limitRender="true"
@@ -93,16 +90,16 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(proceedingsManagedBean.orderBy=='someTitle') and (proceedingsManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="someTitle" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{proceedingsRow.someTitle}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  conference   .......-->
-				<rich:column
+				<p:column
 					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
 					styleClass="rich-table-wide-cell" >
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{proceedingsManagedBean.sort}"
 							render="proceedingsTablePanel"
 							limitRender="true"
@@ -115,15 +112,15 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(proceedingsManagedBean.orderBy=='conference.name') and (proceedingsManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="conference.name" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{proceedingsRow.conferenceName}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  isbn  .......-->
-				<rich:column
+				<p:column
 					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 					<f:facet name="header">
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{proceedingsManagedBean.sort}"
 							render="proceedingsTablePanel"
 							limitRender="true"
@@ -136,18 +133,18 @@
 							<h:graphicImage library="img" name="down.gif"
 								rendered="#{(proceedingsManagedBean.orderBy=='isbn') and (proceedingsManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="isbn" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</f:facet>
 					<h:outputText value="#{proceedingsRow.isbn}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  actions   .......-->
-				<rich:column
+				<p:column
 					style="#{proceedingsManagedBean.selectedProceedings.controlNumber == proceedingsRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.proceedings.tablePanel.actions']}" />
 					</f:facet>
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{proceedingsManagedBean.switchToViewDetailsMode}"
 						render="proceedingsEditModalPanel" 
 						limitRender="true"
@@ -157,8 +154,8 @@
 						<f:param name="controlNumber"
 							value="#{proceedingsRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.update]}"
 						action="#{proceedingsManagedBean.switchToUpdateMode}"
 						render="proceedingsEditModalPanel"
@@ -169,8 +166,8 @@
 						<f:param name="controlNumber"
 							value="#{proceedingsRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.delete]}"
 						action="#{proceedingsManagedBean.delete}"
 						onclick="if(!confirmDecision()) return false"
@@ -182,8 +179,8 @@
 						<f:param name="controlNumber"
 							value="#{proceedingsRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						action="#{proceedingsManagedBean.chooseProceedings}"
 						rendered="#{proceedingsManagedBean.tableMode == modesManagedBean.pick}"
 						render="mainPanel, #{proceedingsManagedBean.renderModalPanels}"
@@ -193,8 +190,8 @@
 						<f:param name="controlNumber"
 							value="#{proceedingsRow.controlNumber}" />
 						<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						render="relatedRecordsEditModalPanel"
 					    execute="@this" 
 					    limitRender="true">
@@ -202,8 +199,8 @@
 					    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 					        value="#{proceedingsRow}" />
 					    <ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
-					</a4j:commandLink>
-					<a4j:commandButton 
+					</p:commandLink>
+					<p:commandButton
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.delete]}"
 						value="#{messages['records.proceedings.tablePanel.btnChooseDuplicate']}"
 						action="#{proceedingsManagedBean.chooseDuplicateProceedings}"
@@ -211,8 +208,8 @@
 						limitRender="true" 
 						execute="@this" >
 						<f:param name="controlNumber" value="#{proceedingsRow.controlNumber}" />
-					</a4j:commandButton>
-					<a4j:commandButton 
+					</p:commandButton>
+					<p:commandButton
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.delete]}"
 						value="#{messages['records.proceedings.tablePanel.btnReplaceDuplicate']}"
 						action="#{proceedingsManagedBean.replaceDuplicateProceedings}"
@@ -220,7 +217,7 @@
 						limitRender="true"
 						execute="@this" >
 						<f:param name="controlNumber" value="#{proceedingsRow.controlNumber}" />
-						<rich:tooltip followMouse="true" direction="topRight"
+						<p:tooltip followMouse="true" direction="topRight"
 							showDelay="1000" styleClass="tooltip" mode="ajax">
 							<span class="tooltipSpan"> 
 								<h:panelGrid columns="1">
@@ -228,25 +225,17 @@
 										value="#{proceedingsManagedBean.duplicateProceedingsAsString}" />
 								</h:panelGrid> 
 							</span>
-						</rich:tooltip>
-					</a4j:commandButton>
-				</rich:column>
-			</rich:dataTable>
+						</p:tooltip>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
 			<h:panelGrid columns="1">
-				<h:panelGroup>
-					<rich:dataScroller 
-						id="downDataScroller" 
-						align="left"
-						for="proceedingsTable" 
-						render="proceedingsTablePanel"
-						renderIfSinglePage="false" /> 
-				</h:panelGroup>
 				<h:panelGroup
 					rendered="#{(proceedingsManagedBean.tableMode == modesManagedBean.browse) and (userManagedBean.privileges[privilegesManagedBean.formProceedings][privilegesManagedBean.add])}">
 					<h3>
 						<h:outputText
 							value="#{messages['records.proceedings.tablePanel.btnCreate']}: " />
-						<a4j:commandLink 
+						<p:commandLink
 							action="#{proceedingsManagedBean.switchToAddMode}"
 							render="proceedingsEditModalPanel"
 							limitRender="true" 
@@ -254,10 +243,10 @@
 							immediate="true">
 							<h:graphicImage library="img" name="create.png" />
 							<ui:include src="../bibliographicRecords/proceedingsToolTip.xhtml" />
-						</a4j:commandLink>
+						</p:commandLink>
 					</h3>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

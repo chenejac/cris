@@ -33,10 +33,10 @@ import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.component.UIDataTable;
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
 
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RegisterEntryDAO;
@@ -159,7 +159,7 @@ public class StudyFinalDocumentManagedBean extends CRUDManagedBean
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("studyFinalDocumentTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("studyFinalDocumentTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);
@@ -2434,7 +2434,7 @@ public class StudyFinalDocumentManagedBean extends CRUDManagedBean
 	
 	public void uploadDocumentListener(FileUploadEvent event, String type) throws Exception {
         FileDTO fileDTO = new FileDTO();
-        UploadedFile item = event.getUploadedFile();
+        UploadedFile item = event.getFile();
 //	        if (item. isTempFile()) {
 //	        	 byte[] fileInBytes = new byte[(int)item.getFile().length()];
 //	        	 java.io.File tempFile = item.getFile();
@@ -2444,10 +2444,10 @@ public class StudyFinalDocumentManagedBean extends CRUDManagedBean
 //	        	 fileDTO.setData(fileInBytes);
 //	        	 fileDTO.setLength(item.getFile().length());
 //	        } else {
-    	 fileDTO.setData(item.getData());
-    	 fileDTO.setLength(item.getData().length);
+    	 fileDTO.setData(item.getContent());
+    	 fileDTO.setLength(item.getContent().length);
 //	        }
-        fileDTO.setFileNameClient((item.getName().lastIndexOf("\\") != -1)?LatCyrUtils.toLatinUnaccented(item.getName().substring(item.getName().lastIndexOf("\\")+1)):LatCyrUtils.toLatinUnaccented(item.getName()));
+        fileDTO.setFileNameClient((item.getFileName().lastIndexOf("\\") != -1)?LatCyrUtils.toLatinUnaccented(item.getFileName().substring(item.getFileName().lastIndexOf("\\")+1)):LatCyrUtils.toLatinUnaccented(item.getFileName()));
         fileDTO.setControlNumber(selectedStudyFinalDocument.getControlNumber());
         fileDTO.setUploader(getUserManagedBean().getLoggedUser().getEmail());
         fileDTO.setType(type);
@@ -2708,7 +2708,7 @@ public class StudyFinalDocumentManagedBean extends CRUDManagedBean
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("publicationsTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("publicationsTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);

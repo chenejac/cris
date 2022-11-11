@@ -1010,7 +1010,22 @@ public abstract class CRUDManagedBean implements Serializable{
     		}
         }
 	}
-	
+
+	public String getCurrentPageReportTemplate(){
+		String retVal = "";
+		ResourceBundle rbRecords = PropertyResourceBundle.getBundle(
+				"messages.messages-records", new Locale(this.getUserManagedBean().getLanguage()));
+		retVal = "{startRecord}-{endRecord} " + rbRecords.getString("records.tablePanel.pagination.of") + " {totalRecords}" + rbRecords.getString("records.tablePanel.pagination.records");
+		return retVal;
+	}
+
+	public String getRowsPerPageTemplate(){
+		String retVal = "";
+		ResourceBundle rbRecords = PropertyResourceBundle.getBundle(
+				"messages.messages-records", new Locale(this.getUserManagedBean().getLanguage()));
+		retVal = "5,10,{ShowAll|'" + rbRecords.getString("records.tablePanel.pagination.showAll") + "'}";
+		return retVal;
+	}
 	
 
 }

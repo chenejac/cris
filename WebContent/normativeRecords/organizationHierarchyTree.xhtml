@@ -2,9 +2,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich"
-      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 
 	<!-- ===========================   treePanel  ============================= -->
@@ -18,32 +17,29 @@
 	<h:panelGrid
 		id="organizationHierarchyTreePanel"
 		columns="1" >
-		<rich:tree
+		<p:tree
 			id = "institutionAndOrganizationTree"
-			selectionType="client"
-			toggleType="ajax"
 			value="#{organizationProfileManagedBean.rootNodes}"
-			var="institution"
-			iconExpanded="#{true}"
+			var="orgUnit"
+			rendered="#{not empty organizationProfileManagedBean.rootNodes.children}"
 			>
-			<rich:treeNode
-				expanded="#{true}"
-				iconCollapsed="/resources/img/institution_orange.png"
-				iconExpanded="/resources/img/institution_orange.png"
-				iconLeaf="/resources/img/institution_orange.png"
+			<p:treeNode
+					type="OrganizationUnitDTO"
+					collapsedIcon="icon_institution_orange"
+					expandedIcon="icon_institution_orange"
 				>
-				<h:link outcome="organizationPage" >
+				<p:link outcome="organizationPage" >
 					<h:outputText
-							value="#{institution.element.name.content}"
+							value="#{orgUnit.name.content}"
 							style="font-size: 14px;"
 					/>
 					<h:graphicImage library="img" name="enter.png" />
-					<f:param name="organization" value="#{institution.element.controlNumber}" />
-				</h:link>
-			</rich:treeNode>
-		</rich:tree>
+					<f:param name="organization" value="#{orgUnit.controlNumber}" />
+				</p:link>
+			</p:treeNode>
+		</p:tree>
 		<h:panelGroup
-			rendered="#{empty organizationProfileManagedBean.rootNodes}">
+			rendered="#{empty organizationProfileManagedBean.rootNodes.children}">
 			<h:outputText
 				value="#{messages['records.organizationPage.nosubunits']}"
 				style="font-size: 14px;" />

@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
     >
 	<f:view locale="#{userManagedBean.language}">
@@ -29,10 +28,7 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
@@ -40,18 +36,18 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
 				</div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region">
 					<h:panelGrid id="mainPanel">
-						<rich:panel id="ruleBookBrowseModalPanel"
+						<p:panel id="ruleBookBrowseModalPanel"
 							header="#{messages['records.ruleBook.header']}">
 							<h:form id="ruleBookTableForm">
 								<h:panelGrid id="ruleBookTableFormPanel" >
-									<h:inputText id="general" rendered="false" value="" />
+									<p:inputText id="general" rendered="false" value="" />
 									<ui:include src="../bibliographicRecords/ruleBookTree.xhtml"/>
 								</h:panelGrid>
 							</h:form>
-						</rich:panel>
+						</p:panel>
 					</h:panelGrid>
 					<h:panelGrid id="modalPanel2s">
 						<!-- ======================== Rule Book  ============= -->
@@ -59,7 +55,7 @@
 						<!-- ======================== Rule Book Edit panel ============= -->
 						<h:form id="ruleBookEditForm">
 							<h:panelGrid id="ruleBookEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(ruleBookManagedBean.editMode == modesManagedBean.update) or (ruleBookManagedBean.editMode == modesManagedBean.viewDetails) or (ruleBookManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -72,7 +68,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{ruleBookManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{ruleBookManagedBean.renderModalPanels}"
@@ -80,10 +76,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/ruleBookEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Rule Book end ============= -->
@@ -92,7 +88,7 @@
 						<!-- ======================== Rule Book Implementation Edit panel ============= -->
 						<h:form id="ruleBookImplementationEditForm">
 							<h:panelGrid id="ruleBookImplementationEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(ruleBookImplementationManagedBean.editMode == modesManagedBean.update) or (ruleBookImplementationManagedBean.editMode == modesManagedBean.viewDetails) or (ruleBookImplementationManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -105,7 +101,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{ruleBookImplementationManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{ruleBookImplementationManagedBean.renderModalPanels}"
@@ -113,10 +109,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../bibliographicRecords/ruleBookImplementationEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Rule Book Implementation end ============= -->
@@ -124,7 +120,7 @@
 						<!-- ======================== Results Type Group Pick panel ============= -->
 						<h:form id="resultsTypeGroupPickForm">
 							<h:panelGrid id="resultsTypeGroupBrowseModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(resultsTypeGroupManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -136,7 +132,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{resultsTypeGroupManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{resultsTypeGroupManagedBean.renderModalPanels}" 
@@ -144,16 +140,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/resultsTypeGroupPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Results Type Group Edit panel ============= -->
 						<h:form id="resultsTypeGroupEditForm">
 							<h:panelGrid id="resultsTypeGroupEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(resultsTypeGroupManagedBean.editMode == modesManagedBean.update) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.viewDetails) or (resultsTypeGroupManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -166,7 +162,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{resultsTypeGroupManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{resultsTypeGroupManagedBean.renderModalPanels}"
@@ -174,10 +170,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/resultsTypeGroupEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Results Type Group end ============= -->
@@ -185,7 +181,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -198,7 +194,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -206,10 +202,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
@@ -218,7 +214,7 @@
 						<!-- ======================== Results Measure Edit panel ============= -->
 						<h:form id="resultsTypeMeasureEditForm">
 							<h:panelGrid id="resultsTypeMeasureEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(ruleBookManagedBean.resultsTypeMeasureAddMode)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -231,7 +227,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink
+										<p:commandLink
 											action="#{ruleBookManagedBean.switchResultsTypeMeasureToNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, ruleBookEditModalPanel, resultsTypeMeasureEditModalPanel"
@@ -239,93 +235,93 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<h:panelGrid id="resultsTypeMeasureEditFormPanel">
-										<h:inputText id="general" rendered="false" value="" />
-										<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+										<p:inputText id="general" rendered="false" value="" />
+										<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="general"
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage"/>
-										</a4j:outputPanel>
-										<rich:panel 
+										</p:outputPanel>
+										<p:panel
 											id="scrollableBody"
 											styleClass="scrollableBody">
 											<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 												<!-- ....... resultsTypeClassId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.resultsTypeMeasure.editPanel.resultsType']}*" 
 														for="resultsTypeClassId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeClassId}" id="resultsTypeClassId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeClassId}" id="resultsTypeClassId">
 													<f:selectItems value="#{ruleBookManagedBean.allResultsTypes}" var="resultsTypesRow"
 				                      						 itemLabel="#{resultsTypesRow}" itemValue="#{resultsTypesRow.classId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="resultsTypeClassId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... sciencesGroupClassId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.resultsTypeMeasure.editPanel.sciencesGroup']}*" 
 														for="sciencesGroupClassId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedSciencesGroupClassId}" id="sciencesGroupClassId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedSciencesGroupClassId}" id="sciencesGroupClassId">
 													<f:selectItems value="#{ruleBookManagedBean.allSciencesGroups}" var="sciencesGroupRow"
 				                      						 itemLabel="#{sciencesGroupRow}" itemValue="#{sciencesGroupRow.classId}" />
-												</h:selectOneMenu> 
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="sciencesGroupClassId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... quantitativeMeasure .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.resultsTypeMeasure.editPanel.quantitativeMeasure']}*" 
 														for="quantitativeMeasure" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:inputText value="#{ruleBookManagedBean.selectedQuantitativeMeasure}" maxlength="10" id="quantitativeMeasure" />
+												</p:outputPanel>
+												<p:inputText value="#{ruleBookManagedBean.selectedQuantitativeMeasure}" maxlength="10" id="quantitativeMeasure" />
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="quantitativeMeasure" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 											</h:panelGrid>
-										</rich:panel>
+										</p:panel>
 										<!--================= Create, Cancel buttons ====================  -->
 										<h:panelGrid columns="2">
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.addRuleBookResultsTypeMeasure}"
 												value="#{messages['records.resultsTypeMeasure.editPanel.btnAdd']}"
 												render="resultsTypeMeasureEditModalPanel"
 												limitRender="true" 
 												execute="@form" />
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.switchResultsTypeMeasureToNoneMode}"
 												value="#{messages['records.resultsTypeMeasure.editPanel.bteClose']}"
 												render="mainPanel, ruleBookEditModalPanel, resultsTypeMeasureEditModalPanel"
@@ -333,7 +329,7 @@
 												execute="@this" />
 										</h:panelGrid>
 									</h:panelGrid>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Results Measure end ============= -->
@@ -342,7 +338,7 @@
 						<!-- ======================== Rule Book Entity Type Edit panel ============= -->
 						<h:form id="ruleBookEntityTypeEditForm">
 							<h:panelGrid id="ruleBookEntityTypeEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(ruleBookManagedBean.ruleBookEntityTypeAddMode)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -355,7 +351,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink
+										<p:commandLink
 											action="#{ruleBookManagedBean.switchRuleBookEntityTypeToNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, ruleBookEditModalPanel, ruleBookEntityTypeEditModalPanel"
@@ -363,54 +359,54 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<h:panelGrid id="ruleBookEntityTypeEditFormPanel">
-										<h:inputText id="general" rendered="false" value="" />
-										<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+										<p:inputText id="general" rendered="false" value="" />
+										<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="general"
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage"/>
-										</a4j:outputPanel>
-										<rich:panel 
+										</p:outputPanel>
+										<p:panel
 											id="scrollableBody"
 											styleClass="scrollableBody">
 											<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 												<!-- ....... entityTypeClassId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookEntityType.editPanel.entityType']}*" 
 														for="entityTypeClassId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedEntityTypeClassId}" id="entityTypeClassId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedEntityTypeClassId}" id="entityTypeClassId">
 													<f:selectItems value="#{ruleBookManagedBean.allEntityTypes}" var="entityTypesRow"
 				                      						 itemLabel="#{entityTypesRow}" itemValue="#{entityTypesRow.classId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="entityTypeClassId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 											</h:panelGrid>
-										</rich:panel>
+										</p:panel>
 										<!--================= Create, Cancel buttons ====================  -->
 										<h:panelGrid columns="2">
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.addRuleBookEntityTypeToDatabase}"
 												value="#{messages['records.ruleBookEntityType.editPanel.btnAdd']}"
 												render="ruleBookEntityTypeEditModalPanel"
 												limitRender="true" 
 												execute="@form" />
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.switchRuleBookEntityTypeToNoneMode}"
 												value="#{messages['records.ruleBookEntityType.editPanel.bteClose']}"
 												render="mainPanel, ruleBookEditModalPanel, ruleBookEntityTypeEditModalPanel"
@@ -418,7 +414,7 @@
 												execute="@this" />
 										</h:panelGrid>
 									</h:panelGrid>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Rule Book Entity end============= -->
@@ -427,7 +423,7 @@
 						<!-- ======================== Entity Results Type Edit panel ============= -->
 						<h:form id="entityResultsTypeEditForm">
 							<h:panelGrid id="entityResultsTypeEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(ruleBookManagedBean.entityResultsTypeAddMode)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -440,7 +436,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink
+										<p:commandLink
 											action="#{ruleBookManagedBean.switchEntityResultsTypeToNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, ruleBookEditModalPanel, entityResultsTypeEditModalPanel"
@@ -448,75 +444,75 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<h:panelGrid id="entityResultsTypeEditFormPanel">
-										<h:inputText id="general" rendered="false" value="" />
-										<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+										<p:inputText id="general" rendered="false" value="" />
+										<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="general"
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage"/>
-										</a4j:outputPanel>
-										<rich:panel 
+										</p:outputPanel>
+										<p:panel
 											id="scrollableBody"
 											styleClass="scrollableBody">
 											<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 												<!-- ....... entityTypeClassId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.entityResultsType.editPanel.ruleBookEntityType']}*" 
 														for="ruleBookEntityTypeClassId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedRuleBookEntityTypeClassId}" id="ruleBookEntityTypeClassId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedRuleBookEntityTypeClassId}" id="ruleBookEntityTypeClassId">
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookEntityTypes}" var="ruleBookEntityTypesRow"
 				                      						 itemLabel="#{ruleBookEntityTypesRow.entityType}" itemValue="#{ruleBookEntityTypesRow.entityType.classId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="ruleBookEntityTypeClassId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... resultsTypeClassId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.entityResultsType.editPanel.ruleBookResultsType']}*" 
 														for="ruleBookResultsTypeClassClassId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedRuleBookResultsTypeClassId}" id="ruleBookResultsTypeClassClassId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedRuleBookResultsTypeClassId}" id="ruleBookResultsTypeClassClassId">
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookResultsTypes}" var="ruleBookResultsTypesRow"
 				                      						 itemLabel="#{ruleBookResultsTypesRow.resultsType}" itemValue="#{ruleBookResultsTypesRow.resultsType.classId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="ruleBookResultsTypeClassClassId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 											</h:panelGrid>
-										</rich:panel>
+										</p:panel>
 										<!--================= Create, Cancel buttons ====================  -->
 										<h:panelGrid columns="2">
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.addEntityResultsTypeToDatabase}"
 												value="#{messages['records.ruleBookEntityType.editPanel.btnAdd']}"
 												render="entityResultsTypeEditModalPanel"
 												limitRender="true" 
 												execute="@form" />
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.switchEntityResultsTypeToNoneMode}"
 												value="#{messages['records.ruleBookEntityType.editPanel.bteClose']}"
 												render="mainPanel, ruleBookEditModalPanel, entityResultsTypeEditModalPanel"
@@ -524,7 +520,7 @@
 												execute="@this" />
 										</h:panelGrid>
 									</h:panelGrid>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Entity Results Type end ============= -->
@@ -533,7 +529,7 @@
 						<!-- ======================== RuleBook Results Type Mapping Edit panel ============= -->
 						<h:form id="ruleBookResultsTypeMappingEditForm">
 							<h:panelGrid id="ruleBookResultsTypeMappingEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(ruleBookManagedBean.ruleBookResultsTypeMappingAddMode)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -546,7 +542,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink
+										<p:commandLink
 											action="#{ruleBookManagedBean.switchRuleBookResultsTypeMappingToNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, ruleBookEditModalPanel, ruleBookResultsTypeMappingEditModalPanel"
@@ -554,166 +550,166 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<h:panelGrid id="ruleBookResultsTypeMappingEditFormPanel">
-										<h:inputText id="general" rendered="false" value="" />
-										<a4j:outputPanel ajaxRendered="true">
-											<rich:message 
+										<p:inputText id="general" rendered="false" value="" />
+										<p:outputPanel ajaxRendered="true">
+											<p:message
 												for="general"
 												errorClass="errorMessage"
 												infoClass="infoMessage"
 												warnClass="warnMessage"
 												fatalClass="fatalMessage"/>
-										</a4j:outputPanel>
-										<rich:panel 
+										</p:outputPanel>
+										<p:panel
 											id="scrollableBody"
 											styleClass="scrollableBody">
 											<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%">
 											
 												<!-- ....... ResearcherRoleCompariableId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookResultsTypeMapping.editPanel.researcherRole']}*" 
 														for="researcherRoleCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedResearcherRoleCompariableId}" id="researcherRoleCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedResearcherRoleCompariableId}" id="researcherRoleCompariableId">
 												
 													<f:selectItems value="#{ruleBookManagedBean.allResearcherRoles}" var="researcherRolesRow"
 				                      						 itemLabel="#{researcherRolesRow}" itemValue="#{researcherRolesRow.classComparableId}" />
 				                      						 
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="researcherRoleCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 											
 												<!-- ....... EntityTypeCompariableId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookResultsTypeMapping.editPanel.entityType']}*" 
 														for="entityTypeCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedEntityTypeCompariableId}" id="entityTypeCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedEntityTypeCompariableId}" id="entityTypeCompariableId">
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookEntityTypes}" var="ruleBookEntityTypeRow"
 				                      						 itemLabel="#{ruleBookEntityTypeRow.entityType}" itemValue="#{ruleBookEntityTypeRow.entityType.classComparableId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="entityTypeCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... EntitySourceTypeCompariableId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookResultsTypeMapping.editPanel.entitySourceType']}" 
 														for="entitySourceTypeCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedEntitySourceTypeCompariableId}" id="entitySourceTypeCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedEntitySourceTypeCompariableId}" id="entitySourceTypeCompariableId">
 													<f:selectItem itemLabel="#{messages['records.ruleBookResultsTypeMapping.editPanel.nullValue']}" value="#{null}"/>
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookEntityTypes}" var="ruleBookEntityTypeRow"
 				                      						 itemLabel="#{ruleBookEntityTypeRow.entityType}" itemValue="#{ruleBookEntityTypeRow.entityType.classComparableId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="entitySourceTypeCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... resultsTypeForResearcherRoleCompariableId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookResultsTypeMapping.editPanel.resultsTypeForResearcherRole']}*" 
 														for="resultsTypeForResearcherRoleCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeForResearcherRoleCompariableId}" id="resultsTypeForResearcherRoleCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeForResearcherRoleCompariableId}" id="resultsTypeForResearcherRoleCompariableId">
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookResultsTypes}" var="ruleBookResultsTypeRow"
 				                      						 itemLabel="#{ruleBookResultsTypeRow.resultsType}" itemValue="#{ruleBookResultsTypeRow.resultsType.classComparableId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="resultsTypeForResearcherRoleCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... resultsTypeOfObsEntityCompariableId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookResultsTypeMapping.editPanel.resultsTypeOfObsEntity']}" 
 														for="resultsTypeOfObsEntityCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeOfObsEntityCompariableId}" id="resultsTypeOfObsEntityCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeOfObsEntityCompariableId}" id="resultsTypeOfObsEntityCompariableId">
 													<f:selectItem itemLabel="#{messages['records.ruleBookResultsTypeMapping.editPanel.nullValue']}" value="#{null}"/>
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookResultsTypes}" var="ruleBookResultsTypeRow"
 				                      						 itemLabel="#{ruleBookResultsTypeRow.resultsType}" itemValue="#{ruleBookResultsTypeRow.resultsType.classComparableId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="resultsTypeOfObsEntityCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 												<!-- ....... resultsTypeOfObsEntitySourceCompariableId .......           -->
-												<a4j:outputPanel ajaxRendered="true">
+												<p:outputPanel ajaxRendered="true">
 													<mytags:outputLabel 
 														value="#{messages['records.ruleBookResultsTypeMapping.editPanel.resultsTypeOfObsEntitySource']}" 
 														for="resultsTypeOfObsEntitySourceCompariableId" 
 														errorStyleClass="errorMessage" />
-												</a4j:outputPanel>
-												<h:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeOfObsEntitySourceCompariableId}" id="resultsTypeOfObsEntitySourceCompariableId">
+												</p:outputPanel>
+												<p:selectOneMenu value="#{ruleBookManagedBean.selectedResultsTypeOfObsEntitySourceCompariableId}" id="resultsTypeOfObsEntitySourceCompariableId">
 													<f:selectItem itemLabel="#{messages['records.ruleBookResultsTypeMapping.editPanel.nullValue']}" value="#{null}"/>
 													<f:selectItems value="#{ruleBookManagedBean.selectedRuleBook.ruleBookResultsTypes}" var="ruleBookResultsTypeRow"
 				                      						 itemLabel="#{ruleBookResultsTypeRow.resultsType}" itemValue="#{ruleBookResultsTypeRow.resultsType.classComparableId}" />
-												</h:selectOneMenu>
+												</p:selectOneMenu>
 												<h:outputText value="" />
 												<h:outputText value="" />
-												<a4j:outputPanel ajaxRendered="true">
-													<rich:message 
+												<p:outputPanel ajaxRendered="true">
+													<p:message
 														for="resultsTypeOfObsEntitySourceCompariableId" 
 														errorClass="errorMessage"
 														infoClass="infoMessage"
 														warnClass="warnMessage"
 														fatalClass="fatalMessage" />
-												</a4j:outputPanel>
+												</p:outputPanel>
 											</h:panelGrid>
-										</rich:panel>
+										</p:panel>
 										<!--================= Create, Cancel buttons ====================  -->
 										<h:panelGrid columns="2">
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.addRuleBookResultsTypeMappingToDatabase}"
 												value="#{messages['records.ruleBookResultsTypeMapping.editPanel.btnAdd']}"
 												render="ruleBookResultsTypeMappingEditModalPanel"
 												limitRender="true" 
 												execute="@form" />
-											<a4j:commandButton
+											<p:commandButton
 												action="#{ruleBookManagedBean.switchRuleBookResultsTypeMappingToNoneMode}"
 												value="#{messages['records.ruleBookResultsTypeMapping.editPanel.bteClose']}"
 												render="mainPanel, ruleBookEditModalPanel, ruleBookResultsTypeMappingEditModalPanel"
@@ -721,17 +717,14 @@
 												execute="@this" />
 										</h:panelGrid>
 									</h:panelGrid>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== RuleBook Results Type Mapping end ============= -->
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

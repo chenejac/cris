@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
 	<f:view locale="#{userManagedBean.language}">
@@ -29,33 +28,30 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif" alt="progressbar"></h:graphicImage></div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region">
 					<h:form id="institutionPickForm">
 						<h:panelGrid id="mainPanel">
-							<rich:panel id="institutionBrowseModalPanel"
+							<p:panel id="institutionBrowseModalPanel"
 								header="#{messages['records.institution.header']}">
-								<h:inputText id="general" rendered="false" value="" />
-								<a4j:outputPanel ajaxRendered="true">
-									<rich:message 
+								<p:inputText id="general" rendered="false" value="" />
+								<p:outputPanel ajaxRendered="true">
+									<p:message
 										for="general"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
 										warnClass="warnMessage"
 										fatalClass="fatalMessage"/>
-								</a4j:outputPanel>
+								</p:outputPanel>
 								<ui:include src="../normativeRecords/institutionTree.xhtml"/>
-							</rich:panel>
+							</p:panel>
 						</h:panelGrid>
 					</h:form>
 					<h:panelGrid id="modalPanel2s">
@@ -64,7 +60,7 @@
 						<!-- ======================== Institution Edit panel ============= -->
 						<h:form id="institutionEditForm">
 							<h:panelGrid id="institutionEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(institutionManagedBean.editMode == modesManagedBean.update) or (institutionManagedBean.editMode == modesManagedBean.viewDetails) or (institutionManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -77,7 +73,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{institutionManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{institutionManagedBean.renderModalPanels}"
@@ -85,10 +81,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/institutionEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Institution end ============= -->
@@ -97,7 +93,7 @@
 						<!-- ======================== OrganizationUnit Edit panel ============= -->
 						<h:form id="organizationUnitEditForm">
 							<h:panelGrid id="organizationUnitEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(organizationUnitManagedBean.editMode == modesManagedBean.update) or (organizationUnitManagedBean.editMode == modesManagedBean.viewDetails) or (organizationUnitManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -110,7 +106,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{organizationUnitManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{organizationUnitManagedBean.renderModalPanels}"
@@ -118,10 +114,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/organizationUnitEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== OrganizationUnit end ============= -->	
@@ -129,7 +125,7 @@
 						<!-- ======================== ResearchArea Pick panel ============= -->
 						<h:form id="researchAreaPickForm">
 							<h:panelGrid id="researchAreaBrowseModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(researchAreaManagedBean.tableMode == modesManagedBean.pick)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -141,7 +137,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{researchAreaManagedBean.switchToTableNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{researchAreaManagedBean.renderModalPanels}" 
@@ -149,16 +145,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/researchAreaPick.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== ResearchArea Edit panel ============= -->
 						<h:form id="researchAreaEditForm">
 							<h:panelGrid id="researchAreaEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(researchAreaManagedBean.editMode == modesManagedBean.update) or (researchAreaManagedBean.editMode == modesManagedBean.viewDetails) or (researchAreaManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -171,7 +167,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{researchAreaManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{researchAreaManagedBean.renderModalPanels}"
@@ -179,10 +175,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../cerif/researchAreaEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== ResearchArea end ============= -->
@@ -191,7 +187,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -204,7 +200,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -212,17 +208,17 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
 						<!-- ======================== Related Records  ============= -->
 						<h:form id="relatedRecordsForm">
 							<h:panelGrid id="relatedRecordsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty relatedRecordsManagedBean.selectedRecord)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -234,7 +230,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{relatedRecordsManagedBean.exit}"
 											styleClass="hidelink" 
 											render="relatedRecordsEditModalPanel"
@@ -242,20 +238,17 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" alt="close"/>
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../relatedRecords.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Related records end ============= -->
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

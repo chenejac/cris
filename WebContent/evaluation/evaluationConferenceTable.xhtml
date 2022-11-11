@@ -2,15 +2,14 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid 
 		id="evaluationConferenceSearchPanel"
 		columns="6">
 		<!-- ....... Start year .......           -->
-		<a4j:outputPanel
+		<p:outputPanel
 				ajaxRendered="true"
 		>
 			<mytags:outputLabel
@@ -18,24 +17,24 @@
 					for="startYear"
 					errorStyleClass="errorMessage"
 			/>
-		</a4j:outputPanel>
-		<h:selectOneMenu
+		</p:outputPanel>
+		<p:selectOneMenu
 				id="startYear"
 				value="#{evaluationConferenceRecordsManagedBean.startYear}">
 			<f:selectItems value="#{evaluationConferenceRecordsManagedBean.yearRange}"/>
-		</h:selectOneMenu>
-		<a4j:outputPanel
+		</p:selectOneMenu>
+		<p:outputPanel
 				ajaxRendered="true"
 		>
-			<rich:message
+			<p:message
 					for="startYear"
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- ....... end year .......           -->
-		<a4j:outputPanel
+		<p:outputPanel
 				ajaxRendered="true"
 		>
 			<mytags:outputLabel
@@ -43,64 +42,61 @@
 					for="endYear"
 					errorStyleClass="errorMessage"
 			/>
-		</a4j:outputPanel>
-		<h:selectOneMenu
+		</p:outputPanel>
+		<p:selectOneMenu
 				id="endYear"
 				value="#{evaluationConferenceRecordsManagedBean.endYear}">
 			<f:selectItems value="#{evaluationConferenceRecordsManagedBean.yearRange}"/>
-		</h:selectOneMenu>
-		<a4j:outputPanel
+		</p:selectOneMenu>
+		<p:outputPanel
 				ajaxRendered="true"
 		>
-			<rich:message
+			<p:message
 					for="endYear"
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-		</a4j:outputPanel>
-		<a4j:commandButton
+		</p:outputPanel>
+		<p:commandButton
 			action="#{evaluationConferenceRecordsManagedBean.collectTFConferences}"
 			value="#{messages['evaluation.conference.tablePanel.btnTF']}"
-			render="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
+			update="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
 			execute="@form"
 			limitRender="true" />
-		<a4j:commandButton 
+		<p:commandButton
 			action="#{evaluationConferenceRecordsManagedBean.collectPMFDMIConferences}"
 			value="#{messages['evaluation.conference.tablePanel.btnPMFDMI']}"
-			render="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
+			update="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
 			execute="@form"
 			limitRender="true" />
-		<a4j:commandButton 
+		<p:commandButton
 			action="#{evaluationConferenceRecordsManagedBean.collectPMFDFConferences}"
 			value="#{messages['evaluation.conference.tablePanel.btnPMFDF']}"
-			render="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
+			update="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
 			execute="@form"
 			limitRender="true" />
-		<a4j:commandButton 
+		<p:commandButton
 			action="#{evaluationConferenceRecordsManagedBean.collectPMFDHZZSConferences}"
 			value="#{messages['evaluation.conference.tablePanel.btnPMFDHZZS']}"
-			render="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
+			update="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
 			execute="@form"
 			limitRender="true" />
-		<a4j:commandButton 
+		<p:commandButton
 			action="#{evaluationConferenceRecordsManagedBean.collectPMFDBEConferences}"
 			value="#{messages['evaluation.conference.tablePanel.btnPMFDBE']}"
-			render="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
+			update="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
 			execute="@form"
 			limitRender="true" />
-		<a4j:commandButton 
+		<p:commandButton
 			action="#{evaluationConferenceRecordsManagedBean.collectPMFDGTHConferences}"
 			value="#{messages['evaluation.conference.tablePanel.btnPMFDGTH']}"
-			render="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
+			update="evaluationConferenceTablePanel evaluationConferenceSearchPanel"
 			execute="@form"
 			limitRender="true" />	
 	</h:panelGrid>
 	<!-- ===========================   tablePanel  ============================= -->
-	<h:graphicImage 
-		library="img"
-		name="spacer.gif" 
-		alt="" 
+	<p:spacer
 		height="10"
 		width="1"
 		/>
@@ -111,14 +107,14 @@
 			columns="1">
 			<h:panelGrid columns="6" columnClasses="width10, width10,width10, width10, width20, width20" width="100%">
 				<h:outputText value="#{messages['evaluation.conference.tablePanel.fromDate']}"/>
-				<h:selectOneMenu value="#{evaluationConferenceRecordsManagedBean.fromDate}">
+				<p:selectOneMenu value="#{evaluationConferenceRecordsManagedBean.fromDate}">
             		<f:selectItems value="#{evaluationConferenceRecordsManagedBean.dateRange}"/>
-    			</h:selectOneMenu> 
+    			</p:selectOneMenu>
 				<h:outputText value="#{messages['evaluation.conference.tablePanel.toDate']}"/>
-				<h:selectOneMenu value="#{evaluationConferenceRecordsManagedBean.toDate}">
+				<p:selectOneMenu value="#{evaluationConferenceRecordsManagedBean.toDate}">
             		<f:selectItems value="#{evaluationConferenceRecordsManagedBean.dateRange}"/>
-    			</h:selectOneMenu>
-    			<h:selectOneMenu 
+    			</p:selectOneMenu>
+    			<p:selectOneMenu
 					value="#{evaluationConferenceRecordsManagedBean.classifications}" 
 					>
 					<f:selectItem 
@@ -130,27 +126,30 @@
 					<f:selectItem 
 							itemValue="notEvaluatedConferences"
 							itemLabel="#{messages['evaluation.conference.tablePanel.category.notEvaluatedConferences']}" />
-				</h:selectOneMenu> 
-				<a4j:commandButton 
+				</p:selectOneMenu>
+				<p:commandButton
 					action="#{evaluationConferenceRecordsManagedBean.filterConferences}" 
-					value="#{messages['evaluation.conference.tablePanel.btnFilterConferences']}" 
-					render="evaluationConferenceTablePanel"
+					value="#{messages['evaluation.conference.tablePanel.btnFilterConferences']}"
+					update="evaluationConferenceTablePanel"
 					execute="@form" 
 					limitRender="true"/>
 			</h:panelGrid>
 		</h:panelGrid>
-		<rich:dataTable 
+		<p:dataTable
 			id="evaluationConferenceTable"
 			value="#{evaluationConferenceRecordsManagedBean.conferences}" 
 			var="conferenceRow"
 			rows="10" 
 			rendered="#{not empty evaluationConferenceRecordsManagedBean.commissionNumber}"
-			>
+			paginator="true" paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+			rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}" >
 			<!--     ........  name   .......-->
-			<rich:column
+			<p:column
 				styleClass="rich-table-wide-cell" >
 				<f:facet name="header">
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{evaluationConferenceRecordsManagedBean.sort}"
 						render="evaluationConferenceTablePanel"
 						limitRender="true"
@@ -163,15 +162,15 @@
 						<h:graphicImage library="img" name="down.gif"
 							rendered="#{(conferenceManagedBean.orderBy=='conference.someName') and (conferenceManagedBean.direction=='desc')}" />
 						<f:param name="orderBy" value="conference.someName" />
-					</a4j:commandLink>
+					</p:commandLink>
 				</f:facet>
 				<h:outputText value="#{conferenceRow.conference.someName}" />
-			</rich:column>
+			</p:column>
 			<!--     ........  place   .......-->
-			<rich:column
+			<p:column
 				>
 				<f:facet name="header">
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{evaluationConferenceRecordsManagedBean.sort}"
 						render="evaluationConferenceTablePanel"
 						limitRender="true"
@@ -184,15 +183,15 @@
 						<h:graphicImage library="img" name="down.gif"
 							rendered="#{(conferenceManagedBean.orderBy=='conference.place') and (conferenceManagedBean.direction=='desc')}" />
 						<f:param name="orderBy" value="conference.place" />
-					</a4j:commandLink>
+					</p:commandLink>
 				</f:facet>
 				<h:outputText value="#{conferenceRow.conference.place}" />
-			</rich:column>
+			</p:column>
 			<!--     ........  year  .......-->
-			<rich:column
+			<p:column
 				>
 				<f:facet name="header">
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{evaluationConferenceRecordsManagedBean.sort}"
 						render="evaluationConferenceTablePanel"
 						limitRender="true"
@@ -205,31 +204,31 @@
 						<h:graphicImage library="img" name="down.gif"
 							rendered="#{(conferenceManagedBean.orderBy=='conference.year') and (conferenceManagedBean.direction=='desc')}" />
 						<f:param name="orderBy" value="conference.year" />
-					</a4j:commandLink>
+					</p:commandLink>
 				</f:facet>
 				<h:outputText value="#{conferenceRow.conference.year}" />
-			</rich:column>
+			</p:column>
 			<!--     ........  papers   .......-->
-			<rich:column
+			<p:column
 				>
 				<f:facet name="header">
 					<h:outputText
 						value="#{messages['evaluation.conference.tablePanel.papers']}" />
 				</f:facet>
-				<a4j:commandLink 
+				<p:commandLink
 					render="relatedRecordsEditModalPanel"
 				    execute="@this" 
 				    limitRender="true">
 				    <h:graphicImage library="img" name="publications.png" />
 				    <f:setPropertyActionListener target="#{relatedRecordsManagedBean.selectedRecord}"
 				        value="#{conferenceRow.conference}" />
-				</a4j:commandLink>
-			</rich:column>
+				</p:commandLink>
+			</p:column>
 			<!--     ........  category  .......-->
-			<rich:column
+			<p:column
 				>
 				<f:facet name="header">
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{evaluationConferenceRecordsManagedBean.sort}"
 						render="evaluationConferenceTablePanel"
 						limitRender="true"
@@ -242,9 +241,9 @@
 						<h:graphicImage library="img" name="down.gif"
 							rendered="#{(conferenceManagedBean.orderBy=='classification') and (conferenceManagedBean.direction=='desc')}" />
 						<f:param name="orderBy" value="classification" />
-					</a4j:commandLink>
+					</p:commandLink>
 				</f:facet>
-				<h:selectOneMenu 
+				<p:selectOneMenu
 					value="#{conferenceRow.classification}" 
 					disabled="#{((not userManagedBean.privileges[privilegesManagedBean.formEvaluationConference][privilegesManagedBean.add]) or (not evaluationConferenceRecordsManagedBean.canSave()))}"
 					>
@@ -260,22 +259,14 @@
 					<f:selectItem 
 							itemValue="notConference"
 							itemLabel="#{messages['evaluation.conference.tablePanel.category.notConference']}" />
-				</h:selectOneMenu>
-			</rich:column>
-		</rich:dataTable>
+				</p:selectOneMenu>
+			</p:column>
+		</p:dataTable>
 		<h:panelGrid columns="1">
-			<h:panelGroup>
-				<rich:dataScroller 
-					id="downDataScroller" 
-					align="left"
-					for="evaluationConferenceTable" 
-					render="evaluationConferenceTablePanel"
-					renderIfSinglePage="false" /> 
-			</h:panelGroup>
-			<a4j:commandButton 
+			<p:commandButton
 				action="#{evaluationConferenceRecordsManagedBean.saveEvaluations}"
 				value="#{messages['evaluation.conference.tablePanel.btnEvaluate']}"
-				render="evaluationConferenceTableFormPanel"
+				update="evaluationConferenceTableFormPanel"
 				rendered="#{((userManagedBean.privileges[privilegesManagedBean.formEvaluationConference][privilegesManagedBean.add]) and (evaluationConferenceRecordsManagedBean.canSave()))}"
 				limitRender="true"  
 			/>

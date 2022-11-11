@@ -1,45 +1,15 @@
 package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 
-import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.*;
-import org.docx4j.model.fields.merge.DataFieldName;
-import org.docx4j.model.fields.merge.MailMerger.OutputField;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.richfaces.component.UIDataTable;
-import org.richfaces.component.UITabPanel;
-import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
+import org.primefaces.component.api.UITabPanel;
+import org.primefaces.event.TabChangeEvent;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.dao.UserDAO;
-import rs.ac.uns.ftn.informatika.bibliography.db.MetricsDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.*;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.ImpactFactor;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.JournalEvaluationResult;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.ResearchAreaRanking;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.AbstractCommissionEvaluation;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.CommissionFactory;
-import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.JournalEval;
-import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
-import rs.ac.uns.ftn.informatika.bibliography.reports.ReportsMSWord;
-import rs.ac.uns.ftn.informatika.bibliography.reports.ReportsServlet;
-import rs.ac.uns.ftn.informatika.bibliography.reports.knr.KnrDTO;
-import rs.ac.uns.ftn.informatika.bibliography.reports.knr.ResultDTO;
-import rs.ac.uns.ftn.informatika.bibliography.reports.knr.ResultsGroupDTO;
-import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
-import rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils;
-import rs.ac.uns.ftn.informatika.bibliography.utils.GenericComparator;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
-import javax.sql.DataSource;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.*;
 
 
@@ -261,8 +231,8 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 
 	private String activeItem = "journal";
 
-	public void changeTab(javax.faces.event.FacesEvent event){
-		changeTabAndLoad(((UITabPanel)event.getComponent()).getActiveItem().toString());
+	public void changeTab(TabChangeEvent event){
+		changeTabAndLoad(event.getTab().getId().toString());
 	}
 
 	public void changeTabAndLoad(String newActiveItem){

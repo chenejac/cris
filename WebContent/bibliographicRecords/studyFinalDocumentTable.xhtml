@@ -2,25 +2,21 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="studyFinalDocumentTableFormPanel" >
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Author....... -->
-		<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+		<p:spacer
 				height="10"
 				width="1"
 				rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)}"
@@ -41,7 +37,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(studyFinalDocumentManagedBean.selectedAuthor != null)}"/>
-			<a4j:commandButton
+			<p:commandButton
 				action="#{studyFinalDocumentManagedBean.pickAuthor}"
 				render="authorBrowseModalPanel"
 				value="#{messages['records.studyFinalDocument.tablePanel.btnPickOtherAuthor']}"
@@ -50,7 +46,7 @@
 			<h:outputText 
 				value="" 
 				rendered="#{(studyFinalDocumentManagedBean.selectedAuthor != null)}" />
-			<a4j:commandButton
+			<p:commandButton
 				action="#{studyFinalDocumentManagedBean.pickAuthor}"
 				render="authorBrowseModalPanel"
 				value="#{messages['records.studyFinalDocument.tablePanel.btnPickAuthor']}"
@@ -67,10 +63,7 @@
 		<h:panelGrid
 			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber) or (studyFinalDocumentManagedBean.selectedAuthor != null)}">
 			<!-- ===========================   searchPanel  ============================= -->
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="10"
 				width="1"
 				rendered="#{(studyFinalDocumentManagedBean.selectedAuthor==null)}"
@@ -82,29 +75,29 @@
 				<h:panelGroup
 					rendered="#{not studyFinalDocumentManagedBean.hiddenDissertations}">
 					<h2>
-						<a4j:outputPanel ajaxRendered="true">
+						<p:outputPanel ajaxRendered="true">
 							<mytags:outputLabel 
 								value="#{messages['records.studyFinalDocument.searchPanel.header']}: " 
 								for="whereStr" 
 								errorStyleClass="errorMessage"
 								/>
-						</a4j:outputPanel>
+						</p:outputPanel>
 					</h2>
 				</h:panelGroup>
-				<h:inputText 
+				<p:inputText
 					id="whereStr"
 					rendered="#{not studyFinalDocumentManagedBean.hiddenDissertations}"
 					onkeydown="keyDownHandler(event, 'studyFinalDocumentTableForm:btnFind')"
 					value="#{studyFinalDocumentManagedBean.whereStr}" 
 					styleClass="searchBox" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnFind"
 					rendered="#{not studyFinalDocumentManagedBean.hiddenDissertations}"
 					value="#{messages['records.studyFinalDocument.searchPanel.btnFind']}"
 					render="studyFinalDocumentTablePanel" 
 					limitRender="true" 
 					execute="@form" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowAll"
 					rendered="#{not studyFinalDocumentManagedBean.hiddenDissertations}"
 					action="#{studyFinalDocumentManagedBean.removeFilter}"
@@ -112,7 +105,7 @@
 					render="studyFinalDocumentTablePanel, studyFinalDocumentSearchPanel"
 					execute="@this" 
 					limitRender="true" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowHiddenDissertations"
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.editFullData]) and (not studyFinalDocumentManagedBean.hiddenDissertations)}"
 					action="#{studyFinalDocumentManagedBean.showHiddenDissertations}"
@@ -120,7 +113,7 @@
 					render="studyFinalDocumentTablePanel, studyFinalDocumentSearchPanel"
 					execute="@this" 
 					limitRender="true" />
-				<a4j:commandButton 
+				<p:commandButton
 					id="btnShowUnhiddenDissertations"
 					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.editFullData]) and (studyFinalDocumentManagedBean.hiddenDissertations)}"
 					action="#{studyFinalDocumentManagedBean.showHiddenDissertations}"
@@ -131,27 +124,28 @@
 			</h:panelGrid>
 		</h:panelGrid>
 		<!-- ===========================   tablePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="studyFinalDocumentTablePanel" >
 			<h:panelGrid 
 				rendered="#{(not empty userManagedBean.loggedUser.author.controlNumber) or (not empty studyFinalDocumentManagedBean.whereStr) or (not empty studyFinalDocumentManagedBean.selectedAuthor) or ((userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.editFullData]) and (studyFinalDocumentManagedBean.hiddenDissertations))}" >
-				<rich:dataTable 
+				<p:dataTable
 					id="studyFinalDocumentTable"
 					value="#{studyFinalDocumentManagedBean.studyFinalDocuments}"
 					var="studyFinalDocumentRow" 
 					rows="10"
+					paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+					rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 					>
 					<!--     ........  reference   .......-->
-					<rich:column
+					<p:column
 						style="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.controlNumber == studyFinalDocumentRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{studyFinalDocumentManagedBean.sort}"
 								render="studyFinalDocumentTable"
 								limitRender="true" 
@@ -166,15 +160,15 @@
 									library="img" name="down.gif"
 									rendered="#{(studyFinalDocumentManagedBean.orderBy=='author.names') and (studyFinalDocumentManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="author.names" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{studyFinalDocumentRow.stringRepresentation}" />
-					</rich:column>
+					</p:column>
 					<!--     ........  studyType   .......-->
-					<rich:column
+					<p:column
 						style="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.controlNumber == studyFinalDocumentRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{studyFinalDocumentManagedBean.sort}"
 								render="studyFinalDocumentTableForm"
 								limitRender="true" 
@@ -187,18 +181,18 @@
 								<h:graphicImage library="img" name="down.gif"
 									rendered="#{(studyFinalDocumentManagedBean.orderBy=='localizedStudyType') and (studyFinalDocumentManagedBean.direction=='desc')}" />
 								<f:param name="orderBy" value="localizedStudyType" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</f:facet>
 						<h:outputText value="#{studyFinalDocumentRow.localizedStudyType}" />
-					</rich:column>
+					</p:column>
 					<!--     ........  actions   .......-->
-					<rich:column
+					<p:column
 						style="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.controlNumber == studyFinalDocumentRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};">
 						<f:facet name="header">
 							<h:outputText
 								value="#{messages['records.studyFinalDocument.tablePanel.actions']}" />
 						</f:facet>
-						<a4j:commandLink
+						<p:commandLink
 							action="#{studyFinalDocumentManagedBean.switchToViewDetailsMode}"
 							render="studyFinalDocumentEditModalPanel" 
 							limitRender="true" 
@@ -208,8 +202,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update])}"
 							action="#{studyFinalDocumentManagedBean.switchToUpdateMode}"
 							render="studyFinalDocumentEditModalPanel"
@@ -222,8 +216,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) or (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]))}"
 							action="#{studyFinalDocumentManagedBean.archive}"
 							onclick="if(!confirmArchivingDecision()) return false"
@@ -237,8 +231,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
 							action="#{studyFinalDocumentManagedBean.extractArchive}"
 							onclick="if(!confirmUnarchivingDecision()) return false"
@@ -252,8 +246,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.delete])}"
 							action="#{studyFinalDocumentManagedBean.delete}"
 							onclick="if(!confirmDecision()) return false"
@@ -267,8 +261,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and ((userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveFirstLevel]) or (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.archiveSecondLevel]))}"
 							action="#{studyFinalDocumentManagedBean.setAvailableToThePublic}"
 							onclick="if(!confirmSetAvailableToThePublicDecision()) return false"
@@ -282,8 +276,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.editArchivedData])}"
 							action="#{studyFinalDocumentManagedBean.setUnavailableToThePublic}"
 							onclick="if(!confirmSetUnavailableToThePublicDecision()) return false"
@@ -297,8 +291,8 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(studyFinalDocumentRow.record.archived != 100) and (userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.update])}"
 							render="publicationsEditModalPanel"
 						    execute="@this" 
@@ -308,8 +302,8 @@
 						    <f:setPropertyActionListener target="#{studyFinalDocumentManagedBean.studyFinalDocumentPublications}"
 						        value="#{studyFinalDocumentRow}" />
 						    <ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
-						<a4j:commandLink 
+						</p:commandLink>
+						<p:commandLink
 							rendered="#{(userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.update])}"
 							action="#{studyFinalDocumentManagedBean.switchToUpdateRegisterEntryMode}"
 							render="registerEntryEditModalPanel"
@@ -322,7 +316,7 @@
 							<f:param name="controlNumber"
 								value="#{studyFinalDocumentRow.controlNumber}" />
 							<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-						</a4j:commandLink>
+						</p:commandLink>
 						<h:outputLink
 							value="#{studyFinalDocumentRow.fileURL}"
 							target="_blank"
@@ -337,23 +331,15 @@
 							>
 							<h:graphicImage library="img" name="downloadZip.png" width="24" height="24"/>
 						</h:outputLink>  
-					</rich:column>
-				</rich:dataTable>
+					</p:column>
+				</p:dataTable>
 				<h:panelGrid columns="1">
-					<h:panelGroup>
-						<rich:dataScroller 
-							id="downDataScroller" 
-							align="left"
-							for="studyFinalDocumentTable" 
-							render="studyFinalDocumentTablePanel"
-							renderIfSinglePage="false"/> 
-					</h:panelGroup>
 					<h:panelGroup 
 						rendered="#{(userManagedBean.privileges[privilegesManagedBean.formStudyFinalDocument][privilegesManagedBean.add]) and ((not empty userManagedBean.loggedUser.author.controlNumber) or (studyFinalDocumentManagedBean.selectedAuthor != null) or ((userManagedBean.privileges[privilegesManagedBean.formRegisterEntry][privilegesManagedBean.editFullData]) and (studyFinalDocumentManagedBean.hiddenDissertations)))}">
 						<h3>
 							<h:outputText
 									value="#{messages['records.studyFinalDocument.tablePanel.btnCreate']}: " />
-							<a4j:commandLink 
+							<p:commandLink
 								action="#{studyFinalDocumentManagedBean.switchToAddMode}"
 								render="studyFinalDocumentEditModalPanel"
 								limitRender="true" 
@@ -361,7 +347,7 @@
 								immediate="true" >
 								<h:graphicImage library="img" name="create.png" />
 								<ui:include src="../bibliographicRecords/studyFinalDocumentToolTip.xhtml" />
-							</a4j:commandLink>
+							</p:commandLink>
 						</h3>
 					</h:panelGroup>
 				</h:panelGrid>

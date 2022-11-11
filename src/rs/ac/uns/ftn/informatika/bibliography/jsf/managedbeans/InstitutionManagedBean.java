@@ -18,8 +18,8 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import org.richfaces.event.DropEvent;
 
+import org.primefaces.event.DragDropEvent;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
@@ -830,13 +830,20 @@ public class InstitutionManagedBean extends CRUDManagedBean implements IPickRese
 
 	private InstitutionDTO findInstitutionByControlNumber(List<InstitutionDTO> institutionsList) {
 		InstitutionDTO retVal = null;
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		String controlNumber = (institutionControlNumber!=null)?institutionControlNumber:facesCtx.getExternalContext().getRequestParameterMap().get("controlNumber");
+		retVal = findInstitutionByControlNumber(institutionsList, controlNumber);
+		return retVal;
+	}
+
+	private InstitutionDTO findInstitutionByControlNumber(List<InstitutionDTO> institutionsList, String controlNumber) {
+		InstitutionDTO retVal = null;
 		try {
 			FacesContext facesCtx = FacesContext.getCurrentInstance();
-			String controlNumber = (institutionControlNumber!=null)?institutionControlNumber:facesCtx.getExternalContext().getRequestParameterMap().get("controlNumber");
 			for (InstitutionDTO dto : institutionsList) {
 				if ((dto.getControlNumber() != null)
 						&& (dto.getControlNumber()
-								.equalsIgnoreCase(controlNumber))) {
+						.equalsIgnoreCase(controlNumber))) {
 					retVal = dto;
 					if(retVal.getSuperInstitution() == null)
 						retVal.setSuperInstitution(new InstitutionDTO());
@@ -882,9 +889,9 @@ public class InstitutionManagedBean extends CRUDManagedBean implements IPickRese
 		this.openMultilingualContentForm(editMode, selectedInstitution.getKeywordsTranslations(), false, "records.institution.editPanel.keywordsTranslations.panelHeader", "records.institution.editPanel.keywordsTranslations.contentHeader");
 	}
 	
-	public void processDropInstitution(DropEvent event){
-		InstitutionDTO drop = (InstitutionDTO)event.getDropValue();
-		InstitutionDTO drag = (InstitutionDTO)event.getDragValue();
+	public void processDropInstitution(DragDropEvent event){
+		InstitutionDTO drop = (InstitutionDTO)findInstitutionByControlNumber(list, event.getDropId());
+		OrganizationUnitDTO drag = (OrganizationUnitDTO)findInstitutionByControlNumber(list, event.getDragId());
 		if(!(drag.equals(drop)) && (!(isChildInstitution(drop, drag)))) {
 			drag.setSuperInstitution(drop);
 			if (recordDAO.update(new Record(null, null, getUserManagedBean()
@@ -895,9 +902,9 @@ public class InstitutionManagedBean extends CRUDManagedBean implements IPickRese
 		}
 	}
 	
-	public void processDropOrganizationUnit(DropEvent event){
-		InstitutionDTO drop = (InstitutionDTO)event.getDropValue();
-		OrganizationUnitDTO drag = (OrganizationUnitDTO)event.getDragValue();
+	public void processDropOrganizationUnit(DragDropEvent event){
+		InstitutionDTO drop = (InstitutionDTO)findInstitutionByControlNumber(list, event.getDropId());
+		OrganizationUnitDTO drag = (OrganizationUnitDTO)findInstitutionByControlNumber(list, event.getDragId());
 		if(!(drag.equals(drop))) {
 			drag.setInstitution(drop);
 			drag.setSuperOrganizationUnit(new OrganizationUnitDTO());

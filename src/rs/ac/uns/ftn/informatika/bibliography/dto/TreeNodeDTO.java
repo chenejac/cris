@@ -2,13 +2,10 @@ package rs.ac.uns.ftn.informatika.bibliography.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.swing.tree.TreeNode;
-
-import com.google.common.collect.Iterators;
-
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 
 /**
@@ -17,7 +14,7 @@ import com.google.common.collect.Iterators;
  * 
  */
 @SuppressWarnings("serial")
-public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
+public class TreeNodeDTO <TreeNodeObjectType>  extends DefaultTreeNode implements Serializable, TreeNode{
 
 	protected boolean checkbox_state = false;
 	public String [] tree_stateType = { "empty", "full", "partial"};
@@ -26,6 +23,7 @@ public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
 	protected TreeNodeObjectType element;
 	protected String type ="";
 	protected boolean expanded = false;
+	protected boolean selected = false;
 	
 	private TreeNodeDTO <TreeNodeObjectType> parent = null;
 	private List<TreeNodeDTO <TreeNodeObjectType>> children = new ArrayList<TreeNodeDTO <TreeNodeObjectType>>();
@@ -41,15 +39,12 @@ public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
 	/**
 	 * @return the element
 	 */
-	public TreeNodeObjectType getElement() {
+	public TreeNodeObjectType getData() {
 		return element;
 	}
 
-	/**
-	 * @param element the element to set
-	 */
-	public void setElement(TreeNodeObjectType element) {
-		this.element = element;
+	public void setData(Object element) {
+		this.element = (TreeNodeObjectType) element;
 	}
 	/**
 	 * @return the element class type
@@ -118,26 +113,11 @@ public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
 	public boolean addChild(TreeNodeDTO <TreeNodeObjectType> child){
 		return children.add(child);
 	}
-	
+
+	@Override
 	public List<TreeNodeDTO <TreeNodeObjectType>> getChildren()
 	{
 		return children;
-	}
-	
-	@Override
-	public Enumeration<TreeNodeDTO <TreeNodeObjectType>> children() {
-		return Iterators.asEnumeration(children.iterator());
-	}
-
-	@Override
-	public boolean getAllowsChildren() {
-		return true;
-	}
-
-
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		return children.get(childIndex);
 	}
 
 	@Override
@@ -146,15 +126,10 @@ public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
 	}
 
 	@Override
-	public int getIndex(TreeNode node) {
-		return children.indexOf(node);
+	public void setParent(TreeNode treeNode) {
+		this.parent = (TreeNodeDTO<TreeNodeObjectType>) treeNode;
 	}
 
-	public void setParent(TreeNodeDTO<TreeNodeObjectType> parent) 
-	{
-		this.parent = parent;
-	}
-	
 	@Override
 	public TreeNode getParent() {
 		return parent;
@@ -165,7 +140,13 @@ public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
 		return children.isEmpty();
 	}
 
+	@Override
+	public boolean isSelected() {
+		return selected;
+	}
 
-	
-	
+	@Override
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 }

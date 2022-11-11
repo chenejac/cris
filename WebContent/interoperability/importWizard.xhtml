@@ -2,30 +2,29 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="importWizardFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true">
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true">
 			<h:panelGrid columns="1">
-				<rich:dataTable 
+				<p:dataTable
 					id="publicationTable"
 					rendered="#{not empty importManagedBean.nextPublication}"
 					value="#{importManagedBean.nextPublication}"
 					var="publicationRecordsRow" 
 					rows="1"
 					>
-					<rich:column>
+					<p:column>
 						<f:facet name="header">
 							<h:outputText
 								style="font-size:24px" 
@@ -34,79 +33,71 @@
 						<h:outputText 
 							style="font-size:24px" 
 							value="#{publicationRecordsRow.stringRepresentation}" />
-					</rich:column>
-				</rich:dataTable>
+					</p:column>
+				</p:dataTable>
 			</h:panelGrid>
-		</a4j:outputPanel>
+		</p:outputPanel>
 		<!-- .......Preview.......      
 		#{(not empty importManagedBean.selectedRecord) and (not empty importManagedBean.selectedRecord.relatedRecords) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}     -->
-		<rich:panel 
+		<p:panel
 			id="recordPreview"
 			header="#{messages['records.import.wizardPanel.preview']}"
 			 >
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<h:panelGrid columns="1">
 					<h:outputText
 						value="#{importManagedBean.selectedRecord.HTMLRepresentation}"
 						rendered="#{not empty importManagedBean.selectedRecord}"
 						styleClass="preview" 
 						escape="false"/>
-					<rich:dataTable 
+					<p:dataTable
 						id="recordTable"
 						rendered="false"
 						value="#{importManagedBean.selectedRecord.relatedRecords}"
 						var="relatedRecordsRow" 
-						rows="10" 
+						rows="10"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+						rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 						>
-						<rich:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText
 									value="#{messages['records.relatedRecords.recordsForImport']}" />
 							</f:facet>
 							<h:outputText value="#{relatedRecordsRow.stringRepresentation}" />
-						</rich:column>
-					</rich:dataTable>
-					<h:panelGrid 
-						rendered="#{(not empty importManagedBean.selectedRecord) and (userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}" >
-						<h:panelGroup>
-							<rich:dataScroller 
-								id="downDataScroller" 
-								align="left"
-								for="recordTable" 
-								render="recordPreview"
-								renderIfSinglePage="false"
-								/> 
-						</h:panelGroup>
-					</h:panelGrid>
+						</p:column>
+					</p:dataTable>
 					<h:outputText
 						value="#{messages['records.import.wizardPanel.noMore']}"
 						rendered="#{empty importManagedBean.selectedRecord}"
 						styleClass="preview" />
 				</h:panelGrid>
-			</a4j:outputPanel>
-		</rich:panel>
+			</p:outputPanel>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="2">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(not empty importManagedBean.selectedRecord)}"
 				action="#{importManagedBean.switchAppropriateBeanToImportMode}"
 				value="#{messages['records.import.wizardPanel.btnImport']}"
-				render="#{importManagedBean.formForImport}"
+				update="#{importManagedBean.formForImport}"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(not empty importManagedBean.selectedRecord) }"
 				action="#{importManagedBean.skipRecord}"
 				onclick="if(!confirmDecisionSkip()) return false"
 				value="#{messages['records.import.wizardPanel.btnNext']}"
-				render="importWizardModalPanel"
+				update="importWizardModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(empty importManagedBean.selectedRecord)}"
 				action="#{importManagedBean.finishWizard}"
 				value="#{messages['records.import.wizardPanel.btnFinish']}"
-				render="mainPanel, #{importManagedBean.renderModalPanels}"
+				update="mainPanel, #{importManagedBean.renderModalPanels}"
 				limitRender="true" 
 				execute="@this" />
 		</h:panelGrid>		
@@ -117,7 +108,7 @@
   			<h:outputText 
   				rendered="#{(not empty importManagedBean.selectedRecord)}"
 				value="#{messages['records.import.wizardPanel.automaticStoring']}"/>
-			<h:selectBooleanCheckbox  
+			<p:selectBooleanCheckbox
 				rendered="#{(not empty importManagedBean.selectedRecord)}"
 				value="#{(importManagedBean.automaticImport)}"/>
 		</h:panelGrid>

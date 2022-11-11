@@ -17,8 +17,8 @@ import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.component.UIDataTable;
 
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.ConferenceDTO;
@@ -103,7 +103,7 @@ public class ConferenceManagedBean extends CRUDManagedBean {
 					}
 				}
 				if (index != -1) {
-					UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("conferenceTable");
+					DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("conferenceTable");
 					if(table!=null){
 						int page = index / table.getRows();
 						table.setFirst(table.getRows()*page);
@@ -295,10 +295,10 @@ public class ConferenceManagedBean extends CRUDManagedBean {
 		return retVal;
     }
 
-	public List<ConferenceDTO> autocompleteForSearch(String suggest) {
-		List<ConferenceDTO> retVal = new ArrayList<ConferenceDTO>();
+	public List<String> autocompleteForSearch(String suggest) {
+		List<String> retVal = new ArrayList<String>();
 		if(suggest.contains("(BISIS)")){
-        	retVal.add((ConferenceDTO)recordDAO.getDTO(suggest));
+        	retVal.add(((ConferenceDTO)recordDAO.getDTO(suggest)).getSomeName());
         	return retVal;
         }
 		
@@ -311,12 +311,12 @@ public class ConferenceManagedBean extends CRUDManagedBean {
 			bq.add(QueryUtils.makeBooleanQuery("YE", year + ".", Occur.SHOULD, 0.6f, 0.5f, false), Occur.MUST);
 		bq.add(new TermQuery(new Term("TYPE", Types.CONFERENCE)), Occur.MUST);
 		
-		List<Record> listRecord = recordDAO.getDTOs(bq, new AllDocCollector(true));
+		List<Record> listRecord = recordDAO.getDTOs(bq, new TopDocCollector(10));
 		for (Record recordDTO : listRecord) {
 			try {
 				ConferenceDTO dto = (ConferenceDTO) recordDTO.getDto();
 				if (dto != null) {
-					retVal.add(dto);
+					retVal.add(dto.getSomeName());
 				}
 			} catch (Exception e) {
 				log.error(e);

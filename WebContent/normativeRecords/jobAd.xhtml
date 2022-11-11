@@ -5,8 +5,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags"
      >
 	<f:view locale="#{userManagedBean.language}">
@@ -29,10 +28,7 @@
     			</ui:insert>
 			</div>
 			<div id="center">
-				<h:graphicImage 
-					library="img"
-					name="spacer.gif" 
-					alt="" 
+				<p:spacer
 					height="20"
 					width="1"
 					/>
@@ -40,17 +36,17 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
 				</div>
-				<a4j:status for="form_region" onstart="onStart()" onstop="onStop()" />
-				<a4j:region id="form_region">
+				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:fragment id="form_region">
 					<h:form id="jobAdTableForm">
 						<h:panelGrid id="mainPanel">
-							<rich:panel id="jobAdBrowseModalPanel"
+							<p:panel id="jobAdBrowseModalPanel"
 								header="#{messages['records.jobAd.header']}">
 								<h:panelGrid id="jobAdTableFormPanel" >
-									<h:inputText id="general" rendered="false" value="" />
+									<p:inputText id="general" rendered="false" value="" />
 									<ui:include src="../normativeRecords/jobAdTable.xhtml" />
 								</h:panelGrid>
-							</rich:panel>
+							</p:panel>
 						</h:panelGrid>
 					</h:form>
 					<h:panelGrid id="modalPanel2s">
@@ -60,7 +56,7 @@
 						<!-- ======================== Job ad Edit panel ============= -->
 						<h:form id="jobAdEditForm" >
 							<h:panelGrid id="jobAdEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(jobAdManagedBean.simpleForm == false) and ((jobAdManagedBean.editMode == modesManagedBean.update) or (jobAdManagedBean.editMode == modesManagedBean.viewDetails) or (jobAdManagedBean.editMode == modesManagedBean.add))}"
 									show="true" 
 									domElementAttachment="parent"
@@ -73,7 +69,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{jobAdManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{jobAdManagedBean.renderModalPanels}"
@@ -81,16 +77,16 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/jobAdEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Job Ad Simple Edit panel ============= -->
 						<h:form id="jobAdSimpleEditForm">
 							<h:panelGrid id="jobAdSimpleEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									id="jobAdSimpleEditPopupPanel"
 									rendered="#{(jobAdManagedBean.simpleForm == true) and ((jobAdManagedBean.editMode == modesManagedBean.update) or (jobAdManagedBean.editMode == modesManagedBean.viewDetails) or (jobAdManagedBean.editMode == modesManagedBean.add))}"
 									show="true" 
@@ -104,7 +100,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{jobAdManagedBean.switchToEditNoneMode}"
 											styleClass="hidelink" 
 											render="mainPanel, #{jobAdManagedBean.renderModalPanels}" 
@@ -113,10 +109,10 @@
 											execute="@this"
 											>
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../normativeRecords/jobAdSimpleEdit.xhtml"/>
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Job ad end ============= -->
@@ -125,7 +121,7 @@
 						<!-- ======================== Multilingual content Edit panel ============= -->
 						<h:form id="multilingualContentForm">
 							<h:panelGrid id="multilingualContentEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(multilingualContentManagedBean.editMode == modesManagedBean.update) or (multilingualContentManagedBean.editMode == modesManagedBean.viewDetails) or (multilingualContentManagedBean.editMode == modesManagedBean.add)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -138,7 +134,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{multilingualContentManagedBean.exit}"
 											styleClass="hidelink" 
 											render="multilingualContentEditModalPanel"
@@ -146,10 +142,10 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../multilingualContent.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Multilingual content end ============= -->
@@ -157,7 +153,7 @@
 						<!-- ======================== Related Records  ============= -->
 						<h:form id="relatedRecordsForm">
 							<h:panelGrid id="relatedRecordsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty relatedRecordsManagedBean.selectedRecord)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -169,7 +165,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{relatedRecordsManagedBean.exit}"
 											styleClass="hidelink" 
 											render="relatedRecordsEditModalPanel"
@@ -177,17 +173,17 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="../relatedRecords.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Related records end ============= -->
 						<!-- ======================== Applications  ============= -->
 						<h:form id="applicationsForm">
 							<h:panelGrid id="applicationsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty jobAdManagedBean.selectedJobAdApplications)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -199,7 +195,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{jobAdManagedBean.exitApplications}"
 											styleClass="hidelink" 
 											render="applicationsEditModalPanel"
@@ -207,17 +203,17 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="./applications.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Applications end ============= -->
 						<!-- ======================== Publications  ============= -->
 						<h:form id="publicationsForm">
 							<h:panelGrid id="publicationsEditModalPanel">
-								<rich:popupPanel
+								<p:dialog modal="true"
 									rendered="#{(not empty jobAdManagedBean.selectedJobAdPublications)}"
 									show="true" 
 									domElementAttachment="parent"
@@ -229,7 +225,7 @@
 											styleClass="panel-header" />
 									</f:facet>
 									<f:facet name="controls">
-										<a4j:commandLink 
+										<p:commandLink
 											action="#{jobAdManagedBean.exitPublications}"
 											styleClass="hidelink" 
 											render="publicationsEditModalPanel"
@@ -237,25 +233,22 @@
 											immediate="true" 
 											execute="@this">
 											<h:graphicImage library="img" name="close.png" />
-										</a4j:commandLink>
+										</p:commandLink>
 									</f:facet>
 									<ui:include src="./publications.xhtml" />
-								</rich:popupPanel>
+								</p:dialog>
 							</h:panelGrid>
 						</h:form>
 						<!-- ======================== Publications end ============= -->
-						<rich:popupPanel
+						<p:dialog modal="true"
 									rendered="true"
 									show="false">
-									<rich:editor></rich:editor> 
-						</rich:popupPanel>
+									<p:textEditor></p:textEditor>
+						</p:dialog>
 					</h:panelGrid>
-				</a4j:region>
+				</p:fragment>
 			</div>
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="70"
 				width="1"/>
 			<div id="footer">

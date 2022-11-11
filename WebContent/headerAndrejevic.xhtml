@@ -3,29 +3,30 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 <h:form id="header-form">
 	<f:subview id="header-subview">
 		<div class="bibliography-menu">
-			<rich:toolbar>
-				<rich:toolbarGroup location="left" >
-					<rich:menuItem 
-						rendered="true"
-						action="#{searchAndrejevicManagedBean.searchPageEnter}" 
-						label="#{messages['search.searchPanel.andrejevicHeader']}">
-					</rich:menuItem>
-				</rich:toolbarGroup>	
-				<rich:toolbarGroup location="right">
+			<p:toolbar>
+				<p:toolbarGroup style="float:left!important;">
+					<p:menubar>
+						<p:menuitem
+							rendered="true"
+							action="#{searchAndrejevicManagedBean.searchPageEnter}"
+							value="#{messages['search.searchPanel.andrejevicHeader']}">
+						</p:menuitem>
+					</p:menubar>
+				</p:toolbarGroup>
+				<p:toolbarGroup style="float:right!important;">
 					<!-- 
-					<h:commandLink action="#{userManagedBean.serbianLanguage}">
+					<p:commandLink ajax="false" action="#{userManagedBean.serbianLanguage}">
 						<h:graphicImage library="img" name="serbian.png" />
-					</h:commandLink>
-					<h:commandLink action="#{userManagedBean.englishLanguage}">
+					</p:commandLink>
+					<p:commandLink ajax="false" action="#{userManagedBean.englishLanguage}">
 						<h:graphicImage library="img" name="english.png" />
-					</h:commandLink> -->
+					</p:commandLink> -->
 					<h:outputText 
 						rendered="true"
 						style="width:0px;"/>
@@ -47,24 +48,27 @@
 						value="mailto:#{messages['administration.email.andrejevic']}?subject=#{messages['administration.email.andrejevic.someSubject']}">
 						<h:graphicImage 
 							library="img"
-							name="email.png" />
+							name="email.png"
+							style="margin-left: 10px;" />
 					</h:outputLink>
-					<h:outputText 
+					<p:divider layout="vertical"/>
+					<h:outputText
 						value="#{messages['administration.help.helpMe']}" />
 					<h:outputLink 
 						value="/UputstvoAndrejevic.pdf"
 						target="_blank" >
 						<h:graphicImage 
 							library="img"
-							name="help.png" />
+							name="help.png"
+							style="margin-left: 10px;"/>
 					</h:outputLink>
-				</rich:toolbarGroup>
-			</rich:toolbar>
+				</p:toolbarGroup>
+			</p:toolbar>
 		</div>
 	</f:subview>
 </h:form>
-<a4j:log mode="popup" level="DEBUG" style="width: 800px; height: 300px;" >
-</a4j:log>
+<p:log mode="popup" rendered="#{initParam['facelets.DEVELOPMENT']}" level="DEBUG" style="width: 800px; height: 300px;" >
+</p:log>
 <ui:debug hotkey="K" rendered="#{initParam['facelets.DEVELOPMENT']}" />
 
 </ui:composition>

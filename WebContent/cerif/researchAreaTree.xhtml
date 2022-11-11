@@ -2,28 +2,24 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-	<rich:panel 
+	<p:panel
 		id="scrollableBody" 
 		styleClass="scrollableBody">
 		<!-- ===========================   treePanel  ============================= -->
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid id="researchAreaTreePanel">
-			<rich:tree 
-				selectionType="client"
+			<p:tree
+				dynamic="true"
 				value="#{researchAreaManagedBean.rootNodes}"
 				var="researchArea" 
 				nodeType="#{researchArea.type}"	>			 
-				<rich:treeNode 
+				<p:treeNode
 					expanded="#{researchArea.expanded}"
 					iconCollapsed="/resources/img/institution.jpg"
 					iconExpanded="/resources/img/institution.jpg"
@@ -39,7 +35,7 @@
 						dropListener="#{researchAreaManagedBean.processDrop}"
 						dropValue="#{researchArea.element}"/>
 					<h:outputText value="#{researchArea.element}" />
-					<a4j:commandLink 
+					<p:commandLink
 						action="#{researchAreaManagedBean.switchToViewDetailsMode}"
 						render="researchAreaEditModalPanel" 
 						limitRender="true"
@@ -48,8 +44,8 @@
 						<h:graphicImage library="img" name="details.png" />
 						<f:param name="classId" value="#{researchArea.element.classId}" />
 						<ui:include src="../cerif/researchAreaToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResearchArea][privilegesManagedBean.update]}"
 						action="#{researchAreaManagedBean.switchToUpdateMode}"
 						render="researchAreaEditModalPanel" 
@@ -59,8 +55,8 @@
 						<h:graphicImage library="img" name="edit.png" />
 						<f:param name="classId" value="#{researchArea.element.classId}" />
 						<ui:include src="../cerif/researchAreaToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResearchArea][privilegesManagedBean.delete]}"
 						action="#{researchAreaManagedBean.delete}"
 						render="researchAreaBrowseModalPanel"
@@ -71,8 +67,8 @@
 						<h:graphicImage library="img" name="delete.png" />
 						<f:param name="classId" value="#{researchArea.element.classId}" />
 						<ui:include src="../cerif/researchAreaToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						rendered="#{(researchAreaManagedBean.tableMode == modesManagedBean.pick)}" 
 						action="#{researchAreaManagedBean.chooseResearchArea}"
 						render="mainPanel, #{researchAreaManagedBean.renderModalPanels}"
@@ -81,8 +77,8 @@
 						<h:graphicImage library="img" name="pick.png" />
 						<f:param name="classId" value="#{researchArea.element.classId}" />
 						<ui:include src="../cerif/researchAreaToolTip.xhtml"/>
-					</a4j:commandLink>
-					<a4j:commandLink 
+					</p:commandLink>
+					<p:commandLink
 						action="#{researchAreaManagedBean.switchToAddMode}"
 						rendered="#{userManagedBean.privileges[privilegesManagedBean.formResearchArea][privilegesManagedBean.add]}" 
 						render="researchAreaEditModalPanel" 
@@ -92,11 +88,11 @@
 						<h:graphicImage library="img" name="create24.png" />
 						<f:param name="classId" value="#{researchArea.element.classId}" />
 						<ui:include src="../cerif/researchAreaToolTip.xhtml"/>
-					</a4j:commandLink>
-				</rich:treeNode>
-	        </rich:tree>
+					</p:commandLink>
+				</p:treeNode>
+	        </p:tree>
 			<h:panelGrid columns="1">
-				<a4j:commandLink 
+				<p:commandLink
 					action="#{researchAreaManagedBean.switchToAddMode}"
 					rendered="#{userManagedBean.privileges[privilegesManagedBean.formResearchArea][privilegesManagedBean.add]}" 
 					render="researchAreaEditModalPanel" 
@@ -105,8 +101,8 @@
 					immediate="true">
 					<h:graphicImage library="img" name="create.png" />
 					<ui:include src="../cerif/researchAreaToolTip.xhtml"/>
-				</a4j:commandLink>
+				</p:commandLink>
 			</h:panelGrid>
 		</h:panelGrid>
-	</rich:panel>
+	</p:panel>
 </ui:composition>

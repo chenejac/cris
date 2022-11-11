@@ -4,8 +4,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich">
+     xmlns:p="http://primefaces.org/ui">
 	<f:view 
 		locale="#{(param['language']=='en')?'en':'sr'}"
 		contentType="text/html; charset=iso-8859-1" 
@@ -24,10 +23,7 @@
 			basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
 			var="messages" />
 	    <div id="center">
-			<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+			<p:spacer
 				height="40"
 				width="1"
 				/>
@@ -45,10 +41,7 @@
 						value="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.description.'.concat(studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileLicense)]}" 
 						styleClass="rf-msg-inf" />
 				</h:panelGroup>
-				<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+				<p:spacer
 				height="60"
 				width="1"
 				/>
@@ -67,10 +60,7 @@
 							/> 
 					</h:outputLink>
 				</h:panelGroup>
-				<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+				<p:spacer
 				height="60"
 				width="1"
 				/>
@@ -86,10 +76,7 @@
 						value="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.descriptionTrans.'.concat(studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileLicense)]}" 
 						styleClass="rf-msg-inf" />
 				</h:panelGroup>
-				<h:graphicImage 
-				library="img"
-				name="spacer.gif" 
-				alt="" 
+				<p:spacer
 				height="60"
 				width="1"
 				/>

@@ -2,28 +2,27 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="conferencePickFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(conferenceManagedBean.customPick) and (conferenceManagedBean.tableTabNumber == 0) and (conferenceManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{conferenceManagedBean.pickMessageFirstTab}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(conferenceManagedBean.customPick) and (conferenceManagedBean.tableTabNumber == 1) and (empty conferenceManagedBean.conferences)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{conferenceManagedBean.year} #{conferenceManagedBean.name}"
@@ -31,8 +30,8 @@
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<a4j:outputPanel ajaxRendered="true"
+		</p:outputPanel>
+		<p:outputPanel ajaxRendered="true"
 				rendered="#{(conferenceManagedBean.customPick) and (conferenceManagedBean.tableTabNumber == 1) and (not empty conferenceManagedBean.conferences)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{conferenceManagedBean.year} #{conferenceManagedBean.name}"
@@ -47,51 +46,48 @@
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
 					styleClass="rf-msg-inf" />
 			</h:panelGrid>
-		</a4j:outputPanel>
-		<h:graphicImage 
-			library="img"
-			name="spacer.gif" 
-			alt="" 
+		</p:outputPanel>
+		<p:spacer
 			height="10"
 			width="1"
 			/>
 		<h:panelGrid columns="5" columnClasses="width20, width30, width10, width10, width30" width="100%"
 			rendered="#{(conferenceManagedBean.tableTabNumber == 0) and (conferenceManagedBean.customPick)}">
 			<!-- ....... Year .......           -->
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<mytags:outputLabel 
 					value="#{messages['records.conference.editPanel.year']}" 
 					for="year" 
 					errorStyleClass="errorMessage" />
-			</a4j:outputPanel>
-			<a4j:region>
-				<h:inputText 
+			</p:outputPanel>
+			<p:fragment>
+				<p:inputText
 					id="year" 
 					value="#{conferenceManagedBean.year}"
 					onfocus="activeElId = this.id"
 			        >
-					<a4j:ajax event="blur" execute="@this"/>
-				</h:inputText>
-			</a4j:region>
+					<p:ajax event="blur" execute="@this"/>
+				</p:inputText>
+			</p:fragment>
 			<h:outputText value="" />
 			<h:outputText value="" />
-			<a4j:outputPanel ajaxRendered="true">
-				<rich:message 
+			<p:outputPanel ajaxRendered="true">
+				<p:message
 					for="year" 
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-			</a4j:outputPanel>
+			</p:outputPanel>
 			<!-- ....... Name .......           -->
-			<a4j:outputPanel ajaxRendered="true">
+			<p:outputPanel ajaxRendered="true">
 				<mytags:outputLabel 
 					value="#{messages['records.conference.editPanel.name']}*" 
 					for="name" 
 					errorStyleClass="errorMessage" />
-			</a4j:outputPanel>
-			<a4j:region>
-				<rich:autocomplete 
+			</p:outputPanel>
+			<p:fragment>
+				<p:autoComplete
 		            id="name" 
 		            value="#{conferenceManagedBean.name}"
 		            required="true"
@@ -104,59 +100,58 @@
 		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"   
 		            onfocus="activeElId = this.id;"
 		            >
-		            <a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
 		            <!--     ........  stringRepresentation   .......-->
-					<rich:column 
+					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 						styleClass="rich-table-wide-cell" >
 						<h:outputText value="#{_conferenceRow.stringRepresentation}" />
-					</rich:column>
-					<a4j:jsFunction 
+					</p:column>
+					<p:remoteCommand
 						name="choose" 
 						action="#{conferenceManagedBean.chooseConference}" 
 						render="mainPanel, #{conferenceManagedBean.renderModalPanels}">
 						<a4j:param 
 							name="param1" 
 							assignTo="#{conferenceManagedBean.conferenceControlNumber}"/>
-					</a4j:jsFunction> 
-				</rich:autocomplete>
-		    </a4j:region>
+					</p:remoteCommand>
+				</p:autoComplete>
+		    </p:fragment>
 			<h:inputHidden id="controlNumber"/>
 			<h:outputText value="" />
-			<a4j:outputPanel ajaxRendered="true">
-				<rich:message 
+			<p:outputPanel ajaxRendered="true">
+				<p:message
 					for="name" 
 					errorClass="errorMessage"
 					infoClass="infoMessage"
 					warnClass="warnMessage"
 					fatalClass="fatalMessage" />
-			</a4j:outputPanel>
+			</p:outputPanel>
 		</h:panelGrid>
 		<h:panelGrid width="100%"
 			rendered="#{(conferenceManagedBean.tableTabNumber == 1) or (not conferenceManagedBean.customPick)}">
 			<ui:include src="../normativeRecords/conferenceTable.xhtml" />
 		</h:panelGrid>
 		<h:panelGrid columns="2">
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(conferenceManagedBean.tableTabNumber == 1) and (conferenceManagedBean.customPick)}"
 				action="#{conferenceManagedBean.previousTableTab}"
 				value="#{messages['records.conference.pickPanel.btnPrevious']}"
-				render="conferenceBrowseModalPanel"
+				update="conferenceBrowseModalPanel"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				id="nextBtn"
 				action="#{conferenceManagedBean.nextTableTab}"
 				value="#{messages['records.conference.pickPanel.btnNext']}"
-				render="conferenceBrowseModalPanel"
+				update="conferenceBrowseModalPanel"
 				rendered="#{(conferenceManagedBean.tableTabNumber == 0) and (conferenceManagedBean.customPick)}"
 				limitRender="true" 
 				execute="@form" />
-			<a4j:commandButton 
+			<p:commandButton
 				rendered="#{(conferenceManagedBean.tableTabNumber == 1) and (conferenceManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.add])}"
 				action="#{conferenceManagedBean.switchToAddMode}"
 				value="#{messages['records.conference.pickPanel.btnNext']}"
-				render="conferenceEditModalPanel" 
+				update="conferenceEditModalPanel"
 				limitRender="true"
 				execute="@this" 
 				immediate="true" />

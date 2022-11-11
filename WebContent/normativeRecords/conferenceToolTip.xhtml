@@ -2,11 +2,10 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
-<rich:tooltip followMouse="true" direction="topRight"
+<p:tooltip followMouse="true" direction="topRight"
 	showDelay="1000" styleClass="tooltip" mode="client">
 	<span class="tooltipSpan"> 
 		<h:panelGrid columns="2">
@@ -38,6 +37,6 @@
 				rendered="#{(not conferenceManagedBean.customPick) and (userManagedBean.privileges[privilegesManagedBean.formConference][privilegesManagedBean.add])}" />
 		</h:panelGrid> 
 	</span>
-</rich:tooltip>
+</p:tooltip>
 				
 </ui:composition>

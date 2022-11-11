@@ -2,21 +2,20 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:a4j="http://richfaces.org/a4j"
-     xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 
 	<h:panelGrid id="multilingualContentPublisherFormPanel">
-		<h:inputText id="general" rendered="false" value="" />
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:message 
+		<p:inputText id="general" rendered="false" value="" />
+		<p:outputPanel ajaxRendered="true">
+			<p:message
 				for="general"
 				errorClass="errorMessage"
 				infoClass="infoMessage"
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
-		</a4j:outputPanel>
-		<rich:panel 
+		</p:outputPanel>
+		<p:panel
 			id="scrollableBody" 
 			styleClass="scrollableBody"	>
 			<h:panelGrid 
@@ -25,146 +24,146 @@
 				columnClasses="width20, width30, width10, width10, width30"
 				width="100%">
 				<!-- ....... pubName .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.multilingualContentPublisher.editPanel.pubName']}*" 
 						for="pubName" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:inputTextarea 
+				</p:outputPanel>
+				<p:inputTextarea
 					id="pubName"
 					value="#{multilingualContentPublisherManagedBean.pubName}" 
 					rows="3" 
 					required="true"/>
 				<h:outputText value="" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="pubName" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... pubPlace .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.multilingualContentPublisher.editPanel.pubPlace']}" 
 						for="pubPlace" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:inputText 
+				</p:outputPanel>
+				<p:inputText
 					id="pubPlace"
 					value="#{multilingualContentPublisherManagedBean.pubPlace}" 
 					maxlength="300" />
 				<h:outputText value="" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="pubPlace" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... pubState .......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.multilingualContentPublisher.editPanel.pubState']}" 
 						for="pubState" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:inputText 
+				</p:outputPanel>
+				<p:inputText
 					id="pubState"
 					value="#{multilingualContentPublisherManagedBean.pubState}" 
 					maxlength="300" />
 				<h:outputText value="" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="pubState" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 				<!-- ....... Language.......           -->
-				<a4j:outputPanel ajaxRendered="true">
+				<p:outputPanel ajaxRendered="true">
 					<mytags:outputLabel 
 						value="#{messages['records.multilingualContentPublisher.editPanel.language']}*" 
 						for="language" 
 						errorStyleClass="errorMessage"
 						/>
-				</a4j:outputPanel>
-				<h:selectOneMenu 
+				</p:outputPanel>
+				<p:selectOneMenu
 					id="language"
 					value="#{multilingualContentPublisherManagedBean.language}" 
 					required="true"	>
 					<ui:include src="./languagesSelectItems.xhtml"/>
-				</h:selectOneMenu>
-				<a4j:commandButton 
+				</p:selectOneMenu>
+				<p:commandButton
 					action="#{multilingualContentPublisherManagedBean.add}"
 					value="#{messages['records.multilingualContentPublisher.editPanel.btnAddPublisher']}"
 					render="multilingualContentPublisherEditModalPanel" 
 					execute="@form" />
 				<h:outputText value=""  />
-				<a4j:outputPanel ajaxRendered="true" >
-					<rich:message 
+				<p:outputPanel ajaxRendered="true" >
+					<p:message
 						for="language" 
 						errorClass="errorMessage"
 						infoClass="infoMessage"
 						warnClass="warnMessage"
 						fatalClass="fatalMessage" />
-				</a4j:outputPanel>
+				</p:outputPanel>
 			</h:panelGrid>
 			<!-- .......translated publisher name .......           -->
-			<rich:dataTable id="multilingualContentPublisherTable"
+			<p:dataTable id="multilingualContentPublisherTable"
 				value="#{multilingualContentPublisherManagedBean.publisherTranslations}"
 				var="publisherRow"
 				rowKeyVar="publisherKeyVar">
 				<!--     ........  pubName   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContentPublisher.editPanel.pubName']}" />
 					</f:facet>
 					<h:outputText value="#{publisherRow.name}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  pubPlace   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContentPublisher.editPanel.pubPlace']}" />
 					</f:facet>
 					<h:outputText value="#{publisherRow.place}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  pubState   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContentPublisher.editPanel.pubState']}" />
 					</f:facet>
 					<h:outputText value="#{publisherRow.state}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  language   .......-->
-				<rich:column>
+				<p:column>
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContentPublisher.editPanel.language']}" />
 					</f:facet>
 					<h:outputText value="#{publisherRow.localizedLanguage}" />
-				</rich:column>
+				</p:column>
 				<!--     ........  remove    .......-->
-				<rich:column
+				<p:column
 					rendered="#{(multilingualContentPublisherManagedBean.editMode != modesManagedBean.viewDetails)}" >
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.multilingualContentPublisher.editPanel.remove']}" />
 					</f:facet>
-					<a4j:commandLink
+					<p:commandLink
 						action="#{multilingualContentPublisherManagedBean.remove}"
 						render="scrollableBody"
 						limitRender="true" 
@@ -172,13 +171,13 @@
 						execute="@this" >
 						<h:graphicImage library="img" name="delete.png" />
 						<f:param name="ordNum" value="#{publisherKeyVar}" />
-					</a4j:commandLink>
-				</rich:column>
-			</rich:dataTable>
-		</rich:panel>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
 		<!--================= Update, Create, Cancel buttons ====================  -->
 		<h:panelGrid columns="1">
-			<a4j:commandButton 
+			<p:commandButton
 				action="#{multilingualContentPublisherManagedBean.exit}"
 				value="#{messages['records.multilingualContentPublisher.editPanel.btnExit']}"
 				render="multilingualContentPublisherEditModalPanel"

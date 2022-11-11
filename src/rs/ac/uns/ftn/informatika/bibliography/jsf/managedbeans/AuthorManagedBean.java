@@ -18,8 +18,8 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.BooleanClause.Occur;
-import org.richfaces.component.UIDataTable;
 
+import org.primefaces.component.datatable.DataTable;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
@@ -134,7 +134,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 						}
 					}
 					if (index != -1) {
-						UIDataTable table = (UIDataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("authorTable");
+						DataTable table = (DataTable)FacesContext.getCurrentInstance().getViewRoot().findComponent("authorTable");
 						if(table!=null){
 							int page = index / table.getRows();
 							table.setFirst(table.getRows()*page);
@@ -384,10 +384,10 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
     }
 	
 
-	public List<AuthorDTO> autocompleteForSearch(String suggest) {
-		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
+	public List<String> autocompleteForSearch(String suggest) {
+		List<String> retVal = new ArrayList<String>();
         if(suggest.contains("(BISIS)")){
-        	retVal.add((AuthorDTO)recordDAO.getDTO(suggest));
+        	retVal.add(((AuthorDTO)recordDAO.getDTO(suggest)).getNames());
         	return retVal;
         }
         String authorLastname = suggest;
@@ -412,12 +412,12 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		bq.add(new TermQuery(new Term("TYPE", Types.AUTHOR)), Occur.MUST);
 		
 
-		List<Record> listRecord = personDAO.getDTOs(bq, new AllDocCollector(true));
+		List<Record> listRecord = personDAO.getDTOs(bq, new TopDocCollector(10));
 		for (Record recordDTO : listRecord) {
 			try {
 				AuthorDTO dto = (AuthorDTO) recordDTO.getDto();
 				if (dto != null) {				
-					retVal.add(dto);
+					retVal.add(dto.getNames());
 				}
 			} catch (Exception e) {
 				log.error(e);

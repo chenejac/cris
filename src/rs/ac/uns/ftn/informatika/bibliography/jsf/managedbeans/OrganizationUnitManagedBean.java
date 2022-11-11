@@ -19,9 +19,9 @@ import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocCollector;
-import org.richfaces.event.DropEvent;
-import org.richfaces.model.SwingTreeNodeImpl;
 
+import org.primefaces.event.DragDropEvent;
+import org.primefaces.model.DefaultTreeNode;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
@@ -718,14 +718,21 @@ public class OrganizationUnitManagedBean extends CRUDManagedBean implements IPic
 
 	private OrganizationUnitDTO findOrganizationUnitByControlNumber(List<OrganizationUnitDTO> organizationUnitsList) {
 		OrganizationUnitDTO retVal = null;
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		String controlNumber = facesCtx.getExternalContext()
+				.getRequestParameterMap().get("controlNumber");
+		retVal = findOrganizationUnitByControlNumber(organizationUnitsList, controlNumber);
+		return retVal;
+	}
+
+	private OrganizationUnitDTO findOrganizationUnitByControlNumber(List<OrganizationUnitDTO> organizationUnitsList, String controlNumber) {
+		OrganizationUnitDTO retVal = null;
 		try {
 			FacesContext facesCtx = FacesContext.getCurrentInstance();
-			String controlNumber = facesCtx.getExternalContext()
-					.getRequestParameterMap().get("controlNumber");
 			for (OrganizationUnitDTO dto : organizationUnitsList) {
 				if ((dto.getControlNumber() != null)
 						&& (dto.getControlNumber()
-								.equalsIgnoreCase(controlNumber))) {
+						.equalsIgnoreCase(controlNumber))) {
 					retVal = dto;
 					if(retVal.getSuperOrganizationUnit() == null)
 						retVal.setSuperOrganizationUnit(new OrganizationUnitDTO());
@@ -733,6 +740,7 @@ public class OrganizationUnitManagedBean extends CRUDManagedBean implements IPic
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return retVal;
 	}
@@ -770,9 +778,9 @@ public class OrganizationUnitManagedBean extends CRUDManagedBean implements IPic
 		this.openMultilingualContentForm(editMode, selectedOrganizationUnit.getKeywordsTranslations(), false, "records.organizationUnit.editPanel.keywordsTranslations.panelHeader", "records.organizationUnit.editPanel.keywordsTranslations.contentHeader");
 	}
 	
-	public void processDrop(DropEvent event){
-		OrganizationUnitDTO drop = (OrganizationUnitDTO)event.getDropValue();
-		OrganizationUnitDTO drag = (OrganizationUnitDTO)event.getDragValue();
+	public void processDrop(DragDropEvent event){
+		OrganizationUnitDTO drop = (OrganizationUnitDTO)findOrganizationUnitByControlNumber(list, event.getDropId());
+		OrganizationUnitDTO drag = (OrganizationUnitDTO)findOrganizationUnitByControlNumber(list, event.getDragId());
 		if(!(drag.equals(drop)) && (!(isChild(drop, drag)))) {
 			drag.setSuperOrganizationUnit(drop);
 			if(recordDAO.update(new Record(null, null, getUserManagedBean()
@@ -806,14 +814,16 @@ public class OrganizationUnitManagedBean extends CRUDManagedBean implements IPic
 		return false;
 	}
 	
-	private SwingTreeNodeImpl<OrganizationUnitDTO> root = null;
+	private DefaultTreeNode<OrganizationUnitDTO> root = null;
 	
-	private void addNode(SwingTreeNodeImpl<OrganizationUnitDTO> parentNode, OrganizationUnitDTO parentOrganizationUnit) {
+	private void addNode(DefaultTreeNode<OrganizationUnitDTO> parentNode, OrganizationUnitDTO parentOrganizationUnit) {
 		  for(OrganizationUnitDTO ins:getOrganizationUnits(parentOrganizationUnit)){
-			  	SwingTreeNodeImpl<OrganizationUnitDTO> node = new SwingTreeNodeImpl<OrganizationUnitDTO>();
+			    DefaultTreeNode<OrganizationUnitDTO> node = new DefaultTreeNode<OrganizationUnitDTO>();
 				node.setData(ins);
 				addNode(node, ins);
-				parentNode.addChild(node);
+				if (parentNode.getChildren() == null)
+				  parentNode.setChildren(new ArrayList<>());
+				parentNode.getChildren().add(node);
 		}
 	  }
 	  
@@ -831,28 +841,30 @@ public class OrganizationUnitManagedBean extends CRUDManagedBean implements IPic
 
 
 
-	public SwingTreeNodeImpl<OrganizationUnitDTO> getRoot() {
+	public DefaultTreeNode<OrganizationUnitDTO> getRoot() {
 		if(populateList){
 			getTree();
 		}
 		return root;
 	}
 
-	public void setRoot(SwingTreeNodeImpl<OrganizationUnitDTO> root) {
+	public void setRoot(DefaultTreeNode<OrganizationUnitDTO> root) {
 		this.root = root;
 	}
 	
 	public void getTree() {
 		debug("getTree");
 		try {
-		      root = new SwingTreeNodeImpl<OrganizationUnitDTO>(); 
+		      root = new DefaultTreeNode<OrganizationUnitDTO>();
 		      List<OrganizationUnitDTO> allOrganizationUnits = getOrganizationUnits();
 			  for(OrganizationUnitDTO ou:allOrganizationUnits){
 					if(((institution == null) && (ou.getSuperOrganizationUnit() == null)) || ((institution != null) && (institution.equals(ou.getInstitution())))){
-						SwingTreeNodeImpl<OrganizationUnitDTO> node = new SwingTreeNodeImpl<OrganizationUnitDTO>();
+						DefaultTreeNode<OrganizationUnitDTO> node = new DefaultTreeNode<OrganizationUnitDTO>();
 						node.setData(ou);
 						addNode(node, ((OrganizationUnitDTO)node.getData()));
-						root.addChild(node);
+						if (root.getChildren() == null)
+							root.setChildren(new ArrayList<>());
+						root.getChildren().add(node);
 					}
 		      }
 			  

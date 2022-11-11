@@ -4,8 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:p="http://primefaces.org/ui">
 <f:view contentType="text/html; charset=iso-8859-1"
 	beforePhase="#{publicThesesPAFSUManagedBean.loadTheses2019}" />
 <h:head>
@@ -55,68 +54,68 @@
 					<tr>
 						<td>
 							<h:panelGrid id="publicThesesTableFormPanel" >
-								<h:inputText id="general" rendered="false" value="" />
-								<a4j:outputPanel ajaxRendered="true">
-									<rich:message 
+								<p:inputText id="general" rendered="false" value="" />
+								<p:outputPanel ajaxRendered="true">
+									<p:message
 										for="general"
 										errorClass="errorMessage"
 										infoClass="infoMessage"
 										warnClass="warnMessage"
 										fatalClass="fatalMessage"/>
-								</a4j:outputPanel>
+								</p:outputPanel>
 								<h:panelGrid id="publicThesesTablePanel" >
-									<rich:dataTable 
+									<p:dataTable
 										id="publicThesesTable"
 										value="#{publicThesesPAFSUManagedBean.theses2019}"
 										var="studyFinalDocumentRow" 
 										styleClass="candidates"
 										>
 										<!--     ........  author   .......-->
-										<rich:column
+										<p:column
 											styleClass="fullName" >
 											<f:facet name="header">
 												<h:outputText
 													value="#{messages['records.publicTheses.tablePanel.author']}" />
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.someAuthorName}" />
-										</rich:column>
+										</p:column>
 										<!--     ........  institution   ....... 
-										<rich:column
+										<p:column
 											styleClass="institution" >
 											<f:facet name="header">
 												<h:outputText
 													value="#{messages['records.publicTheses.tablePanel.institution']}" />
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.someInstitutionName}" />
-										</rich:column> -->
+										</p:column> -->
 										<!--     ........  researchArea   .......-->
-										<rich:column
+										<p:column
 											styleClass="researchArea" >
 											<f:facet name="header">
 												<h:outputText
 													value="#{messages['records.publicTheses.tablePanel.researchArea']}" />
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.someResearchArea}" />
-										</rich:column>
+										</p:column>
 										<!--     ........  title   .......-->
-										<rich:column
+										<p:column
 											styleClass="title" >
 											<f:facet name="header">
 												<h:outputText
 													value="#{messages['records.publicTheses.tablePanel.title']}" />
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.someTitle}" />
-										</rich:column>
+										</p:column>
 										<!--     ........  public period   .......-->
-										<rich:column
+										<p:column
 											styleClass="publicPeriod" >
 											<f:facet name="header">
 												<h:outputText
 													value="#{messages['records.publicTheses.tablePanel.publicPeriod']}" />
 											</f:facet>
 											<h:outputText value="#{studyFinalDocumentRow.publicPeriod}" />
-										</rich:column>
-									</rich:dataTable>
+										</p:column>
+									</p:dataTable>
 								</h:panelGrid>
 							</h:panelGrid>
 							<br/>
