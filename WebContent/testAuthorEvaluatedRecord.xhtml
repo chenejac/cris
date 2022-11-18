@@ -37,7 +37,7 @@
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()"/>
 				<p:fragment id="form_region">
 					<!-- MAIN testAuthorEvaluatedRecord PANEL -->	
 						
@@ -116,7 +116,7 @@
 								            		<p:column style="width:80%">
 								            		<p:outputPanel ajaxRendered="true" >
 								            			<p:commandLink id="link" value="#{list.resultType.someTerm}" render="testAuthorEvaluatedRecordViewDetailsAuthorPanel" limitRender="true" execute="@this">
-									 						<a4j:param name="val" value="#{true}" assignTo="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" />
+									 						<f:param name="val" value="#{true}" assignTo="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" />
 									 					</p:commandLink>
 									 					 <p:fragment id="collapsablePanel">
 													     <p:dataList value="#{list.results}" var="item" rendered="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" type="unordered">
@@ -126,7 +126,7 @@
 													     </p:dataList>
 													     <p:commandLink render="testAuthorEvaluatedRecordViewDetailsAuthorPanel" execute="@this" limitRender="true" rendered="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}">
 													     	<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
-									 						<a4j:param name="val" value="#{false}" assignTo="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" />
+									 						<f:param name="val" value="#{false}" assignTo="#{testAuthorEvaluatedRecordManagedBean.showList[list.resultType.classId]}" />
 									 					</p:commandLink>
 													   </p:fragment>
 													</p:outputPanel >

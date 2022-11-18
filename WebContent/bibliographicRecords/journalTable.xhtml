@@ -10,7 +10,7 @@
 			rendered="#{(not journalManagedBean.customPick) and (journalManagedBean.pickMessage!=null)}">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{journalManagedBean.pickMessage}"
-				styleClass="rf-msg-inf" />
+				styleClass="ui-message-info" />
 		</h:panelGrid>
 	</p:outputPanel>
 	<!-- ===========================   searchPanel  ============================= -->
@@ -75,7 +75,7 @@
 				<!--     ........  name   .......-->
 				<p:column
 					style="#{journalManagedBean.selectedJournal.controlNumber == journalRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
-					styleClass="rich-table-wide-cell" >
+					styleClass="ui-datatable-wide-cell" >
 					<f:facet name="header">
 						<p:commandLink
 							action="#{journalManagedBean.sort}"

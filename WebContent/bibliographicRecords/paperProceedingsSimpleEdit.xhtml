@@ -35,7 +35,7 @@
 				header="#{messages['records.paperProceedings.editPanel.reference']}"
 				rendered="#{paperProceedingsManagedBean.editTabNumber == 0}">
 				<h:panelGrid columns="1" style="width:100%" >
-					<div style="max-width:500px;height:70px;border-style:solid;border-width:1px;overflow: auto !important;" id="copiedReference" contenteditable="true" onpaste="handlepaste(this, event)">
+					<div style="max-width:500px;height:70px;border-style:solid;border-width:1px;overflow: auto !important;" id="copiedReference" contenteditable="true" onchange="handlepaste(this, event)">
 						<script type="text/javascript">
    							document.getElementById('copiedReference').innerHTML = copiedReference;
 						</script>
@@ -91,9 +91,9 @@
 	            			selectFirst="false"
 			         		style="width:100% !important;"
 			         		inputClass="width100"	
-			         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){document.getElementById('paperProceedingsSimpleEditForm:chooseAuthor').disabled = true; activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-       						onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
-			         		onfocus="activeElId = this.id;pickControlNumber(this, #{rich:element('controlNumber')});"
+			         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){document.getElementById('paperProceedingsSimpleEditForm:chooseAuthor').disabled = true; activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+       						onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
+			         		onfocus="activeElId = this.id;pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});"
 			         		onkeydown="if(this.value.length>3) document.getElementById('paperProceedingsSimpleEditForm:chooseAuthor').disabled = false; else document.getElementById('paperProceedingsSimpleEditForm:chooseAuthor').disabled = true;"
 				         	onkeypress="if(this.value.length>3) document.getElementById('paperProceedingsSimpleEditForm:chooseAuthor').disabled = false; else document.getElementById('paperProceedingsSimpleEditForm:chooseAuthor').disabled = true;"
 			         		onblur="activeElId = null;"
@@ -101,7 +101,7 @@
 			            	<!--     ........  IME AUTORA .......-->
 							<p:column
 								style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-								styleClass="rich-table-wide-cell" width="100%">
+								styleClass="ui-datatable-wide-cell" width="100%">
 				                <h:outputText value="#{_authorRow.names}"/>
 							</p:column>
 							<p:remoteCommand
@@ -110,9 +110,9 @@
 								render="authors, authorName"
 								limitRender="true"
 								>
-							<a4j:param 
-								name="param1" 
-								assignTo="#{authorManagedBean.authorControlNumber}"/>
+							<f:setPropertyActionListener
+									value="#{authorName}"
+									target="#{authorManagedBean.authorControlNumber}"/>
 							</p:remoteCommand>
 						</p:autoComplete>
 					</p:fragment>

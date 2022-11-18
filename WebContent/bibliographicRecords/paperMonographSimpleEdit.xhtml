@@ -83,9 +83,9 @@
 	            			selectFirst="false"
 			         		style="width:100% !important;"
 			         		inputClass="width100"	
-			         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = true; activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-       						onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
-			         		onfocus="activeElId = this.id;pickControlNumber(this, #{rich:element('controlNumber')});"
+			         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = true; activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+       						onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
+			         		onfocus="activeElId = this.id;pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});"
 			         		onkeydown="if(this.value.length>3) document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = false; else document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = true;"
 				         	onkeypress="if(this.value.length>3) document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = false; else document.getElementById('paperMonographSimpleEditForm:chooseAuthor').disabled = true;"
 			         		onblur="activeElId = null;"
@@ -93,7 +93,7 @@
 			            	<!--     ........  IME AUTORA .......-->
 							<p:column
 								style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-								styleClass="rich-table-wide-cell" width="100%">
+								styleClass="ui-datatable-wide-cell" width="100%">
 				                <h:outputText value="#{_authorRow.names}"/>
 							</p:column>
 							<p:remoteCommand
@@ -102,7 +102,7 @@
 								render="authors, authorName"
 								limitRender="true"
 								>
-							<a4j:param 
+							<f:param
 								name="param1" 
 								assignTo="#{authorManagedBean.authorControlNumber}"/>
 							</p:remoteCommand>

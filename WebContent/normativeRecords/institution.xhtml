@@ -35,7 +35,7 @@
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif" alt="progressbar"></h:graphicImage></div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()" />
 				<p:fragment id="form_region">
 					<h:form id="institutionPickForm">
 						<h:panelGrid id="mainPanel">

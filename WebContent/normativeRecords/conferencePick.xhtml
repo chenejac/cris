@@ -19,32 +19,32 @@
 				rendered="#{(conferenceManagedBean.customPick) and (conferenceManagedBean.tableTabNumber == 0) and (conferenceManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{conferenceManagedBean.pickMessageFirstTab}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(conferenceManagedBean.customPick) and (conferenceManagedBean.tableTabNumber == 1) and (empty conferenceManagedBean.conferences)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{conferenceManagedBean.year} #{conferenceManagedBean.name}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(conferenceManagedBean.customPick) and (conferenceManagedBean.tableTabNumber == 1) and (not empty conferenceManagedBean.conferences)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{conferenceManagedBean.year} #{conferenceManagedBean.name}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:panelGroup>
 					<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
-						styleClass="rf-msg-inf" />
+						styleClass="ui-message-info" />
 					<h:graphicImage library="img" name="pick.png" />
 				</h:panelGroup>
 				<h:outputText value="#{conferenceManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:spacer
@@ -96,21 +96,21 @@
 		            var="_conferenceRow"
 		            fetchValue="#{_conferenceRow.controlNumber}" 
 		            minChars="3" 
-		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"   
+		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+		            onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
 		            onfocus="activeElId = this.id;"
 		            >
 		            <!--     ........  stringRepresentation   .......-->
 					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-						styleClass="rich-table-wide-cell" >
+						styleClass="ui-datatable-wide-cell" >
 						<h:outputText value="#{_conferenceRow.stringRepresentation}" />
 					</p:column>
 					<p:remoteCommand
 						name="choose" 
 						action="#{conferenceManagedBean.chooseConference}" 
 						render="mainPanel, #{conferenceManagedBean.renderModalPanels}">
-						<a4j:param 
+						<f:param
 							name="param1" 
 							assignTo="#{conferenceManagedBean.conferenceControlNumber}"/>
 					</p:remoteCommand>

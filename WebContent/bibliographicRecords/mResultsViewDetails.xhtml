@@ -115,11 +115,10 @@
 							immediate="false"
 							style="font-size: 14px"
 							>
-							<a4j:param
-								name="val"
-								value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
-								assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
-								/>
+							<f:setPropertyActionListener
+									target="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+									value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+							/>
 						</p:commandLink>
 						<p:fragment id="collapsablePanelM">
 							<p:dataList
@@ -140,10 +139,10 @@
 								rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
 								execute="@this">
 								<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
-								<a4j:param
-									name="val"
-									value="#{! apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
-									assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
+								<f:setPropertyActionListener
+										target="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+										value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}"
+								/>
 							</p:commandLink>
 						</p:fragment>
 					</p:outputPanel >

@@ -16,7 +16,7 @@
 				warnClass="warnMessage"
 				fatalClass="fatalMessage"/>
 		</p:outputPanel>
-		<p:outputPanel ajaxRendered="true" style="border: 2px !important, margin: 20 px ">
+		<p:outputPanel ajaxRendered="true" style="border: 2px !important; margin: 20 px ">
 					<h:outputText 
 						value="#{monographManagedBean.selectedMonograph.HTMLRepresentation}"						
 						escape="false"/>		
@@ -139,9 +139,9 @@
 				        uploadLabel="#{messages['evaluation.evaluationData.upload']}"   
 				        doneLabel="#{messages['evaluation.evaluationData.done']}"
 				        sizeExceededLabel="#{messages['evaluation.evaluationData.sizeExceeded']}"				        
-				        allowFlash="auto">
-				      <p:ajax event="uploadcomplete" render="monographEvaluationDataModalPanel" execute="@form" />
-				  </p:fileUpload>
+				        allowFlash="auto"
+						update="@form"
+					/>
 				</h:panelGrid>			
 			</p:tab>
 		</p:tabView>

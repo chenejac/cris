@@ -10,13 +10,13 @@
 		<p:remoteCommand name="mySelectFunc" action="#{searchAndrejevicManagedBean.selectAndrejevicTreeTroughCommand}"
 	            	execute="@form"
 					render="@form">
-					<a4j:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
+					<f:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
 	    </p:remoteCommand>
 	    
 	    <p:remoteCommand name="myToggleFunc" action="#{searchAndrejevicManagedBean.processTreeToggle}"
 	            	execute="@form"
 					render="@form">
-					<a4j:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
+					<f:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
 	    </p:remoteCommand>
 	          	
 		<p:tree

@@ -26,10 +26,10 @@
 					iconLeaf="/resources/img/institution.jpg" 
 					type="ResearchAreaDTO"
 					>
-					<rich:dragSource 
+					<p:draggable
 						dragValue="#{researchArea.element}" 
 						type="ResearchAreaDTO" />
-					<rich:dropTarget 
+					<p:droppable
 						render="researchAreaBrowseModalPanel" 
 						acceptedTypes="ResearchAreaDTO" 
 						dropListener="#{researchAreaManagedBean.processDrop}"

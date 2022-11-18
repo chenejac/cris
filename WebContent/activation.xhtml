@@ -35,13 +35,13 @@ xmlns:p="http://primefaces.org/ui">
 	    		rendered="#{not empty userManagedBean.selectedUser}">
 				<h:outputText 
 					value="#{messages['administration.activation.success']}" 
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGroup>
 			<h:panelGroup 
 				rendered="#{empty userManagedBean.selectedUser}">
 				<h:outputText 
 					value="#{messages['administration.activation.error']}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGroup>
 		</div>
 		

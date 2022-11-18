@@ -37,7 +37,7 @@
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()"/>
 				<p:fragment id="form_region">
 				<!-- PRETRAGA -->
 				
@@ -93,7 +93,7 @@
 													            	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
 																	<p:column
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																		styleClass="rich-table-wide-cell" width="100%">
+																		styleClass="ui-datatable-wide-cell" width="100%">
 														                <h:outputText value="#{_authorRow.names}"/>
 														                
 																	</p:column>
@@ -116,7 +116,7 @@
 													            	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
 																	<p:column
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																		styleClass="rich-table-wide-cell" width="100%">
+																		styleClass="ui-datatable-wide-cell" width="100%">
 														                <h:outputText value="#{_authorRow.names}"/>
 														                
 																	</p:column>
@@ -139,7 +139,7 @@
 													            	<!--     ........  IME MONOGRAFIJE .......-->
 																	<p:column
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																		styleClass="rich-table-wide-cell" width="100%">
+																		styleClass="ui-datatable-wide-cell" width="100%">
 														                <h:outputText value="#{_monographRow.someTitle}"/>
 														                
 																	</p:column>
@@ -328,7 +328,7 @@
 										            	<!--     ........  IME AUTORA .......-->
 														<p:column
 															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-															styleClass="rich-table-wide-cell" width="100%">
+															styleClass="ui-datatable-wide-cell" width="100%">
 											                <h:outputText value="#{_authorRow.names}"/>
 											                
 														</p:column>

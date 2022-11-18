@@ -72,12 +72,12 @@
 						<h:panelGrid columns="2"
 							rendered="#{(authorManagedBean.pleaseInstitution) and (authorManagedBean.editMode == modesManagedBean.update)}" >
 							<h:outputText value="#{authorManagedBean.pleaseInstitutionMessage}"
-								styleClass="rf-msg-inf" />
+								styleClass="ui-message-info" />
 						</h:panelGrid>
 						<!-- <h:panelGrid columns="2"
 							rendered="#{(not empty authorManagedBean.otherName)}" >
 							<h:outputText value="#{messages['records.author.editPanel.pleaseOtherName']}"
-								styleClass="rf-msg-inf" />
+								styleClass="ui-message-info" />
 						</h:panelGrid> -->
 					</p:outputPanel>
 					<p:panel id="authorNameTablePanel"
@@ -459,22 +459,22 @@
 					            minChars="3" 
 					            selectFirst="false"
 					            style="width:100% !important;"
-				         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-					            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+				         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+					            onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
 					            onfocus="activeElId = this.id;"
 					            onblur="activeElId = null;"
 					            >
 					            <!--   ........  IME Institucije   .......   -->
 								<p:column
 									style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-									styleClass="rich-table-wide-cell" >
+									styleClass="ui-datatable-wide-cell" >
 									<h:outputText value="#{_institutionRow.someName}" />
 								</p:column>
 								<p:remoteCommand
 									name="choose" 
 									action="#{institutionManagedBean.chooseInstitution}" 
 									render="#{authorManagedBean.renderModalPanels}">
-								<a4j:param 
+								<f:param
 									name="param1" 
 									assignTo="#{institutionManagedBean.institutionControlNumber}"/>
 								</p:remoteCommand>
@@ -719,7 +719,7 @@
 						<h:panelGrid columns="2">
 							<h:graphicImage library="img" name="info.png" />
 							<h:outputText value="#{authorManagedBean.pickSimilarMessage}"
-								styleClass="rf-msg-inf" />
+								styleClass="ui-message-info" />
 						</h:panelGrid>
 					</p:outputPanel>
 					<p:spacer

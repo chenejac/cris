@@ -39,7 +39,7 @@
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()"/>
 				<p:fragment id="form_region">
 				<!-- MAIN PANEL -->
 					<h:panelGrid 
@@ -82,28 +82,28 @@
 											rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}"
 											>											
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 												 	<p:commandLink value="#{messages['records.prepareUNSPromotion.lastAndFirstName']}" render="regEntriesWithoutIdTable" action="#{prepareUNSPromotionManagedBean.sortByLastName}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.authorName.lastname} #{regEntryRow.authorName.firstname}"/>
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<p:commandLink value="#{messages['records.prepareUNSPromotion.faculty']}" render="regEntriesWithoutIdTable" action="#{prepareUNSPromotionManagedBean.sortBy('institution')}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.institution}"/>
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.nameOfDegree']}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.nameOfAuthorDegree}"/>												
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.defendedOn']}" />
 												</f:facet>
@@ -155,21 +155,21 @@
 												<h:outputText value="#{regEntryRowKey+1}."/>
 											</p:column>	-->
 											<p:column
-												styleClass="rich-table-wide-cell" >															
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.lastAndFirstName']}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.authorName.lastname} #{regEntryRow.authorName.firstname}"/>
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell">															
+												styleClass="ui-datatable-wide-cell">
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.faculty']}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.institution}" />
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.nameOfDegree']}" />
 												</f:facet>
@@ -202,7 +202,7 @@
 												   readonly="#{!regEntryRow.oldProgram}"/>													
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.forPromotion']}" />
 												</f:facet>
@@ -293,7 +293,7 @@
 													<h:outputText value="#{organisationRowKey+1}."/>													
 												</p:column>
 												<p:column
-													styleClass="rich-table-wide-cell" >						
+													styleClass="ui-datatable-wide-cell" >
 													<f:facet name="header">
 													 	<h:outputText value="Организациона јединица Универзитета у Новом Саду"/>													
 													</f:facet>
@@ -303,7 +303,7 @@
 													</f:facet>
 												</p:column>
 												<p:column
-													styleClass="rich-table-wide-cell" >						
+													styleClass="ui-datatable-wide-cell" >
 													<f:facet name="header">
 													 	<h:outputText value="Број промовисаних-докторске студије"/>													
 													</f:facet>
@@ -313,7 +313,7 @@
 													</f:facet>
 												</p:column>
 												<p:column
-													styleClass="rich-table-wide-cell" >						
+													styleClass="ui-datatable-wide-cell" >
 													<f:facet name="header">
 													 	<h:outputText value="Број промовисаних-по старом"/>													
 													</f:facet>
@@ -432,21 +432,21 @@
 												<h:outputText value="#{regEntryRow.academicYearNumber}"/>
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >															
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.lastAndFirstName']}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.authorName.lastname} #{regEntryRow.authorName.firstname}"/>
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell">															
+												styleClass="ui-datatable-wide-cell">
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.faculty']}" />
 												</f:facet>
 												<h:outputText value="#{regEntryRow.institution}" />
 											</p:column>
 											<p:column
-												styleClass="rich-table-wide-cell" >						
+												styleClass="ui-datatable-wide-cell" >
 												<f:facet name="header">
 													<h:outputText value="#{messages['records.prepareUNSPromotion.nameOfDegree']}" />
 												</f:facet>

@@ -244,7 +244,7 @@
          if (pastOrPresentDate(day)) 
         	 return day.styleClass;
          else 
-        	 return 'rich-calendar-boundary-dates';
+        	 return 'ui-state-default';
      } 
 	 
 	 function disablementPeviousDate(day){
@@ -257,7 +257,7 @@
          if (disablementPeviousDate(day)) 
         	 return day.styleClass;
          else 
-        	 return 'rf-cal-boundary-day';
+        	 return 'ui-state-default';
      }
 	 
 	 function disablementFutureDate(day){
@@ -270,7 +270,7 @@
          if (disablementFutureDate(day)) 
         	 return day.styleClass;
          else 
-        	 return 'rf-cal-boundary-day';
+        	 return 'ui-state-default';
      }
 	 
 	 function calculateSizeInputTextarea(panelName){

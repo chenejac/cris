@@ -10,7 +10,7 @@
 			rendered="#{(not sciencesGroupManagedBean.customPick) and (sciencesGroupManagedBean.pickMessage!=null)}">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{sciencesGroupManagedBean.pickMessage}"
-				styleClass="rf-msg-inf" />
+				styleClass="ui-message-info" />
 		</h:panelGrid>
 	</p:outputPanel>
 	
@@ -37,7 +37,7 @@
 				<!--     ........  term   .......-->
 				<p:column
 					style="#{sciencesGroupManagedBean.selectedSciencesGroup.classId == sciencesGroupRow.classId?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};"
-					styleClass="rich-table-wide-cell" >
+					styleClass="ui-datatable-wide-cell" >
 					<f:facet name="header">
 						<p:commandLink
 							action="#{sciencesGroupManagedBean.sort}"

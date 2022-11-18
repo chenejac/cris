@@ -56,11 +56,11 @@ input,select {
 	margin: 2px !important;
 }
 
-.rf-au-inp-input{
+.ui-autocomplete-input, .ui-inputfield{
 	width:100% !important;
 }
 
-.rf-au-lst-scrl{
+.ui-autocomplete-items, .ui-autocomplete-list{
     max-height:300px !important;
     width:100% !important;
 }
@@ -108,35 +108,34 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	text-align: right !important;
 }
 
-.rf-msg {
+.ui-message {
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	font-size: 14px !important;
 	padding: 5px !important;
 }
 
-.rf-msg-err {
+.ui-message-error {
 	color: red !important;
 }
 
-.rf-msg-ftl {
+.ui-message-fatal {
 	color: red !important;
 }
 
-.rf-msg-wrn {
+.ui-message-warn {
 	color: blue !important;
 }
 
-.rf-msg-inf{
+.ui-message-info{
 	color: blue !important;
 }
 
-.rf-msg-inf-custom {
+.ui-message-info-custom {
 	color: blue !important;
 	font-size: 14px !important;
 }
 
-.rf-tb {
-	height: 35px !important;
+.ui-datatable {
 	padding: 0px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	font-weight: bold !important;
@@ -148,7 +147,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	width: 100% !important;
 }
 
-.rf-tb-itm,.rf-ddm-itm-lbl  {
+.ui-menu-item, .ui-selectonemenu-item {
 	font-weight: bold !important;
 	font-size: 16px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
@@ -160,7 +159,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	padding-right: 10px !important;
 }
 
-.rf-p {
+.ui-panel {
 	margin: 10px !important;
 	min-width: 350px !important;
 	width: auto !important;
@@ -175,7 +174,7 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	width: 100% !important;
 }
 
-.rf-p-hdr {
+.ui-panel-titlebar {
 	border: 0px !important;
 	padding-top: 2px !important;
 	padding-left: 10px !important;
@@ -203,28 +202,28 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 }
 
-.rf-dt {
+.ui-datatable {
 	border-color: #CCCCCC !important;
 	background-image: url(#{resource['img:blue_white_bottom_gradient.gif']})!important;
 	background-repeat: repeat-x !important;
 	background-position: bottom left !important;
 }
 
-.rf-dt-c {
+.ui-datatable td {
 	min-width: 80px !important;
 }
 
-.rf-tab-lbl{
+.ui-tabs-header{
 	font-size: 20px;
 	font-weight:bold;
 }
 
-.rich-table-wide-cell {
+.ui-datatable-wide-cell {
 	min-width: 200px !important;
 }
 
 
-.rf-dt-hdr-c,.rf-dt-shdr-c {
+.ui-datatable th {
 	color: black !important;
 	font-size: 14px !important;
 	font-weight: normal !important;
@@ -238,18 +237,19 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	background-position: top left !important;
 }
 
-.rich-table-subheadercell-wrap {
+.ui-datatable-subheadercell-wrap {
 	white-space: normal !important;
 	text-align: left !important;
 }
 
-.rf-ds-btn {
+.ui-paginator-first, .ui-paginator-prev, .ui-paginator-next, .ui-paginator-last  {
 	font-size: 14px !important;
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
-	height: 20px !important;
-	background-image: url(#{resource['img:grey_gradient_bg.gif']})!important;
-	background-repeat: repeat !important;
-	background-position: top left !important;
+}
+
+.ui-paginator-rpp-options {
+	font-size: 14px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 }
 
 #header {
@@ -389,14 +389,8 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	padding-left: 2px !important;
 }
 
-.rf-ddm-lbl,.rf-ddm-itm-lbl{
+.ui-selectonemenu-label, .ui-selectonemenulist-item{
 	font-size: 16px !important;
-	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
-	font-weight: bold !important;
-}
-
-.rf-ddm-lbl-unsel, .rf-ddm-itm-unsel {
-	font-size: 16px !important; 
 	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
 	font-weight: bold !important;
 }
@@ -573,7 +567,7 @@ label.errorMessage {
 	text-decoration: none !important;
 }
 
-.rf-dg-c {
+.ui-datagrid-column {
 	width:33% !important;
 }
 
@@ -619,7 +613,7 @@ label.errorMessage {
 	font-size: 14px !important;
 }
 
-.icon_institution_orange {
+.ui-widget-content .icon_institution_orange {
 	width: 16px;
 	height: 16px;
 	align:up;

@@ -10,7 +10,7 @@
 		<h:panelGrid columns="2">
 			<h:graphicImage library="img" name="info.png" />
 			<h:outputText value="#{conferenceManagedBean.pickMessage}"
-				styleClass="rf-msg-inf" />
+				styleClass="ui-message-info" />
 		</h:panelGrid>
 	</p:outputPanel>
 	<!-- ===========================   searchPanel  ============================= -->
@@ -72,7 +72,7 @@
 				<!--     ........  name   .......-->
 				<p:column
 					style="#{conferenceManagedBean.selectedConference.controlNumber == conferenceRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'}; "
-					styleClass="rich-table-wide-cell" >
+					styleClass="ui-datatable-wide-cell" >
 					<f:facet name="header">
 						<p:commandLink
 							action="#{conferenceManagedBean.sort}"

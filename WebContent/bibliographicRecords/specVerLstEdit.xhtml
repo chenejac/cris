@@ -197,13 +197,13 @@
 						                acceptedTypes="pdf, doc, docx, odt" 
 						                allowFlash="auto"
 						                style="width:100% !important;"
+										update="@form"
 						                >
 						                <h:outputText 
 							        		rendered="#{(specVerLstManagedBean.editMode == modesManagedBean.update)}"
 											value=""
 											style="width:100% !important;"/>
-						                <p:ajax event="uploadcomplete" render="attachedFilesPanel" execute="@form" />
-						        </p:fileUpload>
+								</p:fileUpload>
 						        <h:outputText value="" />
 								<h:outputText value="" />     
 								<p:outputPanel ajaxRendered="true">
@@ -375,7 +375,7 @@
 						<h:panelGrid columns="2">
 							<h:graphicImage library="img" name="info.png" />
 							<h:outputText value="#{specVerLstManagedBean.pickSimilarMessage}"
-								styleClass="rf-msg-inf" />
+								styleClass="ui-message-info" />
 						</h:panelGrid>
 					</p:outputPanel>
 					<p:spacer

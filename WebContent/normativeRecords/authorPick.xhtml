@@ -19,32 +19,32 @@
 				rendered="#{(authorManagedBean.customPick) and (authorManagedBean.tableTabNumber == 0) and (authorManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{authorManagedBean.pickMessageFirstTab}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(authorManagedBean.customPick) and (authorManagedBean.tableTabNumber == 1) and (empty authorManagedBean.authors)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{authorManagedBean.lastname} #{authorManagedBean.firstname}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(authorManagedBean.customPick) and (authorManagedBean.tableTabNumber == 1) and (not empty authorManagedBean.authors)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{authorManagedBean.lastname} #{authorManagedBean.firstname}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:panelGroup>
 					<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
-						styleClass="rf-msg-inf" />
+						styleClass="ui-message-info" />
 					<h:graphicImage library="img" name="pick.png"/>
 				</h:panelGroup>
 				<h:outputText value="#{authorManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:spacer
@@ -70,21 +70,21 @@
 		            var="_authorRow"
 		            fetchValue="#{_authorRow.controlNumber}" 
 		            minChars="3" 
-		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+		            onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
 		            onfocus="activeElId = this.id;"
 		            >
 		            <!--   ........  names   .......  timeout="5000" -->
 					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-						styleClass="rich-table-wide-cell" >
+						styleClass="ui-datatable-wide-cell" >
 						<h:outputText value="#{_authorRow.names}" />
 					</p:column>
 					<p:remoteCommand
 						name="choose" 
 						action="#{authorManagedBean.chooseAuthor}" 
 						render="#{((userManagedBean.editMode == modesManagedBean.register) or ((studyFinalDocumentManagedBean.tableMode == modesManagedBean.browse) and (studyFinalDocumentManagedBean.editMode == modesManagedBean.none)))?('mainPanel, '):('')}#{authorManagedBean.renderModalPanels}">
-					<a4j:param 
+					<f:param
 						name="param1" 
 						assignTo="#{authorManagedBean.authorControlNumber}"/>
 					</p:remoteCommand>

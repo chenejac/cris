@@ -267,14 +267,14 @@
 				                acceptedTypes="pdf, doc, docx, odt" 
 				                allowFlash="auto"
 				                style="width:100% !important;"
+								update="@form"
 				                >
 					             <h:outputText 
 					        		rendered="#{(ruleBookManagedBean.selectedRuleBook.file == null) and (ruleBookManagedBean.editMode != modesManagedBean.update)}"
 									value=""
 									style="width:100% !important;"
 								 /> 
-				                <p:ajax event="uploadcomplete" render="fileOrFileUpload, deleteFile, downloadFile" execute="@form" />
-				            </p:fileUpload>
+							</p:fileUpload>
 				        </h:panelGroup> 
 				        <h:panelGroup
 							id="deleteFile" 
@@ -679,7 +679,7 @@
 						<h:panelGrid columns="2">
 							<h:graphicImage library="img" name="info.png" />
 							<h:outputText value="#{ruleBookManagedBean.pickSimilarMessage}"
-								styleClass="rf-msg-inf" />
+								styleClass="ui-message-info" />
 						</h:panelGrid>
 					</p:outputPanel>
 					<p:spacer

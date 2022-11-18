@@ -36,7 +36,7 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif"></h:graphicImage>
 				</div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()" />
 				<p:fragment id="form_region">
 					<h:panelGrid id="mainPanel">
 						<p:panel id="specVerLstBrowseModalPanel"
@@ -239,7 +239,7 @@
 							            			 	<!--     ........  name   ISSN .......-->
 											            <p:column
 															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-															styleClass="rich-table-wide-cell">
+															styleClass="ui-datatable-wide-cell">
 															<h:outputText value="#{_journalRow.someName} &nbsp; ( &nbsp; #{_journalRow.issn} &nbsp;)"/>	
 														</p:column>
 													</p:autoComplete>

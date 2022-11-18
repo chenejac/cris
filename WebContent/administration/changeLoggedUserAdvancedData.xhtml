@@ -36,7 +36,7 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif" />
 				</div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()" />
 				<p:fragment id="form_region" rendered="#{userManagedBean.loggedIn}">
 					<h:form id="userEditAdvancedDataForm">
 						<h:panelGrid id="mainPanel">

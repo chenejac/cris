@@ -19,32 +19,32 @@
 				rendered="#{(journalManagedBean.customPick) and (journalManagedBean.tableTabNumber == 0) and (journalManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{journalManagedBean.pickMessageFirstTab}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(journalManagedBean.customPick) and (journalManagedBean.tableTabNumber == 1) and (empty journalManagedBean.journals)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{journalManagedBean.name}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(journalManagedBean.customPick) and (journalManagedBean.tableTabNumber == 1) and (not empty journalManagedBean.journals)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{journalManagedBean.name}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:panelGroup>
 					<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
-						styleClass="rf-msg-inf" />
+						styleClass="ui-message-info" />
 					<h:graphicImage library="img" name="pick.png" />
 				</h:panelGroup>
 				<h:outputText value="#{journalManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:spacer
@@ -70,21 +70,21 @@
 		            var="_journalRow"
 		            fetchValue="#{_journalRow.controlNumber}" 
 		            minChars="3" 
-		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
+		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+		            onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
 			        onfocus="activeElId = this.id;"   
 		            >
 		            <!--     ........  name   .......-->
 					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-						styleClass="rich-table-wide-cell" >
+						styleClass="ui-datatable-wide-cell" >
 						<h:outputText value="#{_journalRow.someName}" />
 					</p:column>
 					<p:remoteCommand
 						name="choose" 
 						action="#{journalManagedBean.chooseJournal}" 
 						render="mainPanel, #{journalManagedBean.renderModalPanels}">
-						<a4j:param 
+						<f:param
 							name="param1" 
 							assignTo="#{journalManagedBean.journalControlNumber}"/>
 					</p:remoteCommand>

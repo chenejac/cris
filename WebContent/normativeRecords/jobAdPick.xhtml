@@ -19,32 +19,32 @@
 				rendered="#{(jobAdManagedBean.customPick) and (jobAdManagedBean.tableTabNumber == 0) and (jobAdManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{jobAdManagedBean.pickMessageFirstTab}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(jobAdManagedBean.customPick) and (jobAdManagedBean.tableTabNumber == 1) and (empty jobAdManagedBean.jobAds)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{jobAdManagedBean.year} #{jobAdManagedBean.name}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(jobAdManagedBean.customPick) and (jobAdManagedBean.tableTabNumber == 1) and (not empty jobAdManagedBean.jobAds)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{jobAdManagedBean.year} #{jobAdManagedBean.name}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:panelGroup>
 					<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
-						styleClass="rf-msg-inf" />
+						styleClass="ui-message-info" />
 					<h:graphicImage library="img" name="pick.png" />
 				</h:panelGroup>
 				<h:outputText value="#{jobAdManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:spacer
@@ -70,21 +70,21 @@
 		            var="_jobAdRow"
 		            fetchValue="#{_jobAdRow.controlNumber}" 
 		            minChars="3" 
-		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-		            onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"   
+		            onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+		            onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
 		            onfocus="activeElId = this.id;"
 		            >
 		            <!--     ........  stringRepresentation   .......-->
 					<p:column
 						style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-						styleClass="rich-table-wide-cell" >
+						styleClass="ui-datatable-wide-cell" >
 						<h:outputText value="#{_jobAdRow.stringRepresentation}" />
 					</p:column>
 					<p:remoteCommand
 						name="choose" 
 						action="#{jobAdManagedBean.chooseJobAd}" 
 						render="mainPanel, #{jobAdManagedBean.renderModalPanels}">
-						<a4j:param 
+						<f:param
 							name="param1" 
 							assignTo="#{jobAdManagedBean.jobAdControlNumber}"/>
 					</p:remoteCommand>

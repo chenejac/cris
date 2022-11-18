@@ -37,12 +37,12 @@
 		    		<h:outputText 
 						rendered="#{not userManagedBean.loggedIn}"
 						value="#{messages['administration.jobAd.notLoggedWelcomeMessage']}" 
-						styleClass="rf-msg-inf" 
+						styleClass="ui-message-info"
 						escape="false"/>
 					<h:outputText 
 		    			rendered="#{userManagedBean.loggedIn}"
 						value="#{messages['administration.jobAd.loggedWelcomeMessage']}" 
-						styleClass="rf-msg-inf" 
+						styleClass="ui-message-info"
 						escape="false"/>
 				</h:panelGroup>
 			</div>

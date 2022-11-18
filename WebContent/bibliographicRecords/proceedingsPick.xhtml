@@ -19,32 +19,32 @@
 				rendered="#{(proceedingsManagedBean.customPick) and (proceedingsManagedBean.tableTabNumber == 0) and (proceedingsManagedBean.pickMessageFirstTab != null)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{proceedingsManagedBean.pickMessageFirstTab}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(proceedingsManagedBean.customPick) and (proceedingsManagedBean.tableTabNumber == 1) and (empty proceedingsManagedBean.proceedings)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{proceedingsManagedBean.pickMessageSecondTabSimilarNotExistFirstSentence} #{proceedingsManagedBean.title} #{proceedingsManagedBean.conferenceName} #{proceedingsManagedBean.conferenceYear}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{proceedingsManagedBean.pickMessageSecondTabSimilarNotExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:outputPanel ajaxRendered="true"
 				rendered="#{(proceedingsManagedBean.customPick) and (proceedingsManagedBean.tableTabNumber == 1) and (not empty proceedingsManagedBean.proceedings)}">
 			<h:panelGrid columns="1">
 				<h:outputText value="#{proceedingsManagedBean.pickMessageSecondTabSimilarExistFirstSentence} #{proceedingsManagedBean.title} #{proceedingsManagedBean.conferenceName} #{proceedingsManagedBean.conferenceYear}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:outputText value="#{proceedingsManagedBean.pickMessageSecondTabSimilarExistSecondSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 				<h:panelGroup>
 					<h:outputText value="#{proceedingsManagedBean.pickMessageSecondTabSimilarExistThirdSentence}"
-						styleClass="rf-msg-inf" />
+						styleClass="ui-message-info" />
 					<h:graphicImage library="img" name="pick.png" />
 				</h:panelGroup>
 				<h:outputText value="#{proceedingsManagedBean.pickMessageSecondTabSimilarExistFourthSentence}"
-					styleClass="rf-msg-inf" />
+					styleClass="ui-message-info" />
 			</h:panelGrid>
 		</p:outputPanel>
 		<p:spacer

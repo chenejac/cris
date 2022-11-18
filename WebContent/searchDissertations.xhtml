@@ -38,7 +38,7 @@
 				<div id="pleaseWait" class="transparent"></div>
 				<div id="progressBar" class="progressbar"><h:graphicImage
 					library="img" name="progressbar.gif"></h:graphicImage></div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()"/>
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()"/>
 				<p:fragment id="form_region">
 				<!-- PRETRAGA -->
 				
@@ -338,7 +338,7 @@
 													    	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
 															<p:column
 																style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																styleClass="rich-table-wide-cell" 
+																styleClass="ui-datatable-wide-cell"
 																width="100%">
 												                <h:outputText value="#{_authorRow.names}"/>
 															</p:column>
@@ -346,10 +346,10 @@
 														<p:remoteCommand
 																name="queryFieldName" 
 																>
-															<a4j:param
+															<f:param
 																name="param1"
 																assignTo="#{authorManagedBean.queryFieldName}"
-																></a4j:param>	
+																></f:param>
 														</p:remoteCommand>
 													</p:fragment>
 								               	</p:column>
@@ -506,16 +506,16 @@
 									            			selectFirst="false"
 											         		style="width:100% !important;"
 											         		inputClass="width100"	
-											         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{rich:element('controlNumber')});choose(#{rich:element('controlNumber')}.value)}" 
-			            									onkeyup="pickControlNumber(this, #{rich:element('controlNumber')})"
-											         		onfocus="activeElId = this.id;pickControlNumber(this, #{rich:element('controlNumber')});"
+											         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
+			            									onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
+											         		onfocus="activeElId = this.id;pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});"
 											         		onblur="activeElId = null;"
 											            	>
 											            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
 															<!--     ........  IME AUTORA .......-->
 															<p:column
 																style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																styleClass="rich-table-wide-cell" width="100%">
+																styleClass="ui-datatable-wide-cell" width="100%">
 												                <h:outputText value="#{_authorRow.names}"/>
 															</p:column>
 															<p:remoteCommand
@@ -523,7 +523,7 @@
 																action="#{authorManagedBean.chooseAuthor}" 
 																render="panelResult, panelAuthor"
 																>
-															<a4j:param 
+															<f:param
 																name="param1" 
 																assignTo="#{authorManagedBean.authorControlNumber}"/>
 															</p:remoteCommand>
@@ -968,7 +968,7 @@
 		        <h:outputText 
 		        	value="#{messages['search.searchDissertationsPanel.welcomeMessage']}" 
 		        	escape="false"
-		        	styleClass="rf-msg-inf-custom" />				
+		        	styleClass="ui-message-info-custom" />
 			</p:dialog>
 	</h:body>
 	</f:view>

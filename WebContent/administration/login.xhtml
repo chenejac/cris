@@ -36,7 +36,7 @@
 				<div id="progressBar" class="progressbar">
 					<h:graphicImage library="img" name="progressbar.gif" />
 				</div>
-				<p:ajaxStatus for="form_region" onstart="onStart()" onstop="onStop()" />
+				<p:ajaxStatus for="form_region" onstart="onStart()" oncomplete="onStop()" />
 				<p:fragment id="form_region" rendered="#{not userManagedBean.loggedIn}">
 					<h:form id="login" >
 						<p:panel id="loginPanel"
@@ -58,7 +58,7 @@
 								<h:panelGrid columns="2">
 									<h:graphicImage library="img" name="info.png" />
 									<h:outputText value="#{userManagedBean.authorAlreadyRegisteredMessage}"
-										styleClass="rf-msg-inf" />
+										styleClass="ui-message-info" />
 								</h:panelGrid>
 							</p:outputPanel>
 							<h:panelGrid columns="3">

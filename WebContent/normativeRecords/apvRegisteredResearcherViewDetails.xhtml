@@ -91,7 +91,7 @@
             		<p:column style="width:80%">
             		<p:outputPanel ajaxRendered="true" >
             			<p:commandLink id="link" value="#{list.resultType.someTerm}" render="collapsablePanel" execute="@this">
-	 						<a4j:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
+	 						<f:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
 	 					</p:commandLink>
 	 					 <p:fragment id="collapsablePanel">
 					     <p:dataList value="#{list.results}" var="item" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" type="unordered">
@@ -101,7 +101,7 @@
 					     </p:dataList>
 					     <p:commandLink render="collapsablePanel" execute="@this" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}">
 					     	<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
-	 						<a4j:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
+	 						<f:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
 	 					</p:commandLink>
 					   </p:fragment>
 					</p:outputPanel >
