@@ -43,19 +43,17 @@
 					styleClass="searchBox" />
 				<p:commandButton
 					id="btnFindOther"
-					value="#{messages['records.bibliography.searchPanel.btnFind']}"
-					render="bibliographyOtherTablePanel" 
-					limitRender="true" 
+					title="#{messages['records.bibliography.searchPanel.btnFind']}"
+					update="@form"
 					execute="@form"
-					image="./resources/img/filter.png"/>
+					icon="pi pi-filter"/>
 				<p:commandButton
 					id="btnShowAllOther"
 					action="#{bibliographyManagedBean.removeFilter}"
-					value="#{messages['records.bibliography.searchPanel.btnShowAll']}"
-					render="bibliographyOtherTablePanel, bibliographyOtherSearchPanel"
-					execute="@this" 
-					limitRender="true"
-					image="./resources/img/clearFilter.png"/>
+					title="#{messages['records.bibliography.searchPanel.btnShowAll']}"
+					update="@form"
+					execute="@form"
+					icon="pi pi-filter-slash"/>
 			</h:panelGrid>
 		</h:panelGrid>
 		<h:panelGrid columns="1" >
@@ -134,8 +132,8 @@
 			<p:dataTable
 				id="bibliographyOtherTable"
 				value="#{bibliographyManagedBean.publications}"
-				var="bibliographyRow" 
-				rowKeyVar="bibliographyRowKey"
+				var="bibliographyRow"
+				rowIndexVar="bibliographyRowKey"
 				rows="10"
 				paginator="true" paginatorPosition="bottom"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -144,7 +142,8 @@
 				>
 				<!--     ........  counter   .......-->
 				<p:column
-					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;">
+					style="#{bibliographyManagedBean.selectedPublication.controlNumber == bibliographyRow.controlNumber?'background-color:#A1A1A1;':'background-color:#{org.richfaces.SKIN.tableBackgroundColor}'};font-size: 14px;"
+					styleClass="rbr-colum">
 					<f:facet name="header">
 						<h:outputText
 							value="#{messages['records.bibliography.tablePanel.counter']}"
