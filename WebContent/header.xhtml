@@ -353,7 +353,8 @@
 						value="#{messages['administration.email.emailMe']}" />
 					<p:linkButton
 						href="mailto:#{messages['administration.email.cris']}?subject=#{messages['administration.email.someSubject']}"
-						icon="pi pi-envelope" />
+						icon="pi pi-envelope"
+						styleClass="rounded-button ui-button-flat" />
 					<p:divider layout="vertical"/>
 					<h:outputText 
 						value="#{messages['administration.help.helpMe']}" />
@@ -361,12 +362,14 @@
 					    rendered="#{not userManagedBean.jobAd}"
 						href="https://chenejac.github.io/cris/uputstvo"
 						target="_blank"
-						icon="pi pi-question-circle"/>
+						icon="pi pi-question-circle"
+						styleClass="rounded-button ui-button-flat" />
 					<p:linkButton
 					    rendered="#{userManagedBean.jobAd}"
 						href="/UputstvoKonkurs.pdf"
 						target="_blank"
-						icon="pi pi-question-circle" />
+						icon="pi pi-question-circle"
+						styleClass="rounded-button ui-button-flat" />
 				</p:toolbarGroup>
 			</p:toolbar>
 		</div>

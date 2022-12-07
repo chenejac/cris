@@ -46,14 +46,16 @@
 					title="#{messages['records.bibliography.searchPanel.btnFind']}"
 					update="@form"
 					execute="@form"
-					icon="pi pi-filter"/>
+					icon="pi pi-filter"
+					styleClass="rounded-button ui-button-flat" />
 				<p:commandButton
 					id="btnShowAllOther"
 					action="#{bibliographyManagedBean.removeFilter}"
 					title="#{messages['records.bibliography.searchPanel.btnShowAll']}"
 					update="@form"
 					execute="@form"
-					icon="pi pi-filter-slash"/>
+					icon="pi pi-filter-slash"
+					styleClass="rounded-button ui-button-flat" />
 			</h:panelGrid>
 		</h:panelGrid>
 		<h:panelGrid columns="1" >
@@ -135,6 +137,8 @@
 				var="bibliographyRow"
 				rowIndexVar="bibliographyRowKey"
 				rows="10"
+				styleClass="stable"
+				tableStyle="width:auto"
 				paginator="true" paginatorPosition="bottom"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
@@ -182,9 +186,9 @@
 							<h:outputText
 								value="#{messages['records.bibliography.tablePanel.publicationYear']}"
 								style="font-size: 14px;"/>
-							<h:graphicImage library="img" name="up.gif"
+							<p:button icon="pi pi-sort-numeric-up" styleClass="rounded-button ui-button-flat"
 								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='asc')}" />
-							<h:graphicImage library="img" name="down.gif"
+							<p:button icon="pi pi-sort-numeric-down" styleClass="rounded-button ui-button-flat"
 								rendered="#{(bibliographyManagedBean.orderBy=='publicationYear') and (bibliographyManagedBean.direction=='desc')}" />
 							<f:param name="orderBy" value="publicationYear" />
 						</p:commandLink>

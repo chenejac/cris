@@ -35,26 +35,20 @@
 					<h:outputText 
 						rendered="true"
 						style="width:0px"/>
-					<h:outputText 
-						value="#{messages['administration.email.emailMe']}" />
-					<h:outputLink 
-						value="mailto:#{messages['administration.email.cris']}?subject=#{messages['administration.email.someSubject']}">
-						<h:graphicImage 
-							library="img"
-							name="email.png"
-							style="margin-left: 10px;"/>
-					</h:outputLink>
-					<p:divider layout="vertical" />
-					<h:outputText 
-						value="#{messages['administration.help.helpMe']}" />
-					<h:outputLink 
-						value="/UputstvoPretragaDisertacija_#{searchDissertationsPAManagedBean.language}.pdf"
-						target="_blank" >
-						<h:graphicImage 
-							library="img"
-							name="help.png"
-							style="margin-left: 10px;"/>
-					</h:outputLink>
+					<h:outputText
+							value="#{messages['administration.email.emailMe']}" />
+					<p:linkButton
+							href="mailto:#{messages['administration.email.cris']}?subject=#{messages['administration.email.someSubject']}"
+							icon="pi pi-envelope"
+							styleClass="rounded-button ui-button-flat" />
+					<p:divider layout="vertical"/>
+					<h:outputText
+							value="#{messages['administration.help.helpMe']}" />
+					<p:linkButton
+							href="/UputstvoPretragaDisertacija_#{searchDissertationsManagedBean.language}.pdf"
+							target="_blank"
+							icon="pi pi-question-circle"
+							styleClass="rounded-button ui-button-flat" />
 				</p:toolbarGroup>
 			</p:toolbar>
 		</div>

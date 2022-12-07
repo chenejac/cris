@@ -72,14 +72,16 @@
 				action="#{apvRegisteredResearchersManagedBean.btnFind}"
 				update="@form"
 				execute="@form"
-				icon="pi pi-filter"/>
+				icon="pi pi-filter"
+				styleClass="rounded-button ui-button-flat" />
 		<p:commandButton
 				id="btnShowAll"
 				action="#{organizationProfileManagedBean.btnShowAll}"
 				title="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
 				update="@form"
 				execute="@form"
-				icon="pi pi-filter-slash" />
+				icon="pi pi-filter-slash"
+				styleClass="rounded-button ui-button-flat" />
 
 	</h:panelGrid>
 	<!-- ===========================   tablePanel  ============================= -->
@@ -150,7 +152,7 @@
 							style="font-size: 14px;" />
 					</f:facet>
 					<p:link outcome="researcherPage" >
-						<h:graphicImage library="img" name="enter.png" />
+						<p:button icon="pi pi-arrow-circle-right" styleClass="rounded-button ui-button-flat"/>
 						<f:param name="researcher" value="#{researcherRow.controlNumber}" />
 					</p:link>
 				</p:column>
