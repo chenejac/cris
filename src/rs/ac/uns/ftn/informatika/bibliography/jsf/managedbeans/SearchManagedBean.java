@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.primefaces.component.api.UITree;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.model.TreeNode;
 import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.ConferenceDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.InstitutionDTO;
@@ -1062,12 +1063,11 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			}
 		}
 	}
-	
+
 	/**
 	 * @return the root
 	 */
-	public List<TreeNodeDTO<InstitutionDTO>> getRoot() {
-		
+	public TreeNode getRoot() {
 		if(root==null)
 		{
 			populateAll=true;
@@ -1075,9 +1075,18 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		}
 		if(treeState!=null)
 			treeState.clearInitialState();
-		
-		return root;
+
+		TreeNode retVal = new TreeNodeDTO<OrganizationUnitDTO>(new OrganizationUnitDTO());
+		retVal.setExpanded(true);
+		for (Object node:root
+		) {
+			TreeNodeDTO<OrganizationUnitDTO> nodeOrgUnit = (TreeNodeDTO<OrganizationUnitDTO>) node;
+			nodeOrgUnit.setParent(retVal);
+			retVal.getChildren().add(nodeOrgUnit);
+		}
+		return retVal;
 	}
+
 	/**
 	 * @param root the root to set
 	 */
@@ -1330,6 +1339,16 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 				i++;
 			}
 		}
+	}
+
+	private TreeNode[] selectedInstitutionOrgUnits;
+
+	public TreeNode[] getSelectedInstitutionOrgUnits() {
+		return selectedInstitutionOrgUnits;
+	}
+
+	public void setSelectedInstitutionOrgUnits(TreeNode[] selectedInstitutionOrgUnits) {
+		this.selectedInstitutionOrgUnits = selectedInstitutionOrgUnits;
 	}
 	
 	public void selectionChanged(NodeSelectEvent selectionChangeEvent){
@@ -1706,14 +1725,14 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 	
 	public boolean appendCqlTree(StringBuffer retVal, boolean havePreviusQueries)
 	{
-		int numberSelected = 0;
+		int numberSelected = selectedInstitutionOrgUnits.length;
 		
-		
-		for (TreeNodeDTO<InstitutionDTO> dto : allInstitutionsAndOrganizations){
-			if (dto.isCheckbox_state()) {
-				numberSelected = numberSelected+1;
-			}
-		}
+//
+//		for (TreeNodeDTO<InstitutionDTO> dto : allInstitutionsAndOrganizations){
+//			if (dto.isCheckbox_state()) {
+//				numberSelected = numberSelected+1;
+//			}
+//		}
 		if(numberSelected>0)
 		{
 		
@@ -1724,15 +1743,12 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			retVal.append("( ");
 			
 			boolean foundFirst = false;
-			for (int i = 0; i<allInstitutionsAndOrganizations.size(); i++)
+			for (int i = 0; i<selectedInstitutionOrgUnits.length; i++)
 			{
-				TreeNodeDTO<InstitutionDTO> dto = allInstitutionsAndOrganizations.get(i);
-				if ((dto.isCheckbox_state())) {
-					if(foundFirst == true)
-						retVal.append(" OR ");
-	 				retVal.append("dc.contributor adj \"" + dto.getData().getSomeName()+"\"");
-	 				foundFirst = true;
-	 			}
+				if(foundFirst == true)
+					retVal.append(" OR ");
+				retVal.append("dc.contributor adj \"" + ((InstitutionDTO)selectedInstitutionOrgUnits[i].getData()).getSomeName()+"\"");
+				foundFirst = true;
 			}
 			retVal.append(" )");
 			

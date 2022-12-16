@@ -104,16 +104,6 @@
 						<f:facet name="title">
 							<h:outputText
 									value="#{messages['records.researcherPage.journals']}" />
-							<p:link
-									rendered="#{userManagedBean.loggedIn}"
-									href="https://chenejac.github.io/cris/produkcija/casopisi/knrCasopisi.html"
-									target="_blank"
-							>
-								<p:button
-										icon="pi pi-question-circle"
-										styleClass="rounded-button ui-button-flat"
-										onclick="return false;"/>
-							</p:link>
 						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'journal'}">
 							<ui:include src="bibliographicRecords/bibliographyJournalsTable.xhtml" />
@@ -125,15 +115,6 @@
 						<f:facet name="title">
 							<h:outputText
 									value="#{messages['records.researcherPage.conferences']}" />
-							<p:link
-									rendered="#{userManagedBean.loggedIn}"
-									href="https://chenejac.github.io/cris/produkcija/konferencije/knrKonferencije.html"
-									target="_blank"
-							>
-								<p:button
-										icon="pi pi-question-circle"
-										styleClass="rounded-button ui-button-flat" />
-							</p:link>
 						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'conference'}">
 							<ui:include src="bibliographicRecords/bibliographyConferencesTable.xhtml" />
@@ -145,15 +126,6 @@
 						<f:facet name="title">
 							<h:outputText
 									value="#{messages['records.researcherPage.otherOutputs']}" />
-							<p:link
-									rendered="#{userManagedBean.loggedIn}"
-									href="https://chenejac.github.io/cris/produkcija/ostalo/knrOstalo.html"
-									target="_blank"
-									>
-								<p:button
-										icon="pi pi-question-circle"
-										styleClass="rounded-button ui-button-flat" />
-							</p:link>
 						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'other'}">
 							<ui:include src="bibliographicRecords/bibliographyOtherTable.xhtml" />
@@ -165,15 +137,6 @@
 						<f:facet name="title">
 							<h:outputText
 									value="#{messages['records.researcherPage.mresults']}" />
-							<p:link
-									rendered="#{userManagedBean.loggedIn}"
-									href="https://chenejac.github.io/cris/produkcija/knrM-Klasifikacija.html"
-									target="_blank"
-									>
-								<p:button
-									icon="pi pi-question-circle"
-									styleClass="rounded-button ui-button-flat" />
-							</p:link>
 						</f:facet>
 						<h:panelGrid rendered="#{researcherProfileManagedBean.activeItem eq 'mresults'}">
 							<ui:include src="bibliographicRecords/mResultsViewDetails.xhtml"/>

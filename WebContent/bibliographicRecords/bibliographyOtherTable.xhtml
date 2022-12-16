@@ -16,6 +16,17 @@
 				fatalClass="fatalMessage"/>
 		</p:outputPanel>
 		<h:panelGrid
+				rendered="#{userManagedBean.loggedIn}"
+				columns="2" >
+			<h:outputText
+					value="#{messages['administration.help.helpMe']}" />
+			<p:linkButton
+					href="https://chenejac.github.io/cris/produkcija/ostalo/knrOstalo.html"
+					target="_blank"
+					icon="pi pi-question-circle"
+					styleClass="rounded-button ui-button-flat" />
+		</h:panelGrid>
+		<h:panelGrid
 			rendered="#{(empty userManagedBean.loggedUser.author.controlNumber)}">
 			<!-- ===========================   searchPanel  ============================= -->
 			<p:spacer

@@ -12,45 +12,30 @@
 			value="#{searchManagedBean.root}"
 			var="institutionNode"
 			dynamic="true"
-			nodeType="#{institutionNode.tree_state}"
-            render="@this"
+			update="@this"
             execute="@form"
+			selectionMode="checkbox"
+			selection="#{searchManagedBean.selectedInstitutionOrgUnits}"
 	        >
-            	<rich:treeSelectionChangeListener 
-            		listener="#{searchManagedBean.selectionChanged}" 
-            		/>
-	          	<p:treeNode
-				iconCollapsed="/resources/img/institution.jpg"
-				iconExpanded="/resources/img/institution.jpg"
-				iconLeaf="/resources/img/institution.jpg"
-				type="empty"
-				expanded="#{institutionNode.expanded}"
+
+				<p:treeNode
+						type="InstitutionDTO"
+						collapsedIcon="icon_institution_orange"
+						expandedIcon="icon_institution_orange"
 				>
 					<h:graphicImage value="/resources/img/ce16.jpg"/>
 					<h:outputText value="#{institutionNode}"/>
 				</p:treeNode>
-				
+
 				<p:treeNode
-				iconCollapsed="/resources/img/institution.jpg"
-				iconExpanded="/resources/img/institution.jpg"
-				iconLeaf="/resources/img/institution.jpg"
-				type="full"
-				expanded="#{institutionNode.expanded}"
+						type="OrganizationUnitDTO"
+						collapsedIcon="icon_institution_orange"
+						expandedIcon="icon_institution_orange"
 				>
-					<h:graphicImage value="/resources/img/cf16.jpg" />
+					<h:graphicImage value="/resources/img/ce16.jpg"/>
 					<h:outputText value="#{institutionNode}"/>
 				</p:treeNode>
-				
-				<p:treeNode
-				iconCollapsed="/resources/img/institution.jpg"
-				iconExpanded="/resources/img/institution.jpg"
-				iconLeaf="/resources/img/institution.jpg"
-				type="partial"
-				expanded="#{institutionNode.expanded}"
-				>
-					<h:graphicImage value="/resources/img/cp16.jpg" />
-					<h:outputText value="#{institutionNode}"/>
-				</p:treeNode>
+
         </p:tree>
 	</h:panelGrid>
 	

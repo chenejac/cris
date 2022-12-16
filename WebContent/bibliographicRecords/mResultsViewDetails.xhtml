@@ -14,9 +14,19 @@
 			overflow: auto !important;
 		        	        	
         }      
-     </h:outputStylesheet>       
-    
-     
+     </h:outputStylesheet>
+
+	<h:panelGrid
+			rendered="#{userManagedBean.loggedIn}"
+			columns="2">
+		<h:outputText
+				value="#{messages['administration.help.helpMe']}" />
+		<p:linkButton
+				href="https://chenejac.github.io/cris/produkcija/knrM-Klasifikacija.html"
+				target="_blank"
+				icon="pi pi-question-circle"
+				styleClass="rounded-button ui-button-flat" />
+	</h:panelGrid>
 	
     
     <!--=================APV Registered Researcher Short Info ====================  -->

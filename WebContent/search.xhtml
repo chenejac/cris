@@ -62,9 +62,9 @@
 								    	<h:panelGrid id="panelPublication" columns="1" width="100%">
 								        	<p:dataTable id="queryTable" var="query" rowKeyVar="rowKeyVar" value="#{searchManagedBean.searchQuerys}"  columnClasses="width10, width70, width5, width20, width5">
 								          		<p:column>
-								                    <h:outputText value="#{messages['search.searchPanel.publicationTab.searchFor']}" rendered="#{query.id==0}"/>                           
+								                    <h:outputText value="#{messages['search.searchPanel.publicationTab.searchFor']}" rendered="#{query.id==0}"/>
 													<h:inputHidden value="#{query.operator}" rendered="#{query.id==0}"/>
-													
+
 													<p:selectOneMenu value="#{query.operator}" rendered="#{query.id!=0}" >
 												           <f:selectItems value="#{searchManagedBean.searchQueryOperator}"/>
 												    </p:selectOneMenu>
@@ -74,16 +74,16 @@
 								               					<p:inputText value="#{query.inputQuery}" style="width:98% !important"
 								               					rendered="#{ (query.inputQueryType != searchManagedBean.searchQueryTypeString[2]) and (query.inputQueryType != searchManagedBean.searchQueryTypeString[3]) and (query.inputQueryType != searchManagedBean.searchQueryTypeString[7]) and (query.inputQueryType != searchManagedBean.searchQueryTypeString[8]) }">
 								               					</p:inputText>
-								               					
-								               					
+
+
 																<p:autoComplete
 											            			id="author"
 											            			value="#{query.inputQuery}"
-											            			mode="cachedAjax" 
+											            			mode="cachedAjax"
 											            			autocompleteMethod="#{authorManagedBean.autocompleteForSearch}"
 											            			var="_authorRow"
 											            			fetchValue="&quot;#{_authorRow.names}&quot;"
-											            			minChars="3" 
+											            			minChars="3"
 											            			selectFirst="false"
 											            			rendered="#{ (query.inputQueryType eq searchManagedBean.searchQueryTypeString[2]) or (query.inputQueryType eq searchManagedBean.searchQueryTypeString[3])}"
 											            			style="width:100% !important;"
@@ -95,18 +95,18 @@
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 																		styleClass="ui-datatable-wide-cell" width="100%">
 														                <h:outputText value="#{_authorRow.names}"/>
-														                
+
 																	</p:column>
 																</p:autoComplete>
-																
+
 																<p:autoComplete
 											            			id="journal"
 											            			value="#{query.inputQuery}"
-											            			mode="cachedAjax" 
+											            			mode="cachedAjax"
 											            			autocompleteMethod="#{journalManagedBean.autocompleteName}"
 											            			var="_journalRow"
 											            			fetchValue="&quot;#{_journalRow.someName}&quot;"
-											            			minChars="3" 
+											            			minChars="3"
 											            			selectFirst="false"
 											            			rendered="#{query.inputQueryType eq searchManagedBean.searchQueryTypeString[8]}"
 											            			style="width:100% !important;"
@@ -118,18 +118,18 @@
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 																		styleClass="ui-datatable-wide-cell" width="100%">
 														                <h:outputText value="#{_journalRow.someName}"/>
-														                
+
 																	</p:column>
 																</p:autoComplete>
 
 																<p:autoComplete
 											            			id="conference"
 											            			value="#{query.inputQuery}"
-											            			mode="cachedAjax" 
+											            			mode="cachedAjax"
 											            			autocompleteMethod="#{conferenceManagedBean.autocompleteForSearch}"
 											            			var="_conferenceRow"
 											            			fetchValue="&quot;#{_conferenceRow.someName}&quot;"
-											            			minChars="3" 
+											            			minChars="3"
 											            			selectFirst="false"
 											            			rendered="#{query.inputQueryType eq searchManagedBean.searchQueryTypeString[7]}"
 											            			style="width:100% !important;"
@@ -141,12 +141,12 @@
 																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
 																		styleClass="ui-datatable-wide-cell" width="100%">
 														                <h:outputText value="#{_conferenceRow.someName}"/>
-														                
+
 																	</p:column>
 																</p:autoComplete>
 																</p:fragment>
 								               	</p:column>
-								               
+
 								               	<p:column style="text-align:center">
 								               			<h:outputText value="#{messages['search.searchPanel.publicationTab.searchIn']}"/>
 								               	</p:column>
@@ -192,7 +192,7 @@
 								                              <p:selectBooleanCheckbox label="#{messages['search.searchPanel.publicationTab.fuzzy']}" value="#{searchManagedBean.fuzzy}">
 								                              </p:selectBooleanCheckbox>
 								                          </p:column>
-								                          
+
 								                          <p:column colspan="1">
 								                            <p:commandLink
 																action="#{searchManagedBean.addQuery}"
@@ -205,23 +205,23 @@
 								               	</f:facet>
 								          	</p:dataTable>
 								          </h:panelGrid>
-								  			
+
 								  		<h:panelGrid id="panelPublicationLimit" columns="2" columnClasses="width10, width90">
-								  		
-								  			
+
+
 								  			<h:outputText value="#{messages['search.searchPanel.publicationTab.limitTo']}" styleClass="outputTextAsHeader"/>
-								  			
-								  			
+
+
 								  			<p:spacer
 															height="20"
 															width="100%"
 															/>
-								  			
+
 								  			<p:spacer
 															height="20"
 															width="100%"
 															/>
-															
+
 								  			<h:panelGrid columns="2" columnClasses="width60, width40" width="100%">
 								  				<h:panelGrid columns="1" width="100%">
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.dateRange']}"/>
@@ -249,12 +249,12 @@
 												</p:selectOneMenu>
 								  				</h:panelGrid>
 								  			</h:panelGrid>
-								  			
+
 								  			<p:spacer
 															height="20"
 															width="100%"
 															/>
-															
+
 								  			<h:panelGrid columns="1" width="100%">
 								  				<h:panelGrid columns="1" width="100%">
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.affiliation']}"/>
@@ -262,230 +262,230 @@
 								  					<!-- ....... JSP TREE PART.......           -->
 								  					<ui:include src="/normativeRecords/institutionOrganizationTree.xhtml"/>
 								  					</p:fragment>
-								           			
+
 								  				</h:panelGrid>
 								  			</h:panelGrid>
 								  		</h:panelGrid>
 								  		<h:panelGrid id="panelPublicationSearch" columns="1" width="100%">
 								  			<p:commandButton
 											id="btnPublicationFind"
-											action="#{searchManagedBean.sendPublicationForCQL}" 
+											action="#{searchManagedBean.sendPublicationForCQL}"
 											value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
-											render="panelResult" 
-											limitRender="true" 
-											/>  
+											render="panelResult"
+											limitRender="true"
+											/>
 								  		</h:panelGrid>
 								      </p:tab>
-								      
+
 <!-- ....... Author TAB.......           -->
-								      <p:tab header="#{messages['search.searchPanel.authorTab.label']}" id="authorTab">
-									  	<h:panelGrid id="panelAuthor" columns="1" width="100%">
+									<p:tab header="#{messages['search.searchPanel.authorTab.label']}" id="authorTab">
+										<h:panelGrid id="panelAuthor" columns="1" width="100%">
 											<h:panelGrid columns="4" width="100%" columnClasses="width5, width40, width5, width50" style="align:left">
-													<!-- ....... Author .......           -->
-													<p:outputLabel
-															value="#{messages['search.searchPanel.authorTab.FirstLastName']}*" 
-															for="firstLastName" 
-															/>
-															
-													<p:fragment>
+												<!-- ....... Author .......           -->
+												<p:outputLabel
+														value="#{messages['search.searchPanel.authorTab.FirstLastName']}*"
+														for="firstLastName"
+												/>
+
+												<p:fragment>
 													<p:autoComplete
-								            			id="firstLastName"
-								            			value="#{searchManagedBean.firstLastName}"
-								            			mode="cachedAjax" 
-								            			autocompleteMethod="#{authorManagedBean.autocompleteForSearch}"
-								            			var="_authorRow"
-								            			fetchValue="&quot;#{_authorRow.names}&quot;"
-								            			minChars="3" 
-								            			selectFirst="false"
-										         		onselectitem="document.getElementById('searchTableForm:btnAuthorFind').click();"
-										         		style="width:100% !important;"
-										         		inputClass="width100"	
-										         		onfocus="activeElId = this.id;"
-										            	>
-										            	<!--     ........  IME AUTORA .......-->
+															id="firstLastName"
+															value="#{searchManagedBean.firstLastName}"
+															mode="cachedAjax"
+															autocompleteMethod="#{authorManagedBean.autocompleteForSearch}"
+															var="_authorRow"
+															fetchValue="&quot;#{_authorRow.names}&quot;"
+															minChars="3"
+															selectFirst="false"
+															onselectitem="document.getElementById('searchTableForm:btnAuthorFind').click();"
+															style="width:100% !important;"
+															inputClass="width100"
+															onfocus="activeElId = this.id;"
+													>
+														<!--     ........  IME AUTORA .......-->
 														<p:column
-															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-															styleClass="ui-datatable-wide-cell" width="100%">
-											                <h:outputText value="#{_authorRow.names}"/>
-											                
+																style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
+																styleClass="ui-datatable-wide-cell" width="100%">
+															<h:outputText value="#{_authorRow.names}"/>
+
 														</p:column>
 													</p:autoComplete>
-													</p:fragment>
-													
-													<p:commandButton
+												</p:fragment>
+
+												<p:commandButton
 														id="btnAuthorFind"
-														action="#{searchManagedBean.btnAuthorFind}" 
+														action="#{searchManagedBean.btnAuthorFind}"
 														value="#{messages['search.searchPanel.AuthorTab.SearchBtn']}"
-														render="panelResult, panelAuthor" 
+														render="panelResult, panelAuthor"
 														limitRender="true"
 														style="align:right"
-														/>
-													<p:spacer
-															height="20"
-															width="100%"
-															/>
+												/>
+												<p:spacer
+														height="20"
+														width="100%"
+												/>
 											</h:panelGrid>
 											<h:panelGrid columns="1" width="100%">
-												    <!-- ....... Autor SEARCHED.......           -->
-												    
-												    <h:panelGroup>
-												    <h2>
+												<!-- ....... Autor SEARCHED.......           -->
+
+												<h:panelGroup>
+													<h2>
 														<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorSearchedEmpty']}" rendered="#{(empty searchManagedBean.authorSearched[0]) and (not empty searchManagedBean.firstLastName)}"/>
 													</h2>
-												    </h:panelGroup>
-												    
-												    <p:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchManagedBean.authorSearched[0]}">
-								  							<p:dataTable var="queryAuthorSearched" value="#{searchManagedBean.authorSearched}" columns="6" columnClasses="width75, width5, width5, width5, width5, width5" width="100%" rendered="#{not empty searchManagedBean.authorSearched[0]}">
-								  							 <f:facet name="header">
-								  										<p:columnGroup>
-								   										<p:column colspan="1" rowspan="2">
-											                            	<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorDetails']}"/> 
-											                            </p:column>
-											                            <p:column colspan="5" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"/>
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1" breakRowBefore="true">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorAllPublication']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorJournal']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorProceedings']}"/>  
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorTheses']}"/> 
-											                            </p:column>
-										                        	</p:columnGroup>
-										                   </f:facet>
-								  						    <p:column>
-								    								<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>	
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+												</h:panelGroup>
+
+												<p:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchManagedBean.authorSearched[0]}">
+													<p:dataTable var="queryAuthorSearched" value="#{searchManagedBean.authorSearched}" rendered="#{not empty searchManagedBean.authorSearched[0]}">
+														<f:facet name="header">
+															<p:columnGroup>
+																<p:column colspan="1" rowspan="2">
+																	<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorDetails']}"/>
+																</p:column>
+																<p:column colspan="5" rowspan="1">
+																	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"/>
+																</p:column>
+																<p:column colspan="1" rowspan="1" breakRowBefore="true">
+																	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorAllPublication']}"/>
+																</p:column>
+																<p:column colspan="1" rowspan="1">
+																	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorJournal']}"/>
+																</p:column>
+																<p:column colspan="1" rowspan="1">
+																	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorProceedings']}"/>
+																</p:column>
+																<p:column colspan="1" rowspan="1">
+																	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}"/>
+																</p:column>
+																<p:column colspan="1" rowspan="1">
+																	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorTheses']}"/>
+																</p:column>
+															</p:columnGroup>
+														</f:facet>
+														<p:column>
+															<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>
+														</p:column>
+														<p:column style="text-align:center">
+															<p:commandLink
 																	id="linkAuthorAllPublicationFind"
-																	action="#{searchManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
+																	render="panelResult"
 																	limitRender="true"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[0]}" />
-																</p:commandLink>
-																 <!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
-																  rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
-																  Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
-																  <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-																 -->
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[0]}" />
+															</p:commandLink>
+															<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
+                                                             rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
+                                                             Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
+                                                             <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
+                                                            -->
+														</p:column>
+														<p:column style="text-align:center">
+															<p:commandLink
 																	id="linkAuthorJournalFind"
-																	action="#{searchManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
+																	render="panelResult"
 																	limitRender="true"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorJournal']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[1]}" />
-																</p:commandLink>
-																<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
-																  rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
-																  Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
-																  <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-																 -->
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[1]}" />
+															</p:commandLink>
+															<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
+                                                              rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
+                                                              Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
+                                                              <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
+                                                             -->
+														</p:column>
+														<p:column style="text-align:center">
+															<p:commandLink
 																	id="linkAuthorProceedingsFind"
-																	action="#{searchManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
+																	render="panelResult"
 																	limitRender="true"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorProceedings']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[2]}" />
-																</p:commandLink>
-																<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
-																  rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
-																  Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
-																  <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-																 -->
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[2]}" />
+															</p:commandLink>
+															<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
+                                                              rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
+                                                              Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
+                                                              <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
+                                                             -->
+														</p:column>
+														<p:column style="text-align:center">
+															<p:commandLink
 																	id="linkAuthorMonographFind"
-																	action="#{searchManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
+																	render="panelResult"
 																	limitRender="true"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[3]}" />
-																</p:commandLink>
-																<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
-																  rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
-																  Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
-																  <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-																 -->
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[3]}" />
+															</p:commandLink>
+															<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
+                                                              rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
+                                                              Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
+                                                              <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
+                                                             -->
+														</p:column>
+														<p:column style="text-align:center">
+															<p:commandLink
 																	id="linkAuthorThesesFind"
-																	action="#{searchManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
+																	render="panelResult"
 																	limitRender="true"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorTheses']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[4]}" />
-																</p:commandLink>
-																<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
-																  rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
-																  Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
-																  <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-																 -->
-															</p:column>
-								  							</p:dataTable>
-								  						</p:panel>
-								  						<!-- ....... Autor DETAILS......     u planu      -->
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[4]}" />
+															</p:commandLink>
+															<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
+                                                              rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
+                                                              Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
+                                                              <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
+                                                             -->
+														</p:column>
+													</p:dataTable>
+												</p:panel>
+												<!-- ....... Autor DETAILS......     u planu      -->
 											</h:panelGrid>
-									  	</h:panelGrid>
-								      </p:tab>
+										</h:panelGrid>
+									</p:tab>
 									<!--  ....... ADVANCE TAB.......           -->
-								      <p:tab header="#{messages['search.searchPanel.advanceTab.label']}" id="advanceTab" >
-								      	<h:panelGrid id="panelAdvance" columns="1" width="100%">
-								      	<h:panelGroup>
-											<h2>
-												<h:outputText value="#{messages['search.searchPanel.advanceTab.CQLSearchLabel']}" />		
-											</h2>
-										</h:panelGroup>
-										<p:inputTextarea
-											id="advanceQuery"
-											onkeydown="keyDownHandler(event, 'searchTableForm:btnAdvanceFind')"
-											value="#{searchManagedBean.advanceQuery}"
-											style="width:90%;"
-											rows="5"
+									<p:tab header="#{messages['search.searchPanel.advanceTab.label']}" id="advanceTab" >
+										<h:panelGrid id="panelAdvance" columns="1" width="100%">
+											<h:panelGroup>
+												<h2>
+													<h:outputText value="#{messages['search.searchPanel.advanceTab.CQLSearchLabel']}" />
+												</h2>
+											</h:panelGroup>
+											<p:inputTextarea
+													id="advanceQuery"
+													onkeydown="keyDownHandler(event, 'searchTableForm:btnAdvanceFind')"
+													value="#{searchManagedBean.advanceQuery}"
+													style="width:90%;"
+													rows="5"
 											>
-										</p:inputTextarea>
-										<p:commandButton
-											id="btnAdvanceFind"
-											action="#{searchManagedBean.advanceQuerySearch}" 
-											value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
-											render="panelResult" 
-											limitToList="true"/>
-								      	</h:panelGrid>
-								      </p:tab>
-					
-								  </p:tabView>
+											</p:inputTextarea>
+											<p:commandButton
+													id="btnAdvanceFind"
+													action="#{searchManagedBean.advanceQuerySearch}"
+													value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
+													render="panelResult"
+													limitToList="true"/>
+										</h:panelGrid>
+									</p:tab>
+
+								</p:tabView>
 							</h:panelGrid>
 							</h:form>
 						</p:panel>
