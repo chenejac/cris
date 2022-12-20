@@ -158,6 +158,14 @@ public class ReportGeneratorSEManagedBean extends ReportGeneratorManagedBean{
 		
 	}
 
+	public List<SelectItem> getOrganisations() {
+		return organisations;
+	}
+
+	public void setOrganisations(List<SelectItem> organisations) {
+		this.organisations = organisations;
+	}
+
 	public String getYear() {
 		return year;
 	}
