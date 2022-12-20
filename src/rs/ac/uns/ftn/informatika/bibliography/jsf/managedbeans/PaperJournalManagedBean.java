@@ -59,11 +59,11 @@ public class PaperJournalManagedBean extends CRUDManagedBean implements
 	private PaperJournalDTO selectedPaperJournal = null;
 	
 	public static String M99_PMF_WHERE_CLAUSE = "ARCHIVED != 100 and RECORDID in (SELECT RECORDID from MARC21RECORD_CLASS where CFCLASSID like 'paperJournal')  " +
-			"and RECORDID in (SELECT RECORDID2 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorshipType' and RECORDID1 in (SELECT RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929' and CFSTARTDATE like '2021-01-01 00:00:00'))  " +
+			"and RECORDID in (SELECT RECORDID2 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorshipType' and RECORDID1 in (SELECT RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5929' and CFSTARTDATE like '2022-01-01 00:00:00'))  " +
 			"and RECORDID not in (SELECT RECORDID from MARC21RECORD_CLASS where COMMISSIONID in (711, 712, 713, 714, 715, 721, 722, 723, 724, 725))";
 		
 	public static String M99_TF_WHERE_CLAUSE = "ARCHIVED != 100 and RECORDID in (SELECT RECORDID from MARC21RECORD_CLASS where CFCLASSID like 'paperJournal') " +
-			"and RECORDID in (SELECT RECORDID2 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorshipType' and RECORDID1 in (SELECT RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5933' and CFSTARTDATE like '2021-01-01 00:00:00')) " +
+			"and RECORDID in (SELECT RECORDID2 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorshipType' and RECORDID1 in (SELECT RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and RECORDID2 like '(BISIS)5933' and CFSTARTDATE like '2022-01-01 00:00:00')) " +
 			"and RECORDID not in (SELECT RECORDID from MARC21RECORD_CLASS where COMMISSIONID in (701))";
 
 	/**

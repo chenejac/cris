@@ -48,7 +48,7 @@ public class ExportAuthorsTask implements Task {
 		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
 		PersonDB personDB = new PersonDB();
 		UserDB userDB = new UserDB();
-		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2021-01-01 00:00:00");
+		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2022-01-01 00:00:00");
 		// (BISIS)5929 - PMF
 		// (BISIS)6782 - DMI
 		// (BISIS)6780 - DGTH
