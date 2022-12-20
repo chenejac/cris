@@ -300,8 +300,8 @@ public class JournalManagedBean extends CRUDManagedBean implements IPickAuthorMa
 		return retVal;
     }
 	
-	public List<String> autocompleteName(String suggest) {
-		List<String> retVal = new ArrayList<String>();
+	public List<JournalDTO> autocompleteName(String suggest) {
+		List<JournalDTO> retVal = new ArrayList<JournalDTO>();
 		
 		String journalName = suggest;
         
@@ -318,7 +318,7 @@ public class JournalManagedBean extends CRUDManagedBean implements IPickAuthorMa
 			try {
 				JournalDTO dto = (JournalDTO) recordDTO.getDto();
 				if (dto != null) {
-					retVal.add(dto.getSomeName());
+					retVal.add(dto);
 				}
 			} catch (Exception e) {
 				log.error(e);
@@ -327,15 +327,22 @@ public class JournalManagedBean extends CRUDManagedBean implements IPickAuthorMa
 		return retVal;
     }
 	
-	public List<JournalDTO> autocompleteISSN(String suggest) {
+	public List<JournalDTO> autocompleteISSNOrName(String suggest) {
 		List<JournalDTO> retVal = new ArrayList<JournalDTO>();
-		String journalISSN = suggest;//.replace('-', '.');
+		String journalISSNorName = suggest;//.replace('-', '.');
         try {
 	        BooleanQuery bq = new BooleanQuery();
-			if(journalISSN != null){
-				bq.add(QueryUtils.makeBooleanQuery("ISSN", journalISSN + "*", Occur.MUST, 0.8f, 07f, true), Occur.MUST);
-				bq.add(QueryUtils.makeBooleanQuery("ISSN", journalISSN + "*", Occur.SHOULD, 0.99f, 0.99f, true), Occur.SHOULD);
+			if(journalISSNorName != null){
+				BooleanQuery bqissn = new BooleanQuery();
+				bqissn.add(QueryUtils.makeBooleanQuery("ISSN", journalISSNorName + "*", Occur.MUST, 0.8f, 07f, true), Occur.MUST);
+				bqissn.add(QueryUtils.makeBooleanQuery("ISSN", journalISSNorName + "*", Occur.SHOULD, 0.99f, 0.99f, true), Occur.SHOULD);
+				bq.add(bqissn, Occur.SHOULD);
+				BooleanQuery bqname = new BooleanQuery();
+				bqname.add(QueryUtils.makeBooleanQuery("NA", journalISSNorName + ".", Occur.SHOULD, 0.6f, 0.5f, false), Occur.MUST);
+				bqname.add(QueryUtils.makeBooleanQuery("NA", journalISSNorName + ".", Occur.SHOULD, 0.99f, 0.99f, false), Occur.SHOULD);
+				bq.add(bqname, Occur.SHOULD);
 			}
+			bq.setMinimumNumberShouldMatch(1);
 			bq.add(new TermQuery(new Term("TYPE", Types.JOURNAL)), Occur.MUST);
 			List<Record> listRecord = recordDAO.getDTOs(bq, new AllDocCollector(true));
 			for (Record recordDTO : listRecord) {

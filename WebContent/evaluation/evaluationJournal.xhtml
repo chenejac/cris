@@ -54,31 +54,6 @@
 									<h:outputText value="#{messages['evaluation.mainPanel.journalPanel.header']}" />
 								</f:facet>
 								<h:panelGrid id="journalSelection" columns="2" rendered="true" columnClasses="width15, width85" width="100%">
-									<p:outputPanel ajaxRendered="true">
-										<mytags:outputLabel 
-											value="#{messages['evaluation.mainPanel.journalSelection.journalName']}: " 
-											for="name" 
-											errorStyleClass="errorMessage"
-											/>
-									</p:outputPanel>
-									<p:autoComplete mode="cachedAjax" minChars="3" selectFirst="false"
-	            						id="name" 
-										value="#{evaluationJournalManagedBean.journalSomeName}" 
-										autocompleteMethod="#{journalManagedBean.autocompleteName}"
-										var="_journalRow"
-			            				fetchValue="#{_journalRow.controlNumber}"
-			            				autofill="false"
-			            				onselectitem="jsFuncChoose()" 
-			            				style="width:100% !important;"
-										inputClass="width80" 
-			            				>
-			            			 	<!--     ........  name   ISSN .......-->
-							            <p:column
-											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-											styleClass="ui-datatable-wide-cell">
-											<h:outputText value="#{_journalRow.someName} &nbsp; ( &nbsp; #{_journalRow.issn} &nbsp;)"/>	
-										</p:column>
-									</p:autoComplete>
 	            					
 									<p:outputPanel ajaxRendered="true">
 										<mytags:outputLabel 
@@ -87,35 +62,20 @@
 											errorStyleClass="errorMessage"
 											/>
 									</p:outputPanel>
-									<p:autoComplete mode="cachedAjax" minChars="3" selectFirst="false"
-	            						id="ISSN" 
-										value="#{evaluationJournalManagedBean.journalISSN}" 
-										autocompleteMethod="#{journalManagedBean.autocompleteISSN}"
-										var="_journalRow"
-			            				fetchValue="#{_journalRow.controlNumber}"
-			            				autofill="false"
-			            				onselectitem="jsFuncChoose()"
-			            				style="width:60% !important;"
-										inputClass="width80"
-			            				>
-			            			 	<!--     ........  ISSN   .......-->
-							            <p:column
-											style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-											styleClass="ui-datatable-wide-cell">
-											<h:outputText value="#{_journalRow.issn} &nbsp; ( &nbsp; #{_journalRow.someName} &nbsp;)"/>		
-										</p:column>
-									</p:autoComplete>
-													
-									
-									<p:remoteCommand
-											name="jsFuncChoose"
-											execute="name ISSN"
-											action="#{evaluationJournalManagedBean.setAllFromJournal}" 
-											render="mainPanel"
-											
-											>
-									</p:remoteCommand>
-									
+									<p:autoComplete
+											id="ISSN"
+											value="#{evaluationJournalManagedBean.selectedJournal}"
+											completeMethod="#{journalManagedBean.autocompleteISSNOrName}"
+											var="_journalRow"
+											itemLabel="#{_journalRow.toString()}"
+											itemValue="#{_journalRow}"
+											minQueryLength="3"
+											autoSelection="false"
+											autocomplete="false"
+											styleClass="width80"
+											converter="journalConverter"
+											forceSelection="true"
+									/>
 								</h:panelGrid>
 						 	</p:panel>
 						 	
@@ -164,12 +124,12 @@
 											errorStyleClass="errorMessage"
 											/>
 											
-										<h:outputLink 
-											value="#{evaluationJournalManagedBean.pdfUrl}"
+										<p:commandLink
+											title="#{evaluationJournalManagedBean.pdfUrl}"
 											target="_blank" 
 											rendered="#{not empty evaluationJournalManagedBean.commissionID}">
 											<h:graphicImage library="img" name="download32.png" id="rulebookPng" alt="none"/>
-										</h:outputLink>	
+										</p:commandLink>
 										<h:graphicImage library="img" name="download32.png" id="rulebookPng1" alt="none" rendered="#{empty evaluationJournalManagedBean.commissionID}"/>
 
 										<h:outputText value="" />
@@ -179,13 +139,13 @@
 							 			<p:commandButton ajax="false"
 							 				value="#{messages['evaluation.mainPanel.yearCommissionSelection.btnEvaluate']}"
 							 				action="#{evaluationJournalManagedBean.evaluateSelectedJournalForCommissionAndYear()}"
+														 update="evaluationEvaluationResultsPanel"
 							 				  >
 								        </p:commandButton>
 							        
 							        	<p:remoteCommand
 												name="jsSetRulebook"
-												execute="year commission"
-												render="mainPanel"
+												update="mainPanel"
 												action="#{evaluationJournalManagedBean.setCommissionRuleBook}" 
 												>
 										</p:remoteCommand>
@@ -236,20 +196,21 @@
 													style="width:800px !important">
 												<p:dataTable var="listVarTabel1"
 										            	value="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesTwoYears}"
-										            	rowKeyVar="rowNumber"	
+										            	rowIndexVar="rowNumber"
 										            	rendered="#{((not empty evaluationJournalManagedBean.evaluatedResult.impactFactor) and (not evaluationJournalManagedBean.showAllImpactFactors)) or ((not empty evaluationJournalManagedBean.allImpactFactors) and (evaluationJournalManagedBean.showAllImpactFactors))}"
-										            	styleClass="tableImpactFactors" 									      			
-										            	>																
+															 styleClass="stable noHeader"
+															 tableStyle="width:auto"
+										            	>
 														<c:forEach items="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears}" var="itemPropertyName">
 													        <p:column style="#{(rowNumber == 0) ? 'background-color: #DCF0F7 !important;' : 'background-color: #F5F5F5 !important;'}">
 													        	<p:commandLink ajax="false"
-													        		action="#{evaluationJournalManagedBean.setYearString(listVarTabel1[itemPropertyName])}" 
-													        		value="#{listVarTabel1[itemPropertyName]}" 
-													        		rendered="#{rowNumber == 0}"/> 
+													        		action="#{evaluationJournalManagedBean.setYearString(listVarTabel1[itemPropertyName])}"
+													        		value="#{listVarTabel1[itemPropertyName]}"
+													        		rendered="#{rowNumber == 0}"/>
 													        	<h:outputText 
 													        		value="#{listVarTabel1[itemPropertyName]}" 
 													        		rendered="#{rowNumber != 0}"/>
-													            
+
 													        </p:column>
 													    </c:forEach>
 												</p:dataTable>
@@ -262,9 +223,10 @@
 														style="width:800px !important">
 												<p:dataTable var="listVarTabel2"
 																value="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesFiveYears}"
-																rowKeyVar="rowNumber"
+															 	rowIndexVar="rowNumber"
 																rendered="#{((not empty evaluationJournalManagedBean.evaluatedResult.impactFactor) and (not evaluationJournalManagedBean.showAllImpactFactors)) or ((not empty evaluationJournalManagedBean.allImpactFactors) and (evaluationJournalManagedBean.showAllImpactFactors))}"
-																styleClass="tableImpactFactors"
+															 	styleClass="stable noHeader"
+																 tableStyle="width:auto"
 												>
 													<c:forEach items="#{evaluationJournalManagedBean.evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesFiveYears}" var="itemPropertyName2">
 														<p:column style="#{(rowNumber == 0) ? 'background-color: #DCF0F7 !important;' : 'background-color: #F5F5F5 !important;'}">
@@ -275,7 +237,6 @@
 															<h:outputText
 																	value="#{listVarTabel2[itemPropertyName2]}"
 																	rendered="#{rowNumber != 0}"/>
-
 														</p:column>
 													</c:forEach>
 												</p:dataTable>

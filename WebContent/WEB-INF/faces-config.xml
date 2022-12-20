@@ -48,6 +48,10 @@
   <converter-class>rs.ac.uns.ftn.informatika.bibliography.jsf.converters.RuleBookDTOConverter</converter-class>
  </converter>
  <converter>
+  <converter-id>journalConverter</converter-id>
+  <converter-class>rs.ac.uns.ftn.informatika.bibliography.jsf.converters.JournalDTOConverter</converter-class>
+ </converter>
+ <converter>
   <converter-for-class>java.lang.String</converter-for-class>
   <converter-class>rs.ac.uns.ftn.informatika.bibliography.jsf.converters.EmptyToNullConverter</converter-class>
  </converter>

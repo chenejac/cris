@@ -634,7 +634,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			authorSearched.add((AuthorDTO)iAuthorRecord);
 		}
 		
-		System.out.println(authorSearched.size());
+//		System.out.println(authorSearched.size());
 		
 	}
 	
@@ -1182,6 +1182,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 					//|| ins.getControlNumber().equalsIgnoreCase("(BISIS)5933")){
 					TreeNodeDTO<InstitutionDTO> node = new TreeNodeDTO<InstitutionDTO>(ins);
 					node.setParent(null);
+					node.setSelected(true);
 					allInstitutionsAndOrganizations.add(node);
 					addNodeInstitution(node, ins);
 					root.add(node);
@@ -1213,6 +1214,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 				allInstitutionsAndOrganizations.add(node);
 				addNodeInstitution(node, ins);
 				parentNode.addChild(node);
+				node.setSelected(true);
 //			  }
 		}
 	  }
@@ -1248,6 +1250,7 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			{
 				childOrganizations.setParent(parent);
 				parent.addChild(childOrganizations);
+				childOrganizations.setSelected(true);
 			}
 		}	
 		

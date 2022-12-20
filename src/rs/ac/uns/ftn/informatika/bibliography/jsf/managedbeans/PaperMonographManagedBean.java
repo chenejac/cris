@@ -395,7 +395,7 @@ public class PaperMonographManagedBean extends CRUDManagedBean implements
 			}
 		}else if (validateAuthors() == false) {
 			facesMessages.addToControlFromResourceBundle(
-					"paperMonographEditForm:general", FacesMessage.SEVERITY_ERROR, 
+					(simpleForm)?"paperMonographSimpleEditForm:general":"paperMonographEditForm:general", FacesMessage.SEVERITY_ERROR,
 					"records.paperMonograph.author.name.pleaseSelect.error",
 					FacesContext.getCurrentInstance());
 			return;
@@ -433,7 +433,7 @@ public class PaperMonographManagedBean extends CRUDManagedBean implements
 			}
 		} else if (validateAuthors() == false) {
 			facesMessages.addToControlFromResourceBundle(
-					"paperMonographEditForm:general", FacesMessage.SEVERITY_ERROR, 
+					(simpleForm)?"paperMonographSimpleEditForm:general":"paperMonographEditForm:general", FacesMessage.SEVERITY_ERROR,
 					"records.paperMonograph.author.name.pleaseSelect.error",
 					FacesContext.getCurrentInstance());
 			return;
@@ -442,14 +442,14 @@ public class PaperMonographManagedBean extends CRUDManagedBean implements
 				.getEmail(), new GregorianCalendar(), null, null, new Integer(0), CerifEntitiesNames.RESULT_PUBLICATION, 
 				selectedPaperMonograph)) == false) {
 			facesMessages.addToControlFromResourceBundle(
-					"paperMonographEditForm:general", FacesMessage.SEVERITY_ERROR, 
+					(simpleForm)?"paperMonographSimpleEditForm:general":"paperMonographEditForm:general", FacesMessage.SEVERITY_ERROR,
 					"records.paperMonograph.add.error", FacesContext
 							.getCurrentInstance());
 		} else {
 			init = true;
 			nextEditTab();
 			facesMessages.addToControlFromResourceBundle(
-					"paperMonographEditForm:general", FacesMessage.SEVERITY_INFO, 
+					(simpleForm)?"paperMonographSimpleEditForm:general":"paperMonographEditForm:general", FacesMessage.SEVERITY_INFO,
 					"records.paperMonograph.add.success", FacesContext
 							.getCurrentInstance());
 			populateList = true;
@@ -472,7 +472,7 @@ public class PaperMonographManagedBean extends CRUDManagedBean implements
 				.getLoggedUser().getEmail(), new GregorianCalendar(), new Integer(100), CerifEntitiesNames.RESULT_PUBLICATION, 
 				selectedPaperMonograph)) == false) {
 			facesMessages.addToControlFromResourceBundle(
-					"paperMonographTableForm:deleteError", FacesMessage.SEVERITY_ERROR, 
+					"paperMonographTableForm:deleteError", FacesMessage.SEVERITY_ERROR,
 					"records.paperMonograph.delete.error", FacesContext
 							.getCurrentInstance());
 		} else {

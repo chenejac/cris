@@ -147,6 +147,10 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 	width: 100% !important;
 }
 
+.noHeader.ui-datatable table thead tr {
+	display: none;
+}
+
 .ui-menu-item, .ui-selectonemenu-item {
 	font-weight: bold !important;
 	font-size: 16px !important;
