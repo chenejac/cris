@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html; charset=iso-8859-1"
+	beforePhase="#{publicThesesPOLJManagedBean.loadTheses2018}" />
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="Refresh"
+		content="#{session.maxInactiveInterval};url=publicThesesPOLJ2018.jsf" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="-1" />
+	<link rel="stylesheet" type="text/css"
+		href="../resources/stylesheet/thesis.css" />
+	<title><ui:insert name="title">CRIS UNS</ui:insert></title>
+</h:head>
+<h:body>
+	<h:outputStylesheet library="stylesheet" name="theme.css" target="head" />
+	<h:outputScript library="js" name="functions.js" target="head" />
+	<f:loadBundle
+		basename="rs.ac.uns.ftn.informatika.bibliography.utils.ResourceBoundles"
+		var="messages" />
+	<h:graphicImage library="img" name="logoPOLJ.png" class="logoPhDImage"/>
+	<br/>
+	<table class="thesisTable">
+		<tr>
+			<td align="center">
+				<br/>
+				<a href="../searchDissertations.jsf" target="_blank" class="normal">#{messages['records.publicTheses.searchLinkName']}</a>
+			</td>
+		</tr>
+		<tr>
+			<td><br/><span>&nbsp;</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table class="innerTable">
+					<tr>
+						<td class="sectionTitle sectionTitleFont normal" colspan="2">
+							#{messages['records.publicTheses.phdPart1']} <br/> #{messages['records.publicTheses.phdPart2']} #{messages['records.publicTheses.phdYear2018']}
+						</td>
+					</tr>
+					<tr>
+						<td class="notificationFont normal indent">
+							<br/>
+							<b>#{messages['records.publicTheses.notice']}</b> #{messages['records.publicTheses.noticeMessage']}.
+							<br/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h:panelGrid id="publicThesesTableFormPanel" >
+								<p:inputText id="general" rendered="false" value="" />
+								<p:outputPanel ajaxRendered="true">
+									<p:message
+										for="general"
+										errorClass="errorMessage"
+										infoClass="infoMessage"
+										warnClass="warnMessage"
+										fatalClass="fatalMessage"/>
+								</p:outputPanel>
+								<h:panelGrid id="publicThesesTablePanel" >
+									<p:dataTable
+										id="publicThesesTable"
+										value="#{publicThesesPOLJManagedBean.theses2018}"
+										var="studyFinalDocumentRow" 
+										styleClass="candidates"
+										>
+										<!--     ........  author   .......-->
+										<p:column
+											styleClass="fullName" >
+											<f:facet name="header">
+												<h:outputText
+													value="#{messages['records.publicTheses.tablePanel.author']}" />
+											</f:facet>
+											<h:outputText value="#{studyFinalDocumentRow.someAuthorName}" />
+										</p:column>
+										<!--     ........  institution   .......
+										<p:column
+											styleClass="institution" >
+											<f:facet name="header">
+												<h:outputText
+													value="#{messages['records.publicTheses.tablePanel.institution']}" />
+											</f:facet>
+											<h:outputText value="#{studyFinalDocumentRow.someInstitutionName}" />
+										</p:column> -->
+										<!--     ........  researchArea   .......-->
+										<p:column
+											styleClass="researchArea" >
+											<f:facet name="header">
+												<h:outputText
+													value="#{messages['records.publicTheses.tablePanel.researchArea']}" />
+											</f:facet>
+											<h:outputText value="#{studyFinalDocumentRow.someResearchArea}" />
+										</p:column>
+										<!--     ........  title   .......-->
+										<p:column
+											styleClass="title" >
+											<f:facet name="header">
+												<h:outputText
+													value="#{messages['records.publicTheses.tablePanel.title']}" />
+											</f:facet>
+											<h:outputText value="#{studyFinalDocumentRow.someTitle}" />
+										</p:column>
+										<!--     ........  public period   .......-->
+										<p:column
+											styleClass="publicPeriod" >
+											<f:facet name="header">
+												<h:outputText
+													value="#{messages['records.publicTheses.tablePanel.publicPeriod']}" />
+											</f:facet>
+											<h:outputText value="#{studyFinalDocumentRow.publicPeriod}" />
+										</p:column>
+									</p:dataTable>
+								</h:panelGrid>
+							</h:panelGrid>
+							<br/>
+						</td>
+					</tr>
+					<tr>
+						<td class="sectionTitle sectionTitleFont normal" colspan="2">
+							Backup 2018
+						</td>
+					</tr>
+					<tr>
+						<td height="20px">&nbsp;
+							<!-- prazan red -->
+						</td>
+					</tr>
+					
+				</table>
+			</td>
+		</tr>
+	</table>
+	
+	<ui:include src="../footer.xhtml" />
+	
+</h:body>
+</html>
