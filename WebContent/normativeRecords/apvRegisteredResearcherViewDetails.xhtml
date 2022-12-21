@@ -54,83 +54,107 @@
             		<f:selectItem itemLabel="#{messages['records.apvRegisteredResearcher.viewDetails.toDateCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
             		<f:selectItems value="#{searchManagedBean.dateRange}"/>
     			</p:selectOneMenu>
-				<p:commandButton ajax="false"action="#{apvRegisteredResearchersManagedBean.calculateAgain}" value="#{messages['records.apvRegisteredResearcher.viewDetails.btnCalculateAgain']}" />
+				<p:commandButton
+						action="#{apvRegisteredResearchersManagedBean.calculateAgain}"
+						title="#{messages['records.apvRegisteredResearcher.viewDetails.btnCalculateAgain']}"
+						icon="pi pi-filter"
+						styleClass="rounded-button ui-button-flat"
+						update="@form"
+				/>
 				<p:commandButton
 					action="#{apvRegisteredResearchersManagedBean.prepareReportGeneration}" 
-					value="#{messages['records.apvRegisteredResearcher.viewDetails.btnPrepareReportGeneration']}" 
-					render="reportPublicationsEditModalPanel"
-					execute="@this" 
-					limitRender="true"/>
+					title="#{messages['records.apvRegisteredResearcher.viewDetails.btnPrepareReportGeneration']}"
+					icon="pi pi-book"
+					styleClass="rounded-button ui-button-flat"
+					update="reportPublicationsForm"
+					/>
 			</h:panelGrid>
 		</h:panelGrid>
     	<br/>
      	
-     	<p:dataTable value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.resultsGroups}" var="list" id="expandableTable" styleClass="wide-panel">
-     		<f:facet name="header">  
-                <p:columnGroup>
-                    <p:column colspan="4">
-                        <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.summary']}" />
-                    </p:column>
-                    <p:column breakRowBefore="true">
-                        <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultType']}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultName']}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.count']}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.points']}" />
-                    </p:column>
-                  </p:columnGroup>
-                  </f:facet>
-                    <p:column>
-                		<h:outputText value="#{list.resultType.classId}" />
-            		</p:column>
-            		<p:column style="width:80%">
-            		<p:outputPanel ajaxRendered="true" >
-            			<p:commandLink id="link" value="#{list.resultType.someTerm}" render="collapsablePanel" execute="@this">
-	 						<f:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
-	 					</p:commandLink>
-	 					 <p:fragment id="collapsablePanel">
-					     <p:dataList value="#{list.results}" var="item" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" type="unordered">
-					     <div style="margin-bottom: 10px;">	
-					     	<h:outputText value="#{item.publication.harvardRepresentation}" rendred="true" escape="false"  />
-					     </div>						     	
-					     </p:dataList>
-					     <p:commandLink render="collapsablePanel" execute="@this" rendered="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}">
-					     	<h:graphicImage library="img" name="backKNRPublic.gif" style="float:right;" />
-	 						<f:param name="val" value="#{!apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" assignTo="#{apvRegisteredResearchersManagedBean.showList[list.resultType.classId]}" />
-	 					</p:commandLink>
-					   </p:fragment>
-					</p:outputPanel >
-            		</p:column>
-            		<p:column style="text-align: center;">
-                		<h:outputText value="#{list.results.size()}" />
-                		<f:facet name="footer"><h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPapers}"/></f:facet>
-            		</p:column>
-            		<p:column style="text-align: center;">
-                		<h:outputText value="#{list.quantitativeMeasure.doubleValue()*list.results.size()}" > 
-                			<f:convertNumber maxFractionDigits="1" />
-                		</h:outputText>
-                		<f:facet name="footer"><h:outputText value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPoints}"/></f:facet>	                       
-            		</p:column>
+     	<p:dataTable
+				value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.resultsGroups}"
+				var="list"
+				id="expandableTable"
+				styleClass="stable"
+				tableStyle="width:auto" >
+			<p:column>
+				<f:facet name="header">
+					<h:outputText
+							value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultType']}"
+							style="font-size: 14px"/>
+				</f:facet>
+				<h:outputText
+						value="#{list.resultType.classId}"
+						style="font-size: 14px" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText
+							value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.resultName']}"
+							style="font-size: 14px"
+					/>
+				</f:facet>
+				<p:commandButton id="resultgroup" value="#{list.resultType.someTerm}" type="button"/>
+				<p:overlayPanel for="resultgroup">
+					<p:dataList
+							value="#{list.results}"
+							var="item"
+							type="unordered"
+					>
+						<div style="margin-bottom: 10px;">
+							<h:outputText
+									value="#{item.publication.harvardRepresentation}"
+									rendred="true"
+									escape="false"
+									style="font-size: 14px" />
+						</div>
+					</p:dataList>
+				</p:overlayPanel>
+			</p:column>
+			<p:column
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}">
+				<f:facet name="header">
+					<h:outputText
+							value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.count']}"
+							style="font-size: 14px"
+					/>
+				</f:facet>
+				<h:outputText value="#{list.results.size()}" />
+				<f:facet name="footer">
+					<h:outputText
+							value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPapers}"
+							style="font-size: 14px"/>
+				</f:facet>
+			</p:column>
+			<p:column
+					rendered="#{(userManagedBean.privileges[privilegesManagedBean.formReportSE][privilegesManagedBean.showInMainMenu]) or (userManagedBean.loggedIn and userManagedBean.loggedUser.author.controlNumber == researcherProfileManagedBean.selectedAuthor.controlNumber)}">
+				<f:facet name="header">
+					<h:outputText
+							value="#{messages['records.apvRegisteredResearcher.viewDetails.productionTable.points']}"
+							style="font-size: 14px"
+					/>
+				</f:facet>
+				<h:outputText
+						value="#{list.quantitativeMeasure.doubleValue()*list.results.size()}">
+					<f:convertNumber maxFractionDigits="1" />
+				</h:outputText>
+				<f:facet name="footer">
+					<h:outputText
+							value="#{apvRegisteredResearchersManagedBean.selectedAuthorKNR.totalPoints}" />
+				</f:facet>
+			</p:column>
      	</p:dataTable>
      </p:panel>
      
 	<!--=================Back buttons ====================  -->
-		<h:panelGrid columns="1">
-			<p:commandButton
-				rendered="#{(apvRegisteredResearchersManagedBean.editMode == modesManagedBean.viewDetails)}"
-				action="#{apvRegisteredResearchersManagedBean.switchToBrowseMode}"
-				value="#{messages['records.apvRegisteredResearchers.backButton']}"
-				render="mainPanel apvRegisteredResearcherViewDetailsModalPanel"
-				limitRender="true" 
-				execute="@form" />
-		</h:panelGrid>
-		
-	
-	
+	<h:panelGrid columns="1">
+		<p:commandButton
+			rendered="#{(apvRegisteredResearchersManagedBean.editMode == modesManagedBean.viewDetails)}"
+			action="#{apvRegisteredResearchersManagedBean.switchToBrowseMode}"
+			value="#{messages['records.apvRegisteredResearchers.backButton']}"
+			update="mainPanel, apvRegisteredResearchersViewDetailsForm"
+			 />
+	</h:panelGrid>
 
 </ui:composition>     

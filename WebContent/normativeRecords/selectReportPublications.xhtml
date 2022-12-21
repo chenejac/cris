@@ -40,7 +40,7 @@
 				<p:dataTable
 					id="publicationTable"
 					value="#{apvRegisteredResearchersManagedBean.publications}"
-					var="publicationRow" 
+					var="publicationRow"
 					rows="10"
 					paginator="true" paginatorPosition="bottom"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -93,7 +93,7 @@
 			disabled="#{empty apvRegisteredResearchersManagedBean.wordMLPackage}"
 			target="_blank"
 			>
-			<h:button 
+			<p:button
 				value="#{messages['records.apvRegisteredResearcher.report.publications.btnDownload']}"
 				disabled="#{empty apvRegisteredResearchersManagedBean.wordMLPackage}"
 			/>
@@ -102,13 +102,11 @@
 			action="#{apvRegisteredResearchersManagedBean.selectAllPublications}"
 			value="#{messages['records.apvRegisteredResearcher.report.publications.btnSelectAll']}"
 			update="scrollableBody"
-			limitRender="true" 
-			execute="this" />
+			 />
 		<p:commandButton
 			action="#{apvRegisteredResearchersManagedBean.deselectAllPublications}"
 			value="#{messages['records.apvRegisteredResearcher.report.publications.btnDeselectAll']}"
 			update="scrollableBody"
-			limitRender="true" 
-			execute="this" />
+			/>
 	</h:panelGrid>
 </ui:composition>

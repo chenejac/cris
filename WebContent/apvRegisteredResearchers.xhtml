@@ -67,12 +67,12 @@
 						<!-- ======================== Publications  ============= -->
 						<h:form id="reportPublicationsForm">
 							<h:panelGrid id="reportPublicationsEditModalPanel">
-								<p:dialog modal="true"
-									rendered="#{(not empty apvRegisteredResearchersManagedBean.publications)}"
-									show="true" 
-									domElementAttachment="parent"
-									autosized="true"
-									onbeforeshow="calculateSize('reportPublicationsForm:scrollableBody');">
+								<p:dialog
+										modal="true"
+										rendered="#{(not empty apvRegisteredResearchersManagedBean.publications)}"
+										visible="true"
+										resizable="true"
+										onShow="calculateSize('reportPublicationsForm:scrollableBody');">
 									<f:facet name="header">
 										<h:outputText
 											value="#{messages['records.apvRegisteredResearcher.report.publications.header']}"
@@ -82,10 +82,9 @@
 										<p:commandLink
 											action="#{apvRegisteredResearchersManagedBean.exitPublications}"
 											styleClass="hidelink" 
-											render="reportPublicationsEditModalPanel"
-											limitRender="true"
-											immediate="true" 
-											execute="@this">
+											update=":reportPublicationsEditModalPanel"
+											immediate="true"
+											>
 											<h:graphicImage library="img" name="close.png" />
 										</p:commandLink>
 									</f:facet>

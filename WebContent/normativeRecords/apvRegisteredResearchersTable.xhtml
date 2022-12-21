@@ -23,66 +23,71 @@
 		height="10"
 		width="1"
 		/>
-    <h:form id="searchAuthorForm">	 
-	<h:panelGrid 
-		id="apvRegisteredResearchersSearchPanel" 
-		columns="2"
-		rendered="true">		
-					<!--  <mytags:outputLabel 
-						value="#{messages['records.apvRegisteredResearchers.searchPanel.APVNTnumber']}" 
-						for="whereAPVNT" 
-						errorStyleClass="errorMessage"
-						/>	
-										
-						<p:inputText
-							id="whereAPVNT"
-							onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
-							value="#{apvRegisteredResearchersManagedBean.filterAPVNT}" 
-							styleClass="searchBox" />						
-					-->
-						<mytags:outputLabel 
-						value="#{messages['records.apvRegisteredResearchers.searchPanel.firstName']}" 
-						for="whereFirstname" 
-						errorStyleClass="errorMessage"
-						/>  
-					
-						<p:inputText
-							id="whereFirstname"
-							onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
-							value="#{apvRegisteredResearchersManagedBean.filterFirstname}" 
-							styleClass="searchBox" />
-					
-					<mytags:outputLabel 
-						value="#{messages['records.apvRegisteredResearchers.searchPanel.lastName']}" 
-						for="whereLastname" 
-						errorStyleClass="errorMessage"
-						/>
-						
-						<p:inputText
-							id="whereLastname"
-							onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
-							value="#{apvRegisteredResearchersManagedBean.filterLastname}" 
-							styleClass="searchBox" />
-								
-				<p:commandButton
+    <h:form id="apvRegisteredResearchersTableForm">
+		<h:panelGrid
+			id="apvRegisteredResearchersSearchPanel"
+			columns="4"
+			rendered="true">
+			<!--  <mytags:outputLabel
+				value="#{messages['records.apvRegisteredResearchers.searchPanel.APVNTnumber']}"
+				for="whereAPVNT"
+				errorStyleClass="errorMessage"
+				/>
+
+				<p:inputText
+					id="whereAPVNT"
+					onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+					value="#{apvRegisteredResearchersManagedBean.filterAPVNT}"
+					styleClass="searchBox" />
+			-->
+			<mytags:outputLabel
+			value="#{messages['records.apvRegisteredResearchers.searchPanel.firstName']}"
+			for="whereFirstname"
+			errorStyleClass="errorMessage"
+			/>
+
+			<p:inputText
+				id="whereFirstname"
+				onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+				value="#{apvRegisteredResearchersManagedBean.filterFirstname}"
+				styleClass="searchBox" />
+
+			<h:outputText/>
+
+			<h:outputText/>
+
+			<mytags:outputLabel
+				value="#{messages['records.apvRegisteredResearchers.searchPanel.lastName']}"
+				for="whereLastname"
+				errorStyleClass="errorMessage"
+				/>
+
+			<p:inputText
+				id="whereLastname"
+				onkeydown="keyDownHandler(event, 'apvRegisteredResearchersTableForm:btnFind')"
+				value="#{apvRegisteredResearchersManagedBean.filterLastname}"
+				styleClass="searchBox" />
+
+			<p:commandButton
 					id="btnFind"
-					value="Traži"
-					action="#{apvRegisteredResearchersManagedBean.btnFind}" 
-					render="scrollableBody" 
-					limitRender="true" 
-					execute="@form" />
-				<p:commandButton
+					title="#{messages['records.apvRegisteredResearchers.searchPanel.btnFind']}"
+					action="#{apvRegisteredResearchersManagedBean.btnFind}"
+					update="@form"
+					execute="@form"
+					icon="pi pi-filter"
+					styleClass="rounded-button ui-button-flat" />
+
+			<p:commandButton
 					id="btnShowAll"
-					action="#{apvRegisteredResearchersManagedBean.btnShowAll}"
-					value="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
-					render="scrollableBody, registeredAuthorsSearchPanel" 
-					limitRender="true" 
-					immediate="true"
-					execute="@form" />
-									
-	</h:panelGrid>
-	</h:form>
-	<h:form>	
+					action="#{organizationProfileManagedBean.btnShowAll}"
+					title="#{messages['records.apvRegisteredResearchers.searchPanel.btnShowAll']}"
+					update="@form"
+					execute="@form"
+					icon="pi pi-filter-slash"
+					styleClass="rounded-button ui-button-flat" />
+
+		</h:panelGrid>
+
 	<p:panel
 		id="scrollableBody" 
 		styleClass="scrollableBody"
@@ -166,9 +171,7 @@
 					</f:facet>
 					<p:commandLink
 						action="#{apvRegisteredResearchersManagedBean.switchToViewDetailsMode}"
-						render="mainPanel, apvRegisteredResearcherViewDetailsModalPanel" 
-						limitRender="true"
-						execute="@this" 
+						update="mainPanel, apvRegisteredResearchersViewDetailsForm"
 						immediate="true">
 						<h:graphicImage library="img" name="knrPublic.gif"/>
 						<f:param name="controlNumber" value="#{apvRegisteredResearchersRow.controlNumber}" />
