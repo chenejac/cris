@@ -322,16 +322,9 @@ public class MonographManagedBean extends CRUDManagedBean implements
     }
 
 	
-	public List<MonographDTO> autocompleteAndrejevicMonograph(String suggest) {
-		List<MonographDTO> retVal = new ArrayList<MonographDTO>();
-		if(suggest.contains("(BISIS)")){
-        	retVal.add((MonographDTO)recordDAO.getDTO(suggest));
-        	return retVal;
-        }
-        if(selectedMonograph!=null && selectedMonograph.getControlNumber() != null){
-        	retVal.add(selectedMonograph);
-        	return retVal;
-        }
+	public List<String> autocompleteAndrejevicMonograph(String suggest) {
+		List<String> retVal = new ArrayList<String>();
+
 		
 		String monographTitle = suggest;
         
@@ -347,7 +340,7 @@ public class MonographManagedBean extends CRUDManagedBean implements
 			try {
 				MonographDTO dto = (MonographDTO) recordDTO.getDto();
 				if (dto != null) {
-					retVal.add(dto);
+					retVal.add(dto.getSomeTitle());
 				}
 			} catch (Exception e) {
 				log.error(e);
@@ -355,52 +348,7 @@ public class MonographManagedBean extends CRUDManagedBean implements
 		}
 		return retVal;
     }
-	
-	
-	public List<AuthorDTO> autocompleteAndrejevicAuthors(String suggest) {
-		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
 
-		String authorLastname = suggest;
-        
-        BooleanQuery bq = new BooleanQuery();
-		if(authorLastname != null)
-			bq.add(QueryUtils.makeBooleanQuery("AU", authorLastname + ".", Occur.SHOULD, 0.6f, 0.5f, false), Occur.MUST);
-		bq.add(new TermQuery(new Term("TYPE", Types.MONOGRAPH)), Occur.MUST);
-		bq.add(new TermQuery(new Term("PU", "andrejevic")), Occur.MUST);
-		
-
-		List<Record> listRecord = recordDAO.getDTOs(bq, new AllDocCollector(true));
-		for (Record recordDTO : listRecord) {
-			try {
-				MonographDTO dtoMonograph = (MonographDTO) recordDTO.getDto();
-				
-				if (dtoMonograph != null) {
-					
-					List<AuthorDTO> tempAuthors = dtoMonograph.getAllAuthors();
-					for(AuthorDTO author :tempAuthors){
-						
-						if(retVal.size()==0){
-							retVal.add(author);
-							continue;
-						}	
-						boolean found = false;
-						for(AuthorDTO auhtordto:retVal){
-							if(auhtordto.getControlNumber().equals(author.getControlNumber())){
-								found=true;
-								break;
-							}
-						}
-						if(!found){
-							retVal.add(author);
-						}
-					}
-				}
-			} catch (Exception e) {
-				log.error(e);
-			}
-		}
-		return retVal;
-    }
 	
 	
 	/**

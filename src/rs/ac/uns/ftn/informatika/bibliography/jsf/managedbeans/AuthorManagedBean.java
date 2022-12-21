@@ -542,12 +542,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		return retVal;
     }
 	
-	public List<AuthorDTO> autocompleteForAndrejevicSearch(String suggest) {
-		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
-        if(suggest.contains("(BISIS)")){
-        	retVal.add((AuthorDTO)recordDAO.getDTO(suggest));
-        	return retVal;
-        }
+	public List<String> autocompleteForAndrejevicSearch(String suggest) {
+		List<String> retVal = new ArrayList<String>();
+
         String authorLastname = suggest;
         
         BooleanQuery bq = new BooleanQuery();
@@ -578,7 +575,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 					
 					List<Record> listRecordMonograph = recordDAO.getDTOs(bqMonograph, new AllDocCollector(true));
 					if(listRecordMonograph.size()>0){
-						retVal.add(dto);
+						retVal.add(dto.getNames());
 					}
 				}
 			} catch (Exception e) {
@@ -588,12 +585,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		return retVal;
     }
 
-	public List<AuthorDTO> autocompleteForFirstAndrejevicSearch(String suggest) {
-		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
-        if(suggest.contains("(BISIS)")){
-        	retVal.add((AuthorDTO)recordDAO.getDTO(suggest));
-        	return retVal;
-        }
+	public List<String> autocompleteForFirstAndrejevicSearch(String suggest) {
+		List<String> retVal = new ArrayList<String>();
+
         String authorLastname = suggest;
         
         BooleanQuery bq = new BooleanQuery();
@@ -619,7 +613,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 					
 					List<Record> listRecordMonograph = recordDAO.getDTOs(bqMonograph, new AllDocCollector(true));
 					if(listRecordMonograph.size()>0){
-						retVal.add(dto);
+						retVal.add(dto.getNames());
 					}
 				}
 			} catch (Exception e) {

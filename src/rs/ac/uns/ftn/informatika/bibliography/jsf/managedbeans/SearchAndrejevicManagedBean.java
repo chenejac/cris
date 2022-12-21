@@ -21,6 +21,7 @@ import org.apache.lucene.search.BooleanClause.Occur;
 
 import org.primefaces.component.api.UITree;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.model.TreeNode;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
@@ -719,13 +720,11 @@ public class SearchAndrejevicManagedBean extends CRUDManagedBean implements IPic
 		authorSearched.clear();
 		
 		
-		RecordDAO personDAO = new RecordDAO(new PersonDB());
 		RecordDAO recordDAO = new RecordDAO(new RecordDB());
         
 		StringBuffer bufferQuery = new StringBuffer();
 		if(firstLastName!=null && !firstLastName.trim().equalsIgnoreCase(""))
-		{	//author All
-//			System.out.println("author Search");
+		{
 			bufferQuery.append("dc.creator= " + firstLastName+
 					" AND " + "cris.type" + "=" + Types.AUTHOR); 		
 		}
@@ -1239,15 +1238,23 @@ public class SearchAndrejevicManagedBean extends CRUDManagedBean implements IPic
 	/**
 	 * @return the rootAndrejevicResearchArea
 	 */
-	public List<TreeNodeDTO<ResearchAreaDTO>> getRootAndrejevicResearchArea() {
+	public TreeNode getRootAndrejevicResearchArea() {
 		
 		if(rootAndrejevicResearchArea==null)
 		{
 			populateAll=true;
 			populateAllAndrejevicResearchArea();
 		}
-		
-		return rootAndrejevicResearchArea;
+
+		TreeNode retVal = new TreeNodeDTO<OrganizationUnitDTO>(new OrganizationUnitDTO());
+		retVal.setExpanded(true);
+		for (Object node:rootAndrejevicResearchArea
+		) {
+			TreeNodeDTO<ResearchAreaDTO> nodeResArea = (TreeNodeDTO<ResearchAreaDTO>) node;
+			nodeResArea.setParent(retVal);
+			retVal.getChildren().add(nodeResArea);
+		}
+		return retVal;
 	}
 	
 	/**
@@ -1262,6 +1269,16 @@ public class SearchAndrejevicManagedBean extends CRUDManagedBean implements IPic
 	 */
 	public void setRootAndrejevicResearchArea(List<TreeNodeDTO<ResearchAreaDTO>> rootAndrejevicResearchArea) {
 		this.rootAndrejevicResearchArea = rootAndrejevicResearchArea;
+	}
+
+	private TreeNode[] selectedResearchAreas;
+
+	public TreeNode[] getSelectedResearchAreas() {
+		return selectedResearchAreas;
+	}
+
+	public void setSelectedResearchAreas(TreeNode[] selectedResearchAreas) {
+		this.selectedResearchAreas = selectedResearchAreas;
 	}
 	
 	/**
@@ -2330,19 +2347,19 @@ public class SearchAndrejevicManagedBean extends CRUDManagedBean implements IPic
 	
 	public boolean appendCqlAndrejevicTree(StringBuffer retVal, boolean havePreviusQueries)
 	{
-		int numberSelected = 0;
+		int numberSelected = selectedResearchAreas.length;
 		
 		
-		for (TreeNodeDTO<ResearchAreaDTO> dto : allAndrejevicResearchAreaTreeNode){
-			boolean foundScientificArea = false;
-			if (dto.getData().getClassId().equalsIgnoreCase("andOb4") || dto.getData().getClassId().equalsIgnoreCase("andOb5") || dto.getData().getClassId().equalsIgnoreCase("andOb6")
-					|| dto.getData().getClassId().equalsIgnoreCase("andOb7") || dto.getData().getClassId().equalsIgnoreCase("andOb8") || dto.getData().getClassId().equalsIgnoreCase("andOb10")
-					|| dto.getData().getClassId().equalsIgnoreCase("andOb11") || dto.getData().getClassId().equalsIgnoreCase("andOb12"))
-			foundScientificArea = true;	
-			if (dto.isCheckbox_state() && ( !(foundScientificArea))) {
-				numberSelected = numberSelected+1;
-			}
-		}
+//		for (TreeNodeDTO<ResearchAreaDTO> dto : allAndrejevicResearchAreaTreeNode){
+//			boolean foundScientificArea = false;
+//			if (dto.getData().getClassId().equalsIgnoreCase("andOb4") || dto.getData().getClassId().equalsIgnoreCase("andOb5") || dto.getData().getClassId().equalsIgnoreCase("andOb6")
+//					|| dto.getData().getClassId().equalsIgnoreCase("andOb7") || dto.getData().getClassId().equalsIgnoreCase("andOb8") || dto.getData().getClassId().equalsIgnoreCase("andOb10")
+//					|| dto.getData().getClassId().equalsIgnoreCase("andOb11") || dto.getData().getClassId().equalsIgnoreCase("andOb12"))
+//			foundScientificArea = true;
+//			if (dto.isCheckbox_state() && ( !(foundScientificArea))) {
+//				numberSelected = numberSelected+1;
+//			}
+//		}
 		if(numberSelected>0)
 		{
 			//System.out.println("Ima vise od jednog nublerSelected "+ numberSelected);
@@ -2356,15 +2373,15 @@ public class SearchAndrejevicManagedBean extends CRUDManagedBean implements IPic
 		
 			
 			boolean foundFirst = false;
-			for (int i = 0; i<allAndrejevicResearchAreaTreeNode.size(); i++)
+			for (int i = 0; i<selectedResearchAreas.length; i++)
 			{
-				TreeNodeDTO<ResearchAreaDTO> dto = allAndrejevicResearchAreaTreeNode.get(i);
+				TreeNodeDTO<ResearchAreaDTO> dto = (TreeNodeDTO<ResearchAreaDTO>)selectedResearchAreas[i];
 				boolean foundScientificArea = false;
 				if (dto.getData().getClassId().equalsIgnoreCase("andOb4") || dto.getData().getClassId().equalsIgnoreCase("andOb5") || dto.getData().getClassId().equalsIgnoreCase("andOb6")
 						|| dto.getData().getClassId().equalsIgnoreCase("andOb7") || dto.getData().getClassId().equalsIgnoreCase("andOb8") || dto.getData().getClassId().equalsIgnoreCase("andOb10")
 						|| dto.getData().getClassId().equalsIgnoreCase("andOb11") || dto.getData().getClassId().equalsIgnoreCase("andOb12"))
 				foundScientificArea = true;	
-				if ((dto.isCheckbox_state()) && (!(foundScientificArea))) {
+				if ((dto.isSelected()) && (!(foundScientificArea))) {
 					if(foundFirst == true)
 						retVal.append(" OR ");
 	 				retVal.append("cris.researchArea adj \"" + dto.getData().getClassId()+"\"");

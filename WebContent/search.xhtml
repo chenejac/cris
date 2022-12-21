@@ -60,7 +60,14 @@
 									<!-- ....... BASIC TAB.......           -->
  									<p:tab title="#{messages['search.searchPanel.publicationTab.label']}" id="publicationTab" >
 								    	<h:panelGrid id="panelPublication" columns="1" width="100%">
-								        	<p:dataTable id="queryTable" var="query" rowKeyVar="rowKeyVar" value="#{searchManagedBean.searchQuerys}"  columnClasses="width10, width70, width5, width20, width5">
+								        	<p:dataTable
+													id="queryTable"
+													var="query"
+													rowKeyVar="rowKeyVar"
+													value="#{searchManagedBean.searchQuerys}"
+													columnClasses="width10, width70, width5, width20, width5"
+													styleClass="noHeader"
+											>
 								          		<p:column>
 								                    <h:outputText value="#{messages['search.searchPanel.publicationTab.searchFor']}" rendered="#{query.id==0}"/>
 													<h:inputHidden value="#{query.operator}" rendered="#{query.id==0}"/>
@@ -125,7 +132,7 @@
 								               	</p:column>
 								               	<p:column style="text-align:center">
 								                        <p:selectOneMenu value="#{query.inputQueryType}" valueChangeListener="#{searchManagedBean.switchToPick}"
-								                        enableManualInput="false" selectFirst="true" onchange="jsfSelectItemGlupaFunkcija()">
+								                         onchange="jsfSelectItemGlupaFunkcija()">
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh0']}" itemValue="#{searchManagedBean.searchQueryTypeString[0]}"/>
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh1']}" itemValue="#{searchManagedBean.searchQueryTypeString[1]}"/>
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh2']}" itemValue="#{searchManagedBean.searchQueryTypeString[2]}"/>
@@ -246,7 +253,7 @@
 												action="#{searchManagedBean.sendPublicationForCQL}"
 												value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
 												update="panelResult"
-												oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
+												oncomplete="element = document.getElementById('panelResult'); if ( element != null) element.scrollIntoView();"
 											/>
 								  		</h:panelGrid>
 								      </p:tab>
@@ -313,24 +320,22 @@
 															<f:facet name="header">
 																<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorAllPublication']}"/>
 															</f:facet>
-															<p:column style="text-align:center">
-																<p:commandLink
-																		id="linkAuthorAllPublicationFind"
-																		action="#{searchManagedBean.linkAuthorDetailsFind}"
-																		value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																		update="panelResult"
-																		oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
-																		rendered="true"
-																		title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[0]}" />
-																</p:commandLink>
+															<p:commandLink
+																	id="linkAuthorAllPublicationFind"
+																	action="#{searchManagedBean.linkAuthorDetailsFind}"
+																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
+																	update="panelResult"
+																	oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
+																	rendered="true"
+																	title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}">
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchManagedBean.searchQueryTypeString[0]}" />
+															</p:commandLink>
 																<!-- Ovaj deo je trebao ako smo zeleli da ne prikazujemo one koje nisu sa Departmana za informatiku
                                                                  rendered="#{queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"
                                                                  Ova linija je sledila nakon </p:commandLink> da se ispise - umesto linka sa tekstom prikazi
                                                                  <h:outputText value="-" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
                                                                 -->
-															</p:column>
 														</p:column>
 														<p:column colspan="1" >
 															<f:facet name="header">
@@ -341,7 +346,7 @@
 																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
 																	update="panelResult"
-																	oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
+																	oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorJournal']}">
 																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
@@ -362,7 +367,7 @@
 																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
 																	update="panelResult"
-																	oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
+																	oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorProceedings']}">
 																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
@@ -383,7 +388,7 @@
 																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
 																	update="panelResult"
-																	oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
+																	oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}">
 																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
@@ -404,7 +409,7 @@
 																	action="#{searchManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
 																	update="panelResult"
-																	oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
+																	oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
 																	rendered="true"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorTheses']}">
 																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
@@ -443,7 +448,7 @@
 													action="#{searchManagedBean.advanceQuerySearch}"
 													value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
 													update="panelResult"
-													oncomplete="element = document.getElementById('panelResult');element.scrollIntoView();"
+													oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
 													/>
 										</h:panelGrid>
 									</p:tab>

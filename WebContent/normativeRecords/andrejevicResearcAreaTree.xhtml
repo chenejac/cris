@@ -6,71 +6,29 @@
      xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
      
 	<h:panelGrid id="andrejevicResearchAreaPanel">
-		
-		<p:remoteCommand name="mySelectFunc" action="#{searchAndrejevicManagedBean.selectAndrejevicTreeTroughCommand}"
-	            	execute="@form"
-					render="@form">
-					<f:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
-	    </p:remoteCommand>
-	    
-	    <p:remoteCommand name="myToggleFunc" action="#{searchAndrejevicManagedBean.processTreeToggle}"
-	            	execute="@form"
-					render="@form">
-					<f:param name="classId" assignTo="#{searchAndrejevicManagedBean.kontrolniBroj}"/>
-	    </p:remoteCommand>
+
 	          	
 		<p:tree
 			id="richTreeAndrejevicResearchAreaTreePanel"
 			value="#{searchAndrejevicManagedBean.rootAndrejevicResearchArea}"
 			var="andrejevicResearchAreaNode"
 			dynamic="true"
-            nodeType="#{andrejevicResearchAreaNode.tree_state}"
-	          >
-	          	<p:treeNode
-				iconCollapsed="/resources/img/institution.jpg"
-				iconExpanded="/resources/img/institution.jpg"
-				iconLeaf="/resources/img/institution.jpg"
-				type="empty"
-				expanded="#{andrejevicResearchAreaNode.expanded}"
-				>
-					
-						<h:graphicImage value="/resources/img/ce16.jpg" onclick="mySelectFunc('#{andrejevicResearchAreaNode.element.classId}')"/>
-						<h:outputLink onclick="mySelectFunc('#{andrejevicResearchAreaNode.element.classId}')" style="color: #000000 !important; text-decoration: none !important;">
-							<h:outputText value="#{andrejevicResearchAreaNode}"/>
-						</h:outputLink>
-						
-						
-						
-				</p:treeNode>
-				
-				<p:treeNode
-				iconCollapsed="/resources/img/institution.jpg"
-				iconExpanded="/resources/img/institution.jpg"
-				iconLeaf="/resources/img/institution.jpg"
-				type="full"
-				expanded="#{andrejevicResearchAreaNode.expanded}"
-				>
-					<h:graphicImage value="/resources/img/cf16.jpg" onclick="mySelectFunc('#{andrejevicResearchAreaNode.element.classId}')"/>
-					<h:outputLink onclick="mySelectFunc('#{andrejevicResearchAreaNode.element.classId}')" style="color: #000000 !important; text-decoration: none !important;">
-						<h:outputText value="#{andrejevicResearchAreaNode}"/>
-					</h:outputLink>
-					
-				</p:treeNode>
-				
-				<p:treeNode
-				iconCollapsed="/resources/img/institution.jpg"
-				iconExpanded="/resources/img/institution.jpg"
-				iconLeaf="/resources/img/institution.jpg"
-				type="partial"
-				expanded="#{andrejevicResearchAreaNode.expanded}"
-				>
-						<h:graphicImage value="/resources/img/cp16.jpg" onclick="mySelectFunc('#{andrejevicResearchAreaNode.element.classId}')"/>
-						<h:outputLink onclick="mySelectFunc('#{andrejevicResearchAreaNode.element.classId}')" style="color: #000000 !important; text-decoration: none !important;">
-							<h:outputText value="#{andrejevicResearchAreaNode}"/>
-						</h:outputLink>
-					
-				</p:treeNode>
+			update="@this"
+			execute="@form"
+			selectionMode="checkbox"
+			selection="#{searchAndrejevicManagedBean.selectedResearchAreas}" >
+
+			<p:treeNode
+				type="ResearchAreaDTO"
+				collapsedIcon="icon_institution_orange"
+				expandedIcon="icon_institution_orange" >
+
+				<h:outputText value="#{andrejevicResearchAreaNode}"/>
+
+			</p:treeNode>
+
         </p:tree>
+
 	</h:panelGrid>
 	
 	</ui:composition>

@@ -43,8 +43,9 @@
 				
 					<!-- MAIN PANEL -->
 					<h:panelGrid id="mainPanel">
-						<p:panel id="searchPanel"
-						header="#{messages['search.searchPanel.header']}">
+						<p:panel
+								id="searchPanel"
+								header="#{messages['search.searchPanel.header']}">
 							<h:form id="searchTableForm">
 							<h:panelGrid id="searchTableFormPanel" width="100%">
 								<p:inputText id="general" rendered="false" value="" />
@@ -56,11 +57,22 @@
 										warnClass="warnMessage"
 										fatalClass="fatalMessage"/>
 								</p:outputPanel>
-								<p:tabView headerAlignment="left" switchType="ajax">
+								<p:tabView
+										headerAlignment="left"
+										switchType="ajax"
+										id="searchTab">
 									<!-- ....... BASIC TAB.......           -->
- 									<p:tab header="#{messages['search.searchPanel.publicationTab.label']}" id="publicationTab" >
+ 									<p:tab
+											title="#{messages['search.searchPanel.publicationTab.label']}"
+											id="publicationTab" >
 								    	<h:panelGrid id="panelPublication" columns="1" width="100%">
-								        	<p:dataTable id="queryTable" var="query" rowKeyVar="rowKeyVar" value="#{searchAndrejevicManagedBean.searchQuerys}"  columnClasses="width10, width70, width5, width20, width5">
+								        	<p:dataTable
+													id="queryTable"
+													var="query"
+													rowKeyVar="rowKeyVar"
+													value="#{searchAndrejevicManagedBean.searchQuerys}"
+													columnClasses="width10, width70, width5, width20, width5"
+													styleClass="noHeader" >
 								          		<p:column>
 								                    <h:outputText value="#{messages['search.searchPanel.publicationTab.searchFor']}" rendered="#{query.id==0}"/>                           
 													<h:inputHidden value="#{query.operator}" rendered="#{query.id==0}"/>
@@ -74,76 +86,46 @@
 								               					<p:inputText value="#{query.inputQuery}" style="width:98% !important"
 								               					rendered="#{ (query.inputQueryType != searchAndrejevicManagedBean.searchQueryTypeString[2]) and (query.inputQueryType != searchAndrejevicManagedBean.searchQueryTypeString[3]) and (query.inputQueryType != searchAndrejevicManagedBean.searchQueryTypeString[4])  }">
 								               					</p:inputText>
-								               					
-								               					
-																<p:autoComplete
-											            			id="author"
-											            			value="#{query.inputQuery}"
-											            			mode="cachedAjax" 
-											            			autocompleteMethod="#{authorManagedBean.autocompleteForAndrejevicSearch}"
-											            			var="_authorRow"
-											            			fetchValue="&quot;#{_authorRow.names}&quot;"
-											            			minChars="3" 
-											            			selectFirst="false"
-											            			rendered="#{ (query.inputQueryType eq searchAndrejevicManagedBean.searchQueryTypeString[2])}"
-											            			style="width:100% !important;"
-										         					inputClass="width100"
-										         					onfocus="activeElId = this.id;"
-													            	>
-													            	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
-																	<p:column
-																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																		styleClass="ui-datatable-wide-cell" width="100%">
-														                <h:outputText value="#{_authorRow.names}"/>
-														                
-																	</p:column>
-																</p:autoComplete>
-																
-																<p:autoComplete
-											            			id="firstAuthor"
-											            			value="#{query.inputQuery}"
-											            			mode="cachedAjax" 
-											            			autocompleteMethod="#{authorManagedBean.autocompleteForFirstAndrejevicSearch}"
-											            			var="_authorRow"
-											            			fetchValue="&quot;#{_authorRow.names}&quot;"
-											            			minChars="3" 
-											            			selectFirst="false"
-											            			rendered="#{ (query.inputQueryType eq searchAndrejevicManagedBean.searchQueryTypeString[3])}"
-											            			style="width:100% !important;"
-										         					inputClass="width100"
-										         					onfocus="activeElId = this.id;"
-													            	>
-													            	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
-																	<p:column
-																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																		styleClass="ui-datatable-wide-cell" width="100%">
-														                <h:outputText value="#{_authorRow.names}"/>
-														                
-																	</p:column>
-																</p:autoComplete>
-																
-																<p:autoComplete
-											            			id="monograph"
-											            			value="#{query.inputQuery}"
-											            			mode="cachedAjax" 
-											            			autocompleteMethod="#{monographManagedBean.autocompleteAndrejevicMonograph}"
-											            			var="_monographRow"
-											            			fetchValue="&quot;#{_monographRow.someTitle}&quot;"
-											            			minChars="3" 
-											            			selectFirst="false"
-											            			rendered="#{query.inputQueryType eq searchAndrejevicManagedBean.searchQueryTypeString[4]}"
-											            			style="width:100% !important;"
-											            			inputClass="width100"
-											            			onfocus="activeElId = this.id;"
-													            	>
-													            	<!--     ........  IME MONOGRAFIJE .......-->
-																	<p:column
-																		style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																		styleClass="ui-datatable-wide-cell" width="100%">
-														                <h:outputText value="#{_monographRow.someTitle}"/>
-														                
-																	</p:column>
-																</p:autoComplete>
+
+
+																	<p:autoComplete
+																			id="author"
+																			value="#{query.inputQuery}"
+																			completeMethod="#{authorManagedBean.autocompleteForAndrejevicSearch}"
+																			var="_authorRow"
+																			itemLabel="#{_authorRow}"
+																			itemValue="#{_authorRow}"
+																			minQueryLength="3"
+																			autoSelection="false"
+																			rendered="#{ (query.inputQueryType eq searchAndrejevicManagedBean.searchQueryTypeString[2]) }"
+																			styleClass="width100"
+																	/>
+
+																	<p:autoComplete
+																			id="firstAuthor"
+																			value="#{query.inputQuery}"
+																			completeMethod="#{authorManagedBean.autocompleteForFirstAndrejevicSearch}"
+																			var="_authorRow"
+																			itemLabel="#{_authorRow}"
+																			itemValue="#{_authorRow}"
+																			minQueryLength="3"
+																			autoSelection="false"
+																			rendered="#{ (query.inputQueryType eq searchAndrejevicManagedBean.searchQueryTypeString[3]) }"
+																			styleClass="width100"
+																	/>
+
+																	<p:autoComplete
+																			id="monograph"
+																			value="#{query.inputQuery}"
+																			completeMethod="#{monographManagedBean.autocompleteAndrejevicMonograph}"
+																			var="_authorRow"
+																			itemLabel="#{_authorRow}"
+																			itemValue="#{_authorRow}"
+																			minQueryLength="3"
+																			autoSelection="false"
+																			rendered="#{ (query.inputQueryType eq searchAndrejevicManagedBean.searchQueryTypeString[4]) }"
+																			styleClass="width100"
+																	/>
 
 																
 																</p:fragment>
@@ -154,7 +136,7 @@
 								               	</p:column>
 								               	<p:column style="text-align:center">
 								                        <p:selectOneMenu value="#{query.inputQueryType}" valueChangeListener="#{searchAndrejevicManagedBean.switchToPick}"
-								                        enableManualInput="false" selectFirst="true" onselectitem="jsfSelectItemGlupaFunkcija()">
+								                         onchange="jsfSelectItemGlupaFunkcija()">
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh0']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[0]}"/>
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh1']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[1]}"/>
 												            <f:selectItem itemLabel="#{messages['search.searchPanel.publicationTab.searchTypeCh2']}" itemValue="#{searchAndrejevicManagedBean.searchQueryTypeString[2]}"/>
@@ -169,8 +151,7 @@
 												    	</p:selectOneMenu>
 												    	<p:remoteCommand
 																name="jsfSelectItemGlupaFunkcija"
-																execute="@form"
-																render="@form"
+																update="@form"
 																>
 														</p:remoteCommand>
 								               	</p:column>
@@ -183,30 +164,31 @@
 								                       <p:commandLink
 								                       			rendered="#{query.id!=0}"
 																action="#{searchAndrejevicManagedBean.removeQuery}"
-																render="panelPublication"
-																limitRender="true">
+																update="@form" >
 															<h:graphicImage library="img" name="delete16.png"/>
 															<f:param name="removedQuery" value="#{query.id}" />
 														</p:commandLink>
 								               	</p:column>
-								               	<f:facet name="footer">
-								                      <p:columnGroup>
-								                      	 <p:column colspan="4" style="text-align:left">
-								                      	 	<h:outputText value="#{messages['search.searchPanel.publicationTab.fuzzy']}"/>
-								                              <p:selectBooleanCheckbox label="#{messages['search.searchPanel.publicationTab.fuzzy']}" value="#{searchAndrejevicManagedBean.fuzzy}">
-								                              </p:selectBooleanCheckbox>
+												<p:columnGroup type="footer">
+													<p:row>
+														<p:column colspan="4" style="text-align:left">
+															<f:facet name="footer">
+								                      	 		<h:outputText value="#{messages['search.searchPanel.publicationTab.fuzzy']}"/>
+								                              	<p:selectBooleanCheckbox label="#{messages['search.searchPanel.publicationTab.fuzzy']}" value="#{searchAndrejevicManagedBean.fuzzy}" />
+															</f:facet>
 								                          </p:column>
-								                          
-								                          <p:column colspan="1">
-								                            <p:commandLink
-																action="#{searchAndrejevicManagedBean.addQuery}"
-																render="panelPublication"
-																limitRender="true">
-																	<h:graphicImage library="img" name="create16.png"/>
-															</p:commandLink>
-								                          </p:column>
-								                      </p:columnGroup>
-								               	</f:facet>
+
+														<p:column colspan="1">
+															<f:facet name="footer">
+																<p:commandLink
+																	action="#{searchAndrejevicManagedBean.addQuery}"
+																	update="@form" >
+																		<h:graphicImage library="img" name="create16.png"/>
+																</p:commandLink>
+															</f:facet>
+														</p:column>
+													</p:row>
+												</p:columnGroup>
 								          	</p:dataTable>
 								          </h:panelGrid>
 								  			
@@ -295,13 +277,13 @@
 											id="btnPublicationFind"
 											action="#{searchAndrejevicManagedBean.sendPublicationForCQL}" 
 											value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
-											render="panelResult" 
-											limitRender="true" />  
+											update="panelResult"
+											oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();" />
 								  		</h:panelGrid>
 								      </p:tab>
 								      
 <!-- ....... Author TAB.......     -->     
-								      <p:tab header="#{messages['search.searchPanel.authorTab.label']}" id="authorTab">
+								      <p:tab title="#{messages['search.searchPanel.authorTab.label']}" id="authorTab">
 									  	<h:panelGrid id="panelAuthor" columns="1" width="100%">
 											<h:panelGrid columns="4" width="100%" columnClasses="width5, width40, width5, width50" style="align:left">
 													<!-- ....... Author .......           -->
@@ -311,37 +293,26 @@
 															/>
 															
 													<p:fragment>
-													<p:autoComplete
-								            			id="firstLastName"
-								            			value="#{searchAndrejevicManagedBean.firstLastName}"
-								            			mode="cachedAjax" 
-								            			autocompleteMethod="#{authorManagedBean.autocompleteForAndrejevicSearch}"
-								            			var="_authorRow"
-								            			fetchValue="&quot;#{_authorRow.names}&quot;"
-								            			minChars="3" 
-								            			selectFirst="false"
-										         		onselectitem="document.getElementById('searchTableForm:btnAuthorFind').click();"
-										         		style="width:100% !important;"
-										         		inputClass="width100"	
-										         		onfocus="activeElId = this.id;"
-										            	>
-										            	<!--     ........  IME AUTORA .......-->
-														<p:column
-															style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-															styleClass="ui-datatable-wide-cell" width="100%">
-											                <h:outputText value="#{_authorRow.names}"/>
-											                
-														</p:column>
-													</p:autoComplete>
+														<p:autoComplete
+																id="firstLastName"
+																value="#{searchAndrejevicManagedBean.firstLastName}"
+																completeMethod="#{authorManagedBean.autocompleteForAndrejevicSearch}"
+																var="_authorRow"
+																itemLabel="#{_authorRow}"
+																itemValue="#{_authorRow}"
+																minQueryLength="3"
+																autoSelection="false"
+																styleClass="width100"
+														/>
+
+
 													</p:fragment>
 													
 													<p:commandButton
 														id="btnAuthorFind"
 														action="#{searchAndrejevicManagedBean.btnAuthorAndrejevicFind1}" 
 														value="#{messages['search.searchPanel.AuthorTab.SearchBtn']}"
-														render="panelResult, panelAuthor" 
-														limitRender="true"
-														style="align:right"
+														update="@form"
 														/>
 													<p:spacer
 															height="20"
@@ -358,42 +329,42 @@
 												    </h:panelGroup>
 												    
 												    <p:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
-								  							<p:dataTable var="queryAuthorSearched" value="#{searchAndrejevicManagedBean.authorSearched}" columns="6" columnClasses="width75, width5, width5, width5, width5, width5" width="100%" rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
-								  							 <f:facet name="header">
-								  										<p:columnGroup>
-								   										<p:column colspan="1" rowspan="2">
-											                            	<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorDetails']}"/> 
-											                            </p:column>
-											                            <p:column colspan="5" rowspan="2">
-											                            	<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"/>
-											                            </p:column>
-										                        	</p:columnGroup>
-										                   </f:facet>
-								  						    <p:column>
-								    								<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>
-								    								<br/>
-								    								<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorTitle']} " />
-								    								<h:outputText value="#{queryAuthorSearched.title}" rendered="#{not empty queryAuthorSearched.title}"/>
-								    								<br/>
-								    								<h:outputLink value="#{queryAuthorSearched.uri}" target="_new" rendered="#{not empty queryAuthorSearched.uri}">
-								    									<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorWebpage']}" />
-								    									<br/>
-								    								</h:outputLink>		
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
-																	id="linkAuthorMonographFind"
-																	action="#{searchAndrejevicManagedBean.linkAuthorDetailsFind}" 
-																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
-																	limitRender="true"
-																	rendered="true"
-																	title="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchAndrejevicManagedBean.searchQueryTypeString[3]}" />
-																</p:commandLink>
-																<h:outputText value="" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
-															</p:column>
+								  							<p:dataTable
+																	var="queryAuthorSearched"
+																	value="#{searchAndrejevicManagedBean.authorSearched}"
+																	styleClass="stable"
+																	tableStyle="width:auto"
+																	rendered="#{not empty searchAndrejevicManagedBean.authorSearched[0]}">
+																<p:column colspan="1">
+																	<f:facet name="header">
+																		<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorDetails']}"/>
+																	</f:facet>
+																	<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>
+																	<h:outputText value="#{queryAuthorSearched.title}" rendered="#{not empty queryAuthorSearched.title}"/>
+																	<br/>
+																	<h:outputLink value="#{queryAuthorSearched.uri}" target="_new" rendered="#{not empty queryAuthorSearched.uri}">
+																		<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorWebpage']}" />
+																		<br/>
+																	</h:outputLink>
+																</p:column>
+																<p:column colspan="1" >
+																	<f:facet name="header">
+																		<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"/>
+																	</f:facet>
+
+																	<p:commandLink
+																			id="linkAuthorMonographFind"
+																			action="#{searchAndrejevicManagedBean.linkAuthorDetailsFind}"
+																			value="#{messages['search.searchPanel.AuthorTab.Show']}"
+																			update="panelResult"
+																			oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
+																			rendered="true"
+																			title="#{messages['search.searchPanel.AuthorTab.AuthorMonograph']}">
+																		<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																		<f:param name="queryType" value="#{searchAndrejevicManagedBean.searchQueryTypeString[3]}" />
+																	</p:commandLink>
+																	<h:outputText value="" rendered="#{not queryAuthorSearched.organizationUnit.enabledElementForAuthorSearch}"/>
+																</p:column>
 								  							</p:dataTable>
 								  						</p:panel>
 								  						<!-- ....... Autor DETAILS......     u planu      -->
@@ -401,7 +372,7 @@
 									  	</h:panelGrid>
 								      </p:tab>
 									<!--  ....... ADVANCE TAB.......           -->
-								      <p:tab header="#{messages['search.searchPanel.advanceTab.label']}" id="advanceTab" >
+								      <p:tab title="#{messages['search.searchPanel.advanceTab.label']}" id="advanceTab" >
 								      	<h:panelGrid id="panelAdvance" columns="1" width="100%">
 								      	<h:panelGroup>
 											<h2>
@@ -410,7 +381,7 @@
 										</h:panelGroup>
 										<p:inputTextarea
 											id="advanceQuery"
-											onkeydown="keyDownHandler(event, 'searchTableForm:btnAdvanceFind')"
+											onkeydown="keyDownHandler(event, 'searchTableForm:searchTab:btnAdvanceFind')"
 											value="#{searchAndrejevicManagedBean.advanceQuery}"
 											style="width:90%;"
 											rows="5"
@@ -420,8 +391,9 @@
 											id="btnAdvanceFind"
 											action="#{searchAndrejevicManagedBean.advanceQuerySearch}" 
 											value="#{messages['search.searchPanel.advanceTab.SearchBtn']}"
-											render="panelResult" 
-											limitToList="true"/>
+											update="panelResult"
+											oncomplete="element = document.getElementById('panelResult');if ( element != null) element.scrollIntoView();"
+										/>
 								      	</h:panelGrid>
 								      </p:tab>
 					
@@ -468,7 +440,7 @@
 										-->
 										
 										<p:dataTable id="advanceQueryResultsTable" var="resultQuery" rowKeyVar="rowKeyVar" value="#{searchAndrejevicManagedBean.records}" rendered="#{empty searchAndrejevicManagedBean.searchQueryError}"
-												rows="100" paginator="true" paginatorPosition="bottom"
+												rows="20" paginator="true" paginatorPosition="bottom"
 													 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 													 currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
 													 rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}">
