@@ -12,6 +12,7 @@ import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.Tr;
+import org.primefaces.model.TreeNode;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
 import rs.ac.uns.ftn.informatika.bibliography.dto.*;
@@ -170,8 +171,8 @@ public class ReportGeneratorPHDManagedBean extends ReportGeneratorManagedBean{
 			mb = new SearchDissertationsManagedBean();
 			extCtx.getSessionMap().put("searchDissertationsManagedBean", mb);
 		}
-		for (ListIterator<TreeNodeDTO<Object>> it = mb.getRoot().listIterator(); it.hasNext(); ) {
-			InstitutionDTO ins = (InstitutionDTO)it.next().getData();
+		for (Object institutionTreeNode : mb.getRoot().getChildren()) {
+			InstitutionDTO ins = (InstitutionDTO)((TreeNode)institutionTreeNode).getData();
 			retVal.add(ins);
 		}
 		return retVal;
@@ -187,8 +188,8 @@ public class ReportGeneratorPHDManagedBean extends ReportGeneratorManagedBean{
 			mb = new SearchDissertationsPAManagedBean();
 			extCtx.getSessionMap().put("searchDissertationsPAManagedBean", mb);
 		}
-		for (ListIterator<TreeNodeDTO<Object>> it = mb.getRoot().listIterator(); it.hasNext(); ) {
-			InstitutionDTO ins = (InstitutionDTO)it.next().getData();
+		for (Object institutionTreeNode : mb.getRoot().getChildren()) {
+			InstitutionDTO ins = (InstitutionDTO)((TreeNode)institutionTreeNode).getData();
 			retVal.add(ins);
 		}
 		return retVal;

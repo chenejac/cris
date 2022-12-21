@@ -386,10 +386,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 
 	public List<String> autocompleteForSearch(String suggest) {
 		List<String> retVal = new ArrayList<String>();
-        if(suggest.contains("(BISIS)")){
-        	retVal.add(((AuthorDTO)recordDAO.getDTO(suggest)).getNames());
-        	return retVal;
-        }
+
         String authorLastname = suggest;
         
         
@@ -442,18 +439,8 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		this.queryFieldName = queryFieldName;
 	}
 
-	public List<AuthorDTO> autocompleteForSearchDissertations(String suggest) {
-		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
-        if(suggest.contains("(BISIS)")){
-        	retVal.add((AuthorDTO)recordDAO.getDTO(suggest));
-        	return retVal;
-        }
-		if(queryFieldName!=null){
-	        if(selectedAuthor!=null && selectedAuthor.getControlNumber() != null){
-	        	retVal.add(selectedAuthor);
-	        	return retVal;
-	        }
-		}
+	public List<String> autocompleteForSearchDissertations(String suggest) {
+		List<String> retVal = new ArrayList<String>();
         
         BooleanQuery bq = new BooleanQuery();
 		if(suggest != null)
@@ -483,7 +470,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 			try {
 				AuthorDTO dto = (AuthorDTO) recordDTO.getDto();
 				if (dto != null) {				
-					retVal.add(dto);
+					retVal.add(dto.getNames());
 				}
 			} catch (Exception e) {
 				log.error(e);
@@ -492,18 +479,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 		return retVal;
     }
 	
-	public List<AuthorDTO> autocompleteForSearchDissertationsPA(String suggest) {
-		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
-        if(suggest.contains("(BISIS)")){
-        	retVal.add((AuthorDTO)recordDAO.getDTO(suggest));
-        	return retVal;
-        }
-		if(queryFieldName!=null){
-	        if(selectedAuthor!=null && selectedAuthor.getControlNumber() != null){
-	        	retVal.add(selectedAuthor);
-	        	return retVal;
-	        }
-		}
+	public List<String> autocompleteForSearchDissertationsPA(String suggest) {
+		List<String> retVal = new ArrayList<String>();
+
         
         BooleanQuery bq = new BooleanQuery();
 		if(suggest != null)
@@ -533,7 +511,7 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 			try {
 				AuthorDTO dto = (AuthorDTO) recordDTO.getDto();
 				if (dto != null) {				
-					retVal.add(dto);
+					retVal.add(dto.getNames());
 				}
 			} catch (Exception e) {
 				log.error(e);

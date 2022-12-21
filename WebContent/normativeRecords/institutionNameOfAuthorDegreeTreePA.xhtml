@@ -1,60 +1,38 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:ui="http://java.sun.com/jsf/facelets"
-     xmlns:h="http://java.sun.com/jsf/html"
-     xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:p="http://primefaces.org/ui"
-     xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:mytags="http://dragan.tmd.uns.ac.rs/mytags">
 	<h:panelGrid id="institutionTreePanel">
 		<p:tree
-			id="richTreeInstitutionTreePanel"
-			value="#{searchDissertationsPAManagedBean.root}"
-			var="node"
-			dynamic="true"
-			nodeType="#{node.type}"
-            render="@this"
-            execute="@form"
-	        >
-           	<rich:treeSelectionChangeListener 
-           		listener="#{searchDissertationsPAManagedBean.selectionChanged}" 
-           		/>
-          	<p:treeNode
-			iconCollapsed="/resources/img/institution.jpg"
-			iconExpanded="/resources/img/institution.jpg"
-			iconLeaf="/resources/img/institution.jpg"
-			type="InstitutionDTO"
-			expanded="#{node.expanded}"
-			>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'empty'}"
-					value="/resources/img/ce16.jpg"/>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'full'}"
-					value="/resources/img/cf16.jpg" />
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'partial'}"
-					value="/resources/img/cp16.jpg" />
-				<h:outputText value="#{node}"/>
-			</p:treeNode>
-			
+				id="richTreeInstitutionTreePanel"
+				value="#{searchDissertationsPAManagedBean.root}"
+				var="node"
+				dynamic="true"
+				update="@this"
+				execute="@form"
+				selectionMode="checkbox"
+				selection="#{searchDissertationsPAManagedBean.selectedInstitutionOrgUnitDegrees}"
+		>
+
 			<p:treeNode
-			iconCollapsed="/resources/img/spacer.gif"
-			iconExpanded="/resources/img/spacer.gif"
-			iconLeaf="/resources/img/spacer.gif"
-			type="ClassDTO"
-			expanded="#{false}"
+					type="InstitutionDTO"
+					collapsedIcon="icon_institution_orange"
+					expandedIcon="icon_institution_orange"
 			>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'empty'}"
-					value="/resources/img/ce16.jpg"/>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'full'}"
-					value="/resources/img/cf16.jpg" />
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'partial'}"
-					value="/resources/img/cp16.jpg" />
 				<h:outputText value="#{node}"/>
 			</p:treeNode>
-        </p:tree>
+
+			<p:treeNode
+					type="ClassDTO"
+					collapsedIcon="icon_institution_orange"
+					expandedIcon="icon_institution_orange"
+			>
+				<h:outputText value="#{node}"/>
+			</p:treeNode>
+
+		</p:tree>
 	</h:panelGrid>
 </ui:composition>
 	

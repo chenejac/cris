@@ -86,18 +86,15 @@
 											id="btnBasicFind"
 											value="#{messages['search.searchDissertationsPanel.publicationTab.btnBasicFind']}"
 											action="#{searchDissertationsManagedBean.basicQuerySearch}"
-											render="panelResult" 
-											limitRender="true" 
+											update="panelResult"
 											oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();"
-											execute="@form"
 											/>
 										<h:outputText value="" />
 										<h:outputText value="" />
 										<p:commandLink
 							    			value="#{messages['search.searchDissertationsPanel.publicationTab.advanced']}" 
 							    			action="#{searchDissertationsManagedBean.switchBasicAdvanced}" 
-							    			render="searchPanel"
-							    			limitRender="true"
+							    			update="searchPanel"
 						    			/>
 						    		</h:panelGrid>
 						    		<p:panel
@@ -105,21 +102,22 @@
 						    			id="recommendationPublicationTab" 
 						    			rendered="#{not empty searchDissertationsManagedBean.recommendedRecords}">
  										<p:dataTable
-										id="recommendationResultsTable" 
-										var="resultQuery" 
-										rowKeyVar="rowKeyVar" 
-										value="#{searchDissertationsManagedBean.recommendedRecords}" 
-										rendered="#{not empty searchDissertationsManagedBean.recommendedRecords}"
-										rows="20"
-										style="width:100% !important;"
-										paginator="true" paginatorPosition="bottom"
-										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-										currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
-										rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}">
+											id="recommendationResultsTable"
+											var="resultQuery"
+											rowKeyVar="rowKeyVar"
+											value="#{searchDissertationsManagedBean.recommendedRecords}"
+											rendered="#{not empty searchDissertationsManagedBean.recommendedRecords}"
+											rows="20"
+											style="width:100% !important;"
+											styleClass="noHeader"
+											paginator="true" paginatorPosition="bottom"
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											currentPageReportTemplate="#{userManagedBean.currentPageReportTemplate}"
+											rowsPerPageTemplate="#{userManagedBean.rowsPerPageTemplate}">
 										<p:column>
 											<p:commandLink
-												id="showDetails"
-												onclick="if(document.getElementById(this.id.replace('showDetails', 'details')).style.display=='none') document.getElementById(this.id.replace('showDetails', 'details')).style.display='block'; else document.getElementById(this.id.replace('showDetails', 'details')).style.display='none'; return false;">
+												id="showDetailsRecommendation"
+												onclick="if(document.getElementById(this.id.replace('showDetailsRecommendation', 'detailsRecommendation')).style.display=='none') document.getElementById(this.id.replace('showDetailsRecommendation', 'detailsRecommendation')).style.display='block'; else document.getElementById(this.id.replace('showDetailsRecommendation', 'detailsRecommendation')).style.display='none'; return false;">
 												<h:graphicImage library="img" name="details.png" />
 												<p:tooltip followMouse="true" direction="topRight"
 													showDelay="1000" styleClass="tooltip" mode="client">
@@ -168,36 +166,31 @@
 											</h:outputLink>
 								     		<p:panel
 												rendered="true"
-												id="details"
+												id="detailsRecommendation"
 												style="display:none"
 												>
 									     		<p:tabView
 									     			switchType="ajax" 
-									     			activeItem="HTMLDataTab" 
+									     			tabindex="0"
 									     			>
 									     			<p:tab
-									     				id="HTMLDataTab" 
 									     				header="#{messages['search.panelDissertationsResult.htmlTab']}" >
 									     				<h:outputText value="#{resultQuery.publication.registerEntry.someHTMLRepresentation}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="MARC21Tab"
 									     				header="#{messages['search.panelDissertationsResult.marc21Tab']}" >
 									     				<h:outputText value="#{resultQuery.publication.MARC21}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="DublinCoreTab"
 									     				header="#{messages['search.panelDissertationsResult.dublinCoreTab']}" >
 									     				<h:outputText value="#{resultQuery.publication.dublinCore}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="ETDMSTab"
 									     				header="#{messages['search.panelDissertationsResult.etdmsTab']}" >
 									     				<h:outputText value="#{resultQuery.publication.ETDMS}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="RelatedPublications"
-									     				header="#{messages['search.panelDissertationsResult.relatedPublicationsTab']}" 
+									     				header="#{messages['search.panelDissertationsResult.relatedPublicationsTab']}"
 									     				rendered="#{not empty resultQuery.publication.relatedPublicationsHTMLRepresentation}" 
 									     				>
 									     				<h:outputText value="#{resultQuery.publication.relatedPublicationsHTMLRepresentation}" escape="false" />
@@ -208,10 +201,9 @@
 								        <p:column>
 								        	<p:commandLink
 								    			action="#{searchDissertationsManagedBean.explicitFeedbackYes}" 
-								    			render="searchPanel"
+								    			update="searchPanel"
 								    			rendered="#{not resultQuery.notRecommended}"
-								    			limitRender="true"
-						    					disabled="#{resultQuery.recommended}"
+								    			disabled="#{resultQuery.recommended}"
 												style="#{((not resultQuery.recommended)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
 							   					<h:graphicImage library="img" name="thumbsUp.png" width="24" height="24"/>
 						    					<f:param name="controlNumber"
@@ -221,10 +213,9 @@
 						    				</p:commandLink>
 						    				<p:commandLink
 								    			action="#{searchDissertationsManagedBean.explicitFeedbackNo}" 
-								    			render="searchPanel"
+								    			update="searchPanel"
 								    			rendered="#{not resultQuery.recommended}"
-								    			limitRender="true"
-						    					disabled="#{resultQuery.notRecommended}"
+								    			disabled="#{resultQuery.notRecommended}"
 												style="#{((not resultQuery.notRecommended)?(''):('opacity:0.4;filter:alpha(opacity=40);'))}">
 						    					<h:graphicImage library="img" name="thumbsDown.png" width="24" height="24"/>
 						    					<f:param name="controlNumber"
@@ -238,14 +229,13 @@
 								</p:panel>
 								<p:tabView
 									dynamic="true"
-									rendered = "#{searchDissertationsManagedBean.advanced}">
-									<p:ajax
-										limitRender="true"
-										render="mainPanel, panelResult"
-										event="tabChange"
-										listener="#{searchDissertationsManagedBean.changeTab}"/>
+									rendered = "#{searchDissertationsManagedBean.advanced}"
+									id="advanceTabView"
+									>
 									<!-- ....... PUBLICATION TAB.......   -->
- 									<p:tab title="#{messages['search.searchDissertationsPanel.publicationTab.label']}" id="publicationTab" >
+ 									<p:tab
+											title="#{messages['search.searchDissertationsPanel.publicationTab.label']}"
+											id="publicationTab" >
 								    	<h:panelGrid 
 								    		id="panelPublication" 
 								    		columns="1" 
@@ -257,7 +247,8 @@
 								        		rowKeyVar="rowKeyVar" 
 								        		value="#{searchDissertationsManagedBean.searchQueries}"  
 								        		columnClasses="width10, width15, width10, width60, width5"
-								        		style="width:100% !important;"
+												styleClass="noHeader"
+												style="width:100% !important;"
 								        		rendered="#{searchDissertationsManagedBean.advanced}"
 								        		>
 								          		<p:column>
@@ -272,9 +263,7 @@
 								                	<p:selectOneMenu
 										                id="fieldName"
 								                		value="#{query.fieldName}" 
-								                		valueChangeListener="#{searchDissertationsManagedBean.switchToPick}" 
-								                        onfocus="activeElId = this.id;"
-									                    onblur="activeElId = null;"
+								                		valueChangeListener="#{searchDissertationsManagedBean.switchToPick}"
 								                        >
 											            <f:selectItem itemLabel="#{messages['search.searchDissertationsPanel.publicationTab.searchFieldNameCh0']}" itemValue="#{searchDissertationsManagedBean.searchQueryFieldNameString[0]}"/>
 											            <f:selectItem itemLabel="#{messages['search.searchDissertationsPanel.publicationTab.searchFieldNameCh1']}" itemValue="#{searchDissertationsManagedBean.searchQueryFieldNameString[1]}"/>
@@ -317,75 +306,55 @@
 								               				value="#{query.value}" 
 								               				style="width:98% !important"
 								               				rendered="#{ (query.fieldName != searchDissertationsManagedBean.searchQueryFieldNameString[5]) and (query.fieldName != searchDissertationsManagedBean.searchQueryFieldNameString[6]) and (query.fieldName != searchDissertationsManagedBean.searchQueryFieldNameString[7]) and (query.fieldName != searchDissertationsManagedBean.searchQueryFieldNameString[8])}"
-								               				onkeydown="keyDownHandler(event, 'searchTableForm:btnAdvancedFind');">
+								               				onkeydown="keyDownHandler(event, 'searchTableForm:advanceTabView:btnAdvancedFind');">
 								               			</p:inputText>
-								               			
-								               			<p:autoComplete
-											            	id="author"
-											            	value="#{query.value}"
-											            	mode="cachedAjax" 
-											            	autocompleteMethod="#{authorManagedBean.autocompleteForSearchDissertations}"
-											            	var="_authorRow"
-											            	fetchValue="#{_authorRow.names}"
-											            	minChars="3" 
-											            	selectFirst="false"
-											            	rendered="#{ (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[5]) or (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[6]) or (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[7]) or (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[8])}"
-											            	style="width:98% !important;"
-										         			inputClass="width100"
-										         			onfocus="activeElId = this.id;queryFieldName(document.getElementById(this.id.replace('authorInput', 'fieldName')).value);"
-											         		onblur="activeElId = null;"
-													    	>
-													    	<!--     ........  IME AUTORA ili PRVOG AUTORA.......-->
-															<p:column
-																style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																styleClass="ui-datatable-wide-cell"
-																width="100%">
-												                <h:outputText value="#{_authorRow.names}"/>
-															</p:column>
-														</p:autoComplete>
-														<p:remoteCommand
-																name="queryFieldName" 
-																>
-															<f:param
-																name="param1"
-																assignTo="#{authorManagedBean.queryFieldName}"
-																></f:param>
-														</p:remoteCommand>
+
+														<p:autoComplete
+																id="author"
+																value="#{query.value}"
+																completeMethod="#{authorManagedBean.autocompleteForSearchDissertations}"
+																var="_authorRow"
+																itemLabel="#{_authorRow}"
+																itemValue="#{_authorRow}"
+																minQueryLength="3"
+																autoSelection="false"
+																rendered="#{ (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[5]) or (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[6]) or (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[7]) or (query.fieldName eq searchDissertationsManagedBean.searchQueryFieldNameString[8])}"
+																styleClass="width100"
+														/>
+
 													</p:fragment>
 								               	</p:column>
-								               
-								               	
-								               	<p:column style="text-align:center">
-							               			<p:spacer
-														height="20"
-														width="1"
-														rendered="#{query.id==0}"
-														/>
-							                   		<p:commandLink
-						                       			rendered="#{query.id!=0}"
-														action="#{searchDissertationsManagedBean.removeQuery}"
-														render="panelPublication"
-														limitRender="true">
+
+
+												<p:column style="text-align:center">
+													<p:spacer
+															height="20"
+															width="1"
+															rendered="#{query.id==0}"
+													/>
+													<p:commandLink
+															rendered="#{query.id!=0}"
+															action="#{searchDissertationsManagedBean.removeQuery}"
+															update="@form"
+													>
 														<h:graphicImage library="img" name="delete16.png"/>
 														<f:param name="removedQuery" value="#{query.id}" />
 													</p:commandLink>
-								               	</p:column>
-								               	 <f:facet name="footer">
-								                      <p:columnGroup>
-								                      	 <p:column colspan="4" style="text-align:left">
-								                      	 	
-								                          </p:column>
-								                          
-								                          <p:column colspan="1">
-								                            <p:commandLink
-																action="#{searchDissertationsManagedBean.addQuery}"
-																render="panelPublication"
-																limitRender="true">
+												</p:column>
+												<p:columnGroup type="footer">
+													<p:row>
+														<p:column colspan="1">
+															<f:facet name="footer">
+																<p:commandLink
+																		action="#{searchDissertationsManagedBean.addQuery}"
+																		update="@form"
+																>
 																	<h:graphicImage library="img" name="create16.png"/>
-															</p:commandLink>
-								                          </p:column>
-								                      </p:columnGroup>
-								               	</f:facet> 
+																</p:commandLink>
+															</f:facet>
+														</p:column>
+													</p:row>
+												</p:columnGroup>
 								          	</p:dataTable>
 								          </h:panelGrid>
 								  			
@@ -422,9 +391,9 @@
 						  					
 						  					
 						  					<p:spacer
-															height="20"
-															width="100%"
-															/>
+												height="20"
+												width="100%"
+												/>
 								  			<h:outputText value="" />
 								  			
 								  			<h:outputText value="" />
@@ -454,8 +423,8 @@
 								  				<h:panelGrid columns="1" width="100%">
 								  					<h:outputText value="#{messages['search.searchPanel.publicationTab.affiliation']}"/>
 								  					<p:fragment>
-								  					<!-- ....... JSP TREE PART.......           -->
-								  					<ui:include src="/normativeRecords/institutionNameOfAuthorDegreeTree.xhtml"/>
+														<!-- ....... JSP TREE PART.......           -->
+														<ui:include src="/normativeRecords/institutionNameOfAuthorDegreeTree.xhtml"/>
 								  					</p:fragment>
 								           			
 								  				</h:panelGrid>
@@ -469,16 +438,14 @@
 													id="btnAdvancedFind"
 													action="#{searchDissertationsManagedBean.advancedQuerySearch}" 
 													value="#{messages['search.searchDissertationsPanel.publicationTab.btnAdvancedFind']}"
-													render="panelResult" 
-													limitRender="true" 
-													oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();" 
-													execute="@form" />  
+													update="panelResult"
+													oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();"
+													 />
 												<p:commandLink
 									    			value="#{messages['search.searchDissertationsPanel.publicationTab.basic']}" 
 									    			action="#{searchDissertationsManagedBean.switchBasicAdvanced}" 
-									    			render="searchPanel"
-									    			limitRender="true"
-									    			oncomplete="document.getElementById('searchPanel').scrollIntoView();" 
+									    			update="searchPanel"
+									    			oncomplete="document.getElementById('searchPanel').scrollIntoView();"
 									    			/>
 									  		</h:panelGrid>
 									  		<h:outputText value="" />
@@ -489,173 +456,132 @@
 								      <p:tab title="#{messages['search.searchDissertationsPanel.authorTab.label']}" id="authorTab">
 									  	<h:panelGrid id="panelAuthor" columns="1" width="100%">
 											<h:panelGrid columns="4" width="100%" columnClasses="width5, width40, width5, width50" style="align:left">
-													<!-- ....... Author .......           -->
-													<p:outputLabel
-														value="#{messages['search.searchPanel.authorTab.FirstLastName']}" 
-														for="authorName" 
-														/>
-													<p:fragment>
-														<p:autoComplete
-									            			id="authorName"
-									            			value="#{searchDissertationsManagedBean.authorName}"
-									            			mode="cachedAjax" 
-									            			autocompleteMethod="#{authorManagedBean.autocompleteForSearchDissertations}"
-									            			var="_authorRow"
-									            			fetchValue="#{_authorRow.controlNumber}"
-									            			minChars="3" 
-									            			selectFirst="false"
-											         		style="width:100% !important;"
-											         		inputClass="width100"	
-											         		onselectitem="if(this.value.indexOf('(BISIS)') != -1){activeElId = 'aInput'; pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});choose(#{p:resolveFirstComponentWithId('controlNumber', view).clientId}.value)}"
-			            									onkeyup="pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId})"
-											         		onfocus="activeElId = this.id;pickControlNumber(this, #{p:resolveFirstComponentWithId('controlNumber', view).clientId});"
-											         		onblur="activeElId = null;"
-											            	>
-											            	<a4j:attachQueue ignoreDupResponses="true" requestDelay="5000" />
-															<!--     ........  IME AUTORA .......-->
-															<p:column
-																style="'background-color:#{org.richfaces.SKIN.tableBackgroundColor}';"
-																styleClass="ui-datatable-wide-cell" width="100%">
-												                <h:outputText value="#{_authorRow.names}"/>
-															</p:column>
-															<p:remoteCommand
-																name="choose" 
-																action="#{authorManagedBean.chooseAuthor}" 
-																render="panelResult, panelAuthor"
-																>
-															<f:param
-																name="param1" 
-																assignTo="#{authorManagedBean.authorControlNumber}"/>
-															</p:remoteCommand>
-														</p:autoComplete>
-													</p:fragment>
-													<h:inputHidden id="controlNumber"/>
-													
-													<p:commandButton
+												<!-- ....... Author .......           -->
+												<p:outputLabel
+														value="#{messages['search.searchPanel.authorTab.FirstLastName']}"
+												/>
+												<p:fragment>
+													<p:autoComplete
+															id="firstLastName"
+															value="#{searchDissertationsManagedBean.authorName}"
+															completeMethod="#{authorManagedBean.autocompleteForSearchDissertations}"
+															var="_authorRow"
+															itemLabel="#{_authorRow}"
+															itemValue="#{_authorRow}"
+															minQueryLength="3"
+															autoSelection="false"
+															styleClass="width100"
+													/>
+												</p:fragment>
+
+												<p:commandButton
 														id="btnAuthorFind"
-														action="#{searchDissertationsManagedBean.btnAuthorFind}" 
+														action="#{searchDissertationsManagedBean.btnAuthorFind}"
 														value="#{messages['search.searchPanel.AuthorTab.SearchBtn']}"
-														render="panelResult, panelAuthor" 
-														limitRender="true"
+														update="@form"
 														style="align:right"
-														/>
-													<p:spacer
+												/>
+												<p:spacer
 														height="20"
 														width="100%"
-														/>
+												/>
 											</h:panelGrid>
 											<h:panelGrid columns="1" width="100%">
-												    <!-- ....... Autor SEARCHED.......           -->
-												    
-												    <h:panelGroup>
-												    <h2>
+												<!-- ....... Autor SEARCHED.......           -->
+
+												<h:panelGroup>
+													<h2>
 														<h:outputText value="#{messages['search.searchPanel.authorTab.AuthorSearchedEmpty']}" rendered="#{(empty searchDissertationsManagedBean.authorSearched[0]) and (not empty searchDissertationsManagedBean.authorName)}"/>
 													</h2>
-												    </h:panelGroup>
-												    
-												    <p:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchDissertationsManagedBean.authorSearched[0]}">
-								  						<p:dataTable
-																var="queryAuthorSearched"
-																value="#{searchDissertationsManagedBean.authorSearched}"
-																columns="6" columnClasses="width75, width5, width5, width5, width5, width5"
-																width="100%"
-																rendered="#{not empty searchDissertationsManagedBean.authorSearched[0]}">
-								  							 <f:facet name="header">
-								  										<p:columnGroup>
-								   										<p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.authorDetails']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.authorTheses']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.advisorTheses']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.committeeChairmanTheses']}"/> 
-											                            </p:column>
-											                            <p:column colspan="1" rowspan="1">
-											                            	<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.committeeMemberTheses']}"/> 
-											                            </p:column>
-										                        	</p:columnGroup>
-										                    </f:facet>
-								  						    <p:column>
-								    								<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>
-								    								<!--  <br/>
-								    								<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorTitle']} " />
-								    								<h:outputText value="#{queryAuthorSearched.title}" rendered="#{not empty queryAuthorSearched.title}"/>
-								    								<br/>
-								    								<h:outputLink value="#{queryAuthorSearched.uri}" target="_new" rendered="#{not empty queryAuthorSearched.uri}">
-								    									<h:outputText value="#{messages['search.searchPanel.AuthorTab.AuthorWebpage']}" />
-								    									<br/>
-								    								</h:outputLink>	 -->	
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+												</h:panelGroup>
+
+												<p:panel header="#{messages['search.searchPanel.authorTab.AuthorSearched']}" rendered="#{not empty searchDissertationsManagedBean.authorSearched[0]}">
+													<p:dataTable
+															var="queryAuthorSearched"
+															value="#{searchDissertationsManagedBean.authorSearched}"
+															styleClass="stable"
+															tableStyle="width:auto"
+															rendered="#{not empty searchDissertationsManagedBean.authorSearched[0]}">
+														<p:column colspan="1">
+															<f:facet name="header">
+																<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.authorDetails']}"/>
+															</f:facet>
+															<h:outputText value="#{queryAuthorSearched.HTMLRepresentation}" escape="false"/>
+														</p:column>
+														<p:column colspan="1" >
+															<f:facet name="header">
+																<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.authorTheses']}"/>
+															</f:facet>
+															<p:commandLink
 																	rendered="#{queryAuthorSearched.authorUnsDissertations}"
-																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
-																	limitRender="true"
+																	update="panelResult"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"
 																	oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[0]}" />
-																</p:commandLink>
-																<h:outputText 
-																	value="-" 
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[0]}" />
+															</p:commandLink>
+															<h:outputText
+																	value="-"
 																	rendered="#{not queryAuthorSearched.authorUnsDissertations}"/>
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+														</p:column>
+														<p:column colspan="1" >
+															<f:facet name="header">
+																<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.advisorTheses']}"/>
+															</f:facet>
+															<p:commandLink
 																	rendered="#{queryAuthorSearched.advisorUnsDissertations}"
-																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
-																	limitRender="true"
+																	update="panelResult"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"
 																	oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[1]}" />
-																</p:commandLink>
-																<h:outputText 
-																	value="-" 
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[1]}" />
+															</p:commandLink>
+															<h:outputText
+																	value="-"
 																	rendered="#{not queryAuthorSearched.advisorUnsDissertations}"/>
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+														</p:column>
+														<p:column colspan="1" >
+															<f:facet name="header">
+																<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.committeeChairmanTheses']}"/>
+															</f:facet>
+															<p:commandLink
 																	rendered="#{queryAuthorSearched.commissionChairUnsDissertations}"
-																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
-																	limitRender="true"
+																	update="panelResult"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"
 																	oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[2]}" />
-																</p:commandLink>
-																<h:outputText 
-																	value="-" 
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[2]}" />
+															</p:commandLink>
+															<h:outputText
+																	value="-"
 																	rendered="#{not queryAuthorSearched.commissionChairUnsDissertations}"/>
-															</p:column>
-															<p:column style="text-align:center">
-																<p:commandLink
+														</p:column>
+														<p:column colspan="1" >
+															<f:facet name="header">
+																<h:outputText value="#{messages['search.searchDissertationsPanel.authorTab.committeeMemberTheses']}"/>
+															</f:facet>
+															<p:commandLink
 																	rendered="#{queryAuthorSearched.commissionMemberUnsDissertations}"
-																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}" 
+																	action="#{searchDissertationsManagedBean.linkAuthorDetailsFind}"
 																	value="#{messages['search.searchPanel.AuthorTab.Show']}"
-																	render="panelResult" 
-																	limitRender="true"
+																	update="panelResult"
 																	title="#{messages['search.searchPanel.AuthorTab.AuthorPublication']}"
 																	oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();">
-																	<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
-																	<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[3]}" />
-																</p:commandLink>
-																<h:outputText 
-																	value="-" 
+																<f:param name="queryAuthorID" value="#{queryAuthorSearched.controlNumber}"/>
+																<f:param name="queryType" value="#{searchDissertationsManagedBean.searchQueryFieldNameString[3]}" />
+															</p:commandLink>
+															<h:outputText
+																	value="-"
 																	rendered="#{not queryAuthorSearched.commissionMemberUnsDissertations}"/>
-															</p:column>
-								  						</p:dataTable>
-								  					</p:panel>
+														</p:column>
+													</p:dataTable>
+												</p:panel>
 											</h:panelGrid>
 									  	</h:panelGrid>
 								      </p:tab>
@@ -670,7 +596,7 @@
 												</h:panelGroup>
 												<p:inputTextarea
 													id="luceneQuery"
-													onkeydown="keyDownHandler(event, 'searchTableForm:btnLuceneFind');"
+													onkeydown="keyDownHandler(event, 'searchTableForm:luceneTab:btnLuceneFind');"
 													value="#{searchDissertationsManagedBean.luceneQuery}"
 													style="width:90%;"
 													rows="5"
@@ -680,10 +606,9 @@
 													id="btnLuceneFind"
 													action="#{searchDissertationsManagedBean.luceneQuerySearch}" 
 													value="#{messages['search.searchDissertationsPanel.luceneTab.btnSearch']}"
-													render="panelResult" 
-													limitToList="true"
+													update="panelResult"
 													oncomplete="if(document.getElementById('panelResultPanel') != null) document.getElementById('panelResultPanel').scrollIntoView();"
-													execute="@form"/>
+													/>
 											</h:panelGrid>
 									      	<h:panelGrid columns="1">
 									      		<h:outputText value="#{messages['search.searchDissertationsPanel.luceneTab.helpMessage']}" escape="false"/>
@@ -756,9 +681,8 @@
 												 value="#{searchDissertationsManagedBean.sortMethodItems}"/>
 									    	<p:ajax
 									    		event="change" 
-									    		render="advanceQueryResultsTable" 
-									    		limitRender="true"
-									    		execute="@this" />
+									    		update="advanceQueryResultsTable"
+									    		/>
 									    </p:selectOneMenu>
 									    <p:outputLabel value="#{messages['search.panelResult.representationStyle.header']}: " />
 									    <p:selectOneMenu value="#{searchDissertationsManagedBean.representationStyle}">
@@ -766,9 +690,8 @@
 												 value="#{searchDissertationsManagedBean.representationStyleItems}"/>
 									    	<p:ajax
 									    		event="change" 
-									    		render="advanceQueryResultsTable" 
-									    		limitRender="true"
-									    		execute="@this" />
+									    		update="advanceQueryResultsTable"
+									    		 />
 									    </p:selectOneMenu>
 									</h:panelGrid>
 									
@@ -872,32 +795,27 @@
 												style="display:none"
 												>
 									     		<p:tabView
-									     			switchType="ajax" 
-									     			activeItem="HTMLDataTab" 
+														dynamic="true"
+									     				tabindex="0"
 									     			>
 									     			<p:tab
-									     				id="HTMLDataTab" 
-									     				header="#{messages['search.panelDissertationsResult.htmlTab']}" >
+									     					title="#{messages['search.panelDissertationsResult.htmlTab']}" >
 									     				<h:outputText value="#{resultQuery.registerEntry.someHTMLRepresentation}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="MARC21Tab"
-									     				header="#{messages['search.panelDissertationsResult.marc21Tab']}" >
+															title="#{messages['search.panelDissertationsResult.marc21Tab']}" >
 									     				<h:outputText value="#{resultQuery.MARC21}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="DublinCoreTab"
-									     				header="#{messages['search.panelDissertationsResult.dublinCoreTab']}" >
+									     					title="#{messages['search.panelDissertationsResult.dublinCoreTab']}" >
 									     				<h:outputText value="#{resultQuery.dublinCore}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="ETDMSTab"
-									     				header="#{messages['search.panelDissertationsResult.etdmsTab']}" >
+									     					title="#{messages['search.panelDissertationsResult.etdmsTab']}" >
 									     				<h:outputText value="#{resultQuery.ETDMS}" escape="false" />
 									     			</p:tab>
 									     			<p:tab
-									     				id="Download"
-									     				header="#{messages['search.panelDissertationsResult.downloadTab']}" 
+									     					title="#{messages['search.panelDissertationsResult.downloadTab']}"
 									     				rendered="#{not empty resultQuery.fileURL}" 
 									     				>
 									     				<!-- onenter="window.open('#{resultQuery.fileURL}', '_blank');"  -->
@@ -945,10 +863,11 @@
 					<ui:include src="./footer.xhtml"/>
 				</ui:insert>
 			</div>
-			<p:dialog modal="true"
+			<p:dialog
+				modal="true"
+				visible="false"
 				id="messagePanel"
 				rendered="true"
-				show="false" 
 				autosized="true"
 				>
 				<f:facet name="header">
@@ -956,15 +875,6 @@
 						value="#{messages['search.searchDissertationsPanel.welcomeMessageHeader']}"
 						styleClass="panel-header" />
 				</f:facet>
-				<f:facet name="controls">
-		            <h:outputLink 
-		            	value="#" 
-		            	onclick="#{rich:component('messagePanel')}.hide(); return false;">
-		                <h:graphicImage 
-		                	library="img" 
-		                	name="close.png" />
-		            </h:outputLink>
-		        </f:facet>
 		        <h:outputText 
 		        	value="#{messages['search.searchDissertationsPanel.welcomeMessage']}" 
 		        	escape="false"

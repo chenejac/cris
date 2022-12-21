@@ -10,50 +10,28 @@
 			value="#{searchDissertationsManagedBean.root}"
 			var="node"
 			dynamic="true"
-            nodeType="#{node.type}"
-            render="@this"
-            execute="@form"
+			update="@this"
+			execute="@form"
+			selectionMode="checkbox"
+			selection="#{searchDissertationsManagedBean.selectedInstitutionOrgUnitDegrees}"
 	        >
-           	<rich:treeSelectionChangeListener 
-           		listener="#{searchDissertationsManagedBean.selectionChanged}" 
-           		/>
-          	<p:treeNode
-			iconCollapsed="/resources/img/institution.jpg"
-			iconExpanded="/resources/img/institution.jpg"
-			iconLeaf="/resources/img/institution.jpg"
-			type="InstitutionDTO"
-			expanded="#{node.expanded}"
-			>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'empty'}"
-					value="/resources/img/ce16.jpg"/>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'full'}"
-					value="/resources/img/cf16.jpg" />
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'partial'}"
-					value="/resources/img/cp16.jpg" />
-				<h:outputText value="#{node}"/>
-			</p:treeNode>
-			
+
 			<p:treeNode
-			iconCollapsed="/resources/img/spacer.gif"
-			iconExpanded="/resources/img/spacer.gif"
-			iconLeaf="/resources/img/spacer.gif"
-			type="ClassDTO"
-			expanded="#{false}"
+					type="InstitutionDTO"
+					collapsedIcon="icon_institution_orange"
+					expandedIcon="icon_institution_orange"
 			>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'empty'}"
-					value="/resources/img/ce16.jpg"/>
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'full'}"
-					value="/resources/img/cf16.jpg" />
-				<h:graphicImage 
-					rendered="#{node.tree_state eq 'partial'}"
-					value="/resources/img/cp16.jpg" />
 				<h:outputText value="#{node}"/>
 			</p:treeNode>
+
+			<p:treeNode
+					type="ClassDTO"
+					collapsedIcon="icon_institution_orange"
+					expandedIcon="icon_institution_orange"
+			>
+				<h:outputText value="#{node}"/>
+			</p:treeNode>
+
         </p:tree>
 	</h:panelGrid>
 </ui:composition>

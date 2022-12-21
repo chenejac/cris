@@ -41,20 +41,13 @@ import org.apache.lucene.search.TopDocCollector;
 import org.primefaces.component.api.UITree;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.TreeNode;
 import rs.ac.uns.ftn.informatika.bibliography.dao.DataSourceFactory;
 import rs.ac.uns.ftn.informatika.bibliography.dao.RecordDAO;
 import rs.ac.uns.ftn.informatika.bibliography.db.CERIFSemanticLayerDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.PersonDB;
 import rs.ac.uns.ftn.informatika.bibliography.db.RecordDB;
-import rs.ac.uns.ftn.informatika.bibliography.dto.AuthorDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.ClassDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.InstitutionDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.MultilingualContentDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.PublicationRecommendationDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.QueryDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.StudyFinalDocumentDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.TreeNodeDTO;
-import rs.ac.uns.ftn.informatika.bibliography.dto.Types;
+import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.filesrv.FileStorage;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Classification;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
@@ -1230,7 +1223,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	/**
 	 * @return the root
 	 */
-	public List<TreeNodeDTO<Object>> getRoot() {
+	public TreeNode getRoot() {
 		
 		if(root==null)
 		{
@@ -1239,8 +1232,15 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		}
 		if(treeState!=null)
 			treeState.clearInitialState();
-		
-		return root;
+
+		TreeNode retVal = new TreeNodeDTO<InstitutionDTO>(new InstitutionDTO());
+		retVal.setExpanded(true);
+		for (TreeNodeDTO<Object> node:root
+		) {
+			node.setParent(retVal);
+			retVal.getChildren().add(node);
+		}
+		return retVal;
 	}
 	/**
 	 * @param root the root to set
@@ -1248,7 +1248,17 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	public void setRoot(List<TreeNodeDTO<Object>> root) {
 		this.root = root;
 	}
-	
+
+	private TreeNode[] selectedInstitutionOrgUnitDegrees;
+
+	public TreeNode[] getSelectedInstitutionOrgUnitDegrees() {
+		return selectedInstitutionOrgUnitDegrees;
+	}
+
+	public void setSelectedInstitutionOrgUnitDegrees(TreeNode[] selectedInstitutionOrgUnitDegrees) {
+		this.selectedInstitutionOrgUnitDegrees = selectedInstitutionOrgUnitDegrees;
+	}
+
 	/**
 	 * @return the allInstitutionsAndDegrees
 	 */
@@ -1692,30 +1702,32 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	public Query treeQuery()
 	{
 		Query retVal = null;
-		for (TreeNodeDTO<Object> dto : root){
-			if (dto.isCheckbox_state()) {
-				InstitutionDTO institution = (InstitutionDTO) dto.getData();
+		for (TreeNode node : selectedInstitutionOrgUnitDegrees){
+			Object dto = node.getData();
+			if (dto instanceof InstitutionDTO) {
+				InstitutionDTO institution = (InstitutionDTO) dto;
 				Query tempInsQuery = new TermQuery(new Term("INCN", institution.getControlNumber()));
-				Query tempDegreesQuery = null;
-				for (TreeNodeDTO<Object> degreeObject : dto.getChildren()) {
-					if (degreeObject.isCheckbox_state()) {
-						String degree = ((ClassDTO)degreeObject.getData()).getTerm().getContent();
-						QueryDTO queryDTO = new QueryDTO(0, QueryDTO.OR, "DT", QueryDTO.EXACT_PHRASE);
-		
-						queryDTO.setValue(degree);
-						if(tempDegreesQuery == null){
-							tempDegreesQuery = QueryUtils.makeQuery(queryDTO);
-						} else {
-							tempDegreesQuery = QueryUtils.makeBooleanQuery(tempDegreesQuery, QueryUtils.makeQuery(queryDTO), QueryDTO.OR);
-						}
-					}
-				}
-				if(tempDegreesQuery != null)
-					tempInsQuery = QueryUtils.makeBooleanQuery(tempInsQuery, tempDegreesQuery, QueryDTO.AND);
-				if(retVal == null){
+				if (retVal == null) {
 					retVal = tempInsQuery;
 				} else {
 					retVal = QueryUtils.makeBooleanQuery(retVal, tempInsQuery, QueryDTO.OR);
+				}
+			} else if (dto instanceof ClassDTO) {
+				if (node.getParent().getData() instanceof InstitutionDTO){
+					InstitutionDTO institution = (InstitutionDTO) node.getParent().getData();
+					Query tempInsQuery = new TermQuery(new Term("INCN", institution.getControlNumber()));
+					ClassDTO degreeObject = (ClassDTO)dto;
+					String degree = degreeObject.getTerm().getContent();
+					QueryDTO queryDTO = new QueryDTO(0, QueryDTO.OR, "DT", QueryDTO.EXACT_PHRASE);
+					queryDTO.setValue(degree);
+					Query tempDegreesQuery = QueryUtils.makeQuery(queryDTO);
+					tempInsQuery = QueryUtils.makeBooleanQuery(tempInsQuery, tempDegreesQuery, QueryDTO.AND);
+
+					if (retVal == null) {
+						retVal = tempInsQuery;
+					} else {
+						retVal = QueryUtils.makeBooleanQuery(retVal, tempInsQuery, QueryDTO.OR);
+					}
 				}
 			}
 		}
