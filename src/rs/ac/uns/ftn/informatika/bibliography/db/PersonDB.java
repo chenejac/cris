@@ -96,7 +96,7 @@ public class PersonDB extends RecordDB {
 		List<String> retVal = new ArrayList<String>();
 		try {
 			Statement stmt = conn.createStatement();
-			String query = "select RECORDID, JMBG, DIRECTPHONES, LOCALPHONES, APVNT from PERSON where RECORDID in (select RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and CFCLASSID like 'belongs to' and RECORDID2 like '" + institutionId + "' and CFSTARTDATE like '" + startDate + "')";
+			String query = "select RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and CFCLASSID like 'belongs to' and RECORDID2 like '" + institutionId + "' and CFSTARTDATE like '" + startDate + "'";
 			ResultSet rset = stmt.executeQuery(query);
 			
 			while (rset.next()) {

@@ -46,10 +46,6 @@ import java.util.*;
 @SuppressWarnings("serial")
 public class ResearcherProfileManagedBean extends CRUDManagedBean {
 
-	/*ApvRegisteredResearchersManagedBean(){
-		//iscitivanje korisnika i njihovih BISISS u posebnu listu
-	}*/
-
 	protected List<AuthorDTO> list;
 	protected UserDAO userDAO = new UserDAO();
 	protected AuthorDTO selectedAuthor = null;
@@ -97,7 +93,8 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 			AuthorManagedBean authormb = getAuthorManagedBean();
 			authormb.setSelectedAuthor(selectedAuthor);
 			selectedAuthorOrgUnit = selectedAuthor.getOrganizationUnit();
-			selectedAuthorOrgUnit.getRecord().loadFromDatabase();
+			if ((selectedAuthorOrgUnit != null) && (selectedAuthorOrgUnit.getRecord() != null))
+				selectedAuthorOrgUnit.getRecord().loadFromDatabase();
 		}
 	}
 
