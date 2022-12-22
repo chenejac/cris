@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.bibliography.reports.obrazci;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class ObrazciDataUtils {
 	
 	private static ResultMeasureDTO getResultType(Record record, Integer commissionId) {
 		ResultMeasureDTO retVal = null;
-	 Connection conn = null;
+	 	Connection conn = null;
 		EvaluationDB evaluationDB = new EvaluationDB();
 		try{
 			conn = dataSource.getConnection();			
@@ -87,10 +88,11 @@ public class ObrazciDataUtils {
 		}catch (Throwable e) {
 			e.printStackTrace();		
 		}finally {
-		/*	try {
-				conn.close();
+			try {
+				if(conn!=null)
+					conn.close();
 			} catch (SQLException e) {
-			}*/
+			}
 		}
 		if(retVal == null)
 			return null;

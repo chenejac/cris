@@ -65,14 +65,23 @@ public class Samovrednovanje {
 		log.info("Initialization...");
 		
 		log.info("Reports dir set to "+generatedReportsDir);
-		setDefaultDataSource();			
+		setDefaultDataSource();
+		Connection conn = null;
 	    try {
-	    	log.info("Obtaining id numbers for researchers, organisation = "+organisation+" conn = "+dataSource.getConnection());
-			setIdsForOrganisations(organisation, dataSource.getConnection());			
+	    	conn = dataSource.getConnection();
+	    	log.info("Obtaining id numbers for researchers, organisation = "+organisation+" conn = "+conn);
+			setIdsForOrganisations(organisation, conn);
 		} catch (SQLException e) {			
 			e.printStackTrace();
 			return false;
-		}	
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+				}
+			}
+		}
 		return true;
 	}
 	
@@ -330,6 +339,7 @@ public class Samovrednovanje {
 
 
 		log.info("Creating word document");
+		Connection conn = null;
 		try{
 
 			File f = new File(generatedReportsDir+"TabelaUNS-"+lastYear+organisation+"Zbirno.docx");
@@ -347,7 +357,8 @@ public class Samovrednovanje {
 				for (String departmant : pmfDepartmants
 				) {
 					DocxUtils.addTableCell(tableHeaderZbirni, "" + departmant, wordMLPackage);
-					setIdsForOrganisations(departmant, dataSource.getConnection());
+					conn = dataSource.getConnection();
+					setIdsForOrganisations(departmant, conn);
 					List<ResultForYearDTO> data = SamovrednovanjeUtils.getAllResultsWord(ids, years);
 					resultsByCategoryZbirni.putIfAbsent(departmant, new TreeMap<String, List<String>>());
 					if (data!=null && data.size() > 0) {
@@ -422,6 +433,13 @@ public class Samovrednovanje {
 
 		}catch(Exception ex){
 			ex.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+				}
+			}
 		}
 
 	}

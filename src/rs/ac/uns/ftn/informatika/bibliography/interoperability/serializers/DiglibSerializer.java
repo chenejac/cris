@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,8 +61,9 @@ public class DiglibSerializer implements GroupSerializer{
 	private boolean loadInstitutions(ImportRecordsDTO importRecordDTO){
 		boolean retVal = false;
 		List<RecordDTO> institutions = new ArrayList<RecordDTO>();
+		Connection conn = null;
 		try {
-			Connection conn = dataSource.getConnection();
+			conn = dataSource.getConnection();
 			StringBuffer query = new StringBuffer();
 			query
 					.append("select SIFRA_UNIV, EMAIL, TELEFON, ULICA_I_BROJ, MESTO from UNIVERZITET");
@@ -113,19 +115,26 @@ public class DiglibSerializer implements GroupSerializer{
 			retVal = true;
 			rset.close();
 			stmt.close();
-			conn.close();
 			return retVal;
 		} catch (Exception ex) {
 			log.fatal(ex);
 			log.fatal("Cannot load institutions");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+				}
+			}
 		}
 		return retVal;
 	}
 	
 	private boolean loadUniversityNames(InstitutionDTO institution) {
 		boolean retVal = false;
+		Connection conn = null;
 		try {
-			Connection conn = dataSource.getConnection();
+			conn = dataSource.getConnection();
 			StringBuffer query = new StringBuffer();
 			query
 					.append("select NAZIV_UNIVERZITETA, SIFRA_JEZIKA from NAZIV_UNIV where SIFRA_UNIV = " + institution.getControlNumber());
@@ -146,19 +155,27 @@ public class DiglibSerializer implements GroupSerializer{
 			retVal = true;
 			rset.close();
 			stmt.close();
-			conn.close();
 			return retVal;
 		} catch (Exception ex) {
 			log.fatal(ex);
 			log.fatal("Cannot load university names");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+
+				}
+			}
 		}
 		return retVal;
 	}
 	
 	private boolean loadFacultyNames(InstitutionDTO institution) {
 		boolean retVal = false;
+		Connection conn = null;
 		try {
-			Connection conn = dataSource.getConnection();
+			conn = dataSource.getConnection();
 			StringBuffer query = new StringBuffer();
 			query
 					.append("select NAZIV_FAKULTETA, SIFRA_JEZIKA from NAZIV_FAK where SIFRA_FAK = " + institution.getControlNumber());
@@ -179,11 +196,18 @@ public class DiglibSerializer implements GroupSerializer{
 			retVal = true;
 			rset.close();
 			stmt.close();
-			conn.close();
 			return retVal;
 		} catch (Exception ex) {
 			log.fatal(ex);
 			log.fatal("Cannot load institution names");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+
+				}
+			}
 		}
 		return retVal;
 	}
@@ -191,8 +215,9 @@ public class DiglibSerializer implements GroupSerializer{
 	private boolean loadAuthors(ImportRecordsDTO importRecordDTO){
 		boolean retVal = false;
 		List<RecordDTO> authors = new ArrayList<RecordDTO>();
+		Connection conn = null;
 		try {
-			Connection conn = dataSource.getConnection();
+			conn = dataSource.getConnection();
 			StringBuffer query = new StringBuffer();
 			query
 					.append("select distinct PREZIME_MENTORA, IME_MENTORA from DOKUMENT where STATUS_DOKUMENTA = 0 order by PREZIME_MENTORA");
@@ -252,11 +277,18 @@ public class DiglibSerializer implements GroupSerializer{
 			retVal = true;
 			rset.close();
 			stmt.close();
-			conn.close();
 			return retVal;
 		} catch (Exception ex) {
 			log.fatal(ex);
 			log.fatal("Cannot load authors");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+
+				}
+			}
 		}
 		return retVal;
 	}
@@ -264,8 +296,9 @@ public class DiglibSerializer implements GroupSerializer{
 	private boolean loadTheses(ImportRecordsDTO importRecordDTO){
 		boolean retVal = false;
 		List<RecordDTO> theses = new ArrayList<RecordDTO>();
+		Connection conn = null;
 		try {
-			Connection conn = dataSource.getConnection();
+			conn = dataSource.getConnection();
 			StringBuffer query = new StringBuffer();
 			query
 					.append("select d.SIFRA_DOK, d.PREZIME_MENTORA, d.IME_MENTORA, nt.NAZIV_TITULE, nz.NAZIV_ZVANJA, b.SIFRA_FAK, " +
@@ -428,20 +461,28 @@ public class DiglibSerializer implements GroupSerializer{
 			retVal = true;
 			rset.close();
 			stmt.close();
-			conn.close();
 			return retVal;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			log.fatal(ex);
 			log.fatal("Cannot load theses");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+
+				}
+			}
 		}
 		return retVal;
 	}
 
 	private boolean loadCommitteeMembers(StudyFinalDocumentDTO thesis, ImportRecordsDTO importRecordDTO) {
 		boolean retVal = false;
+		Connection conn = null;
 		try {
-			Connection conn = dataSource.getConnection();
+			conn = dataSource.getConnection();
 			StringBuffer query = new StringBuffer();
 			query
 					.append("select PREZIME, IME, SIFRA_TITULE, SIFRA_ORG, SIFRA_ZVANJA from CLAN_KOMISIJE where SIFRA_DOK = " + thesis.getControlNumber() + " order by PREDSEDNIK desc");
@@ -560,13 +601,20 @@ public class DiglibSerializer implements GroupSerializer{
 			}
 			rset.close();
 			stmt.close();
-			conn.close();
-			
+
 			retVal = true;
 			return retVal;
 		} catch (Exception ex) {
 			log.fatal(ex);
 			log.fatal("Cannot load committee members");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException throwables) {
+
+				}
+			}
 		}
 		return retVal;
 	}

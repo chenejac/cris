@@ -223,7 +223,18 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 			repStyle = 1;//0;
 		}
 	}
-	
+
+	@Override
+	protected void finalize() throws Throwable {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException throwables) {
+			}
+		}
+		super.finalize();
+	}
+
 	/**
 	 * @return the searchQueries
 	 */
@@ -234,8 +245,8 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	/**
 	 * @param searchQueries the searchQueries to set
 	 */
-	public void setSearchQueries(List<QueryDTO> searchQuerys) {
-		this.searchQueries = searchQuerys;
+	public void setSearchQueries(List<QueryDTO> searchQueries) {
+		this.searchQueries = searchQueries;
 	}
 	/**
 	 * @return the searchQueryOperator
@@ -564,8 +575,8 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	/**
 	 * @param authorName the authorName to set
 	 */
-	public void setAuthorName(String firstLastName) {
-		this.authorName = firstLastName;
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
 	}
 	
 	/**
@@ -1116,9 +1127,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	public void setRecords(List<StudyFinalDocumentDTO> records) {
 		this.records = records;
 	}
-	/**
-	 * @param records the records to set
-	 */
+
 	public int getRecordSize() {
 		if(records!=null)
 			return records.size();

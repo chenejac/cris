@@ -218,7 +218,7 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 //			setNotLoaded(true);
 //		}
 		
-		if((notLoaded) && (locale.getLanguage().equals("sr"))){
+		if(notLoaded) {
 			return someTitle;
 		} else {
 			if(notLoaded){
