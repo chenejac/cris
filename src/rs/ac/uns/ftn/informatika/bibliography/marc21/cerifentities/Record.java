@@ -65,7 +65,7 @@ public class Record implements Serializable{
 	}
 	
 	/**
-	 * @param RecordDTO
+	 * @param dto
 	 * 
 	 */
 	public Record(RecordDTO dto) {
@@ -92,7 +92,7 @@ public class Record implements Serializable{
 	 * @param type
 	 * @param scopusID
 	 * @param ORCID
-	 * @param marc21record
+	 * @param mARC21Record
 	 * @param recordClasses
 	 * @param relationsOtherRecordsThisRecord
 	 * @param relationsThisRecordOtherRecords
@@ -133,7 +133,7 @@ public class Record implements Serializable{
 	 * @param lastModificationDate
 	 * @param archived
 	 * @param type
-	 * @param AbstractDTO
+	 * @param dto
 	 * 
 	 */
 	public Record(String creator, Calendar creationDate, String modifier,
@@ -325,7 +325,7 @@ public class Record implements Serializable{
 	}
 
 	/**
-	 * @param lastModificationDate
+	 * @param lastModifiedDate
 	 *            the lastModificationDate to set
 	 */
 	public void setLastModificationDate(Calendar lastModifiedDate) {
@@ -436,7 +436,7 @@ public class Record implements Serializable{
 	}
 	
 	/**
-	 * @param relationsOtherRecordsThisRecord the string representation of relationsOtherRecordsThisRecord to set
+	 * @param relationsThisRecordOtherRecords the string representation of relationsOtherRecordsThisRecord to set
 	 */
 	public void setRelationsThisRecordOtherRecords(String relationsThisRecordOtherRecords) {
 		List<RecordRecord> relationsThisRecordOtherRecordsList = new ArrayList<RecordRecord>();
@@ -488,7 +488,7 @@ public class Record implements Serializable{
 	}
 
 	/**
-	 * @param recordKeywords the recordKeywords to set
+	 * @param thisRecordKeywords the recordKeywords to set
 	 */
 	public void setRecordKeywords(List<MultilingualContentDTO> thisRecordKeywords) {
 		this.recordKeywords = thisRecordKeywords;

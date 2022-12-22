@@ -93,7 +93,7 @@ public class ResearcherProfileManagedBean extends CRUDManagedBean {
 			AuthorManagedBean authormb = getAuthorManagedBean();
 			authormb.setSelectedAuthor(selectedAuthor);
 			selectedAuthorOrgUnit = selectedAuthor.getOrganizationUnit();
-			if ((selectedAuthorOrgUnit != null) && (selectedAuthorOrgUnit.getRecord() != null))
+			if ((selectedAuthorOrgUnit != null) && (selectedAuthorOrgUnit.getRecord() != null) && (selectedAuthorOrgUnit.getControlNumber() != null))
 				selectedAuthorOrgUnit.getRecord().loadFromDatabase();
 		}
 	}
