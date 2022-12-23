@@ -8,57 +8,55 @@
 
 <h:form id="header-form">
 	<f:subview id="header-subview">
-		<div class="bibliography-menu">
-			<p:toolbar>
-				<p:toolbarGroup style="float:left!important;">
-					<p:menubar>
-						<p:menuitem
-							rendered="true"
-							action="#{searchAndrejevicManagedBean.searchPageEnter}"
-							value="#{messages['search.searchPanel.andrejevicHeader']}">
-						</p:menuitem>
-					</p:menubar>
-				</p:toolbarGroup>
-				<p:toolbarGroup style="float:right!important;">
-					<!-- 
-					<p:commandLink ajax="false" action="#{userManagedBean.serbianLanguage}">
-						<h:graphicImage library="img" name="serbian.png" />
-					</p:commandLink>
-					<p:commandLink ajax="false" action="#{userManagedBean.englishLanguage}">
-						<h:graphicImage library="img" name="english.png" />
-					</p:commandLink> -->
-					<h:outputText 
+		<p:toolbar styleClass="menu-toolbar">
+			<p:toolbarGroup style="float:left!important;">
+				<p:menubar>
+					<p:menuitem
 						rendered="true"
-						style="width:0px;"/>
-					<h:outputText 
-						rendered="true"
-						style="width:0px;"/>
-					<h:outputText 
-						rendered="true"
-						style="width:0px"/>
-					<h:outputText 
-						rendered="true"
-						style="width:0px"/>
-					<h:outputText 
-						rendered="true"
-						style="width:0px"/>
-					<h:outputText 
-						value="#{messages['administration.email.emailMe']}" />
-					<p:linkButton
-							href="mailto:#{messages['administration.email.andrejevic']}?subject=#{messages['administration.email.andrejevic.someSubject']}"
-							icon="pi pi-envelope"
-							styleClass="rounded-button ui-button-flat" />
-					<p:divider layout="vertical"/>
-					<h:outputText
-						value="#{messages['administration.help.helpMe']}" />
-					<p:linkButton
-							href="/UputstvoAndrejevic.pdf"
-							target="_blank"
-							icon="pi pi-question-circle"
-							styleClass="rounded-button ui-button-flat" />
-				</p:toolbarGroup>
-			</p:toolbar>
-		</div>
+						action="#{searchAndrejevicManagedBean.searchPageEnter}"
+						value="#{messages['search.searchPanel.andrejevicHeader']}">
+					</p:menuitem>
+				</p:menubar>
+			</p:toolbarGroup>
+			<p:toolbarGroup style="float:right!important;">
+				<!--
+				<p:commandLink ajax="false" action="#{userManagedBean.serbianLanguage}">
+					<h:graphicImage library="img" name="serbian.png" />
+				</p:commandLink>
+				<p:commandLink ajax="false" action="#{userManagedBean.englishLanguage}">
+					<h:graphicImage library="img" name="english.png" />
+				</p:commandLink> -->
+				<h:outputText
+					rendered="true"
+					style="width:0px;"/>
+				<h:outputText
+					rendered="true"
+					style="width:0px;"/>
+				<h:outputText
+					rendered="true"
+					style="width:0px"/>
+				<h:outputText
+					rendered="true"
+					style="width:0px"/>
+				<h:outputText
+					rendered="true"
+					style="width:0px"/>
+				<h:outputText
+					value="#{messages['administration.email.emailMe']}" />
+				<p:linkButton
+						href="mailto:#{messages['administration.email.andrejevic']}?subject=#{messages['administration.email.andrejevic.someSubject']}"
+						icon="pi pi-envelope"
+						styleClass="rounded-button ui-button-flat" />
+				<p:divider layout="vertical"/>
+				<h:outputText
+					value="#{messages['administration.help.helpMe']}" />
+				<p:linkButton
+						href="/UputstvoAndrejevic.pdf"
+						target="_blank"
+						icon="pi pi-question-circle"
+						styleClass="rounded-button ui-button-flat" />
+			</p:toolbarGroup>
+		</p:toolbar>
 	</f:subview>
 </h:form>
 <p:log mode="popup" rendered="#{initParam['facelets.DEVELOPMENT']}" level="DEBUG" style="width: 800px; height: 300px;" >
