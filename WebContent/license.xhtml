@@ -32,14 +32,14 @@
 					<h:outputText 
 						escape="false"
 						value="#{messages['records.studyFinalDocument.download.intro']}" 
-						styleClass="ui-message-info" />
+						styleClass="ui-message-info-custom" />
 					<br/>
 					<br/>
 					<br/>
 					<h:outputText 
 						escape="false"
 						value="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.description.'.concat(studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileLicense)]}" 
-						styleClass="ui-message-info" />
+						styleClass="ui-message-info-custom" />
 				</h:panelGroup>
 				<p:spacer
 				height="60"
@@ -49,13 +49,13 @@
 					<h:outputText 
 						escape="false"
 						value="#{messages['records.studyFinalDocument.download.license']}" 
-						styleClass="ui-message-info" />
+						styleClass="ui-message-info-custom" />
 					<br/>
 					<br/>
 					<h:outputLink
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileURL.concat('&amp;licenseAccepted=true')}"
 						>
-						<h:button 
+						<p:button
 							value="#{messages['records.studyFinalDocument.download.accept']}" 
 							/> 
 					</h:outputLink>
@@ -68,13 +68,13 @@
 					<h:outputText 
 						escape="false"
 						value="#{messages['records.studyFinalDocument.download.introTrans']}" 
-						styleClass="ui-message-info" />
+						styleClass="ui-message-info-custom" />
 					<br/>
 					<br/>
 					<h:outputText 
 						escape="false"
 						value="#{messages['records.studyFinalDocument.editPanel.copyright.creativeCommons.descriptionTrans.'.concat(studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileLicense)]}" 
-						styleClass="ui-message-info" />
+						styleClass="ui-message-info-custom" />
 				</h:panelGroup>
 				<p:spacer
 				height="60"
@@ -84,13 +84,13 @@
 					<h:outputText 
 						escape="false"
 						value="#{messages['records.studyFinalDocument.download.licenseTrans']}" 
-						styleClass="ui-message-info" />
+						styleClass="ui-message-info-custom" />
 					<br/>
 					<br/>
 					<h:outputLink
 							value="#{studyFinalDocumentManagedBean.selectedStudyFinalDocument.fileURL.concat('&amp;licenseAccepted=true')}"
 						>
-						<h:button  
+						<p:button
 							value="#{messages['records.studyFinalDocument.download.acceptTrans']}" 
 							/> 
 					</h:outputLink>

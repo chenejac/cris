@@ -131,8 +131,9 @@ input[type="button"],input[type="reset"],input[type="submit"] {
 }
 
 .ui-message-info-custom {
-	color: blue !important;
-	font-size: 14px !important;
+	font-size: 16px !important;
+	font-family: Arial Unicode MS, Times New Roman, Arial, Helvetica !important;
+	font-weight: bold !important;
 }
 
 .ui-datatable {
