@@ -638,4 +638,24 @@ label.errorMessage {
 	background-image: url(#{resource['img:ruleBookImplementation32.png']})!important ;
 }
 
+.ui-toolbar-group-center {
+	margin: auto;
+}
+
+.textCenter th, .textCenter td {
+	text-align: center !important;
+}
+
+.menu-toolbar {
+	padding: 0.2rem !important;
+}
+
+.menu-toolbar .ui-menu {
+	padding: unset !important;
+	border: unset !important;
+}
+
+
+
+
 
