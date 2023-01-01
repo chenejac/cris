@@ -29,6 +29,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dto.StudyFinalDocumentDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.Types;
 import rs.ac.uns.ftn.informatika.bibliography.filesrv.FileDTO;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
+import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.RecordRecord;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.records.prefixes.PrefixValue;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.CrisAnalyzer;
@@ -159,6 +160,42 @@ public class RecordDAO {
 		try {
 			conn = RecordDAO.dataSource.getConnection();
 			retVal = storage.getRecord(conn, controlNumber);
+		} catch (SQLException ex) {
+			log.fatal(ex);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				log.error(e);
+			}
+		}
+		return retVal;
+	}
+
+	public List<RecordRecord> getRelationsThisRecordOtherRecords(String controlNumber) {
+		Connection conn = null;
+		List<RecordRecord> retVal = null;
+		try {
+			conn = RecordDAO.dataSource.getConnection();
+			retVal = storage.getRelationsThisRecordOtherRecords(conn, controlNumber);
+		} catch (SQLException ex) {
+			log.fatal(ex);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				log.error(e);
+			}
+		}
+		return retVal;
+	}
+
+	public List<RecordRecord> getRelationsOtherRecordsThisRecord(String controlNumber) {
+		Connection conn = null;
+		List<RecordRecord> retVal = null;
+		try {
+			conn = RecordDAO.dataSource.getConnection();
+			retVal = storage.getRelationsOtherRecordsThisRecord(conn, controlNumber);
 		} catch (SQLException ex) {
 			log.fatal(ex);
 		} finally {

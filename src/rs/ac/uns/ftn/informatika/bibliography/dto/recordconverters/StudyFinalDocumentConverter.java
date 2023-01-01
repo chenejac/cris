@@ -118,8 +118,8 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 					AuthorNameDTO choosedAuthorNameDTO = new AuthorNameDTO(firstName, lastName, "");
 					if(authorDTO.getAllNames().contains(choosedAuthorNameDTO))
 						authorDTO.setName(choosedAuthorNameDTO);
-					authorDTO.getRecord().setRelationsThisRecordOtherRecords(new ArrayList<RecordRecord>());
-					authorDTO.getRecord().setRelationsOtherRecordsThisRecord(new ArrayList<RecordRecord>());
+//					authorDTO.getRecord().setRelationsThisRecordOtherRecords(new ArrayList<RecordRecord>());
+//					authorDTO.getRecord().setRelationsOtherRecordsThisRecord(new ArrayList<RecordRecord>());
 				}
 				retVal.setAuthor(authorDTO);
 			} catch (Exception e) {
@@ -688,8 +688,8 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 //						authorDTO.getInstitution().getName().setContent(content);
 					}
 					authorDTO.getInstitution().setNotLoaded(true);
-					authorDTO.getRecord().setRelationsThisRecordOtherRecords(new ArrayList<RecordRecord>());
-					authorDTO.getRecord().setRelationsOtherRecordsThisRecord(new ArrayList<RecordRecord>());
+//					authorDTO.getRecord().setRelationsThisRecordOtherRecords(new ArrayList<RecordRecord>());
+//					authorDTO.getRecord().setRelationsOtherRecordsThisRecord(new ArrayList<RecordRecord>());
 					advisorDTOs.add(authorDTO);
 				}
 				if ((dataField.getInd1() == '1') && ("exp".equalsIgnoreCase(dataField.getSubfield('4').getContent()))){
@@ -728,8 +728,8 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 //						authorDTO.getInstitution().getName().setContent(content);
 					}
 					authorDTO.getInstitution().setNotLoaded(true);
-					authorDTO.getRecord().setRelationsThisRecordOtherRecords(new ArrayList<RecordRecord>());
-					authorDTO.getRecord().setRelationsOtherRecordsThisRecord(new ArrayList<RecordRecord>());
+//					authorDTO.getRecord().setRelationsThisRecordOtherRecords(new ArrayList<RecordRecord>());
+//					authorDTO.getRecord().setRelationsOtherRecordsThisRecord(new ArrayList<RecordRecord>());
 					committeeMemberDTOs.add(authorDTO);
 				}
 			} catch (Exception e) {
@@ -813,20 +813,20 @@ public class StudyFinalDocumentConverter extends ABibliographicRecordConverter {
 			}
 		}
 
-		try{
-			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
-			RecordDAO recordDAO = new RecordDAO(new RecordDB());
-			for (RecordRecord recordRecord : recordRecords) {
-				if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("publicationInstitutionRelation") && (recordRecord.getCfClassId().equalsIgnoreCase("is defended at"))){
-					retVal.setInstitution((InstitutionDTO)recordDAO.getDTO(recordRecord.getRecordId()));
-				} else if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("publicationJobAd") && (recordRecord.getCfClassId().equalsIgnoreCase("applied to"))){
-					JobAdDTO jobAd = (JobAdDTO)recordDAO.getDTO(recordRecord.getRecordId());
-					if(jobAd != null)
-						retVal.getJobAds().add(jobAd);
-				}
-			}	
-		}catch (Exception e) {
-		}
+//		try{
+//			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
+//			RecordDAO recordDAO = new RecordDAO(new RecordDB());
+//			for (RecordRecord recordRecord : recordRecords) {
+//				if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("publicationInstitutionRelation") && (recordRecord.getCfClassId().equalsIgnoreCase("is defended at"))){
+//					retVal.setInstitution((InstitutionDTO)recordDAO.getDTO(recordRecord.getRecordId()));
+//				} else if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("publicationJobAd") && (recordRecord.getCfClassId().equalsIgnoreCase("applied to"))){
+//					JobAdDTO jobAd = (JobAdDTO)recordDAO.getDTO(recordRecord.getRecordId());
+//					if(jobAd != null)
+//						retVal.getJobAds().add(jobAd);
+//				}
+//			}
+//		}catch (Exception e) {
+//		}
 		
 		try{
 			List<RecordRecord> recordRecords = rec.getRelationsOtherRecordsThisRecord();

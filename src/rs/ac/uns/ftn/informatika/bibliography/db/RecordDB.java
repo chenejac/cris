@@ -88,7 +88,7 @@ public class RecordDB {
 				
 				Record record = null;
 				record = new Record(creator, creationDate, modifier,
-					lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), getRelationsOtherRecordsThisRecord(conn, recordId), getRelationsThisRecordOtherRecords(conn, recordId), getRecordKeywords(conn, recordId));
+					lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), null, null, getRecordKeywords(conn, recordId));
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
@@ -150,7 +150,7 @@ public class RecordDB {
 				String ORCID = rset.getString(10);
 				Record record = null;
 				record = new Record(creator, creationDate, modifier,
-						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), getRelationsOtherRecordsThisRecord(conn, recordId), getRelationsThisRecordOtherRecords(conn, recordId), getRecordKeywords(conn, recordId));
+						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), null, null, getRecordKeywords(conn, recordId));
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
@@ -220,7 +220,7 @@ public class RecordDB {
 				String ORCID = rset.getString(10);
 				Record record = null;
 				record = new Record(creator, creationDate, modifier,
-						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), getRelationsOtherRecordsThisRecord(conn, recordId), getRelationsThisRecordOtherRecords(conn, recordId), getRecordKeywords(conn, recordId));
+						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), null, null, getRecordKeywords(conn, recordId));
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
@@ -296,7 +296,7 @@ public class RecordDB {
 				String ORCID = rset.getString(10);
 				Record record = null;
 				record = new Record(creator, creationDate, modifier,
-						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), getRelationsOtherRecordsThisRecord(conn, recordId), getRelationsThisRecordOtherRecords(conn, recordId), getRecordKeywords(conn, recordId));
+						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), null, null, getRecordKeywords(conn, recordId));
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
@@ -347,7 +347,7 @@ public class RecordDB {
 		}
 	}
 	
-	private List<RecordRecord> getRelationsThisRecordOtherRecords(Connection conn, String recordId) {
+	public List<RecordRecord> getRelationsThisRecordOtherRecords(Connection conn, String recordId) {
 		List<RecordRecord> retVal = new ArrayList<RecordRecord>();
 		try {
 			Statement stmt = conn.createStatement();
@@ -415,7 +415,7 @@ public class RecordDB {
 		
 	}
 
-	private List<RecordRecord> getRelationsOtherRecordsThisRecord(
+	public List<RecordRecord> getRelationsOtherRecordsThisRecord(
 			Connection conn, String recordId) {
 		List<RecordRecord> retVal = new ArrayList<RecordRecord>();
 		try {
@@ -545,8 +545,7 @@ public class RecordDB {
 				String scopusID = rset.getString(9);
 				String ORCID = rset.getString(10);
 				rec = new Record(creator, creationDate, modifier,
-							lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), getRelationsOtherRecordsThisRecord(conn, recordId),
-							getRelationsThisRecordOtherRecords(conn, recordId), getRecordKeywords(conn, recordId));
+							lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), null, null, getRecordKeywords(conn, recordId));
 				rec.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					PersonDB personDB = new PersonDB();
@@ -603,8 +602,7 @@ public class RecordDB {
 					String ORCID = rset.getString(10);
 					Record record = new Record(creator, creationDate, modifier,
 							lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), 
-							getRelationsOtherRecordsThisRecord(conn, recordId), getRelationsThisRecordOtherRecords(conn, recordId),
-							getRecordKeywords(conn, recordId));
+							null, null, getRecordKeywords(conn, recordId));
 					record.setMARC21Record(mARC21Record);
 					record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 					retVal.add(record);
@@ -662,8 +660,7 @@ public class RecordDB {
 				String ORCID = rset.getString(10);
 				Record record = new Record(creator, creationDate, modifier,
 						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), 
-						getRelationsOtherRecordsThisRecord(conn, recordId), getRelationsThisRecordOtherRecords(conn, recordId),
-						getRecordKeywords(conn, recordId));
+						null, null, getRecordKeywords(conn, recordId));
 				record.setMARC21Record(mARC21Record);
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				retVal.add(record);

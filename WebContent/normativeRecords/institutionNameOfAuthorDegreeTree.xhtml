@@ -35,7 +35,7 @@
 				<h:graphicImage 
 					rendered="#{node.tree_state eq 'partial'}"
 					value="/resources/img/cp16.jpg" />
-				<h:outputText value="#{node}"/>
+				<h:outputText value="#{node.getLocalizedString(searchDissertationsManagedBean.language)}"/>
 			</rich:treeNode>
 			
 			<rich:treeNode 
@@ -54,7 +54,7 @@
 				<h:graphicImage 
 					rendered="#{node.tree_state eq 'partial'}"
 					value="/resources/img/cp16.jpg" />
-				<h:outputText value="#{node}"/>
+				<h:outputText value="#{node.getLocalizedString(searchDissertationsManagedBean.language)}"/>
 			</rich:treeNode>
         </rich:tree>
 	</h:panelGrid>

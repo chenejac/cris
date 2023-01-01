@@ -87,24 +87,28 @@ public class OrganizationUnitDTO extends InstitutionDTO {
 	 */
 	@Override
 	public String toString() {
-		if((notLoaded) && (locale.getLanguage().equals("sr")))
+		return getLocalizedString(this.locale.getLanguage());
+	}
+
+	public String getLocalizedString(String language) {
+		if((notLoaded) && (language.equals("sr")))
 			return stringRepresentation;
 		else {
 			if(notLoaded)
 				record.loadFromDatabase();
 			StringBuffer retVal = new StringBuffer();
-			String someName = getSomeName();
+			String someName = getSomeName(language);
 			if(someName != null)
-				retVal.append(getSomeName());
-			
+				retVal.append(someName);
+
 //			if (name.getContent() == null){
 //				if(nameTranslations.size()>0)
 //					retVal.append("" + nameTranslations.get(0).getContent() + "(in " + new FacesMessages("messages.messages-records", new Locale("eng")).getMessageFromResourceBundle("records.language."+ name.getLanguage())+ ")");
 //			} else
 //				retVal.append("" + name.getContent());
-			
-			if((superOrganizationUnit != null) && (superOrganizationUnit.getControlNumber()!=null)) 
-				retVal.append(", " + superOrganizationUnit.toString());
+
+			if((superOrganizationUnit != null) && (superOrganizationUnit.getControlNumber()!=null))
+				retVal.append(", " + superOrganizationUnit.getLocalizedString(language));
 			return retVal.toString();
 		}
 	}

@@ -67,8 +67,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 	
 	public boolean populateAll = true;
 	protected List<TreeNodeDTO<InstitutionDTO>> root = null;
-	protected List<InstitutionDTO> allInstitutions = null;
-	protected List<OrganizationUnitDTO> allOrganizations = null;
+	protected static List<InstitutionDTO> allInstitutions = null;
+	protected static List<OrganizationUnitDTO> allOrganizations = null;
 	protected List<TreeNodeDTO<InstitutionDTO>> allInstitutionsAndOrganizations = null;
 	
 	// Advance query
@@ -139,8 +139,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		searchQueryError = null;
 		records =null;
 		root= null;
-		allOrganizations=null;
-		allInstitutions=null;
+//		allOrganizations=null;
+//		allInstitutions=null;
 		allInstitutionsAndOrganizations=null;
 		populateAll = true;
 		populateAll();
@@ -346,8 +346,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		setConferenceManageBeanToPick();
 
 		root= null;
-		allOrganizations=null;
-		allInstitutions=null;
+//		allOrganizations=null;
+//		allInstitutions=null;
 		allInstitutionsAndOrganizations=null;
 		populateAll = true;
 		populateAll();
@@ -366,8 +366,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		setConferenceManageBeanToPick();
 
 		root= null;
-		allOrganizations=null;
-		allInstitutions=null;
+//		allOrganizations=null;
+//		allInstitutions=null;
 		allInstitutionsAndOrganizations=null;
 		populateAll = true;
 		populateAll();
@@ -390,8 +390,8 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 			setAuthorManageBeanToPick();
 			
 			root = null;
-			allInstitutions=null;
-			allOrganizations = null;
+//			allInstitutions=null;
+//			allOrganizations = null;
 			allInstitutionsAndOrganizations=null;
 
 			populateAll();
@@ -895,10 +895,6 @@ public class SearchManagedBean extends CRUDManagedBean implements IPickAuthorMan
 		else if(inputQueryType.equalsIgnoreCase(searchQueryTypeString[8]))
 		{	//jurnal
 			setJournalManageBeanToPick();
-			
-		}	
-		else
-		{
 			
 		}
 	}

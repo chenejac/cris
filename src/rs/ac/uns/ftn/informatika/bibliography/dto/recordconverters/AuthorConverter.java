@@ -376,18 +376,18 @@ public class AuthorConverter extends ANormativeRecordConverter {
 			}
 		}
 		
-		try{
-			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
-			RecordDAO recordDAO = new RecordDAO(new RecordDB());
-			for (RecordRecord recordRecord : recordRecords) {
-				if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("authorJobAd") && (recordRecord.getCfClassId().equalsIgnoreCase("applied to"))){
-					JobAdDTO jobAd = (JobAdDTO)recordDAO.getDTO(recordRecord.getRecordId());
-					if(jobAd != null)
-						retVal.getJobApplications().add(jobAd);
-				}
-			}	
-		}catch (Exception e) {
-		}
+//		try{
+//			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
+//			RecordDAO recordDAO = new RecordDAO(new RecordDB());
+//			for (RecordRecord recordRecord : recordRecords) {
+//				if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("authorJobAd") && (recordRecord.getCfClassId().equalsIgnoreCase("applied to"))){
+//					JobAdDTO jobAd = (JobAdDTO)recordDAO.getDTO(recordRecord.getRecordId());
+//					if(jobAd != null)
+//						retVal.getJobApplications().add(jobAd);
+//				}
+//			}
+//		}catch (Exception e) {
+//		}
 //		retVal.setClassifications(rec.getRecordClasses());
 		Person person = (Person)rec;
 		retVal.setJmbg(person.getJmbg());

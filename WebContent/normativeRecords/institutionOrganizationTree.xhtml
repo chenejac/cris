@@ -29,7 +29,7 @@
 				expanded="#{institutionNode.expanded}"
 				>
 					<h:graphicImage value="/resources/img/ce16.jpg"/>
-					<h:outputText value="#{institutionNode}"/>
+					<h:outputText value="#{institutionNode.getLocalizedString(searchManagedBean.language)}"/>
 				</rich:treeNode>
 				
 				<rich:treeNode 
@@ -40,7 +40,7 @@
 				expanded="#{institutionNode.expanded}"
 				>
 					<h:graphicImage value="/resources/img/cf16.jpg" />
-					<h:outputText value="#{institutionNode}"/>
+					<h:outputText value="#{institutionNode.getLocalizedString(searchManagedBean.language)}"/>
 				</rich:treeNode>
 				
 				<rich:treeNode 
@@ -51,7 +51,7 @@
 				expanded="#{institutionNode.expanded}"
 				>
 					<h:graphicImage value="/resources/img/cp16.jpg" />
-					<h:outputText value="#{institutionNode}"/>
+					<h:outputText value="#{institutionNode.getLocalizedString(searchManagedBean.language)}"/>
 				</rich:treeNode>
         </rich:tree>
 	</h:panelGrid>

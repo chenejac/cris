@@ -110,7 +110,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 	
 	public boolean populateAll = true;
 	protected List<TreeNodeDTO<Object>> root = null;
-	protected List<InstitutionDTO> allInstitutions = null;
+	protected static List<InstitutionDTO> allInstitutions = null;
 	protected List<TreeNodeDTO<Object>> allInstitutionsAndDegrees = null;
 	
 	// Advance query
@@ -1761,7 +1761,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		init = false;
 		recommendedRecords = null;
 		loadRecommendedRecords();
-		allInstitutions = null;
+//		allInstitutions = null;
 		return "searchDissertationsPage";
 	}
 
@@ -1775,7 +1775,7 @@ public class SearchDissertationsManagedBean extends CRUDManagedBean implements I
 		init = false;
 		recommendedRecords = null;
 		loadRecommendedRecords();
-		allInstitutions = null;
+//		allInstitutions = null;
 		return "searchDissertationsPage";
 	}
 

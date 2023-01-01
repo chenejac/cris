@@ -38,8 +38,8 @@ public class Person extends Record {
 	public Person(RecordDTO dto) {
 		this.mARC21Record = dto.getRecord().getMARC21Record();
 		this.recordClasses = dto.getRecord().getRecordClasses();
-		this.relationsOtherRecordsThisRecord = dto.getRecord().getRelationsOtherRecordsThisRecord();
-		this.relationsThisRecordOtherRecords = dto.getRecord().getRelationsThisRecordOtherRecords();
+		this.relationsOtherRecordsThisRecord = dto.getRecord().relationsOtherRecordsThisRecord;
+		this.relationsThisRecordOtherRecords = dto.getRecord().relationsThisRecordOtherRecords;
 		this.recordKeywords = dto.getRecord().getRecordKeywords();
 		this.files = dto.getRecord().getFiles();
 		this.deletedFiles = dto.getRecord().getDeletedFiles();
@@ -115,8 +115,8 @@ public class Person extends Record {
 		this.type = type;
 		this.mARC21Record = dto.getRecord().getMARC21Record();
 		this.recordClasses = dto.getRecord().getRecordClasses();
-		this.relationsOtherRecordsThisRecord = dto.getRecord().getRelationsOtherRecordsThisRecord();
-		this.relationsThisRecordOtherRecords = dto.getRecord().getRelationsThisRecordOtherRecords();
+		this.relationsOtherRecordsThisRecord = dto.getRecord().relationsOtherRecordsThisRecord;
+		this.relationsThisRecordOtherRecords = dto.getRecord().relationsThisRecordOtherRecords;
 		this.recordKeywords = dto.getRecord().getRecordKeywords();
 		this.files = dto.getRecord().getFiles();
 		this.deletedFiles = dto.getRecord().getDeletedFiles();
@@ -150,8 +150,8 @@ public class Person extends Record {
 		this.type = type;
 		this.mARC21Record = dto.getRecord().getMARC21Record();
 		this.recordClasses = dto.getRecord().getRecordClasses();
-		this.relationsOtherRecordsThisRecord = dto.getRecord().getRelationsOtherRecordsThisRecord();
-		this.relationsThisRecordOtherRecords = dto.getRecord().getRelationsThisRecordOtherRecords();
+		this.relationsOtherRecordsThisRecord = dto.getRecord().relationsOtherRecordsThisRecord;
+		this.relationsThisRecordOtherRecords = dto.getRecord().relationsThisRecordOtherRecords;
 		this.recordKeywords = dto.getRecord().getRecordKeywords();
 		this.files = dto.getRecord().getFiles();
 		this.deletedFiles = dto.getRecord().getDeletedFiles();
@@ -261,8 +261,8 @@ public class Person extends Record {
 		this.setMARC21Record(rec.getMARC21Record());
 		this.setRecordClasses(rec.getRecordClasses());
 		this.setRecordKeywords(rec.getRecordKeywords());
-		this.setRelationsOtherRecordsThisRecord(rec.getRelationsOtherRecordsThisRecord());
-		this.setRelationsThisRecordOtherRecords(rec.getRelationsThisRecordOtherRecords());
+		this.setRelationsOtherRecordsThisRecord(rec.relationsOtherRecordsThisRecord);
+		this.setRelationsThisRecordOtherRecords(rec.relationsThisRecordOtherRecords);
 		this.setType(rec.getType());
 		this.setFiles(rec.getFiles());
 		this.setDeletedFiles(rec.getDeletedFiles());

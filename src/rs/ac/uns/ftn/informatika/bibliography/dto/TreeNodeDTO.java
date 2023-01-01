@@ -94,6 +94,18 @@ public class TreeNodeDTO <TreeNodeObjectType> implements Serializable, TreeNode{
 	{
 		return this.element.toString();
 	}
+
+	public String getLocalizedString(String language)
+	{
+		if (type.equals("OrganizationUnitDTO")) {
+			return ((OrganizationUnitDTO) this.element).getLocalizedString(language);
+		}else if (type.equals("InstitutionDTO")) {
+			return ((InstitutionDTO) this.element).getLocalizedString(language);
+		}else if (type.equals("ClassDTO")) {
+			return ((ClassDTO) this.element).getLocalizedString(language);
+		} else
+			return this.element.toString();
+	}
 	
 	public boolean equals(Object o)
 	{

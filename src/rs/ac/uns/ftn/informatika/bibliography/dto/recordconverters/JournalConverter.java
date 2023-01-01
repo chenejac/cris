@@ -260,18 +260,18 @@ public class JournalConverter extends ABibliographicRecordConverter {
 		} catch (Exception e) {
 		}
 		
-		try{
-			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
-			RecordDAO recordDAO = new RecordDAO(new RecordDB());
-			for (RecordRecord recordRecord : recordRecords) {
-				if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("publicationJobAd") && (recordRecord.getCfClassId().equalsIgnoreCase("applied to"))){
-					JobAdDTO jobAd = (JobAdDTO)recordDAO.getDTO(recordRecord.getRecordId());
-					if(jobAd != null)
-						retVal.getJobAds().add(jobAd);
-				}
-			}	
-		}catch (Exception e) {
-		}
+//		try{
+//			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
+//			RecordDAO recordDAO = new RecordDAO(new RecordDB());
+//			for (RecordRecord recordRecord : recordRecords) {
+//				if(recordRecord.getCfClassSchemeId().equalsIgnoreCase("publicationJobAd") && (recordRecord.getCfClassId().equalsIgnoreCase("applied to"))){
+//					JobAdDTO jobAd = (JobAdDTO)recordDAO.getDTO(recordRecord.getRecordId());
+//					if(jobAd != null)
+//						retVal.getJobAds().add(jobAd);
+//				}
+//			}
+//		}catch (Exception e) {
+//		}
 		
 		return true;
 	}

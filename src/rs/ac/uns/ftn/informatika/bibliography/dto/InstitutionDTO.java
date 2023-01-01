@@ -60,8 +60,7 @@ public class InstitutionDTO extends RecordDTO {
 	 * @param place
 	 * @param superInstitution
 	 * @param acro
-	 * @param researchActivity
-	 * @param researchActivityTranslations
+	 * @param researchAreas
 	 * @param uri
 	 * @param enabledElement
 	 */
@@ -114,20 +113,24 @@ public class InstitutionDTO extends RecordDTO {
 	 * @return original name or first translated name (if original name is not defined)
 	 */
 	public String getSomeName(){
-		if((notLoaded) && (locale.getLanguage().equals("sr"))){
+		return getSomeName(this.locale.getLanguage());
+	}
+
+	public String getSomeName(String language){
+		if((notLoaded) && (language.equals("sr"))){
 			return someName;
 		}else {
 			if(notLoaded && controlNumber !=null){
 				record.loadFromDatabase();
 			}
 			String retVal = "";
-			if (name.getContent() != null && (name.getLanguage() == null || locale.getLanguage().equals(name.getLanguage().substring(0,2)))){
+			if (name.getContent() != null && (name.getLanguage() == null || language.equals(name.getLanguage().substring(0,2)))){
 				retVal = name.getContent();
 			}
 			for (MultilingualContentDTO nameTranslation : nameTranslations) {
-				if((retVal == null) || (locale.getLanguage().equals(nameTranslation.getLanguage().substring(0,2))))
-					retVal = nameTranslation.getContent();	
-			}	
+				if((retVal == null) || (language.equals(nameTranslation.getLanguage().substring(0,2))))
+					retVal = nameTranslation.getContent();
+			}
 			if(retVal == null && name.getContent() != null){
 				retVal = name.getContent();
 			}
@@ -358,17 +361,22 @@ public class InstitutionDTO extends RecordDTO {
 	 */
 	@Override
 	public String toString() {
-		if((notLoaded) && (locale.getLanguage().equals("sr"))){
+		return getLocalizedString(this.locale.getLanguage());
+	}
+
+
+	public String getLocalizedString(String language) {
+		if((notLoaded) && (language.equals("sr"))){
 			return stringRepresentation;
 		} else {
 			if(notLoaded && controlNumber!=null)
 				record.loadFromDatabase();
 			StringBuffer retVal = new StringBuffer();
-			String someName = getSomeName();
+			String someName = getSomeName(language);
 			if(someName != null)
-				retVal.append(getSomeName());
-			if((superInstitution != null) && (superInstitution.getControlNumber()!=null) && (superInstitution.getSuperInstitution() != null) && (superInstitution.getSuperInstitution().getControlNumber()!=null)) 
-				retVal.append(", " + superInstitution.toString());
+				retVal.append(someName);
+			if((superInstitution != null) && (superInstitution.getControlNumber()!=null) && (superInstitution.getSuperInstitution() != null) && (superInstitution.getSuperInstitution().getControlNumber()!=null))
+				retVal.append(", " + superInstitution.getLocalizedString(language));
 			return retVal.toString();
 		}
 	}

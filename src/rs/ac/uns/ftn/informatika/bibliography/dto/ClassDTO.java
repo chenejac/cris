@@ -130,14 +130,18 @@ public class ClassDTO implements Serializable {
 	 * @return original term or first translated term (if original term is not defined)
 	 */
 	public String getSomeTerm(){
-		
-		
+		return getSomeTerm(this.locale.getLanguage());
+	}
+
+	public String getSomeTerm(String language){
+
+
 		String retVal = null;
 		if(term.getLanguage() != null) {
-			if (term.getContent() != null && locale.getLanguage().equals(term.getLanguage().substring(0,2)))
+			if (term.getContent() != null && language.equals(term.getLanguage().substring(0,2)))
 				retVal = term.getContent();
 			for (MultilingualContentDTO termTranslation : termTranslations) {
-				if((retVal == null) && (locale.getLanguage().equals(term.getLanguage().substring(0,2))) && term.getContent()!=null)
+				if((retVal == null) && (language.equals(term.getLanguage().substring(0,2))) && term.getContent()!=null)
 					retVal = termTranslation.getContent();
 			}
 		}
@@ -148,13 +152,13 @@ public class ClassDTO implements Serializable {
 			else
 				for (MultilingualContentDTO termTranslation : termTranslations) {
 					if(termTranslation.getContent()!=null){
-						retVal = termTranslation.getContent();	
+						retVal = termTranslation.getContent();
 						break;
 					}
 				}
 		}
 //		System.out.println(retVal);
-		
+
 		return retVal!=null?retVal:"";
 	}
 
@@ -277,7 +281,11 @@ public class ClassDTO implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return getSomeTerm();
+		return getSomeTerm(this.locale.getLanguage());
+	}
+
+	public String getLocalizedString(String language) {
+		return getSomeTerm(language);
 	}
 
 	public String getClassComparableId() {

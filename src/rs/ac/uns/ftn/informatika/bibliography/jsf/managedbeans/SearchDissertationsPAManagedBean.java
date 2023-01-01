@@ -445,7 +445,7 @@ public class SearchDissertationsPAManagedBean extends SearchDissertationsManaged
 	public String englishLanguage() {
 		setLocale("en");
 		init = false;
-		allInstitutions = null;
+//		allInstitutions = null;
 		return "searchDissertationsPAPage";
 	}
 
@@ -457,7 +457,7 @@ public class SearchDissertationsPAManagedBean extends SearchDissertationsManaged
 	public String serbianLanguage() {
 		setLocale("sr");
 		init = false;
-		allInstitutions = null;
+//		allInstitutions = null;
 		return "searchDissertationsPAPage";
 	}
 

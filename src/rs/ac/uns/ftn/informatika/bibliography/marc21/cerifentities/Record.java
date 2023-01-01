@@ -63,7 +63,7 @@ public class Record implements Serializable{
 		files = new ArrayList<FileDTO>();
 		deletedFiles = new ArrayList<FileDTO>();
 	}
-	
+
 	/**
 	 * @param dto
 	 * 
@@ -72,8 +72,8 @@ public class Record implements Serializable{
 		super();
 		this.mARC21Record = dto.getRecord().getMARC21Record();
 		this.recordClasses = dto.getRecord().getRecordClasses();
-		this.relationsOtherRecordsThisRecord = dto.getRecord().getRelationsOtherRecordsThisRecord();
-		this.relationsThisRecordOtherRecords = dto.getRecord().getRelationsThisRecordOtherRecords();
+		this.relationsOtherRecordsThisRecord = dto.getRecord().relationsOtherRecordsThisRecord;
+		this.relationsThisRecordOtherRecords = dto.getRecord().relationsThisRecordOtherRecords;
 		this.recordKeywords = dto.getRecord().getRecordKeywords();
 		this.files = dto.getRecord().getFiles();
 		this.deletedFiles = dto.getRecord().getDeletedFiles();
@@ -147,8 +147,8 @@ public class Record implements Serializable{
 		this.type = type;
 		this.mARC21Record = dto.getRecord().getMARC21Record();
 		this.recordClasses = dto.getRecord().getRecordClasses();
-		this.relationsOtherRecordsThisRecord = dto.getRecord().getRelationsOtherRecordsThisRecord();
-		this.relationsThisRecordOtherRecords = dto.getRecord().getRelationsThisRecordOtherRecords();
+		this.relationsOtherRecordsThisRecord = dto.getRecord().relationsOtherRecordsThisRecord;
+		this.relationsThisRecordOtherRecords = dto.getRecord().relationsThisRecordOtherRecords;
 		this.recordKeywords = dto.getRecord().getRecordKeywords();
 		this.files = dto.getRecord().getFiles();
 		this.deletedFiles = dto.getRecord().getDeletedFiles();
@@ -196,8 +196,8 @@ public class Record implements Serializable{
 		this.setMARC21Record(rec.getMARC21Record());
 		this.setRecordClasses(rec.getRecordClasses());
 		this.setRecordKeywords(rec.getRecordKeywords());
-		this.setRelationsOtherRecordsThisRecord(rec.getRelationsOtherRecordsThisRecord());
-		this.setRelationsThisRecordOtherRecords(rec.getRelationsThisRecordOtherRecords());
+		this.setRelationsOtherRecordsThisRecord(rec.relationsOtherRecordsThisRecord);
+		this.setRelationsThisRecordOtherRecords(rec.relationsThisRecordOtherRecords);
 		this.modifier = rec.modifier;
 		this.creator = rec.creator;
 		this.creationDate = rec.creationDate;
@@ -424,6 +424,10 @@ public class Record implements Serializable{
 	 * @return the relationsThisRecordOtherRecords
 	 */
 	public List<RecordRecord> getRelationsThisRecordOtherRecords() {
+		if (relationsThisRecordOtherRecords == null) {
+			RecordDAO recordDAO = new RecordDAO(new RecordDB());
+			relationsThisRecordOtherRecords = recordDAO.getRelationsThisRecordOtherRecords(this.getControlNumber());
+		}
 		return relationsThisRecordOtherRecords;
 	}
 
@@ -454,6 +458,10 @@ public class Record implements Serializable{
 	 * @return the relationsOtherRecordsThisRecord
 	 */
 	public List<RecordRecord> getRelationsOtherRecordsThisRecord() {
+		if (relationsOtherRecordsThisRecord == null) {
+			RecordDAO recordDAO = new RecordDAO(new RecordDB());
+			relationsOtherRecordsThisRecord = recordDAO.getRelationsOtherRecordsThisRecord(this.getControlNumber());
+		}
 		return relationsOtherRecordsThisRecord;
 	}
 
@@ -517,8 +525,8 @@ public class Record implements Serializable{
 		retVal.append("MARC21 Record: \n" + mARC21Record.getPrintableString());
 		retVal.append("\nRecord Keywords: \n" + Arrays.toString(recordKeywords.toArray()));
 		retVal.append("\nRecord Classes: \n" + Arrays.toString(recordClasses.toArray()));
-		retVal.append("\nRelations this record other records: \n" + Arrays.toString(relationsThisRecordOtherRecords.toArray()));
-		retVal.append("\nRelations other records this record: \n" + Arrays.toString(relationsOtherRecordsThisRecord.toArray()));
+		retVal.append("\nRelations this record other records: \n" +((relationsThisRecordOtherRecords!=null)?Arrays.toString(relationsThisRecordOtherRecords.toArray()):"not loaded"));
+		retVal.append("\nRelations other records this record: \n" + ((relationsOtherRecordsThisRecord!=null)?Arrays.toString(relationsOtherRecordsThisRecord.toArray()):"not loaded"));
 		
 		if(dto != null)
 			retVal.append("\nDTO: \n" + dto);
