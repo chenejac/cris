@@ -46,7 +46,7 @@ import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
  * @author Dragan Ivanovic chenejac@uns.ac.rs
  */
 public class Retriever {
-	
+
 
 	/**
 	 * Executes a select query.
@@ -57,7 +57,7 @@ public class Retriever {
 	 *            hitCollector for retrieving
 	 * @return An array of records; an empty array if an error occurred
 	 */
-	public static List<Record> select(Query query, HitCollector hitCollector) {
+	public static synchronized List<Record> select(Query query, HitCollector hitCollector) {
 		try {
 			BooleanQuery.setMaxClauseCount(20000);// zbog heap-a
 			Searcher searcher = new IndexSearcher(Retriever.getIndexPath());
@@ -378,7 +378,7 @@ public class Retriever {
 		}
 	}
 	
-	public static Document selectDocument(String controlNumber)  {
+	public static synchronized Document selectDocument(String controlNumber)  {
 	    try {
 		      Document doc=null;
 		      BooleanQuery.setMaxClauseCount(20000);//zbog heap-a
