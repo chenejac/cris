@@ -19,7 +19,7 @@ public class ENaukaDIMXMLSerializer extends AbstractDIMCRISXMLSerializer {
 
 
 	public ENaukaDIMXMLSerializer(){
-		super(Arrays.asList("en"), "BEOPEN");
+		super(Arrays.asList("en"), "eNauka");
 	}
 
 	protected List<XMLTag> getIdentifiers(String mdschema, String element, RecordDTO record) {
