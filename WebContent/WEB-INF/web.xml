@@ -438,6 +438,25 @@
     </init-param>
     <load-on-startup>23</load-on-startup>
 </servlet>
+<servlet>
+    <description>This servlet processes OAI verbs.
+
+        The initialization parameter names for this servlet are the
+        "servlet path" that will be received by this servlet (after the
+        filename extension is removed).  The corresponding value is the
+        name of the action class that will be used to process this request.</description>
+    <servlet-name>OAIHandlerENaukaILFE</servlet-name>
+    <servlet-class>ORG.oclc.oai.server.OAIHandler</servlet-class>
+    <init-param>
+        <description>
+            The location of the oaicat.properties file containing
+            datapairs used to initialize the OAI repository software.
+        </description>
+        <param-name>properties</param-name>
+        <param-value>E:/cris/apache-tomcat-8.0.28/webapps/bibliography/WEB-INF/oaicatENaukaILFE.properties</param-value>
+    </init-param>
+    <load-on-startup>24</load-on-startup>
+</servlet>
  <servlet>
 		<description>
 		</description>
@@ -524,9 +543,13 @@
   <servlet-name>OAIHandlerBEOPEN</servlet-name>
   <url-pattern>/OAIHandlerBEOPEN</url-pattern>
  </servlet-mapping>
+<servlet-mapping>
+    <servlet-name>OAIHandlerENauka</servlet-name>
+    <url-pattern>/OAIHandlerENauka</url-pattern>
+</servlet-mapping>
     <servlet-mapping>
-        <servlet-name>OAIHandlerENauka</servlet-name>
-        <url-pattern>/OAIHandlerENauka</url-pattern>
+        <servlet-name>OAIHandlerENaukaILFE</servlet-name>
+        <url-pattern>/OAIHandlerENaukaILFE</url-pattern>
     </servlet-mapping>
  <servlet-mapping>
   <servlet-name>Faces Servlet</servlet-name>
