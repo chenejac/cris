@@ -29,7 +29,6 @@ public class ENaukaMARC21JDBC2dim extends CRISUNSCrosswalk {
      */
     public ENaukaMARC21JDBC2dim(Properties properties) {
     	super(properties, "http://www.dspace.org/xmlns/dspace/dim http://www.dspace.org/schema/dim.xsd");
-        System.out.println(properties.toString());
         serializer = new ENaukaDIMXMLSerializer();
     }   
 }
