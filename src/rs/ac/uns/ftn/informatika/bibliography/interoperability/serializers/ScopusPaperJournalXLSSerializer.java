@@ -255,6 +255,18 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 				}
 
 				cellContent = null;
+				cell = row.getCell(7);
+				if(cell == null)
+					cellContent = null;
+				else {
+					cellContent = fmt.formatCellValue(cell);
+				}
+				String articleNumberValue = cellContent;
+				if(articleNumberValue != null){
+					paperDTO.setNumber(articleNumberValue);
+				}
+
+				cellContent = null;
 				cell = row.getCell(8);
 				if(cell == null)
 					cellContent = null;

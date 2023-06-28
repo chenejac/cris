@@ -86,7 +86,7 @@ public class InstitutionManagedBean extends CRUDManagedBean implements IPickRese
 			for (InstitutionDTO ins : institutionList){
 	            if((ins.getSuperInstitution() != null) && (("(BISIS)5920".equals(ins.getSuperInstitution().getControlNumber())) || (("(BISIS)94894".equals(ins.getSuperInstitution().getControlNumber()))))){
 	            	unsInstitutionsList.add(ins);
-	            	if(("(BISIS)5920".equals(ins.getSuperInstitution().getControlNumber())))
+	            	if(("(BISIS)5920".equals(ins.getSuperInstitution().getControlNumber())) || (("(BISIS)94894".equals(ins.getSuperInstitution().getControlNumber()))) )
 	            		allList.add(new SelectItem(ins, ins.toString()));
 	            	if("(BISIS)5928".equals(ins.getControlNumber()))
 	            		applicationList.add(new SelectItem(ins, ins.toString()));
