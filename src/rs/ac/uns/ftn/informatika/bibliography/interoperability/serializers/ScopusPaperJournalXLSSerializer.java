@@ -263,7 +263,7 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 				}
 				String articleNumberValue = cellContent;
 				if(articleNumberValue != null){
-					paperDTO.setNumber(articleNumberValue);
+					paperDTO.setStartPage(articleNumberValue);
 				}
 
 				cellContent = null;
@@ -365,68 +365,6 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 		}
 		return retVal;
 	}
-	
-	
-
-	/*private String scopusID;
-
-	*//**
-	 * @return the scopusID
-	 *//*
-	public String getScopusID() {
-		return scopusID;
-	}
-
-	*//**
-	 * @param scopusID the scopusID to set
-	 *//*
-	public void setScopusID(String scopusID) {
-		if (scopusID == null)
-			reimport = false;
-		else if(this.scopusID == null)
-			reimport = true;
-		else if (!scopusID.equalsIgnoreCase(this.scopusID))
-			reimport = true;
-		else
-			reimport = false;
-		this.scopusID = scopusID;
-	}
-	
-	private Integer startYear;
-	
-	
-
-	*//**
-	 * @return the startYear
-	 *//*
-	public Integer getStartYear() {
-		return startYear;
-	}
-
-	*//**
-	 * @param startYear the startYear to set
-	 *//*
-	public void setStartYear(Integer startYear) {
-		this.startYear = startYear;
-	}
-
-	private Integer endYear;
-	
-	
-	
-	*//**
-	 * @return the endYear
-	 *//*
-	public Integer getEndYear() {
-		return endYear;
-	}
-
-	*//**
-	 * @param endYear the endYear to set
-	 *//*
-	public void setEndYear(Integer endYear) {
-		this.endYear = endYear;
-	}*/
 	
 	private boolean reimport = false;
 	
