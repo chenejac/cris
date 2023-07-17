@@ -102,12 +102,12 @@ public class ImportAuthorsUPAFarmaceutski {
 				}
 
 				if(row.getCell(5) != null){
-					String value = row.getCell(5).getRawValue();
+					String value = row.getCell(5).getRichStringCellValue().getString();
 					dto.setORCID(value);
 				}
 
 				if(row.getCell(3) != null){
-					String value = row.getCell(3).getRawValue();
+					String value = row.getCell(3).getRichStringCellValue().getString();
 					dto.setEmail(value);
 				}
 
@@ -230,7 +230,7 @@ public class ImportAuthorsUPAFarmaceutski {
 				else {
 					System.out.println("Neuspelo dodavanje");
 				}
-				System.out.println(person);
+				System.out.println(person.getORCID());
 			}	
 			System.out.println(k);
 		}catch (IOException e){
