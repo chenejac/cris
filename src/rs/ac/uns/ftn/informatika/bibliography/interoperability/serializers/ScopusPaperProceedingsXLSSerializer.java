@@ -58,7 +58,6 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 						loadPaper(row, importRecords);
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
 				log.fatal(ex);
 				log.fatal("Cannot load papers");
 			}
@@ -80,18 +79,18 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 			String authorsList = cellContent;
 
 			cellContent = null;
-			if(cellName == null)
+			if(cellIds == null)
 				cellIds = null;
 			else {
 				cellContent = fmt.formatCellValue(cellIds);
 			}
 
 			String authorsIdsList = cellContent;
-			if(((authorsList == null) || (authorsList.equals("Authors"))) || (authorsIdsList == null))
+			if(((authorsList == null) || (authorsList.equals("Authors"))))
 				return null;
 			else {
 				String[] authorsListString = authorsList.split("\\.,");
-				String[] authorsIdsString = authorsIdsList.split(";");
+				String[] authorsIdsString = (authorsIdsList == null)?new String[0]:authorsIdsList.split(";");
 				for (int i=0; i < authorsListString.length; i++) {
 					String author = authorsListString[i];
 					String[] firstNameLastName = author.split(",");
@@ -100,13 +99,14 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 					authorDTO.getName().setFirstname((firstNameLastName[1].endsWith("."))?firstNameLastName[1]:firstNameLastName[1]+".");
 					authorDTO.getName().setLastname(firstNameLastName[0]);
 					authorDTO.setScopusID((authorsIdsString.length > i)?authorsIdsString[i]:null);
-					authorDTO.setControlNumber(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname());
+					authorDTO.setControlNumber((authorDTO.getScopusID()!=null)?authorDTO.getScopusID():(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname()));
 					if(! authors.contains((RecordDTO)authorDTO))
 						authors.add((RecordDTO)authorDTO);
 				}
 			}
 		} catch (Throwable ex) {
-			ex.printStackTrace();
+			log.fatal(cellName);
+			log.fatal(cellIds);
 			log.fatal(ex);
 			log.fatal("Cannot load authors");
 			return null;
@@ -227,6 +227,8 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 
 				if(conferenceYearValue != null){
 					conferenceDTO.setYear(Integer.valueOf(conferenceYearValue));
+				} else if (yearValue != null) {
+					proceedingsDTO.setPublicationYear(yearValue);
 				}
 
 				if(conferenceDateValue != null){
@@ -264,6 +266,7 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 			}
 			
 		} catch (Exception ex) {
+			log.fatal(cellTitle);
 			log.fatal(ex);
 			log.fatal("Cannot load proceedings");
 		}
@@ -477,7 +480,6 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 				}			
 			}	
 		} catch (Throwable ex) {
-			ex.printStackTrace();
 			log.fatal(ex);
 			log.fatal("Cannot load paper");
 		}

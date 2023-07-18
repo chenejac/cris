@@ -51,7 +51,6 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 						loadPaper(row, importRecords);
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
 				log.fatal(ex);
 				log.fatal("Cannot load papers");
 			}
@@ -73,18 +72,18 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 			String authorsList = cellContent;
 
 			cellContent = null;
-			if(cellName == null)
+			if(cellIds == null)
 				cellIds = null;
 			else {
 				cellContent = fmt.formatCellValue(cellIds);
 			}
 
 			String authorsIdsList = cellContent;
-			if(((authorsList == null) || (authorsList.equals("Authors"))) || (authorsIdsList == null))
+			if(((authorsList == null) || (authorsList.equals("Authors"))))
 				return null;
 			else {
 				String[] authorsListString = authorsList.split("\\.,");
-				String[] authorsIdsString = authorsIdsList.split(";");
+				String[] authorsIdsString = (authorsIdsList==null)?new String[0]:authorsIdsList.split(";");
 				for (int i=0; i < authorsListString.length; i++) {
 					String author = authorsListString[i];
 					String[] firstNameLastName = author.split(",");
@@ -93,12 +92,14 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 					authorDTO.getName().setFirstname((firstNameLastName[1].endsWith("."))?firstNameLastName[1]:firstNameLastName[1]+".");
 					authorDTO.getName().setLastname(firstNameLastName[0]);
 					authorDTO.setScopusID((authorsIdsString.length > i)?authorsIdsString[i]:null);
-					authorDTO.setControlNumber(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname());
+					authorDTO.setControlNumber((authorDTO.getScopusID()!=null)?authorDTO.getScopusID():(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname()));
 					if(! authors.contains((RecordDTO)authorDTO))
 						authors.add((RecordDTO)authorDTO);
 				}
 			}
 		} catch (Throwable ex) {
+			log.fatal(cellName);
+			log.fatal(cellIds);
 			log.fatal(ex);
 			log.fatal("Cannot load authors");
 			return null;
@@ -150,7 +151,8 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 				journal = journalDTO;
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.fatal(cellName);
+			log.fatal(cellISSN);
 			log.fatal(ex);
 			log.fatal("Cannot load journals");
 		}
