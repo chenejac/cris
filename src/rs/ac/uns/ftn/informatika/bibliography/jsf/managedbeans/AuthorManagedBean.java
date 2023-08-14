@@ -288,9 +288,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 				else
 					INCN = selectedOrganizationUnit.getControlNumber();
 				if (OUCN != null) {
-					bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2022-01-01 00:00:00"), BooleanClause.Occur.MUST);
+					bq.add(personDAO.getInstitutionRecordsQuery(OUCN, null), BooleanClause.Occur.MUST);
 				} else if (INCN != null) {
-					bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2022-01-01 00:00:00"), BooleanClause.Occur.MUST);
+					bq.add(personDAO.getInstitutionRecordsQuery(INCN, null), BooleanClause.Occur.MUST);
 				}
 			}
 			if ((firstname != null) && (!"".equals(firstname))){
@@ -357,9 +357,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 			else
 				INCN = selectedOrganizationUnit.getControlNumber();
 			if (OUCN != null) {
-				bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2022-01-01 00:00:00"), BooleanClause.Occur.MUST);
+				bq.add(personDAO.getInstitutionRecordsQuery(OUCN, null), BooleanClause.Occur.MUST);
 			} else if (INCN != null) {
-				bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2022-01-01 00:00:00"), BooleanClause.Occur.MUST);
+				bq.add(personDAO.getInstitutionRecordsQuery(INCN, null), BooleanClause.Occur.MUST);
 			}
 		}
 		if(authorLastname != null)
