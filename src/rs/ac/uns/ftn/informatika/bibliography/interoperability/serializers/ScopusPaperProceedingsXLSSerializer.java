@@ -228,7 +228,9 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 				if(conferenceYearValue != null){
 					conferenceDTO.setYear(Integer.valueOf(conferenceYearValue));
 				} else if (yearValue != null) {
-					proceedingsDTO.setPublicationYear(yearValue);
+					conferenceDTO.setYear(Integer.valueOf(yearValue));
+				} else {
+					conferenceDTO.setYear(2023);
 				}
 
 				if(conferenceDateValue != null){

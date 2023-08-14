@@ -97,8 +97,8 @@ public class AuthorNameDTO implements Serializable {
 		boolean retVal = true;
 		AuthorNameDTO an = (AuthorNameDTO) obj;
 		try {
-			if ((!(an.firstname.equals(this.firstname)))
-					|| (!(an.lastname.equals(this.lastname)))
+			if ((!(an.firstname.trim().equals((this.firstname == null)?"":this.firstname.trim())))
+					|| (!(an.lastname.trim().equals((this.lastname == null)?"":this.lastname.trim())))
 //					|| (!(an.otherName.equals(this.otherName)))
 					) {
 				retVal = false;
