@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -206,7 +207,7 @@ public class ResultsCollector {
 			f.delete();
 		f.createNewFile();
 		
-		List<String> ids = obtainIdsForOrganisation("pmf", "2022-01-01 00:00:00");
+		List<String> ids = obtainIdsForOrganisation("pmf", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00");
 		List<String> toExclude = new ArrayList<String>();
 		toExclude.add("9999");
 		toExclude.add("2879");

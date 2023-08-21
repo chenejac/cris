@@ -2,12 +2,7 @@ package rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -288,9 +283,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 				else
 					INCN = selectedOrganizationUnit.getControlNumber();
 				if (OUCN != null) {
-					bq.add(personDAO.getInstitutionRecordsQuery(OUCN, null), BooleanClause.Occur.MUST);
+					bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00"), BooleanClause.Occur.MUST);
 				} else if (INCN != null) {
-					bq.add(personDAO.getInstitutionRecordsQuery(INCN, null), BooleanClause.Occur.MUST);
+					bq.add(personDAO.getInstitutionRecordsQuery(INCN, "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00"), BooleanClause.Occur.MUST);
 				}
 			}
 			if ((firstname != null) && (!"".equals(firstname))){
@@ -357,9 +352,9 @@ public class AuthorManagedBean extends CRUDManagedBean implements IPickInstituti
 			else
 				INCN = selectedOrganizationUnit.getControlNumber();
 			if (OUCN != null) {
-				bq.add(personDAO.getInstitutionRecordsQuery(OUCN, null), BooleanClause.Occur.MUST);
+				bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00"), BooleanClause.Occur.MUST);
 			} else if (INCN != null) {
-				bq.add(personDAO.getInstitutionRecordsQuery(INCN, null), BooleanClause.Occur.MUST);
+				bq.add(personDAO.getInstitutionRecordsQuery(INCN, "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00"), BooleanClause.Occur.MUST);
 			}
 		}
 		if(authorLastname != null)

@@ -18,10 +18,7 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.GenericComparator;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 @SuppressWarnings("serial")
@@ -359,10 +356,10 @@ public class OrganizationProfileManagedBean extends CRUDManagedBean {
 		else
 			INCN = selectedOrganizationUnit.getControlNumber();
 		if(OUCN != null){
-			bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "2022-01-01 00:00:00"), BooleanClause.Occur.MUST);
+			bq.add(personDAO.getInstitutionRecordsQuery(OUCN, "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00"), BooleanClause.Occur.MUST);
 		}
 		else if(INCN != null){
-			bq.add(personDAO.getInstitutionRecordsQuery(INCN, "2022-01-01 00:00:00"), BooleanClause.Occur.MUST);
+			bq.add(personDAO.getInstitutionRecordsQuery(INCN, "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00"), BooleanClause.Occur.MUST);
 		}
 		bq.add(new TermQuery(new Term("TYPE", Types.AUTHOR)), BooleanClause.Occur.MUST);
 		if(filterFirstname!=null && !filterFirstname.equals("")){

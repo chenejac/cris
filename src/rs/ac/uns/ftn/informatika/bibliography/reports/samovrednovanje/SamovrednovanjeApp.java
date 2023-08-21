@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -477,13 +478,13 @@ public class SamovrednovanjeApp {
 	
 	
 	public static void setIdsForOrganisations(Connection conn1){
-	 idsPMF = obtainIdsForOrganisation("pmf", "2022-01-01 00:00:00",conn1);
+	 idsPMF = obtainIdsForOrganisation("pmf", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00",conn1);
 	 
-	idsDMI = obtainIdsForOrganisation("dmi", "2022-01-01 00:00:00", conn1);
-		idsDF = obtainIdsForOrganisation("df", "2022-01-01 00:00:00", conn1);
-		idsDH = obtainIdsForOrganisation("dh", "2022-01-01 00:00:00", conn1);
-		idsDB = obtainIdsForOrganisation("db", "2022-01-01 00:00:00", conn1);
-		idsDG = obtainIdsForOrganisation("dg", "2022-01-01 00:00:00", conn1);
+	idsDMI = obtainIdsForOrganisation("dmi", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00", conn1);
+		idsDF = obtainIdsForOrganisation("df", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00", conn1);
+		idsDH = obtainIdsForOrganisation("dh", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00", conn1);
+		idsDB = obtainIdsForOrganisation("db", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00", conn1);
+		idsDG = obtainIdsForOrganisation("dg", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00", conn1);
 	}
 	
 	public static void setIdsForOrganisationsNoDate(Connection conn1){
