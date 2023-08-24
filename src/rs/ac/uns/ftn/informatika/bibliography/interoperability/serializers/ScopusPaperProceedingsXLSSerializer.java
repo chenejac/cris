@@ -89,16 +89,20 @@ public class ScopusPaperProceedingsXLSSerializer implements GroupSerializer{
 			if(((authorsList == null) || (authorsList.equals("Authors"))))
 				return null;
 			else {
-				String[] authorsListString = authorsList.split("\\.,");
+				// \(\d{10,11}\);
+				String[] authorsListString = (authorsList.contains(".,")?authorsList.split("\\.,"):authorsList.split(";"));
 				String[] authorsIdsString = (authorsIdsList == null)?new String[0]:authorsIdsList.split(";");
 				for (int i=0; i < authorsListString.length; i++) {
 					String author = authorsListString[i];
 					String[] firstNameLastName = author.split(",");
 					AuthorDTO authorDTO = new AuthorDTO();
 //					authorDTO.setRelatedRecords(new ArrayList<RecordDTO>());
-					authorDTO.getName().setFirstname((firstNameLastName[1].endsWith("."))?firstNameLastName[1]:firstNameLastName[1]+".");
+					if (authorsList.contains(".,"))
+						authorDTO.getName().setFirstname((firstNameLastName[1].endsWith("."))?firstNameLastName[1]:firstNameLastName[1]+".");
+					else
+						authorDTO.getName().setFirstname(firstNameLastName[1]);
 					authorDTO.getName().setLastname(firstNameLastName[0]);
-					authorDTO.setScopusID((authorsIdsString.length > i)?authorsIdsString[i]:null);
+					authorDTO.setScopusID((authorsIdsString.length > i)?authorsIdsString[i].trim():null);
 					authorDTO.setControlNumber((authorDTO.getScopusID()!=null)?authorDTO.getScopusID():(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname()));
 					if(! authors.contains((RecordDTO)authorDTO))
 						authors.add((RecordDTO)authorDTO);
