@@ -28,7 +28,7 @@ public class PaperProceedingsDTO extends PublicationDTO {
 	private MultilingualContentDTO abstracT;
 	private List<MultilingualContentDTO> abstractTranslations;
 //	private String uri = "";
-	private String doi;
+
 
 	public PaperProceedingsDTO() {
 		super();
@@ -480,22 +480,6 @@ public class PaperProceedingsDTO extends PublicationDTO {
 //		this.uri = uri;
 //	}
 	
-	/**
-	 * @return the doi
-	 */
-	public String getDoi() {
-		if(notLoaded){
-			record.loadFromDatabase();
-		}
-		return doi;
-	}
-
-	/**
-	 * @param doi the doi to set
-	 */
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
 
 	/**
 	 * @see java.lang.Object#toString()

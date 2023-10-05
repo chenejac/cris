@@ -28,7 +28,6 @@ public class JournalDTO extends PublicationDTO {
 	private MultilingualContentDTO keywords;
 	private List<MultilingualContentDTO> keywordsTranslations;
 	private String uri;
-	private String doi;
 
 	public JournalDTO() {
 		super();
@@ -346,19 +345,6 @@ public class JournalDTO extends PublicationDTO {
 	/**
 	 * @return the doi
 	 */
-	public String getDoi() {
-		if(notLoaded){
-			record.loadFromDatabase();
-		}
-		return doi;
-	}
-
-	/**
-	 * @param doi the doi to set
-	 */
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
 
 	/**
 	 * @see java.lang.Object#toString()

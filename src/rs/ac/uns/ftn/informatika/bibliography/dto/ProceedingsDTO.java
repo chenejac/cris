@@ -38,7 +38,6 @@ public class ProceedingsDTO extends PublicationDTO {
 	private MultilingualContentDTO keywords;
 	private List<MultilingualContentDTO> keywordsTranslations;
 	private String uri;
-	private String doi;
 
 	public ProceedingsDTO() {
 		super();
@@ -554,23 +553,7 @@ public class ProceedingsDTO extends PublicationDTO {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
-	
-	/**
-	 * @return the doi
-	 */
-	public String getDoi() {
-		if(notLoaded){
-			record.loadFromDatabase();
-		}
-		return doi;
-	}
 
-	/**
-	 * @param doi the doi to set
-	 */
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
 
 	/**
 	 * @see java.lang.Object#toString()

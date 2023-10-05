@@ -44,7 +44,6 @@ public class MonographDTO extends PublicationDTO {
 	private MultilingualContentDTO abstracT;
 	private List<MultilingualContentDTO> abstractTranslations;
 //	private String uri = "";
-	private String doi;
 	
 	private ResearchAreaDTO researchArea;
 	
@@ -755,23 +754,7 @@ public class MonographDTO extends PublicationDTO {
 //	public void setUri(String uri) {
 //		this.uri = uri;
 //	}
-	
-	/**
-	 * @return the doi
-	 */
-	public String getDoi() {
-		if(notLoaded){
-			record.loadFromDatabase();
-		}
-		return doi;
-	}
 
-	/**
-	 * @param doi the doi to set
-	 */
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
 
 	/**
 	 * @return the researchArea

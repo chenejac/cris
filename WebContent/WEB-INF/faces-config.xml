@@ -869,4 +869,7 @@
  <factory>
   <exception-handler-factory>rs.ac.uns.ftn.informatika.bibliography.utils.ViewExpiredExceptionHandlerFactory</exception-handler-factory>
  </factory>
+ <lifecycle>
+  <phase-listener>rs.ac.uns.ftn.informatika.bibliography.utils.SignpostingPhaseListener </phase-listener>
+ </lifecycle>
 </faces-config>

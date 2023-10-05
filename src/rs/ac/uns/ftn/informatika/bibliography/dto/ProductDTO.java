@@ -25,7 +25,6 @@ public class ProductDTO extends PublicationDTO {
 	private MultilingualContentDTO description;
 	private List<MultilingualContentDTO> descriptionTranslations;
 	private String uri;
-	private String doi;
 
 	public ProductDTO() {
 		super();
@@ -337,23 +336,6 @@ public class ProductDTO extends PublicationDTO {
 	 */
 	public void setUri(String uri) {
 		this.uri = uri;
-	}
-	
-	/**
-	 * @return the doi
-	 */
-	public String getDoi() {
-		if(notLoaded){
-			record.loadFromDatabase();
-		}
-		return doi;
-	}
-
-	/**
-	 * @param doi the doi to set
-	 */
-	public void setDoi(String doi) {
-		this.doi = doi;
 	}
 
 	/**

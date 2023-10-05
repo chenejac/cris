@@ -47,7 +47,7 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 	private MultilingualContentDTO abstracT;
 	private List<MultilingualContentDTO> abstractTranslations;
 //	private String uri = "";
-	private String doi;
+
 	
 	private ResearchAreaDTO researchArea;
 	private String someResearchArea = "";
@@ -505,23 +505,6 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 //	public void setUri(String uri) {
 //		this.uri = uri;
 //	}
-	
-	/**
-	 * @return the doi
-	 */
-	public String getDoi() {
-		if(notLoaded){
-			record.loadFromDatabase();
-		}
-		return doi;
-	}
-
-	/**
-	 * @param doi the doi to set
-	 */
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
 
 	/**
 	 * @return the researchArea
