@@ -53,10 +53,14 @@ public class SignpostingPhaseListener implements PhaseListener {
                             links.append(", <" + authorDTO.getORCID() + "> ; rel=\"author\" ");
                         }
                     }
+                    String license = getLicense(publicationDTO);
+                    if (license != null){
+                        links.append(", " + license + " ; rel=\"license\" ");
+                    }
                 }
                 if (mb.getSelectedRecord() instanceof StudyFinalDocumentDTO){
                     links.append(", <https://schema.org/Thesis> ; rel=\"type\" ");
-                    links.append(", <" + ((HttpServletRequest)extCtx.getRequest()).getRequestURL() +"?recordId=" + ((StudyFinalDocumentDTO)mb.getSelectedRecord()).getInstitution().getControlNumber().substring(7) + "> ; rel=\"collection\" ");
+                    links.append(", <" + ((HttpServletRequest)extCtx.getRequest()).getRequestURL() +"?recordId=" + ((StudyFinalDocumentDTO)mb.getSelectedRecord()).getInstitution().getControlNumber().substring(7) + "> ; rel=\"https://www.schema.org/sourceOrganization\" ");
                 } else if (mb.getSelectedRecord() instanceof PaperJournalDTO || mb.getSelectedRecord() instanceof PaperProceedingsDTO){
                     links.append(", <https://schema.org/Article> ; rel=\"type\" ");
                 } else if (mb.getSelectedRecord() instanceof MonographDTO){
@@ -73,15 +77,38 @@ public class SignpostingPhaseListener implements PhaseListener {
                     }
                     InstitutionDTO institutionDTO = authorDTO.getInstitution();
                     if (institutionDTO.getSuperInstitution() != null && institutionDTO.getSuperInstitution().getControlNumber() != null)
-                        links.append(", <" + ((HttpServletRequest)extCtx.getRequest()).getRequestURL() +"?recordId=" + institutionDTO.getSuperInstitution().getControlNumber().substring(7) + "> ; rel=\"collection\" ");
+                        links.append(", <" + ((HttpServletRequest)extCtx.getRequest()).getRequestURL() +"?recordId=" + institutionDTO.getSuperInstitution().getControlNumber().substring(7) + "> ; rel=\"https://schema.org/affiliation\" ");
                 } else if (mb.getSelectedRecord() instanceof InstitutionDTO) {
                         links.append(", <https://schema.org/Organization> ; rel=\"type\" ");
                         InstitutionDTO institutionDTO = (InstitutionDTO) mb.getSelectedRecord();
                         if (institutionDTO.getSuperInstitution() != null && institutionDTO.getSuperInstitution().getControlNumber() != null)
-                            links.append(", <" + ((HttpServletRequest)extCtx.getRequest()).getRequestURL() +"?recordId=" + institutionDTO.getSuperInstitution().getControlNumber().substring(7) + "> ; rel=\"collection\" ");
+                            links.append(", <" + ((HttpServletRequest)extCtx.getRequest()).getRequestURL() +"?recordId=" + institutionDTO.getSuperInstitution().getControlNumber().substring(7) + "> ; rel=\"https://www.schema.org/parentOrganization\" ");
                 }
 
                 response.addHeader("Link", links.toString());
             }
+        }
+
+        private String getLicense(PublicationDTO publication){
+            String license = null;
+            String publicationLicense = publication.getFileLicense();
+            if (publicationLicense != null && !("".equals(publicationLicense.trim()))){
+                if ("Attribution".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-4.0>";
+                } else if ("Attribution-NoDerivs".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-ND-4.0>";
+                } else if ("Attribution-NonCommercial".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-NC-4.0>";
+                } else if ("Attribution-NonCommercial-NoDerivs".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-NC-ND-4.0>";
+                } else if ("Attribution-NonCommercial-ShareAlike".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-NC-SA-4.0>";
+                } else if ("Attribution-ShareAlike".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-SA-4.0>";
+                } else if ("Creative Commons".equals(publicationLicense)){
+                    license="<https://spdx.org/licenses/CC-BY-NC-4.0>";
+                }
+            }
+            return license;
         }
 }
