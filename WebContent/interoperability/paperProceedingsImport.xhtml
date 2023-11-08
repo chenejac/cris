@@ -180,14 +180,61 @@
 										execute="@form"
 										/>
 								</h:panelGrid>
-							</rich:panel>	
+							</rich:panel>
 							<h:graphicImage 
 									library="img"
 									name="spacer.gif" 
 									alt="" 
 									height="50"
 									width="1"
-									/>						
+									/>
+							<rich:panel id="scopusImportXLS"
+										header="#{messages['records.import.paperProceedings.scopus.header']}"
+										rendered="#{(userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}"
+							>
+								<h:panelGrid columns="3" columnClasses="width20, width60, width25" width="100%">
+									<!-- ....... Path .......           -->
+									<a4j:outputPanel
+											ajaxRendered="true"
+									>
+										<mytags:outputLabel
+												value="#{messages['records.import.paperJournal.scopus.scopusID']}"
+												for="scopusdatapath"
+												errorStyleClass="errorMessage"
+										/>
+									</a4j:outputPanel>
+									<h:inputText
+											id="scopusdatapath"
+											disabled="#{(not userManagedBean.privileges[privilegesManagedBean.formImport][privilegesManagedBean.editFullData])}"
+											value="#{importManagedBean.scopusdatapath}"
+											maxlength="400"
+											required="true"
+									/>
+									<a4j:outputPanel
+											ajaxRendered="true"
+									>
+										<rich:message
+												for="scopusdatapath"
+												errorClass="errorMessage"
+												infoClass="infoMessage"
+												warnClass="warnMessage"
+												fatalClass="fatalMessage" />
+									</a4j:outputPanel>
+									<a4j:commandButton
+											action="#{importManagedBean.importScopusPaperProceedingsXLS}"
+											render="importWizardModalPanel"
+											value="#{messages['records.import.btnImportScopusPaperProceedings']}"
+											execute="@form"
+									/>
+								</h:panelGrid>
+							</rich:panel>
+							<h:graphicImage
+									library="img"
+									name="spacer.gif"
+									alt=""
+									height="50"
+									width="1"
+							/>
 							<rich:collapsiblePanel 
 								id="bibtexImport"
 								header="#{messages['records.import.paperProceedings.bibtex.header']}"

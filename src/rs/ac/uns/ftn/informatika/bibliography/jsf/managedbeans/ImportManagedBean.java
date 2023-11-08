@@ -577,6 +577,14 @@ public class ImportManagedBean extends CRUDManagedBean implements Serializable,
 		switchToImportMode();
 		automaticImport = true;
 	}
+
+	public void importScopusPaperProceedingsXLS(){
+		groupSerializer = new ScopusPaperProceedingsXLSSerializer();
+		//serializedDataPath = "D:/archiveDissertations/2006";
+		((ScopusPaperProceedingsXLSSerializer)groupSerializer).setXlsPath(scopusdatapath);
+		switchToImportMode();
+		automaticImport = true;
+	}
 	
 	public void importBibtexPaperJournal(){
 		groupSerializer = new BibtexPaperJournalSerializer();

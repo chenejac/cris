@@ -942,6 +942,8 @@ public class SamovrednovanjeUtils {
 						    commissionId = 724;
 					 else  if(orgUnitControlNumber.equals("(BISIS)6883"))
 						    commissionId = 722;
+					 else  if(orgUnitControlNumber.equals("(BISIS)6875") || orgUnitControlNumber.equals("(BISIS)6877"))
+						 commissionId = 723;
 					 else {
 						 while (rootOrganizationUnit.getSuperOrganizationUnit() != null){
 							 rootOrganizationUnit = rootOrganizationUnit.getSuperOrganizationUnit();

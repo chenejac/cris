@@ -35,8 +35,27 @@ public abstract class PublicationDTO extends RecordDTO {
 	private String wordCloudImageURL = "";
 	protected List<JobAdDTO> jobAds;
 	protected String uri = "";
-	
-	
+
+	protected String doi;
+
+	/**
+	 * @return the doi
+	 */
+	public String getDoi() {
+		if(notLoaded){
+			record.loadFromDatabase();
+		}
+		return doi;
+	}
+
+	/**
+	 * @param doi the doi to set
+	 */
+	public void setDoi(String doi) {
+		this.doi = doi;
+	}
+
+
 	public PublicationDTO() {
 		super();
 		jobAds = new ArrayList<JobAdDTO>();

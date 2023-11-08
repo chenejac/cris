@@ -4,6 +4,7 @@
 package rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers;
 
 import rs.ac.uns.ftn.informatika.bibliography.dto.*;
+import rs.ac.uns.ftn.informatika.bibliography.reports.samovrednovanje.SamovrednovanjeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -635,6 +636,15 @@ public class ENaukaDIMXMLSerializer extends AbstractDIMCRISXMLSerializer {
 //				textTag.getAttributes().add(new AttributeValue("lang", conference.getName().getLanguage().substring(0,2)));
 //			retVal.add(textTag);
 
+		}
+
+		String rank = SamovrednovanjeUtils.getResultType(record.getRecord());
+		if (rank != null){
+			XMLTag textTag = new XMLTag(tagName, rank);
+			textTag.getAttributes().add(new AttributeValue("mdschema", mdschema));
+			textTag.getAttributes().add(new AttributeValue("element", element));
+			textTag.getAttributes().add(new AttributeValue("qualifier", "rank"));
+			retVal.add(textTag);
 		}
 		return retVal;
 	}

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class ExportAuthorsTask implements Task {
 		List<AuthorDTO> retVal = new ArrayList<AuthorDTO>();
 		PersonDB personDB = new PersonDB();
 		UserDB userDB = new UserDB();
-		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "2022-01-01 00:00:00");
+		List<Record> listAuthors = personDB.getInstitutionRecords(conn, "(BISIS)5929", "" + Calendar.getInstance().get(Calendar.YEAR) + "-01-01 00:00:00");
 		// (BISIS)5929 - PMF
 		// (BISIS)6782 - DMI
 		// (BISIS)6780 - DGTH

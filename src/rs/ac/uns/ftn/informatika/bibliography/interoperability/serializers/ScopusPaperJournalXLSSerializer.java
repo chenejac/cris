@@ -51,7 +51,6 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 						loadPaper(row, importRecords);
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
 				log.fatal(ex);
 				log.fatal("Cannot load papers");
 			}
@@ -73,32 +72,38 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 			String authorsList = cellContent;
 
 			cellContent = null;
-			if(cellName == null)
+			if(cellIds == null)
 				cellIds = null;
 			else {
 				cellContent = fmt.formatCellValue(cellIds);
 			}
 
 			String authorsIdsList = cellContent;
-			if(((authorsList == null) || (authorsList.equals("Authors"))) || (authorsIdsList == null))
+			if(((authorsList == null) || (authorsList.equals("Authors"))))
 				return null;
 			else {
-				String[] authorsListString = authorsList.split("\\.,");
-				String[] authorsIdsString = authorsIdsList.split(";");
+				// \(\d{10,11}\);
+				String[] authorsListString = (authorsList.contains(".,")?authorsList.split("\\.,"):authorsList.split(";"));
+				String[] authorsIdsString = (authorsIdsList==null)?new String[0]:authorsIdsList.split(";");
 				for (int i=0; i < authorsListString.length; i++) {
 					String author = authorsListString[i];
 					String[] firstNameLastName = author.split(",");
 					AuthorDTO authorDTO = new AuthorDTO();
 //					authorDTO.setRelatedRecords(new ArrayList<RecordDTO>());
-					authorDTO.getName().setFirstname((firstNameLastName[1].endsWith("."))?firstNameLastName[1]:firstNameLastName[1]+".");
+					if (authorsList.contains(".,"))
+						authorDTO.getName().setFirstname((firstNameLastName[1].endsWith("."))?firstNameLastName[1]:firstNameLastName[1]+".");
+					else
+						authorDTO.getName().setFirstname(firstNameLastName[1]);
 					authorDTO.getName().setLastname(firstNameLastName[0]);
-					authorDTO.setScopusID((authorsIdsString.length > i)?authorsIdsString[i]:null);
-					authorDTO.setControlNumber(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname());
+					authorDTO.setScopusID((authorsIdsString.length > i)?authorsIdsString[i].trim():null);
+					authorDTO.setControlNumber((authorDTO.getScopusID()!=null)?authorDTO.getScopusID():(authorDTO.getName().getLastname()+authorDTO.getName().getFirstname()));
 					if(! authors.contains((RecordDTO)authorDTO))
 						authors.add((RecordDTO)authorDTO);
 				}
 			}
 		} catch (Throwable ex) {
+			log.fatal(cellName);
+			log.fatal(cellIds);
 			log.fatal(ex);
 			log.fatal("Cannot load authors");
 			return null;
@@ -150,7 +155,8 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 				journal = journalDTO;
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.fatal(cellName);
+			log.fatal(cellISSN);
 			log.fatal(ex);
 			log.fatal("Cannot load journals");
 		}
@@ -255,6 +261,18 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 				}
 
 				cellContent = null;
+				cell = row.getCell(7);
+				if(cell == null)
+					cellContent = null;
+				else {
+					cellContent = fmt.formatCellValue(cell);
+				}
+				String articleNumberValue = cellContent;
+				if(articleNumberValue != null){
+					paperDTO.setStartPage(articleNumberValue);
+				}
+
+				cellContent = null;
 				cell = row.getCell(8);
 				if(cell == null)
 					cellContent = null;
@@ -353,68 +371,6 @@ public class ScopusPaperJournalXLSSerializer implements GroupSerializer{
 		}
 		return retVal;
 	}
-	
-	
-
-	/*private String scopusID;
-
-	*//**
-	 * @return the scopusID
-	 *//*
-	public String getScopusID() {
-		return scopusID;
-	}
-
-	*//**
-	 * @param scopusID the scopusID to set
-	 *//*
-	public void setScopusID(String scopusID) {
-		if (scopusID == null)
-			reimport = false;
-		else if(this.scopusID == null)
-			reimport = true;
-		else if (!scopusID.equalsIgnoreCase(this.scopusID))
-			reimport = true;
-		else
-			reimport = false;
-		this.scopusID = scopusID;
-	}
-	
-	private Integer startYear;
-	
-	
-
-	*//**
-	 * @return the startYear
-	 *//*
-	public Integer getStartYear() {
-		return startYear;
-	}
-
-	*//**
-	 * @param startYear the startYear to set
-	 *//*
-	public void setStartYear(Integer startYear) {
-		this.startYear = startYear;
-	}
-
-	private Integer endYear;
-	
-	
-	
-	*//**
-	 * @return the endYear
-	 *//*
-	public Integer getEndYear() {
-		return endYear;
-	}
-
-	*//**
-	 * @param endYear the endYear to set
-	 *//*
-	public void setEndYear(Integer endYear) {
-		this.endYear = endYear;
-	}*/
 	
 	private boolean reimport = false;
 	

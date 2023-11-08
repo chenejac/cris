@@ -96,7 +96,7 @@ public class PersonDB extends RecordDB {
 		List<String> retVal = new ArrayList<String>();
 		try {
 			Statement stmt = conn.createStatement();
-			String query = "select RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and CFCLASSID like 'belongs to' and RECORDID2 like '" + institutionId + "' and CFSTARTDATE like '" + startDate + "'";
+			String query = "select RECORDID1 from MARC21RECORD_MARC21RECORD where CFCLASSSCHEMEID like 'authorInstitutionSelfevaluation' and CFCLASSID like 'belongs to' and RECORDID2 like '" + institutionId + "'" + ((startDate == null)?"":" and CFSTARTDATE like '" + startDate + "'");
 			ResultSet rset = stmt.executeQuery(query);
 			
 			while (rset.next()) {
@@ -110,7 +110,7 @@ public class PersonDB extends RecordDB {
 		} catch (Exception ex) {
 			log.fatal("Cannot read records ");
 			log.fatal(ex);
-			return null;
+			return new ArrayList<String>();
 		}
 	}
 	
