@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.bibliography.utils;
 
 import rs.ac.uns.ftn.informatika.bibliography.dto.*;
+import rs.ac.uns.ftn.informatika.bibliography.filesrv.FileDTO;
 import rs.ac.uns.ftn.informatika.bibliography.jsf.managedbeans.RelatedRecordsManagedBean;
 
 import javax.faces.context.ExternalContext;
@@ -56,6 +57,17 @@ public class SignpostingPhaseListener implements PhaseListener {
                     String license = getLicense(publicationDTO);
                     if (license != null){
                         links.append(", " + license + " ; rel=\"license\" ");
+                    }
+
+                    FileDTO file = publicationDTO.getFile();
+                    if (file != null){
+                        HttpServletRequest req = (HttpServletRequest)extCtx.getRequest();
+                        String scheme = req.getScheme();
+                        String serverName = req.getServerName();
+                        int serverPort = req.getServerPort();
+                        String contextPath = req.getContextPath();
+                        String urlPrefix = scheme + "://" + serverName + ":" + serverPort + contextPath;
+                        links.append(", <" + urlPrefix + "/DownloadFileServlet/Disertacija" + file.getFileName() + "?controlNumber=" + file.getControlNumber() + "&fileName=" + file.getFileName() + "&id=" + file.getId() + "&&licenseAccepted=true" + "> ; rel=\"item\" ");
                     }
                 }
                 if (mb.getSelectedRecord() instanceof StudyFinalDocumentDTO){
