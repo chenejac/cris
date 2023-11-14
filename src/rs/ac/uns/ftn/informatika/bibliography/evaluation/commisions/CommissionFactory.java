@@ -1175,6 +1175,27 @@ public class CommissionFactory {
 
 				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
 				break;
+
+			//MNOArhitektura
+			case CommissionTypes.MNOArhitektura:
+				appointmentBoard = "MNOArhitektura";
+				appointmentDate = new GregorianCalendar();
+				appointmentDate.set(Calendar.DAY_OF_MONTH, 21);
+				appointmentDate.set(Calendar.MONTH, Calendar.MARCH);
+				appointmentDate.set(Calendar.YEAR, 2011);
+				members = "Чланови матичног научног одбора - Архитектура";
+				cfClassShemeIdScienceArea = "sciencesGroup";
+				cfClassIdScienceArea = "allSciences";
+
+				//setovanje naucnih oblasti
+				researchAreas = new HashSet<ResearchAreaDTO>();
+
+				//lista odbora
+				mnoList = new ArrayList<MNO>();
+				mnoList.add(MNOArhitektura.getMNOArhitektura());
+
+				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
+				break;
 				
 				//AMS
 			case CommissionTypes.AMS:
@@ -1276,6 +1297,7 @@ public class CommissionFactory {
 				mnoList.add(MNORacunarskeNauke.getMNORacunarskeNauke());
 				mnoList.add(MNOSaobracaj.getMNOSaobracaj());
 				mnoList.add(MNOUrbanizam.getMNOUrbanizam());
+				mnoList.add(MNOArhitektura.getMNOArhitektura());
 
 				commissionEvaluation = new CommisionMNO(commissionID, appointmentBoard, appointmentDate, members, cfClassShemeIdScienceArea, cfClassIdScienceArea, null, researchAreas, mnoList);
 				break;

@@ -8,11 +8,11 @@ import java.util.HashMap;
  * @author Dragan Ivanovic, dragan.ivanovic@uns.ac.rs
  *
  */
-public class MNOSaobracaj extends MNO{
+public class MNOArhitektura extends MNO{
 
-	private MNOSaobracaj() {
+	private MNOArhitektura() {
 		super();
-		this.nameMNO = "Saobraćaj";
+		this.nameMNO = "Arhitektura";
 		this.yearsSpecial = new int [2];
 		yearsSpecial[0] = 2021;
 		yearsSpecial[1] = 2022;
@@ -24,19 +24,19 @@ public class MNOSaobracaj extends MNO{
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2021 = new HashMap<String, String>();
-		importFromXLS(FileStorage.storageRoot + "/import/mnoSaobracaj2021.xlsx", special2021);
+		importFromXLS(FileStorage.storageRoot + "/import/mnoArhitektura2021.xlsx", special2021);
 		this.specialJournalsAllYears.put(2021, special2021);
 
 		special2022 = new HashMap<String, String>();
-		importFromXLS(FileStorage.storageRoot + "/import/mno_2022_za_sabracaj.xlsx", special2022);
+		importFromXLS(FileStorage.storageRoot + "/import/mno_2022_za_arhitekturu.xlsx", special2022);
 		this.specialJournalsAllYears.put(2022, special2022);
 	}
 
-	public static MNOSaobracaj MNOSaobracaj= null;
+	public static MNOArhitektura MNOArhitektura= null;
 	
-	public static MNOSaobracaj getMNOSaobracaj() {
-		if(MNOSaobracaj==null)
-			MNOSaobracaj = new MNOSaobracaj();
-		return MNOSaobracaj;
+	public static MNOArhitektura getMNOArhitektura() {
+		if(MNOArhitektura==null)
+			MNOArhitektura = new MNOArhitektura();
+		return MNOArhitektura;
 	}
 }

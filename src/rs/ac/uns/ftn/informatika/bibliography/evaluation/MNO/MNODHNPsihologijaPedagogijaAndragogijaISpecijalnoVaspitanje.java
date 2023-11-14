@@ -13,7 +13,7 @@ public class MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje extends
 	private MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje() {
 		super();
 		this.nameMNO = "Društveno-humanističke nauke: Ekonomija i organizacione nauke";
-		this.yearsSpecial = new int [10];
+		this.yearsSpecial = new int [11];
 		yearsSpecial[0] = 2012;
 		yearsSpecial[1] = 2013;
 		yearsSpecial[2] = 2014;
@@ -24,6 +24,7 @@ public class MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje extends
 		yearsSpecial[7] = 2019;
 		yearsSpecial[8] = 2020;
 		yearsSpecial[9] = 2021;
+		yearsSpecial[10] = 2022;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -37,6 +38,7 @@ public class MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje extends
 		HashMap <String, String> special2019;
 		HashMap <String, String> special2020;
 		HashMap <String, String> special2021;
+		HashMap <String, String> special2022;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2012 = new HashMap<String, String>();
@@ -78,6 +80,10 @@ public class MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje extends
 		special2021 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoDrustvenoHumanistickeNauke-PsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje2021.xlsx", special2021);
 		this.specialJournalsAllYears.put(2021, special2021);
+
+		special2022 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mno_2022_za_psihologiju_pedagogiju_andragogiju_i_specijalno_vaspitanje.xlsx", special2022);
+		this.specialJournalsAllYears.put(2022, special2022);
 	}
 	
 	public static MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje MNODHNPsihologijaPedagogijaAndragogijaISpecijalnoVaspitanje= null;

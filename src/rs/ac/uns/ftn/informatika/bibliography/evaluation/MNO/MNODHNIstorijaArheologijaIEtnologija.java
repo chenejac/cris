@@ -13,7 +13,7 @@ public class MNODHNIstorijaArheologijaIEtnologija extends MNO{
 	private MNODHNIstorijaArheologijaIEtnologija() {
 		super();
 		this.nameMNO = "Društveno-humanističke nauke: Ekonomija i organizacione nauke";
-		this.yearsSpecial = new int [10];
+		this.yearsSpecial = new int [11];
 		yearsSpecial[0] = 2012;
 		yearsSpecial[1] = 2013;
 		yearsSpecial[2] = 2014;
@@ -24,6 +24,7 @@ public class MNODHNIstorijaArheologijaIEtnologija extends MNO{
 		yearsSpecial[7] = 2019;
 		yearsSpecial[8] = 2020;
 		yearsSpecial[9] = 2021;
+		yearsSpecial[10] = 2022;
 		this.specialJournalsAllYears = new HashMap<Integer,HashMap<String,String>>();
 		
 		//spceijalni casopisi u godinama
@@ -37,6 +38,7 @@ public class MNODHNIstorijaArheologijaIEtnologija extends MNO{
 		HashMap <String, String> special2019;
 		HashMap <String, String> special2020;
 		HashMap <String, String> special2021;
+		HashMap <String, String> special2022;
 		
 		//kreiranje liste casopisa u odredjenim godinama za maticne odbore 
 		special2012 = new HashMap<String, String>();
@@ -78,6 +80,10 @@ public class MNODHNIstorijaArheologijaIEtnologija extends MNO{
 		special2021 = new HashMap<String, String>();
 		importFromXLS(FileStorage.storageRoot + "/import/mnoDrustvenoHumanistickeNauke-IstorijaArheologijaIEtnologija2021.xlsx", special2021);
 		this.specialJournalsAllYears.put(2021, special2021);
+
+		special2022 = new HashMap<String, String>();
+		importFromXLS(FileStorage.storageRoot + "/import/mno_2022_za_ istoriju_arheologiju_i_etnologiju.xlsx", special2022);
+		this.specialJournalsAllYears.put(2022, special2022);
 	}
 	
 	public static MNODHNIstorijaArheologijaIEtnologija MNODHNIstorijaArheologijaIEtnologija= null;

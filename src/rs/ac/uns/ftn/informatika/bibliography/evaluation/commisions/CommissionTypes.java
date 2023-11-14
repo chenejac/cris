@@ -114,6 +114,9 @@ public class CommissionTypes {
 	public static final int MNORacunarskeNauke																= 648;
 	public static final int MNOSaobracaj																	= 649;
 	public static final int MNOUrbanizam																	= 651;
+
+	public static final int MNOArhitektura																	= 652;
+
 	public static final int AMS																				= 650;
 	public static final int MNOAll																			= 660;
 	
