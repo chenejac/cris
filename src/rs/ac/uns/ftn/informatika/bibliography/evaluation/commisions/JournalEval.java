@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions;
 import java.util.List;
 
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ImpactFactor;
+import rs.ac.uns.ftn.informatika.bibliography.evaluation.ListRanking;
 
 /**
  * @author Sinisa Nikolic, sinisa_nikolic@uns.ac.rs
@@ -15,6 +16,7 @@ public class JournalEval {
 	private String someName;
 	private String ISSN;
 	private List<ImpactFactor> impactFactors;
+	private List<ListRanking> socialSciencesClassifications;
 	
 	/**
 	 * 

@@ -23,6 +23,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dto.RuleBookDTO;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ImpactFactor;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.JournalEvaluationResult;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ResearchAreaRanking;
+import rs.ac.uns.ftn.informatika.bibliography.evaluation.ListRanking;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.AbstractCommissionEvaluation;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.CommissionFactory;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.commisions.JournalEval;
@@ -64,6 +65,8 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 	
 	private List<ImpactFactor> impactFactors = null;
 	private List<ImpactFactor> allImpactFactors = null;
+	private List<ListRanking> socialScienceClassifications = null;
+	private List<ImpactFactor> allSocialScienceClassifications = null;
 	private List<String []> evaluatedResultsLegendCategories = null;
 	private List<Map<String, String>> evaluatedResultsImpactFactorsWithCategoriesTwoYears = null;
 	private List<String> evaluatedResultsImpactFactorsWithCategoriesItemPropertyNamesTwoYears = null;
@@ -335,7 +338,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 				Collections.sort(allImpactFactors, new GenericComparator<ImpactFactor>(
 						"year", "asc"));
 				for(int startYear = allImpactFactors.get(0).getYear(); startYear < (allImpactFactors.get(allImpactFactors.size()-1).getYear()+1); startYear++){
-					ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
+					ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>(), new ArrayList<ListRanking>());
 					for (ImpactFactor impactFactor : allImpactFactors) {
 						if(impactFactor.getYear().intValue() == startYear){
 								tempIF = impactFactor;
@@ -399,7 +402,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 				if(evaluatedResult.getEvaluation() < 5){
 					if(evaluatedResult.getRuleNumber() == 3){
 						for(int startYear = 1981; startYear < 1984; startYear++){
-							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
+							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>(), new ArrayList<ListRanking>());
 							for (ImpactFactor impactFactor : allImpactFactors) {
 								if(impactFactor.getYear().intValue() == startYear){
 										tempIF = impactFactor;
@@ -410,7 +413,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 						}
 					} else if(evaluatedResult.getRuleNumber() == 2){
 						for(int startYear = 1987; startYear < 1999; startYear++){
-								ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
+								ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>(), new ArrayList<ListRanking>());
 								for (ImpactFactor impactFactor : allImpactFactors) {
 									if(impactFactor.getYear().intValue() == startYear){
 											tempIF = impactFactor;
@@ -421,7 +424,7 @@ public class EvaluationJournalManagedBean extends CRUDManagedBean implements IPi
 						}
 					} else if(evaluatedResult.getRuleNumber() == 1){
 						for(int startYear = year-2; startYear < year+1; startYear++){
-							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>());
+							ImpactFactor tempIF = new ImpactFactor(startYear, null, new ArrayList<ResearchAreaRanking>(), null, new ArrayList<ResearchAreaRanking>(), new ArrayList<ListRanking>());
 							for (ImpactFactor impactFactor : allImpactFactors) {
 								if(impactFactor.getYear().intValue() == startYear){
 										tempIF = impactFactor;

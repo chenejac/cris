@@ -19,6 +19,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dto.MetricsDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.MultilingualContentDTO;
 import rs.ac.uns.ftn.informatika.bibliography.dto.ResearchAreaDTO;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ImpactFactor;
+import rs.ac.uns.ftn.informatika.bibliography.evaluation.ListRanking;
 import rs.ac.uns.ftn.informatika.bibliography.evaluation.ResearchAreaRanking;
 
 /**
@@ -248,6 +249,7 @@ public class MetricsDB {
 							mergeIF.setValueOfImpactFactorFiveYears(impFac.getValueOfImpactFactorFiveYears());
 							mergeIF.getResearchAreasFiveYears().addAll(impFac.getResearchAreasFiveYears());
 						}
+						mergeIF.getListsRanking().addAll(impFac.getListsRanking());
 					} else {
 						retVal.add(impFac);
 					}
@@ -267,7 +269,7 @@ public class MetricsDB {
 			while (rset.next()) {
 				Integer year = rset.getInt(1);
 				
-				ImpactFactor impactFactor = getJournalImpactFactor(conn, recordId, metricsId, year);
+				ImpactFactor impactFactor = (metricsId.contains("included"))?getListsRanking(conn, recordId, year):getJournalImpactFactor(conn, recordId, metricsId, year);
 				retVal.add(impactFactor);
 			}
 			rset.close();
@@ -323,6 +325,50 @@ public class MetricsDB {
 			log.fatal(ex);
 			return null;
 		}
+	}
+
+	// checking belongings to ERIH+, AHCI, SJR lists
+	public ImpactFactor getListsRanking(Connection conn,
+											   String recordId, Integer year) {
+		ImpactFactor retVal = new ImpactFactor();
+		try {
+			retVal.setYear(year);
+			List<ListRanking> listRankings = new ArrayList<ListRanking>();
+			int value = getJournalsLinksMetrics(conn, recordId, "included", "journals list", "SJR", year);
+			if (value != 0)
+				listRankings.add(new ListRanking("Q"+value, "SJR"));
+			value = getJournalsLinksMetrics(conn, recordId, "included", "journals list", "ERIH+", year);
+			if (value != 0)
+				listRankings.add(new ListRanking("true", "ERIH+"));
+			value = getJournalsLinksMetrics(conn, recordId, "included", "journals list", "AHCI", year);
+			if (value != 0)
+				listRankings.add(new ListRanking("true", "AHCI"));
+			return retVal;
+		} catch (Exception ex) {
+			log.fatal("Cannot read impact factors ");
+			log.fatal(ex);
+			return null;
+		}
+	}
+
+	public int getJournalsLinksMetrics(Connection conn, String recordId, String metricsId,
+									   String schemeId, String classId, Integer year) {
+		int retVal = 0;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt
+					.executeQuery("select CFCOUNT from MARC21RECORD_METRICS where RECORDID like '" + recordId + "' and CFMETRICSID like '" + metricsId + "'"
+							+ " and CFYEAR=" + year + " and CFCLASSSCHEMEID like '" + schemeId + "' and CFCLASSID like '" + classId + "'");
+			if (rset.next()) {
+				retVal = (int) rset.getDouble(1);
+			}
+			rset.close();
+			stmt.close();
+		} catch (Exception ex) {
+			log.fatal("Cannot read q classification (SJR) ");
+			log.fatal(ex);
+		}
+		return retVal;
 	}
 
 	public boolean addResultMetrics(Connection conn, String recordId, String metricsId, String schemeId, String classId, Integer year, Double count, Double fraction) {

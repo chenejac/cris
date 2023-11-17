@@ -18,6 +18,7 @@ public class ImpactFactor {
 	private List<ResearchAreaRanking> researchAreas;
 	private Double valueOfImpactFactorFiveYears;
 	private List<ResearchAreaRanking> researchAreasFiveYears;
+	private List<ListRanking> listRanking;
 	
 	/**
 	 * 
@@ -26,19 +27,21 @@ public class ImpactFactor {
 		super();
 		researchAreas = new ArrayList<ResearchAreaRanking>();
 		researchAreasFiveYears = new ArrayList<ResearchAreaRanking>();
+		listRanking = new ArrayList<ListRanking>();
 	}
 	/**
 	 * @param year
 	 * @param valueOfImpactFactor
 	 * @param researchAreas
 	 */
-	public ImpactFactor(Integer year, Double valueOfImpactFactor, List<ResearchAreaRanking> researchAreas, Double valueOfImpactFactorFiveYears, List<ResearchAreaRanking> researchAreasFiveYears) {
+	public ImpactFactor(Integer year, Double valueOfImpactFactor, List<ResearchAreaRanking> researchAreas, Double valueOfImpactFactorFiveYears, List<ResearchAreaRanking> researchAreasFiveYears, List<ListRanking> listRanking) {
 		super();
 		this.year = year;
 		this.valueOfImpactFactor = valueOfImpactFactor;
 		this.researchAreas = researchAreas;
 		this.valueOfImpactFactorFiveYears = valueOfImpactFactorFiveYears;
 		this.researchAreasFiveYears = researchAreasFiveYears;
+		this.listRanking = listRanking;
 	}
 	/**
 	 * @return the year
@@ -95,6 +98,14 @@ public class ImpactFactor {
 
 	public void setResearchAreasFiveYears(List<ResearchAreaRanking> researchAreasFiveYears) {
 		this.researchAreasFiveYears = researchAreasFiveYears;
+	}
+
+	public List<ListRanking> getListsRanking() {
+		return listRanking;
+	}
+
+	public void setListsRanking(List<ListRanking> listRanking) {
+		this.listRanking = listRanking;
 	}
 
 	public String getLeadingInternationalJournalResearchAreas(boolean twoYears, boolean fiveYears) {
@@ -214,17 +225,37 @@ public class ImpactFactor {
 		}
 		return valueOfImpactFactorForMaxResearchArea;
 	}
+
+	private String getListRankingCategory(){
+		String m = "M53";
+		for (ListRanking listRanking : listRanking) {
+			if (listRanking.getListName().equals("SJR")){
+				if (listRanking.getValue().equals("Q1"))
+					return "M23";
+				else if (listRanking.getValue().equals("Q2") || listRanking.getValue().equals("Q3"))
+						m = "M24";
+					else if (m.equals("M53"))
+							m = "M51";
+			} else if (listRanking.getListName().equals("ERIH+") || listRanking.getListName().equals("AHCI"))
+					return "M23";
+		}
+		return m;
+	}
 	
 	public String getMaxCategory(boolean twoYears, boolean fiveYears){
 		String retVal = null;
-		if(getMaxPositionReseachArea(twoYears, fiveYears).getDividend() <= 0.1)
-			retVal = "M21a";
-		else if(getMaxPositionReseachArea(twoYears, fiveYears).getDividend() <= 0.3)
-			retVal = "M21";
-		else if(getMaxPositionReseachArea(twoYears, fiveYears).getDividend() <= 0.6)
-			retVal = "M22";
-		else
-			retVal = "M23";
+		if (researchAreas.size() + researchAreasFiveYears.size() != 0) {
+			if (getMaxPositionReseachArea(twoYears, fiveYears).getDividend() <= 0.1)
+				retVal = "M21a";
+			else if (getMaxPositionReseachArea(twoYears, fiveYears).getDividend() <= 0.3)
+				retVal = "M21";
+			else if (getMaxPositionReseachArea(twoYears, fiveYears).getDividend() <= 0.6)
+				retVal = "M22";
+			else
+				retVal = "M23";
+		} else{
+			retVal = getListRankingCategory();
+		}
 		return retVal;
 	}
 	

@@ -30,14 +30,14 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 	public CommissionWoSSimple() {
 		super();
 		comissionID = 700;
-		appointmentBoard = "OldWoSSimple";
+		appointmentBoard = "WoSSimple";
 		appointmentDate = new GregorianCalendar();
 		appointmentDate.set(Calendar.DAY_OF_MONTH, 29);
 		appointmentDate.set(Calendar.MONTH, Calendar.AUGUST);
 		appointmentDate.set(Calendar.YEAR, 2014);
 		members = "WoS journals' list selectors";
 		cfClassShemeIdScienceArea = "sciencesGroup";
-		cfClassIdScienceArea = "naturalSciences";
+		cfClassIdScienceArea = "allSciences";
 //		allMnoList.add(MNOBiologija.getMNOBiologija());
 //		allMnoList.add(MNOBiotehnologijaIAgroindustrija.getMNOBiotehnologijaIAgroindustrija());
 //		allMnoList.add(MNOBiotehnologijaIPoljoprivreda.getMNOBiotehnologijaIPoljoprivreda());
@@ -314,19 +314,35 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 		imf.setYear(year);
 		imf = (journal.getImpactFactors().indexOf(imf)!=-1)?journal.getImpactFactors().get(journal.getImpactFactors().indexOf(imf)):null;
 		if (imf != null){
-				ResearchAreaRanking rar = imf.getMaxPositionReseachArea(twoYears, fiveYears);
+				String category = imf.getMaxCategory(twoYears, fiveYears);
+
+//				ResearchAreaRanking rar = imf.getMaxPositionReseachArea(twoYears, fiveYears);
 				boolean m21a = false;
 				boolean m21 = false;
 				boolean m22 = false;
 				boolean m23 = false;
-				if(rar.getDividend() <= 0.1)
+				boolean m24 = false;
+				boolean m51 = false;
+				if (category.equals("M21a"))
 					m21a = true;
-				else if (rar.getDividend() <= 0.3)
+				else if (category.equals("M21"))
 					m21 = true;
-				else if (rar.getDividend() > 0.6)
-					m23 = true;
-				else
+				else if (category.equals("M22"))
 					m22 = true;
+				else if (category.equals("M23"))
+					m23 = true;
+				else if (category.equals("M24"))
+					m24 = true;
+				else if (category.equals("M51"))
+					m51 = true;
+//				if(rar.getDividend() <= 0.1)
+//					m21a = true;
+//				else if (rar.getDividend() <= 0.3)
+//					m21 = true;
+//				else if (rar.getDividend() > 0.6)
+//					m23 = true;
+//				else
+//					m22 = true;
 				
 				
 				if(((withinResearchAreas==null) || (withinResearchAreas.getEvaluation() > 1)) && (m21a))
@@ -337,6 +353,10 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 					withinResearchAreas = new JournalEvaluationResult("M22", journal, imf, 3, true, true);
 				else if ((withinResearchAreas==null)  && (m23))
 					withinResearchAreas = new JournalEvaluationResult("M23", journal, imf, 4, true, true);
+				else if ((withinResearchAreas==null)  && (m24))
+					withinResearchAreas = new JournalEvaluationResult("M24", journal, imf, 5, true, true);
+				else if ((withinResearchAreas==null)  && (m51))
+					withinResearchAreas = new JournalEvaluationResult("M51", journal, imf, 6, true, true);
 		}
 		if(withinResearchAreas != null){
 			retVal = withinResearchAreas;
@@ -349,7 +369,7 @@ public class CommissionWoSSimple extends AbstractCommissionEvaluation {
 	protected HashMap<Integer, JournalEvaluationResult> getJournalEvaluationsNonSCIAndNonSpecial(HashMap<Integer, JournalEvaluationResult> retVal, JournalEval journal, int startingYear) 
 	{
 		for(int i = startingYear; i <= lastEvaluationYear; i++) {
-			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 5, true, true));
+			retVal.put(i, new JournalEvaluationResult("M53", journal, null, 7, true, true));
 		}
 		return retVal;
 	}
