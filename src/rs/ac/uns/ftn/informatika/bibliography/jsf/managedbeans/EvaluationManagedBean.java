@@ -51,6 +51,7 @@ import rs.ac.uns.ftn.informatika.bibliography.evaluation.ResultEvaluator;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Classification;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.RecordRecord;
+import rs.ac.uns.ftn.informatika.bibliography.reports.samovrednovanje.SamovrednovanjeUtils;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.CrisAnalyzer;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.QueryUtils;
@@ -151,43 +152,7 @@ public class EvaluationManagedBean implements Serializable{
 	*/
 	
 	public void loadCommission() {		
-		Integer commissionId = null;
-		OrganizationUnitDTO rootOrganizationUnit = currentAuthor.getOrganizationUnit();
-		if((rootOrganizationUnit != null) && (rootOrganizationUnit.getControlNumber()!=null)){
-			String orgUnitControlNumber = rootOrganizationUnit.getControlNumber();
-			 if(orgUnitControlNumber.equals("(BISIS)6868"))
-				    commissionId = 725;
-			 else  if(orgUnitControlNumber.equals("(BISIS)6873"))
-				    commissionId = 724;
-			 else  if(orgUnitControlNumber.equals("(BISIS)6883"))
-				    commissionId = 722;
-			 else {
-				 while (rootOrganizationUnit.getSuperOrganizationUnit() != null){
-					 rootOrganizationUnit = rootOrganizationUnit.getSuperOrganizationUnit();
-				 }
-					orgUnitControlNumber = rootOrganizationUnit.getControlNumber();
-					if(orgUnitControlNumber != null){
-					   if(orgUnitControlNumber.equals("(BISIS)6782"))
-					    commissionId = 711;
-					   else if(orgUnitControlNumber.equals("(BISIS)6781"))
-					    commissionId = 712;
-					   else if(orgUnitControlNumber.equals("(BISIS)6780"))
-					    commissionId = 713;
-					   else if(orgUnitControlNumber.equals("(BISIS)6779"))
-					    commissionId = 714;
-					   else if(orgUnitControlNumber.equals("(BISIS)6778"))
-					    commissionId = 715;
-					}
-			 }
-		}
-				
-		if(commissionId == null){
-			if(currentAuthor.getInstitution().getControlNumber().equals("(BISIS)5933")){
-				commissionId = 701;
-			} else if(currentAuthor.getInstitution().getControlNumber().equals("(BISIS)5929")){
-				commissionId = 710;
-			}
-		} 
+		Integer commissionId = SamovrednovanjeUtils.getCommissionId(currentAuthor);
 		
 //		System.out.println("1Komisija je:"+commissionId);
 		

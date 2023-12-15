@@ -23,6 +23,7 @@ import rs.ac.uns.ftn.informatika.bibliography.dto.*;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Classification;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record;
 import rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.RecordRecord;
+import rs.ac.uns.ftn.informatika.bibliography.reports.samovrednovanje.SamovrednovanjeUtils;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.AllDocCollector;
 import rs.ac.uns.ftn.informatika.bibliography.textsrv.Retriever;
 
@@ -407,7 +408,12 @@ public class ResultEvaluator {
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 712) != null) || 
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 713) != null) || 
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 714) != null) ||
-						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 715) != null) 
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 715) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 721) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 722) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 723) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 724) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 725) != null)
 						||
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 701) != null)
 						){
@@ -428,30 +434,8 @@ public class ResultEvaluator {
 						}
 					}
 					for (AuthorDTO author : authorsAndEditors) {
-						Integer commissionId = null;
-						OrganizationUnitDTO rootOrganizationUnit = author.getOrganizationUnit();
-						while (rootOrganizationUnit.getSuperOrganizationUnit() != null){
-							rootOrganizationUnit = rootOrganizationUnit.getSuperOrganizationUnit();
-						}
-						String orgUnitControlNumber = rootOrganizationUnit.getControlNumber();
-						if(orgUnitControlNumber != null){
-							if(orgUnitControlNumber.equals("(BISIS)6782"))
-								commissionId = 711;
-							if(orgUnitControlNumber.equals("(BISIS)6781"))
-								commissionId = 712;
-							if(orgUnitControlNumber.equals("(BISIS)6780"))
-								commissionId = 713;
-							if(orgUnitControlNumber.equals("(BISIS)6779"))
-								commissionId = 714;
-							if(orgUnitControlNumber.equals("(BISIS)6778"))
-								commissionId = 715;
-						}
-						/*if(commissionId == null && author.getInstitution()!=null && author.getInstitution().getControlNumber()!=null) {					
-							if(author.getInstitution().getControlNumber().equals("(BISIS)5933")){
-								commissionId = 701;
-							}
-						}*/
-						
+						Integer commissionId = SamovrednovanjeUtils.getCommissionId(author);
+
 						if(commissionId!=null){
 							for (CommissionDTO commissionDTO : allCommissionList) {
 								if(commissionDTO.getCommissionId().equals(commissionId))
