@@ -1686,13 +1686,13 @@ public abstract class AbstractDIMCRISXMLSerializer implements Serializer {
 		} else if (record instanceof MonographDTO){
 			for (String language : languages) {
 				if(language.equals("en")){
-					XMLTag typeTag = new XMLTag(tagName, record.getControlNumber().equals("(BISIS)134397")?"archWork":"Book");
+					XMLTag typeTag = new XMLTag(tagName, (record.getControlNumber().equals("(BISIS)134397") || record.getControlNumber().equals("(BISIS)136037"))?"archWork":"Book");
 					typeTag.getAttributes().add(new AttributeValue("mdschema", mdschema));
 					typeTag.getAttributes().add(new AttributeValue("element", element));
 					typeTag.getAttributes().add(new AttributeValue("lang", "en"));
 					retVal.add(typeTag);
 				} else if(language.equals("sr")){
-					XMLTag typeTag = new XMLTag(tagName, record.getControlNumber().equals("(BISIS)134397")?"Studija":"Monografija");
+					XMLTag typeTag = new XMLTag(tagName, (record.getControlNumber().equals("(BISIS)134397") || record.getControlNumber().equals("(BISIS)136037"))?"Studija":"Monografija");
 					typeTag.getAttributes().add(new AttributeValue("mdschema", mdschema));
 					typeTag.getAttributes().add(new AttributeValue("element", element));
 					typeTag.getAttributes().add(new AttributeValue("lang", "sr"));
