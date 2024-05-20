@@ -918,6 +918,9 @@ public class StudyFinalDocumentDTO extends PublicationDTO {
 	}
 
 	public boolean isDefended(){
+		if(notLoaded){
+			record.loadFromDatabase();
+		}
 		return defendedNameString[1].equals(defendedStatus);
 	}
 
