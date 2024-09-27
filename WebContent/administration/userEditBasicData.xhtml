@@ -345,7 +345,7 @@
 					maxlength="200" 
 					validatorMessage="#{messages['administration.user.editPanel.ORCID.format']}"
 					 >
-					<f:validateRegex pattern="https://orcid\.org/0000-000(1-[5-9]|2-[0-9]|3-[0-4])[0-9]{3}-[0-9]{3}[0-9X]" />
+					<f:validateRegex pattern="https://orcid\.org/00[0-9]{2}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]" />
 				</h:inputText>
 				<a4j:outputPanel 
 					ajaxRendered="true"
