@@ -41,7 +41,7 @@ public class WosFilesProcessor {
 				if(parts[0].trim().equals("")) {
 					break;
 				}
-				if(parts[7].replaceAll("^\"+|\"+$", "").trim().toLowerCase().equals("n/a")) {
+				if(parts[10].replaceAll("^\"+|\"+$", "").trim().toLowerCase().equals("n/a")) {
 					continue;
 				}
 				ISIJournal journal = new ISIJournal(
@@ -50,27 +50,28 @@ public class WosFilesProcessor {
 						list,
 						parts[1].replaceAll("^\"+|\"+$", "").trim(),
 						parts[0].replaceAll("^\"+|\"+$", "").trim(),
-						parts[2].replaceAll("^\"+|\"+$", "").trim(),
 						parts[3].replaceAll("^\"+|\"+$", "").trim(),
-						parts[5].replaceAll("^\"+|\"+$", "").trim(),
+						parts[4].replaceAll("^\"+|\"+$", "").trim(),
+						parts[7].replaceAll("^\"+|\"+$", "").trim(),
 						null,
 						null,
+						parts[6].replaceAll("^\"+|\"+$", "").trim(),
 						null,
 						null,
 						null,
 						null,
 						null);
-				if((!parts[6].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[6].replaceAll("^\"+|\"+$", "").toLowerCase().trim().equals("n/a"))){
-					journal.setImpactFactor(Double.parseDouble(parts[6].replaceAll("^\"+|\"+$", "").trim()));
+				if (journal.getEdition() != null && (journal.getEdition().equalsIgnoreCase("SSCI") || journal.getEdition().equalsIgnoreCase("SCIE"))) {
+					if ((!parts[8].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[8].replaceAll("^\"+|\"+$", "").toLowerCase().trim().equals("n/a"))) {
+						journal.setImpactFactor(Double.parseDouble(parts[8].replace("<0.1", "0.09").replaceAll("^\"+|\"+$", "").trim()));
+					} else
+						journal.setImpactFactor(0.0);
+					if ((!parts[9].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[9].replaceAll("^\"+|\"+$", "").toLowerCase().trim().equals("n/a"))) {
+						journal.setImpactFactor5(Double.parseDouble(parts[9].replace("<0.1", "0.09").replaceAll("^\"+|\"+$", "").trim()));
+					} else
+						journal.setImpactFactor5(0.0);
+					retVal.add(journal);
 				}
-				else
-					journal.setImpactFactor(0.0);
-				if((!parts[8].replaceAll("^\"+|\"+$", "").equals("")) && (!parts[8].replaceAll("^\"+|\"+$", "").toLowerCase().trim().equals("n/a"))){
-					journal.setImpactFactor5(Double.parseDouble(parts[8].replaceAll("^\"+|\"+$", "").trim()));
-				}
-				else
-					journal.setImpactFactor5(0.0);				
-				retVal.add(journal);				
 			}		
 		}
 		return retVal;

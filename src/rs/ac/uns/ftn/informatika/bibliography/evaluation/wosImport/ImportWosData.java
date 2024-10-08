@@ -441,8 +441,8 @@ private static Connection conn = null;
 		ispisiRangRadiProvere(folderPath, year);
 		try{
 			wosImport(folderPath, year);
-			printListByCategory(folderPath, year);
-			printNewJournals(folderPath, year);
+//			printListByCategory(folderPath, year);
+//			printNewJournals(folderPath, year);
 			
 		}catch(Exception e){
 			e.printStackTrace();

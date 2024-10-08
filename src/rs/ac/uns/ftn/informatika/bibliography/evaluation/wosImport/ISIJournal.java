@@ -13,6 +13,7 @@ public class ISIJournal {
 	private String totalCites;
 	private Double impactFactor;
 	private Double impactFactor5;
+	private String edition;
 	private String immediacyIndex;
 	private String articles;
 	private String citedHalfLife;
@@ -45,6 +46,7 @@ public class ISIJournal {
 	 * @param totalCites
 	 * @param impactFactor
 	 * @param impactFactor5
+	 * @param edition
 	 * @param immediacyIndex
 	 * @param articles
 	 * @param citedHalfLife
@@ -52,7 +54,7 @@ public class ISIJournal {
 	 * @param articleInfluenceScore
 	 */
 	public ISIJournal(String category, String year, String list, String abbvTitle, String title, String issn, String eIssn,
-			String totalCites, Double impactFactor, Double impactFactor5,
+			String totalCites, Double impactFactor, Double impactFactor5, String edition,
 			String immediacyIndex, String articles, String citedHalfLife,
 			String eigenfactorScore, String articleInfluenceScore) {
 		super();
@@ -66,6 +68,7 @@ public class ISIJournal {
 		this.totalCites = totalCites;
 		this.impactFactor = impactFactor;
 		this.impactFactor5 = impactFactor5;
+		this.edition = edition;
 		this.immediacyIndex = immediacyIndex;
 		this.articles = articles;
 		this.citedHalfLife = citedHalfLife;
@@ -185,6 +188,15 @@ public class ISIJournal {
 	public void setImpactFactor5(Double impactFactor5) {
 		this.impactFactor5 = impactFactor5;
 	}
+
+	public String getEdition() {
+		return edition;
+	}
+
+	public void setEdition(String edition) {
+		this.edition = edition;
+	}
+
 	/**
 	 * @return the immediacyIndex
 	 */
