@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.SftpException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,15 +29,17 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.GenericComparator;
  */
 public class ExportPDFDissertationsTask implements Task {
 
-	public ExportPDFDissertationsTask(File exportFolder, int publicationYear) {
+	public ExportPDFDissertationsTask(File exportFolder, int publicationYear, ChannelSftp channelSftp) {
 		this.exportFolder = exportFolder;
 		this.publicationYear = publicationYear;
+		this.channelSftp = channelSftp;
 	}
 
 	@Override
 	public boolean execute() {
 		try {
 			List<StudyFinalDocumentDTO> dissertations = collectDefendedDissertations();
+			channelSftp.connect();
 			copyDissertations(dissertations);
 			dissertations = collectNonDefendedDissertations();
 			copyDissertations(dissertations);
@@ -50,21 +54,21 @@ public class ExportPDFDissertationsTask implements Task {
 			return false;
 		}
 	}
-	
+
 	public List<StudyFinalDocumentDTO> collectDefendedDissertations() {
 		String whereClause = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' AND NOTE like 'Public period finished!' " +
 						"AND DATEMODIFIED like '" + publicationYear + "-__-__') " +
 						"AND (RECORDSTRING like '%710_2#__0(BISIS)8011%' OR RECORDSTRING like '%710_2#__0(BISIS)114901%' OR RECORDSTRING like '%710_2#__0(BISIS)593%' OR RECORDSTRING like '%710_2#__0(BISIS)5928%' OR RECORDSTRING like '%710_2#__0(BISIS)82773%' OR RECORDSTRING like '%710_2#__0(BISIS)5941%' OR RECORDSTRING like '%710_2#__0(BISIS)5940%' OR RECORDSTRING like '%710_2#__0(BISIS)5929%')";
 		return getThesesByWhereClause(whereClause);
 	}
-	
+
 	public List<StudyFinalDocumentDTO> collectNonDefendedDissertations() {
 		String whereClause = "ARCHIVED != 100 AND RECORDID in (select RECORDID from FILE_STORAGE where TYPE like 'report' and LICENSE like 'Temporary available - not defended' " +
 						"AND DATEMODIFIED like '" + publicationYear + "-__-__') " +
 							"AND (RECORDSTRING like '%710_2#__0(BISIS)8011%' OR RECORDSTRING like '%710_2#__0(BISIS)114901%' OR RECORDSTRING like '%710_2#__0(BISIS)593%' OR RECORDSTRING like '%710_2#__0(BISIS)5928%' OR RECORDSTRING like '%710_2#__0(BISIS)82773%' OR RECORDSTRING like '%710_2#__0(BISIS)5941%' OR RECORDSTRING like '%710_2#__0(BISIS)5940%' OR RECORDSTRING like '%710_2#__0(BISIS)5929%')";
 		return getThesesByWhereClause(whereClause);
 	}
-	
+
 	public List<StudyFinalDocumentDTO> getThesesByWhereClause(String whereClause){
 		List<StudyFinalDocumentDTO> retVal = new ArrayList<StudyFinalDocumentDTO>();
 		List<Record> records = recordDAO.getRecordsIdsFromDatabaseByWhereClause(whereClause);
@@ -84,8 +88,8 @@ public class ExportPDFDissertationsTask implements Task {
 		return retVal;
 	}
 
-	
-	
+
+
 	private void copyDissertations(List<StudyFinalDocumentDTO> dissertations) {
 		for (StudyFinalDocumentDTO dissertation : dissertations) {
 			try {
@@ -97,14 +101,16 @@ public class ExportPDFDissertationsTask implements Task {
 					if (dissertation.getFile() != null){
 						File newFile = new File (directory, "disertacija.pdf");
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getFile())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getFile()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getFile())), newFile);
 						} else {
 							System.out.println("Dissertation Final pdf creation problem: " + dissertation.getRecord().toString());
 						}
 					} else if (dissertation.getPreliminaryTheses() != null){
 						File newFile = new File (directory, "disertacija.pdf");
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getPreliminaryTheses())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getPreliminaryTheses()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getPreliminaryTheses())), newFile);
 						} else {
 							System.out.println("Dissertation Public Review pdf creation problem: " + dissertation.getRecord().toString());
 						}
@@ -112,14 +118,16 @@ public class ExportPDFDissertationsTask implements Task {
 					if (dissertation.getSupplement() != null){
 						File newFile = new File (directory, "dodatak." + dissertation.getSupplement().getFileName().substring(dissertation.getSupplement().getFileName().lastIndexOf('.') + 1));
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getSupplement())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getSupplement()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getSupplement())), newFile);
 						} else {
 							System.out.println("Supplement Final pdf creation problem: " + dissertation.getRecord().toString());
 						}
 					} else if (dissertation.getPreliminarySupplement() != null){
 						File newFile = new File (directory, "dodatak." + dissertation.getPreliminarySupplement().getFileName().substring(dissertation.getPreliminarySupplement().getFileName().lastIndexOf('.') + 1));
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getPreliminarySupplement())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getPreliminarySupplement()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getPreliminarySupplement())), newFile);
 						} else {
 							System.out.println("Supplement Public Review pdf creation problem: " + dissertation.getRecord().toString());
 						}
@@ -127,7 +135,8 @@ public class ExportPDFDissertationsTask implements Task {
 					if (dissertation.getReport() != null){
 						File newFile = new File (directory, "izvestaj.pdf");
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getReport())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getReport()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getReport())), newFile);
 						} else {
 							System.out.println("Report pdf creation problem: " + dissertation.getRecord().toString());
 						}
@@ -135,7 +144,8 @@ public class ExportPDFDissertationsTask implements Task {
 					if (dissertation.getFileCopyright() != null){
 						File newFile = new File (directory, "licenca.pdf");
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getFileCopyright())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getFileCopyright()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getFileCopyright())), newFile);
 						} else {
 							System.out.println("License pdf creation problem: " + dissertation.getRecord().toString());
 						}
@@ -143,7 +153,8 @@ public class ExportPDFDissertationsTask implements Task {
 					if (dissertation.getMetadataCopyright() != null){
 						File newFile = new File (directory, "izjavaIstovetnost.pdf");
 						if(newFile.createNewFile()){
-							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getMetadataCopyright())), newFile);
+							copyFileUsingSFTPChannels(FileStorage.getFullPath(dissertation.getMetadataCopyright()), newFile);
+//							copyFileUsingFileChannels(new File(FileStorage.getFullPath(dissertation.getMetadataCopyright())), newFile);
 						} else {
 							System.out.println("Metadata copyright pdf creation problem: " + dissertation.getRecord().toString());
 						}
@@ -159,7 +170,17 @@ public class ExportPDFDissertationsTask implements Task {
 			}
 		}
 	}
-	
+
+	private void copyFileUsingSFTPChannels(String source, File dest)
+			throws IOException {
+		try {
+			System.out.println(source);
+			channelSftp.get(source, dest.getAbsolutePath());
+		} catch (SftpException e){
+			e.printStackTrace();
+		}
+	}
+
 	private static void copyFileUsingFileChannels(File source, File dest)
 	        throws IOException {
 	    FileChannel inputChannel = null;
@@ -174,7 +195,7 @@ public class ExportPDFDissertationsTask implements Task {
 	        	System.out.println("NEMA");
 	        else {
 	        	inputChannel.close();
-	        
+
 	        	outputChannel.close();
 	        }
 	    }
@@ -184,7 +205,9 @@ public class ExportPDFDissertationsTask implements Task {
 	private RecordDAO recordDAO = new RecordDAO(new RecordDB());
 	private File exportFolder;
 	private int publicationYear;
-	
+
+	private ChannelSftp channelSftp;
+
 	private static Log log = LogFactory.getLog(ExportPDFDissertationsTask.class.getName());
 
 }
