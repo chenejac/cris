@@ -30,7 +30,7 @@ public class FileStorage {
 	    try {
 	      InputStream input = new ByteArrayInputStream(fileDTO.getData());
 	      BufferedOutputStream out = new BufferedOutputStream(
-	          new FileOutputStream(file)); 
+	          new FileOutputStream(file));
 	      IOUtils.copy(input, out);
 	      out.close();
 	      retVal = true;
@@ -56,7 +56,7 @@ public class FileStorage {
 	      return null;
 	    }
 	}
-	
+
 	public static byte[] getByteArray(FileDTO fileDTO) {
 	    InputStream is = FileStorage.get(fileDTO);
 	    try {
@@ -66,7 +66,7 @@ public class FileStorage {
 		}
 	    	return null;
 	}
-  
+
 	public static boolean delete(FileDTO fileDTO){
 		String fullPath = getFullPath(fileDTO);
 		File file = new File(fullPath);
@@ -74,31 +74,31 @@ public class FileStorage {
 			log.warn("FileDTO " + fullPath + " does not exist!");
 			return false;
 		}else{
-			file.delete();   	
+			file.delete();
 			return true;
 		}
 	}
-   
+
 	public static boolean deleteFolderForFiles(FileDTO fileDTO){
 		String dirPath = storageRoot + "/" + "set" + getFileset(fileDTO) + "/" +fileDTO.getControlNumber();
 		File file = new File(dirPath);
 		return file.delete();
 	}
-  
+
 	public static String getFullPath(FileDTO fileDTO) {
-		return storageRoot + "/" + "set" + getFileset(fileDTO) + "/" + 
+		return storageRoot + "/" + "set" + getFileset(fileDTO) + "/" +
    			fileDTO.getControlNumber() + "/" + fileDTO.getFileName();
 	}
-  
+
 	public static int getFileset(FileDTO fileDTO) {
 		return (fileDTO.getId() - 1) / documentsPerSet + 1;
 	}
 
 	//"D:/cris/files"
-	public static String storageRoot = "E:/cris/files";
+	public static String storageRoot = "/media/store/files";
 	public static int documentsPerSet = 1000;
 	private static Log log = LogFactory.getLog(FileStorage.class.getName());
-    
+
 	public static void createStorageRootDir() {
 		try {
 			File d = new File(storageRoot);

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rs.ac.uns.ftn.informatika.bibliography.evaluation;
 
@@ -32,29 +32,29 @@ import rs.ac.uns.ftn.informatika.bibliography.textsrv.Retriever;
  *
  */
 public class ResultEvaluator {
-	
+
 	private static CommissionDAO commissionDAO = new CommissionDAO();
-	
+
 	static {
 		ResultEvaluator.dataSource = DataSourceFactory.getDataSource();
 	}
-	
+
 	public static Map<String, ResultMeasureDTO> calculateResultMeasures (Connection conn, Record record, RuleBookDTO ruleBook, List<CommissionDTO> commissionList, List<AuthorDTO> authorsAndEditors) throws Exception{
-		
+
 		if(record.getDto().isNotLoaded()){
 			record.loadFromDatabase();
 		}
 		Set<Integer> noEvaluations = new HashSet<Integer>();
-		
+
 //		System.out.println("ZAPIS:" + record.getControlNumber());
 //		System.out.println("PRAVILNIK:" + ruleBook.toString());
 //		System.out.println("KOMISIJA:" + commissionList.get(0).getCommissionId());
 //		System.out.println("AUTOR:" + authorsAndEditors.get(0).toString());
-		
+
 		Map<String, ResultMeasureDTO> retVal = new HashMap<String, ResultMeasureDTO>();
 		RecordDB recordDB = new RecordDB();
 		EvaluationDB evaluationDB = new EvaluationDB();
-		
+
 		PublicationDTO publicationDTO = (PublicationDTO)(record.getDto());
 		Calendar publicationDate = new GregorianCalendar();
 		Map<String, Integer> journalCategories = new HashMap<String, Integer>();
@@ -66,34 +66,34 @@ public class ResultEvaluator {
 		journalCategories.put("outstandingInternationalJournal", new Integer(6));
 		journalCategories.put("leadingInternationalJournal", new Integer(7));
 		journalCategories.put("topLeadingInternationalJournal", new Integer(8));
-						
+
 		Date publicationTime = new Date();
 //		publicationTime.setYear(publicationDTO.getPublicationYear()-1900);
-		publicationDate.setTime(publicationTime); 
-		
+		publicationDate.setTime(publicationTime);
+
 		Integer publicationYear = null;
 		if(publicationDTO.getPublicationYear()!=null){
 			if(publicationDTO.getPublicationYear().contains("/")){
 				publicationYear = Integer.parseInt(publicationDTO.getPublicationYear().substring(0, publicationDTO.getPublicationYear().indexOf("/")));
-			} else 
+			} else
 				publicationYear = Integer.parseInt(publicationDTO.getPublicationYear());
-		} else 
+		} else
 			return null;
 		publicationDate.set(GregorianCalendar.YEAR, publicationYear);
-		
-		
+
+
 		Calendar publicationDateMinus1 = new GregorianCalendar();
-		publicationDateMinus1.setTime(publicationTime); 
+		publicationDateMinus1.setTime(publicationTime);
 		publicationDateMinus1.set(GregorianCalendar.YEAR, publicationYear-1);
 		Calendar publicationDateMinus2 = new GregorianCalendar();
-		publicationDateMinus2.setTime(publicationTime); 
+		publicationDateMinus2.setTime(publicationTime);
 		publicationDateMinus2.set(GregorianCalendar.YEAR, publicationYear-2);
 		Calendar publicationDatePlus1 = new GregorianCalendar();
-		publicationDatePlus1.setTime(publicationTime); 
+		publicationDatePlus1.setTime(publicationTime);
 		publicationDatePlus1.set(GregorianCalendar.YEAR, publicationYear+1);
-		
+
 //		System.out.println("DATUMI:"+publicationDateMinus2.get(GregorianCalendar.YEAR)+";"+publicationDateMinus1.get(GregorianCalendar.YEAR)+";"+publicationDate.get(GregorianCalendar.YEAR)+";"+publicationDatePlus1.get(GregorianCalendar.YEAR)+";");
-		
+
 		if (authorsAndEditors.isEmpty()) {
 			authorsAndEditors = publicationDTO.getAllAuthors();
 			authorsAndEditors.addAll(publicationDTO.getEditors());
@@ -104,7 +104,7 @@ public class ResultEvaluator {
 				}
 			}
 		}
-		
+
 		for (AuthorDTO author : authorsAndEditors) { //nekako proveriti i vrstu autorstva, a ne samo da li je bilo po toj komisiji.
 //			System.out.println("AUTORNIZ:" + author.toString());
 			for (CommissionDTO commission : commissionList){
@@ -118,8 +118,8 @@ public class ResultEvaluator {
 				String schemeSuperPublicationType = null;
 				String classSuperPublicationType = null;
 				String schemeProductType = null;
-				String classProductType = null; 
-				String schemePatentType = null; 
+				String classProductType = null;
+				String schemePatentType = null;
 				String classPatentType = null;
 				String schemeResearcherRoleType = null;
 				String classResearcherRoleType = null;
@@ -129,20 +129,20 @@ public class ResultEvaluator {
 				if(classPublicationType==null){
 					schemePublicationType = "type";
 					classPublicationType = getCommissionType(record, "type", publicationDate, commission);	//trazi se oznaka za zapis po pravilniku (internationalJournal, ..., internationalCornference,..., internationalMonograph)
-					
+
 //					System.out.println("2 classPublicationType getCommissionType za semu type je "+classPublicationType);
-					
+
 					if(classPublicationType==null)
 						classPublicationType = getResearcherType(record.getRecordClasses(), Types.TYPE_SCHEMA, publicationDate); //trazi se klasifikacija samog zapisa da li je on (journal,paperJournal, product, patent, conference, proceedings, fullPP,..., paperMonograph...)
-					
+
 //					System.out.println("3 classPublicationType getResearcherType za semu type je "+classPublicationType);
-					
+
 					schemeResearcherRoleType = "authorshipType";
 					classResearcherRoleType = getRelationClass(record.getRelationsOtherRecordsThisRecord(), schemeResearcherRoleType, author.getControlNumber(), publicationDate); //trazi se klasifikacija same veze sa autorom (is author of, is edithor of...)
-					
+
 //					System.out.println("4 classResearcherRoleType getRelationClass za semu authorshipType je "+classResearcherRoleType);
-					
-					String eventId = getRelatedRecord(record.getRelationsThisRecordOtherRecords(), "publicationEventRelation", "is output from", publicationDate); 
+
+					String eventId = getRelatedRecord(record.getRelationsThisRecordOtherRecords(), "publicationEventRelation", "is output from", publicationDate);
 					if(eventId!=null){
 //						System.out.println("5.1 provera za event getRelatedRecord");
 						Record tmp = recordDB.getRecord(conn, eventId);
@@ -151,7 +151,7 @@ public class ResultEvaluator {
 //							System.out.println("5.1.1 classEventType getCommissionType za semu type je "+classEventType);
 							if(classEventType!=null)
 								schemeEventType = "type";
-						}		
+						}
 					}
 					String superPublicationId = getRelatedRecord(record.getRelationsThisRecordOtherRecords(), "publicationsRelation", "is published in", publicationDate); //trazi se id publikacije u kojoj je objavljen zapis (superpublikacija)
 					if(superPublicationId!=null){
@@ -186,7 +186,7 @@ public class ResultEvaluator {
 							}
 							if((classSuperPublicationType == null) && (classEventType == null)){
 //								System.out.println("5.2.1.2 provera da li je super publikacije zbornik radova je vrednovana sa komisijiom i pripda nekoj od definisanih kategorija");
-								eventId = getRelatedRecord(tmp.getRelationsThisRecordOtherRecords(), "publicationEventRelation", "is output from", publicationDate); 
+								eventId = getRelatedRecord(tmp.getRelationsThisRecordOtherRecords(), "publicationEventRelation", "is output from", publicationDate);
 								schemeEventType = null;
 								classEventType = null;
 								if(eventId!=null){
@@ -197,10 +197,10 @@ public class ResultEvaluator {
 //										System.out.println("5.2.1.2.1.1 classEventType getCommissionType za semu type je "+classEventType);
 										if(classEventType!=null)
 											schemeEventType = "type";
-									}		
+									}
 								}
 							}
-						}		
+						}
 					}
 				}
 //				System.out.println("Sve sto ulazi u getResultMeasure\n");
@@ -211,21 +211,21 @@ public class ResultEvaluator {
 //				System.out.println("schemeSuperPublicationType je " + schemeSuperPublicationType + "; classSuperPublicationType je " + classSuperPublicationType);
 //				System.out.println("schemeProductType je " + schemeProductType + "; classProductType je " + classProductType);
 //				System.out.println("schemePatentType je " + schemePatentType + "; classPatentType je " + classPatentType);
-				
-				ResultMeasureDTO resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, 
-						schemeResearcherRoleType, classResearcherRoleType, 
-						schemeEventType, classEventType, 
-						schemePublicationType, classPublicationType, 
-						schemeSuperPublicationType, classSuperPublicationType, 
-						schemeProductType, classProductType, 
+
+				ResultMeasureDTO resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType,
+						schemeResearcherRoleType, classResearcherRoleType,
+						schemeEventType, classEventType,
+						schemePublicationType, classPublicationType,
+						schemeSuperPublicationType, classSuperPublicationType,
+						schemeProductType, classProductType,
 						schemePatentType, classPatentType);
-				
+
 //				if(resultMeasure!=null)
 //					System.out.println("Ocenjena kao "+ resultMeasure.getResultType().getClassId() + " sa bodom " +resultMeasure.getQuantitativeMeasure());
 //				else
 //					System.out.println("NIJE OCENJENAAAAAAAAAAAAAAAAAAAAAA");
-				
-				
+
+
 				if(resultMeasure!=null){
 					resultMeasure.setCommissionDTO(commission);
 					retVal.put(commission.getCommissionId().toString(), resultMeasure);
@@ -239,7 +239,7 @@ public class ResultEvaluator {
 							if(maxValue == null){
 								maxValue = measureDTO;
 							} else if (Integer.parseInt(maxValue.getResultType().getSomeTerm().substring(1)) > Integer.parseInt(measureDTO.getResultType().getSomeTerm().substring(1))){
-								maxValue = measureDTO;		
+								maxValue = measureDTO;
 							}
 						}
 						if(maxValue != null){
@@ -248,19 +248,19 @@ public class ResultEvaluator {
 						}
 					}
 				}
-			}				
+			}
 		}
 		return retVal;
 	}
-	
-	
+
+
 	public static ResultMeasureDTO getResultType(Record record, RuleBookDTO ruleBook, List<CommissionDTO> commissionList, boolean calculate) {
 		Connection conn = null;
 		ResultMeasureDTO retVal = null;
 		try {
 			conn = ResultEvaluator.dataSource.getConnection();
 			Map<String, ResultMeasureDTO> resultMeasures = (calculate)?calculateResultMeasures(conn, record, ruleBook, commissionList, new ArrayList<AuthorDTO>()):(getCalculatedResultType(conn, record, ruleBook, commissionList));
-			
+
 			for (ResultMeasureDTO resultMeasure : resultMeasures.values()) {
 				if (retVal == null){
 					retVal = resultMeasure;
@@ -281,7 +281,7 @@ public class ResultEvaluator {
 		}
 		return retVal;
 	}
-	
+
 	private static Map<String, ResultMeasureDTO> getCalculatedResultType(
 			Connection conn, Record record, RuleBookDTO ruleBook,
 			List<CommissionDTO> commissionList) {
@@ -289,22 +289,22 @@ public class ResultEvaluator {
 		try{
 			PublicationDTO publicationDTO = (PublicationDTO) record.getDto();
 			Calendar publicationDate = new GregorianCalendar();
-							
+
 			Date publicationTime = new Date();
-			publicationDate.setTime(publicationTime); 
-			
+			publicationDate.setTime(publicationTime);
+
 			Integer publicationYear = null;
 			if(publicationDTO.getPublicationYear()!=null){
 				if(publicationDTO.getPublicationYear().contains("/")){
 					publicationYear = Integer.parseInt(publicationDTO.getPublicationYear().substring(0, publicationDTO.getPublicationYear().indexOf("/")));
-				} else 
+				} else
 					publicationYear = Integer.parseInt(publicationDTO.getPublicationYear());
 			} else {
 				System.out.println(publicationDTO.getHTMLRepresentation());
 				return null;
 			}
 			publicationDate.set(GregorianCalendar.YEAR, publicationYear);
-						
+
 			EvaluationDB evaluationDB = new EvaluationDB();
 			String schemePrizeType = null;
 			String classPrizeType = null;
@@ -313,23 +313,23 @@ public class ResultEvaluator {
 			String schemeSuperPublicationType = null;
 			String classSuperPublicationType = null;
 			String schemeProductType = null;
-			String classProductType = null; 
-			String schemePatentType = null; 
+			String classProductType = null;
+			String schemePatentType = null;
 			String classPatentType = null;
 			String schemeResearcherRoleType = null;
 			String classResearcherRoleType = null;
 			String schemePublicationType = "resultType";
 			for (CommissionDTO commission : commissionList) {
 				String classPublicationType = evaluationDB.getResultClassificationByCommission(conn, publicationDTO.getControlNumber(), "resultType", publicationDate, commission.getCommissionId());
-				
-				
+
+
 				if(classPublicationType!=null){
 					ResultMeasureDTO resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
 					if(resultMeasure != null){
 						resultMeasure.setCommissionDTO(commission);
 						retVal.put(commission.getCommissionId().toString(), resultMeasure);
-					} 
-				} 
+					}
+				}
 //				else {
 //					ResultMeasureDTO resultMeasure = new ResultMeasureDTO();
 //					resultMeasure.setQuantitativeMeasure(new Double(0.0));
@@ -362,7 +362,7 @@ public class ResultEvaluator {
 	        	if("serbianResearchersEvaluation".equals(rb.getClassId()))
 	        		ruleBook = rb;
 	        }
-			
+
 			BooleanQuery bq = new BooleanQuery();
 			BooleanQuery type = new BooleanQuery();
 //			type.add(new TermQuery(new Term("TYPE", Types.PAPER_JOURNAL)), Occur.SHOULD);
@@ -386,11 +386,11 @@ public class ResultEvaluator {
 //			type.add(new TermQuery(new Term("TYPE", Types.PATENT)), Occur.SHOULD);
 //			type.add(new TermQuery(new Term("TYPE", Types.PRODUCT)), Occur.SHOULD);
 			bq.add(type, Occur.MUST);
-			
-			bq.add(new TermQuery(new Term("PY", "2022")), Occur.MUST);
-			
+
+			bq.add(new TermQuery(new Term("PY", "2024")), Occur.MUST);
+
 			List<Record> records = Retriever.select(bq, new AllDocCollector(false));
-			
+
 			List<CommissionDTO> allCommissionList = commissionDAO.getCommissions();
 			System.out.println(records.size());
 			int i = 0;
@@ -404,9 +404,9 @@ public class ResultEvaluator {
 //				if(records.indexOf(record) > 3000)
 //					break;
 				if(
-						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 711) != null) || 
-						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 712) != null) || 
-						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 713) != null) || 
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 711) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 712) != null) ||
+						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 713) != null) ||
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 714) != null) ||
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 715) != null) ||
 						(evaluationDB.getResultClassificationByCommission(conn, record.getControlNumber(), "resultType", new GregorianCalendar(), 721) != null) ||
@@ -476,12 +476,12 @@ public class ResultEvaluator {
 			}
 		}
 	}
-	
+
 	public static void fillResultType(Connection conn, Record record, RuleBookDTO ruleBook, List<CommissionDTO> commissionList) {
-		
+
 		EvaluationDB evaluationDB = new EvaluationDB();
 		PublicationDTO publicationDTO = (PublicationDTO)(record.getDto());
-		
+
 		try {
 			Map<String, ResultMeasureDTO> resultMeasures = calculateResultMeasures(conn, record, ruleBook, commissionList, new ArrayList<AuthorDTO>());
 			for (String commissionID : resultMeasures.keySet()) {
@@ -500,7 +500,7 @@ public class ResultEvaluator {
 			System.out.println(record);
 		}
 	}
-	
+
 
 	private static String getResearcherType(List<Classification> recordClasses,
 			String scheme, Calendar publicationDate) {
@@ -519,13 +519,13 @@ public class ResultEvaluator {
 		for (Classification classification : recordClasses) {
 			if(
 					(commission.getCommissionId().equals(classification.getCommissionId()))
-			&& (classification.getCfClassSchemeId().equals(scheme)) 
-			&&  (! (publicationDate.before(classification.getCfStartDate()))) 
+			&& (classification.getCfClassSchemeId().equals(scheme))
+			&&  (! (publicationDate.before(classification.getCfStartDate())))
 			&& (((!(publicationDate.after(classification.getCfEndDate())))))){
 				return classification.getCfClassId();
 			}
 		}
-		
+
 		if((record.getDto() instanceof PaperJournalDTO) || (record.getDto() instanceof JournalDTO)){
 			Map<String, Integer> journalCategories = new HashMap<String, Integer>();
 			journalCategories.put("scienceJournal", new Integer(1));
@@ -536,7 +536,7 @@ public class ResultEvaluator {
 			journalCategories.put("outstandingInternationalJournal", new Integer(6));
 			journalCategories.put("leadingInternationalJournal", new Integer(7));
 			journalCategories.put("topLeadingInternationalJournal", new Integer(8));
-			
+
 			List<CommissionDTO> connectedCommissions = commissionDAO.getConnectedCommissions(commission.getCommissionId());
 			String maxValue = null;
 			for (CommissionDTO commissionDTO : connectedCommissions) {
@@ -551,11 +551,11 @@ public class ResultEvaluator {
 							}
 						} else {
 							if (Integer.parseInt(maxValue.substring(1)) > Integer.parseInt(tempValue.substring(1))){
-								maxValue = tempValue;		
+								maxValue = tempValue;
 							}
-						}		
+						}
 					}
-				} 
+				}
 			}
 			if(maxValue != null){
 				return maxValue;
@@ -587,18 +587,18 @@ public class ResultEvaluator {
 		Connection conn = null;
 		EvaluationDB evaluationDB = new EvaluationDB();
 		try{
-			
+
 			if(commission == null || commission.getCommissionId()<=0)
 				return null;
-			
+
 			if(!(record.getDto() instanceof PublicationDTO))
 				return null;
-			
+
 			if(!(record.getDto() instanceof JournalDTO))
 				return null;
-			
+
 			conn = ResultEvaluator.dataSource.getConnection();
-		
+
 			Calendar publicationDate = new GregorianCalendar();
 			Map<String, Integer> journalCategories = new HashMap<String, Integer>();
 			journalCategories.put("scienceJournal", new Integer(1));
@@ -609,26 +609,26 @@ public class ResultEvaluator {
 			journalCategories.put("outstandingInternationalJournal", new Integer(6));
 			journalCategories.put("leadingInternationalJournal", new Integer(7));
 			journalCategories.put("topLeadingInternationalJournal", new Integer(8));
-							
+
 			Date publicationTime = new Date();
 			publicationDate.setTime(publicationTime);
 			publicationDate.set(GregorianCalendar.YEAR, publicationYear);
-			
+
 			Calendar publicationDateMinus1 = new GregorianCalendar();
-			publicationDateMinus1.setTime(publicationTime); 
+			publicationDateMinus1.setTime(publicationTime);
 			publicationDateMinus1.set(GregorianCalendar.YEAR, publicationYear-1);
 			Calendar publicationDateMinus2 = new GregorianCalendar();
-			publicationDateMinus2.setTime(publicationTime); 
+			publicationDateMinus2.setTime(publicationTime);
 			publicationDateMinus2.set(GregorianCalendar.YEAR, publicationYear-2);
 			Calendar publicationDatePlus1 = new GregorianCalendar();
-			publicationDatePlus1.setTime(publicationTime); 
+			publicationDatePlus1.setTime(publicationTime);
 			publicationDatePlus1.set(GregorianCalendar.YEAR, publicationYear+1);
-			
+
 			if(record.getDto().isNotLoaded())
 				record.loadFromDatabase();
-			
+
 			List<ResultMeasureDTO> resultMeasures = new ArrayList<ResultMeasureDTO>();
-			
+
 			String schemePrizeType = null;
 			String classPrizeType = null;
 			String schemeEventType = null;
@@ -636,8 +636,8 @@ public class ResultEvaluator {
 			String schemeSuperPublicationType = null;
 			String classSuperPublicationType = null;
 			String schemeProductType = null;
-			String classProductType = null; 
-			String schemePatentType = null; 
+			String classProductType = null;
+			String schemePatentType = null;
 			String classPatentType = null;
 			String schemeResearcherRoleType = null;
 			String classResearcherRoleType = null;
@@ -662,46 +662,46 @@ public class ResultEvaluator {
 						superPublicationType = tempClassSuperPublicationType;
 					}
 			}
-			
+
 			schemeResearcherRoleType = "authorshipType";
 			classResearcherRoleType = "is author of";
 			schemePublicationType = "type";
 			classPublicationType = "paperJournal";
 			schemeSuperPublicationType = "type";
 			classSuperPublicationType = superPublicationType;
-			
+
 			ResultMeasureDTO resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
 			if(resultMeasure!=null){
 				resultMeasures.add(resultMeasure);
 			}
-			
+
 			schemeResearcherRoleType = "authorshipType";
 			classResearcherRoleType = "is author of";
 			schemePublicationType = "type";
 			classPublicationType = "scientificCriticismJournal";
 			schemeSuperPublicationType = "type";
 			classSuperPublicationType = superPublicationType;
-			
+
 			resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
 			if(resultMeasure!=null){
 				resultMeasures.add(resultMeasure);
 			}
-			
+
 			schemeResearcherRoleType = "authorshipType";
 			classResearcherRoleType = "is editor of";
 			schemePublicationType = "type";
 			classPublicationType = superPublicationType;
 			schemeSuperPublicationType = null;
 			classSuperPublicationType = null;
-			
+
 			resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
-			
+
 			if(resultMeasure!=null){
 				resultMeasures.add(resultMeasure);
 			}
-			
+
 			retVal = resultMeasures;
-			
+
 		}catch (Throwable e) {
 			e.printStackTrace();
 			System.out.println(record);
@@ -714,26 +714,26 @@ public class ResultEvaluator {
 		}
 		return retVal;
 	}
-	
+
 	public static List<ResultMeasureDTO> getResultTypesVece(Record record, Integer publicationYear, RuleBookDTO ruleBook, CommissionDTO commission) {
 		List<ResultMeasureDTO> retVal = null;
 		Connection conn = null;
 		EvaluationDB evaluationDB = new EvaluationDB();
 		MetricsDB metricsDB = new MetricsDB();
-		
+
 		try{
-			
+
 			if(commission == null || commission.getCommissionId()<=0)
 				return null;
-			
+
 			if(!(record.getDto() instanceof PublicationDTO))
 				return null;
-			
+
 			if(!(record.getDto() instanceof JournalDTO))
 				return null;
-			
+
 			conn = ResultEvaluator.dataSource.getConnection();
-		
+
 			Calendar publicationDate = new GregorianCalendar();
 			Map<String, Integer> journalCategories = new HashMap<String, Integer>();
 			journalCategories.put("scienceJournal", new Integer(1));
@@ -744,25 +744,25 @@ public class ResultEvaluator {
 			journalCategories.put("outstandingInternationalJournal", new Integer(6));
 			journalCategories.put("leadingInternationalJournal", new Integer(7));
 			journalCategories.put("topLeadingInternationalJournal", new Integer(8));
-			
+
 			Date publicationTime = new Date();
 			publicationDate.setTime(publicationTime);
 			publicationDate.set(GregorianCalendar.YEAR, publicationYear);
-			
+
 			Calendar publicationDateMinus1 = new GregorianCalendar();
-			publicationDateMinus1.setTime(publicationTime); 
+			publicationDateMinus1.setTime(publicationTime);
 			publicationDateMinus1.set(GregorianCalendar.YEAR, publicationYear-1);
 			Calendar publicationDateMinus2 = new GregorianCalendar();
-			publicationDateMinus2.setTime(publicationTime); 
+			publicationDateMinus2.setTime(publicationTime);
 			publicationDateMinus2.set(GregorianCalendar.YEAR, publicationYear-2);
 			Calendar publicationDatePlus1 = new GregorianCalendar();
-			publicationDatePlus1.setTime(publicationTime); 
+			publicationDatePlus1.setTime(publicationTime);
 			publicationDatePlus1.set(GregorianCalendar.YEAR, publicationYear+1);
-			
+
 			record.loadFromDatabase();
-			
+
 			List<ResultMeasureDTO> resultMeasures = new ArrayList<ResultMeasureDTO>();
-			
+
 			String schemePrizeType = null;
 			String classPrizeType = null;
 			String schemeEventType = null;
@@ -770,8 +770,8 @@ public class ResultEvaluator {
 			String schemeSuperPublicationType = null;
 			String classSuperPublicationType = null;
 			String schemeProductType = null;
-			String classProductType = null; 
-			String schemePatentType = null; 
+			String classProductType = null;
+			String schemePatentType = null;
 			String classPatentType = null;
 			String schemeResearcherRoleType = null;
 			String classResearcherRoleType = null;
@@ -779,15 +779,15 @@ public class ResultEvaluator {
 			String classPublicationType = null;
 
 			String superPublicationType = getCommissionType(record, "type", publicationDate, commission);
-			
+
 			List<ImpactFactor> impactFactors = metricsDB.getJournalImpactFactors(conn, record.getControlNumber(), Arrays.asList(new String[]{"twoYearsIF", "fiveYearsIF"}));
-			
+
 			boolean foundmin2 	= false;
 			boolean foundmin1 	= false;
 			boolean found0 		= false;
 			boolean foundplu1 	= false;
-			
-			for (ImpactFactor imf : impactFactors) {			
+
+			for (ImpactFactor imf : impactFactors) {
 				if(imf.getYear().intValue() == (publicationYear-2))
 					foundmin2 = true;
 				if(imf.getYear().intValue() == (publicationYear-1))
@@ -819,45 +819,45 @@ public class ResultEvaluator {
 					}
 				}
 			}
-			
+
 			schemeResearcherRoleType = "authorshipType";
 			classResearcherRoleType = "is author of";
 			schemePublicationType = "type";
 			classPublicationType = "paperJournal";
 			schemeSuperPublicationType = "type";
 			classSuperPublicationType = superPublicationType;
-			
+
 			ResultMeasureDTO resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
 			if(resultMeasure!=null){
 				resultMeasures.add(resultMeasure);
 			}
-			
+
 			schemeResearcherRoleType = "authorshipType";
 			classResearcherRoleType = "is author of";
 			schemePublicationType = "type";
 			classPublicationType = "scientificCriticismJournal";
 			schemeSuperPublicationType = "type";
 			classSuperPublicationType = superPublicationType;
-			
+
 			resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
 			if(resultMeasure!=null){
 				resultMeasures.add(resultMeasure);
 			}
-			
+
 			schemeResearcherRoleType = "authorshipType";
 			classResearcherRoleType = "is editor of";
 			schemePublicationType = "type";
 			classPublicationType = superPublicationType;
 			schemeSuperPublicationType = null;
 			classSuperPublicationType = null;
-			
+
 			resultMeasure = evaluationDB.getResultMeasure(conn, ruleBook, commission, schemePrizeType, classPrizeType, schemeResearcherRoleType, classResearcherRoleType, schemeEventType, classEventType, schemePublicationType, classPublicationType, schemeSuperPublicationType, classSuperPublicationType, schemeProductType, classProductType, schemePatentType, classPatentType);
 			if(resultMeasure!=null){
 				resultMeasures.add(resultMeasure);
 			}
-			
-			retVal = resultMeasures; 
-			
+
+			retVal = resultMeasures;
+
 		}catch (Throwable e) {
 			e.printStackTrace();
 			System.out.println(record);
@@ -870,9 +870,9 @@ public class ResultEvaluator {
 		}
 		return retVal;
 	}
-	
+
 	private static DataSource dataSource;
-	
+
 
 
 }

@@ -59,7 +59,7 @@ public class ExportMonographsTask implements Task {
 		List<MonographAndPapers> retVal = new ArrayList<MonographAndPapers>();
 		BooleanQuery allMonographsQuery = new BooleanQuery();
 		Query type = new TermQuery(new Term("TYPE", Types.MONOGRAPH));
-		allMonographsQuery.add(new TermQuery(new Term("PY", "2022")), Occur.MUST);
+		allMonographsQuery.add(new TermQuery(new Term("PY", "2024")), Occur.MUST);
 		allMonographsQuery.add(type, Occur.MUST);
 //		QueryParser qparser = new QueryParser("INS", new CrisAnalyzer());
 //		Query orgUnitQuery = qparser.parse("+(INS:\"departman za matematiku i informatiku\" INS:\"katedra za opstu algebru i teorijsko racunarstvo\" INS:\"katedra za analizu verovatnocu i diferencijalne jednacine\" INS:\"katedra za numericku matematiku\" INS:\"katedra za primenjenu algebru\" INS:\"katedra za funkcionalnu analizu geometriju i topologiju\" INS:\"katedra za racunarske nauke\" INS:\"katedra za matematicku logiku i diskretnu matematiku\" INS:\"katedra za primenjenu analizu\" INS:\"katedra za informacione sisteme\")");
@@ -78,13 +78,13 @@ public class ExportMonographsTask implements Task {
 				MonographDTO monographDTO = (MonographDTO) recordDTO.getDto();
 				Calendar publicationDate = new GregorianCalendar();
 				Date publicationTime = new Date();
-				publicationDate.setTime(publicationTime); 
+				publicationDate.setTime(publicationTime);
 				publicationDate.set(GregorianCalendar.YEAR, Integer.parseInt(monographDTO.getPublicationYear()));
 				for (Classification classification : recordDTO.getRecordClasses()) {
 					if(
 							(!("0".equals(classification.getCommissionId().toString())))
-					&& (classification.getCfClassSchemeId().equals("type")) 
-					&&  (! (publicationDate.before(classification.getCfStartDate()))) 
+					&& (classification.getCfClassSchemeId().equals("type"))
+					&&  (! (publicationDate.before(classification.getCfStartDate())))
 					&& (!(publicationDate.after(classification.getCfEndDate())))){
 						monographClassification = classification.getCfClassId();
 					}
@@ -108,13 +108,13 @@ public class ExportMonographsTask implements Task {
 							listPapers.add(paperMonographDTO);
 						}
 					}
-//					if(listPapers.size() == 0){
-					if(listPapers.size() != 0) {
+					if(listPapers.size() == 0){
+//					if(listPapers.size() != 0) {
 //					if(! monographClassification.equals(""))
 						retVal.add(new MonographAndPapers(monographDTO, listPapers, monographClassification));
 					}
 				}
-				
+
 			} catch  (Exception e) {
 				log.error(e);
 				e.printStackTrace();
@@ -131,7 +131,7 @@ public class ExportMonographsTask implements Task {
 				orderBy, directions));
 		return retVal;
 	}
-	
+
 	private void printMonographs(List<MonographAndPapers> monographs) {
 //		out.println("Email,ID Monografije,Jezik,Naslov,Podnaslov,ISBN,Broj str.,Napomena,URI,Izdavac,Godina,Autor,Broj autocitata,Spisak autocitata,Recezent,Prikaz kriticki(navesti referencu)");
 //		out.println("Email,ID Monografije,Jezik,Naslov,Podnaslov,ISBN,Broj str.,Napomena,URI,Izdavac,Godina,Urednik,Recezent,Prikaz kriticki(navesti referencu)");
@@ -143,7 +143,7 @@ public class ExportMonographsTask implements Task {
 
 	private RecordDAO recordDAO = new RecordDAO(new RecordDB());
 	private PrintWriter out;
-	
+
 	private static Log log = LogFactory.getLog(ExportConferencesTask.class.getName());
 
 }
