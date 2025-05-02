@@ -39,11 +39,11 @@ import rs.ac.uns.ftn.informatika.bibliography.textsrv.Retriever;
 /**
  * Class for persisting and retrieving data about bibliographic and authority
  * records from database and lucene index.
- * 
+ *
  * @author chenejac@uns.ac.rs
  */
 public class RecordDAO {
-	
+
 	static {
 		RecordDAO.log = LogFactory.getLog(RecordDAO.class.getName());
 		try{
@@ -55,14 +55,14 @@ public class RecordDAO {
 		}
 		dataSource = DataSourceFactory.getDataSource();
 	}
-	
+
 	public RecordDAO(RecordDB storage) {
 		this.storage = storage;
 	}
-			
+
 	/**
 	 * Retrieves a list of records that correspond to the query.
-	 * 
+	 *
 	 * @param @param query
 	 *            query for retrieving records
 	 * @return list of records that correspond to the query
@@ -73,7 +73,7 @@ public class RecordDAO {
 
 	/**
 	 * Retrieves a DTO which correspond to mARC21Record with controlNumber passed as parameter.
-	 * 
+	 *
 	 * @param controlNumber
 	 *            controlNumber of mARC21Record
 	 * @return mARC21Record
@@ -85,16 +85,16 @@ public class RecordDAO {
 				if(!record.loadDTOFromMARC21())
 					return null;
 			}
-			
+
 			return record.getDto();
 		}else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retrieves a mARC21Record with controlNumber passed as parameter.
-	 * 
+	 *
 	 * @param controlNumber
 	 *            controlNumber of mARC21Record
 	 * @return mARC21Record
@@ -112,10 +112,10 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 	/**
 	 * Retrieves a mARC21Records with controlNumbers passed as parameter.
-	 * 
+	 *
 	 * @param controlNumbers
 	 *            controlNumbers of mARC21Records
 	 * @return List of mARC21Record
@@ -207,15 +207,15 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 	public Query getInstitutionRecordsQuery(String institutionId, String startDate){
 		Connection conn = null;
 		BooleanQuery query = new BooleanQuery();
 		if(storage instanceof PersonDB){
-			
+
 			try {
 				conn = RecordDAO.dataSource.getConnection();
-				List<String> listAuthors = ((PersonDB)storage).getInstitutionRecordsIds(conn, institutionId, startDate);	
+				List<String> listAuthors = ((PersonDB)storage).getInstitutionRecordsIds(conn, institutionId, startDate);
 				for (String controlNumber : listAuthors) {
 					TermQuery termQuery = new TermQuery(new Term("CN", controlNumber));
 					query.add(termQuery, Occur.SHOULD);
@@ -232,7 +232,7 @@ public class RecordDAO {
 		}
 		return query;
 	}
-	
+
 	public List<Record> getRecordsIdsFromDatabaseByWhereClause(String query){
 		Connection conn = null;
 		List<Record> retVal = null;
@@ -253,7 +253,7 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 	public List<Record> getRecordsFromDatabaseByWhereClause(String query){
 		Connection conn = null;
 		List<Record> retVal = null;
@@ -271,7 +271,7 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 
 	public List<Record> getRecordsFromDatabaseOfCertainTypeWithinDateRange(String[] types, java.util.Date startDate, java.util.Date endDate) {
 		Connection conn = null;
@@ -290,7 +290,7 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 	public List<Record> getRecordsFromDatabaseOfCertainTypeWithinDateRangeWhoAreReletedToRecords(String[] types, java.util.Date startDate, java.util.Date endDate, List<String> relatedToRecordsID) {
 		Connection conn = null;
 		List<Record> retVal = null;
@@ -308,10 +308,46 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
+	public boolean linksRecordsOfCertainTypes(String[] types, String recordID1) {
+		Connection conn = null;
+		boolean retVal = false;
+		try {
+			conn = RecordDAO.dataSource.getConnection();
+			retVal = storage.linksRecordsOfCertainTypes(conn, types, recordID1);
+		} catch (SQLException ex) {
+			log.fatal(ex);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				log.error(e);
+			}
+		}
+		return retVal;
+	}
+
+	public boolean isLinkedByRecordsOfCertainTypes(String[] types, String recordID2) {
+		Connection conn = null;
+		boolean retVal = false;
+		try {
+			conn = RecordDAO.dataSource.getConnection();
+			retVal = storage.isLinkedByRecordsOfCertainTypes(conn, types, recordID2);
+		} catch (SQLException ex) {
+			log.fatal(ex);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				log.error(e);
+			}
+		}
+		return retVal;
+	}
+
 	/**
 	 * Retrieves a mARC21Record with an exclusive lock for editing.
-	 * 
+	 *
 	 * @param controlNumber
 	 *            MARC21Record control number
 	 * @param user
@@ -340,7 +376,7 @@ public class RecordDAO {
 
 	/**
 	 * Locks the given mARC21Record.
-	 * 
+	 *
 	 * @param controlNumber
 	 *            MARC21Record control number
 	 * @param user
@@ -367,7 +403,7 @@ public class RecordDAO {
 
 	/**
 	 * Releases the exclusive lock from the given mARC21Record.
-	 * 
+	 *
 	 * @param controlNumber
 	 *            MARC21Record control number
 	 */
@@ -390,7 +426,7 @@ public class RecordDAO {
 	/**
 	 * Adds a new mARC21Record to the database and lucene Document to lucene index
 	 * files.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record to add
 	 * @return true if successful else false
@@ -446,13 +482,13 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 	/**
 	 * Adds the mARC21Record in the database without commit.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record to update
-	 * 
+	 *
 	 * @return true if successful else false
 	 */
 	boolean add(Connection conn, Record rec) {
@@ -463,7 +499,7 @@ public class RecordDAO {
 	/**
 	 * Updates the mARC21Record in the database and lucene Document in lucene index
 	 * files.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record to update
 	 * @return true if successful else false
@@ -518,10 +554,10 @@ public class RecordDAO {
 
 	/**
 	 * Updates the mARC21Record in the database without commit.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record to update
-	 * 
+	 *
 	 * @return true if successful else false
 	 */
 	boolean update(Connection conn, Record rec) {
@@ -530,7 +566,7 @@ public class RecordDAO {
 
 	/**
 	 * Deletes a mARC21Record from the database.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record to delete
 	 * @return true if successful else false
@@ -588,7 +624,7 @@ public class RecordDAO {
 
 	/**
 	 * Reindex lucene Document in lucene index files.
-	 * 
+	 *
 	 * @param controlNumber
 	 *            Control Number of mARC21Record that should be reindexed
 	 * @return true if successful else false
@@ -628,7 +664,7 @@ public class RecordDAO {
 
 	/**
 	 * Add lucene Document to lucene index files.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record that should be indexed
 	 * @return true if successful else false
@@ -646,7 +682,7 @@ public class RecordDAO {
 				log.error("MARC21Record not added, Control number: "
 						+ rec.getMARC21Record().getControlNumber());
 			}
-		} else 
+		} else
 			retVal = true;
 		// sendMessage("add", rec);
 		return retVal;
@@ -654,7 +690,7 @@ public class RecordDAO {
 
 	/**
 	 * Reindex lucene Document in lucene index files.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record that should be reindexed
 	 * @return true if successful else false
@@ -667,7 +703,7 @@ public class RecordDAO {
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("UNSDISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("AUCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				List<Record> recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0)){
 					((AuthorDTO) rec.getDto()).setAuthorUnsDissertations(true);
@@ -675,78 +711,78 @@ public class RecordDAO {
 				else {
 					((AuthorDTO) rec.getDto()).setAuthorUnsDissertations(false);
 				}
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("UNSDISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("ADCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setAdvisorUnsDissertations(true);
 				else
 					((AuthorDTO) rec.getDto()).setAdvisorUnsDissertations(false);
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("UNSDISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("CCCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setCommissionChairUnsDissertations(true);
 				else
 					((AuthorDTO) rec.getDto()).setCommissionChairUnsDissertations(false);
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("UNSDISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("CMCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setCommissionMemberUnsDissertations(true);
 				else
 					((AuthorDTO) rec.getDto()).setCommissionMemberUnsDissertations(false);
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("PADISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("AUCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setAuthorPaDissertations(true);
 				else
 					((AuthorDTO) rec.getDto()).setAuthorPaDissertations(false);
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("PADISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("ADCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setAdvisorPaDissertations(true);
 				else
 					((AuthorDTO) rec.getDto()).setAdvisorPaDissertations(false);
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("PADISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("CCCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setCommissionChairPaDissertations(true);
 				else
 					((AuthorDTO) rec.getDto()).setCommissionChairPaDissertations(false);
-				
+
 				query = new BooleanQuery();
 				query.add(new TermQuery(new Term("TYPE", Types.PHD_STUDY_FINAL_DOCUMENT)), Occur.MUST);
 				query.add(new TermQuery(new Term("PADISSERTATION", "true")), Occur.MUST);
 				query.add(new TermQuery(new Term("CMCN", rec.getControlNumber())), Occur.MUST);
-				
+
 				recordsTemp = getDTOs(query, new AllDocCollector(false));
 				if((recordsTemp != null) && (recordsTemp.size() > 0))
 					((AuthorDTO) rec.getDto()).setCommissionMemberPaDissertations(true);
@@ -772,7 +808,7 @@ public class RecordDAO {
 
 	/**
 	 * Delete lucene Document from lucene index files.
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record that should be deleted
 	 * @return true if successful else false
@@ -788,7 +824,7 @@ public class RecordDAO {
 				log.error("MARC21Record not deleted, Control number: "
 						+ rec.getMARC21Record().getControlNumber());
 			}
-		} else 
+		} else
 			retVal = true;
 		// sendMessage("delete", rec.getRecord().getControlNumber());
 		return retVal;
@@ -797,7 +833,7 @@ public class RecordDAO {
 	public void optimizeIndexer(){
 		indexer.optimize();
 	}
-	
+
 	public boolean update(String controlNumber, List<PrefixValue> fields){
 		boolean retVal = false;
 		retVal = RecordDAO.indexer.update(controlNumber, fields);
@@ -810,12 +846,12 @@ public class RecordDAO {
 		}
 		return retVal;
 	}
-	
+
 	public static DataSource dataSource;
-	
+
 	protected static Indexer indexer;
-	
-	
+
+
 	protected RecordDB storage;
 
 	protected static Log log;

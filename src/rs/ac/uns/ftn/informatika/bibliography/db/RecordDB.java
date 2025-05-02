@@ -27,20 +27,20 @@ import rs.ac.uns.ftn.informatika.bibliography.marc21.records.MARC21RecordFactory
 /**
  * Class for persist and retrieve data about bibliographic and authority records
  * from database.
- * 
+ *
  * @author chenejac@uns.ac.rs
  */
 public class RecordDB {
 
 	public FileDB fileDB = new FileDB();
-	
+
 	public static String ORGANIZATION = "BISIS";
-	
+
 	public static int DELETEDNUMBER = 100;
 
 	/**
 	 * Retrieves a new control number.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @return The new control number.
@@ -49,10 +49,10 @@ public class RecordDB {
 		return "(" + RecordDB.ORGANIZATION + ")"
 				+ CounterDB.getNewId(conn, "recordid");
 	}
-	
+
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @return The array of records.
@@ -85,14 +85,14 @@ public class RecordDB {
 				MARC21Record mARC21Record = MARC21RecordFactory.fromFullFormatString(recStr);
 				String scopusID = rset.getString(9);
 				String ORCID = rset.getString(10);
-				
+
 				Record record = null;
 				record = new Record(creator, creationDate, modifier,
 					lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), null, null, getRecordKeywords(conn, recordId));
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
-				} 
+				}
 				retVal.add(record);
 			}
 			rset.close();
@@ -104,10 +104,10 @@ public class RecordDB {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @return The array of records.
@@ -154,7 +154,7 @@ public class RecordDB {
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
-				} 
+				}
 				retVal.add(record);
 			}
 			rset.close();
@@ -169,7 +169,7 @@ public class RecordDB {
 
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param types
@@ -224,7 +224,7 @@ public class RecordDB {
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
-				} 
+				}
 				retVal.add(record);
 			}
 			rset.close();
@@ -238,7 +238,7 @@ public class RecordDB {
 	}
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param types
@@ -258,7 +258,7 @@ public class RecordDB {
 			Statement stmt = conn.createStatement();
 			java.sql.Date startSQLDate = new java.sql.Date(startDate.getTime());
 			java.sql.Date endSQLDate = new java.sql.Date(endDate.getTime());
-			StringBuffer query = new StringBuffer("select RECORDID, TYPE, CREATOR, MODIFIER, DATECREATED, DATEMODIFIED, ARCHIVED, RECORDSTRING, SCOPUSID, ORCID, SUBSTRING_INDEX(RECORDID, ')', -1) + 0 as RECORDID_COL_NUM from MARC21RECORD where ARCHIVED<>" + RecordDB.DELETEDNUMBER + " AND DATEMODIFIED >= '" + startSQLDate + "' AND DATEMODIFIED <= '" + endSQLDate 
+			StringBuffer query = new StringBuffer("select RECORDID, TYPE, CREATOR, MODIFIER, DATECREATED, DATEMODIFIED, ARCHIVED, RECORDSTRING, SCOPUSID, ORCID, SUBSTRING_INDEX(RECORDID, ')', -1) + 0 as RECORDID_COL_NUM from MARC21RECORD where ARCHIVED<>" + RecordDB.DELETEDNUMBER + " AND DATEMODIFIED >= '" + startSQLDate + "' AND DATEMODIFIED <= '" + endSQLDate
 					+ "' AND RECORDID in (select RECORDID from MARC21RECORD_CLASS where COMMISSIONID=0 and CFCLASSSCHEMEID like 'type' and (");
 			for (int i=0; i < types.length; i++) {
 				String type = types[i];
@@ -269,7 +269,7 @@ public class RecordDB {
 				String relatedRecord = relatedToRecordsID.get(i);
 				query.append(((i!=0)?(" or "):("")) + "RECORDID2 like '" + relatedRecord + "' ");
 			}
-			
+
 			query.append(")) order by RECORDID_COL_NUM");
 			ResultSet rset = stmt
 					.executeQuery(query.toString());
@@ -300,7 +300,7 @@ public class RecordDB {
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
 				if(type.startsWith("pers")){
 					record = personDB.getRecord(conn, recordId, record);
-				} 
+				}
 				retVal.add(record);
 			}
 			rset.close();
@@ -312,6 +312,64 @@ public class RecordDB {
 			return null;
 		}
 	}
+
+	public boolean linksRecordsOfCertainTypes(Connection conn, String[] types, String recordID1) {
+		boolean retVal = false;
+		if((types == null) || (types.length == 0) || (recordID1 == null) || (recordID1.length() == 0))
+			return retVal;
+		try {
+			Statement stmt = conn.createStatement();
+			StringBuffer query = new StringBuffer("select RECORDID from MARC21RECORD_CLASS where COMMISSIONID=0 and CFCLASSSCHEMEID like 'type' and CFCLASSID in (");
+			for (int i=0; i < types.length; i++) {
+				String type = types[i];
+				query.append(((i!=0)?(" , "):("")) + "'" + type + "'");
+			}
+			query.append(") AND RECORDID in (select RECORDID2 from MARC21RECORD_MARC21RECORD where RECORDID1 like '" + recordID1 + "' )");
+			query.append(" AND RECORDID in (select RECORDID from MARC21RECORD where ARCHIVED<>" + RecordDB.DELETEDNUMBER + ")");
+			ResultSet rset = stmt
+					.executeQuery(query.toString());
+			if (rset.next()) {
+				retVal = true;
+			}
+			rset.close();
+			stmt.close();
+			return retVal;
+		} catch (Exception ex) {
+			log.fatal("Cannot read records ");
+			log.fatal(ex);
+			return false;
+		}
+	}
+
+	public boolean isLinkedByRecordsOfCertainTypes(Connection conn, String[] types, String recordID2) {
+		boolean retVal = false;
+		if((types == null) || (types.length == 0) || (recordID2 == null) || (recordID2.length() == 0))
+			return retVal;
+		try {
+			Statement stmt = conn.createStatement();
+			StringBuffer query = new StringBuffer("select RECORDID from MARC21RECORD_CLASS where COMMISSIONID=0 and CFCLASSSCHEMEID like 'type' and CFCLASSID in (");
+			for (int i=0; i < types.length; i++) {
+				String type = types[i];
+				query.append(((i!=0)?(" , "):("")) + "'" + type + "'");
+			}
+			query.append(") AND RECORDID in (select RECORDID1 from MARC21RECORD_MARC21RECORD where RECORDID2 like '" + recordID2 + "' )");
+			query.append(" AND RECORDID in (select RECORDID from MARC21RECORD where ARCHIVED<>" + RecordDB.DELETEDNUMBER + ")");
+			ResultSet rset = stmt
+					.executeQuery(query.toString());
+			if (rset.next()) {
+				retVal = true;
+			}
+			rset.close();
+			stmt.close();
+			return retVal;
+		} catch (Exception ex) {
+			log.fatal("Cannot read records ");
+			log.fatal(ex);
+			return false;
+		}
+	}
+
+
 
 	private List<Classification> getRecordClasses(Connection conn, String recordId) {
 		List<Classification> retVal = new ArrayList<Classification>();
@@ -334,7 +392,7 @@ public class RecordDB {
 				}
 				Integer commissionId = rset.getInt(5);
 				String researchArea = rset.getString(6);
-				Classification classification = new Classification(cfClassSchemeId, cfClassId, cfStartDate, cfEndDate, commissionId, researchArea); 
+				Classification classification = new Classification(cfClassSchemeId, cfClassId, cfStartDate, cfEndDate, commissionId, researchArea);
 				retVal.add(classification);
 			}
 			rset.close();
@@ -346,7 +404,7 @@ public class RecordDB {
 			return null;
 		}
 	}
-	
+
 	public List<RecordRecord> getRelationsThisRecordOtherRecords(Connection conn, String recordId) {
 		List<RecordRecord> retVal = new ArrayList<RecordRecord>();
 		try {
@@ -367,7 +425,7 @@ public class RecordDB {
 					cfEndDate = new GregorianCalendar();
 					cfEndDate.setTimeInMillis(rset.getDate(5).getTime());
 				}
-				RecordRecord recordRecord = new RecordRecord(recordId2, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate); 
+				RecordRecord recordRecord = new RecordRecord(recordId2, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate);
 				retVal.add(recordRecord);
 			}
 			rset.close();
@@ -380,7 +438,7 @@ public class RecordDB {
 			return null;
 		}
 	}
-	
+
 	private void changeRelationsThisRecordResultPublications(Connection conn,
 			String recordId, List<RecordRecord> retVal) throws Exception {
 		try {
@@ -402,7 +460,7 @@ public class RecordDB {
 					cfEndDate.setTimeInMillis(rset.getDate(5).getTime());
 				}
 				String cfCopyright = rset.getString(6);
-				RecordResultPublication recordResultPublication = new RecordResultPublication(recordId2, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate, cfCopyright); 
+				RecordResultPublication recordResultPublication = new RecordResultPublication(recordId2, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate, cfCopyright);
 				retVal.set(retVal.indexOf(recordResultPublication), recordResultPublication);
 			}
 			rset.close();
@@ -412,7 +470,7 @@ public class RecordDB {
 			log.fatal(ex);
 			throw ex;
 		}
-		
+
 	}
 
 	public List<RecordRecord> getRelationsOtherRecordsThisRecord(
@@ -436,7 +494,7 @@ public class RecordDB {
 					cfEndDate = new GregorianCalendar();
 					cfEndDate.setTimeInMillis(rset.getDate(5).getTime());
 				}
-				RecordRecord recordRecord = new RecordRecord(recordId1, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate); 
+				RecordRecord recordRecord = new RecordRecord(recordId1, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate);
 				retVal.add(recordRecord);
 			}
 			rset.close();
@@ -449,7 +507,7 @@ public class RecordDB {
 			return null;
 		}
 	}
-	
+
 	private void changeRelationsResultPublicationOtherRecords(Connection conn,
 			String recordId, List<RecordRecord> retVal) throws Exception {
 		try {
@@ -471,7 +529,7 @@ public class RecordDB {
 					cfEndDate.setTimeInMillis(rset.getDate(5).getTime());
 				}
 				String cfCopyright = rset.getString(6);
-				RecordResultPublication recordResultPublication = new RecordResultPublication(recordId2, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate, cfCopyright); 
+				RecordResultPublication recordResultPublication = new RecordResultPublication(recordId2, cfClassSchemeId, cfClassId, cfStartDate, cfEndDate, cfCopyright);
 				retVal.set(retVal.indexOf(recordResultPublication), recordResultPublication);
 			}
 			rset.close();
@@ -481,9 +539,9 @@ public class RecordDB {
 			log.fatal(ex);
 			throw ex;
 		}
-		
+
 	}
-	
+
 	private List<MultilingualContentDTO> getRecordKeywords(Connection conn,
 			String recordId) {
 		List<MultilingualContentDTO> retVal = new ArrayList<MultilingualContentDTO>();
@@ -495,8 +553,8 @@ public class RecordDB {
 				String cfLangCode = rset.getString(1);
 				String cfTrans = rset.getString(2);
 				String cfKeywords = rset.getString(3);
-				
-				MultilingualContentDTO recordKeywords = new MultilingualContentDTO(cfKeywords, cfLangCode, cfTrans); 
+
+				MultilingualContentDTO recordKeywords = new MultilingualContentDTO(cfKeywords, cfLangCode, cfTrans);
 				retVal.add(recordKeywords);
 			}
 			rset.close();
@@ -511,7 +569,7 @@ public class RecordDB {
 
 	/**
 	 * Retrieves a mARC21Record.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param recordId
@@ -566,7 +624,7 @@ public class RecordDB {
 
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param recordIds
@@ -601,7 +659,7 @@ public class RecordDB {
 					String scopusID = rset.getString(9);
 					String ORCID = rset.getString(10);
 					Record record = new Record(creator, creationDate, modifier,
-							lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), 
+							lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId),
 							null, null, getRecordKeywords(conn, recordId));
 					record.setMARC21Record(mARC21Record);
 					record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
@@ -622,10 +680,10 @@ public class RecordDB {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param whereClause
@@ -659,7 +717,7 @@ public class RecordDB {
 				String scopusID = rset.getString(9);
 				String ORCID = rset.getString(10);
 				Record record = new Record(creator, creationDate, modifier,
-						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId), 
+						lastModificationDate, archived, type, scopusID, ORCID, mARC21Record, getRecordClasses(conn, recordId),
 						null, null, getRecordKeywords(conn, recordId));
 				record.setMARC21Record(mARC21Record);
 				record.setFiles(FileDB.getFilesByRecordControlNumber(conn, recordId));
@@ -676,10 +734,10 @@ public class RecordDB {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retrieves an array of records.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param whereClause
@@ -708,10 +766,10 @@ public class RecordDB {
 		}
 	}
 
-	
+
 	/**
 	 * Retrieves a mARC21Record with an exclusive lock for editing.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param controlNumber
@@ -733,7 +791,7 @@ public class RecordDB {
 
 	/**
 	 * Locks the given mARC21Record.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param recordId
@@ -776,7 +834,7 @@ public class RecordDB {
 
 	/**
 	 * Releases the exclusive lock from the given mARC21Record.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param recordId
@@ -799,7 +857,7 @@ public class RecordDB {
 
 	/**
 	 * Adds a new mARC21Record to the database.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param rec
@@ -839,15 +897,15 @@ public class RecordDB {
 			stmt.setString(9, rec.getORCID());
 			stmt.executeUpdate();
 			stmt.close();
-			
-			if(insertClasses(conn, rec))		
+
+			if(insertClasses(conn, rec))
 				if(insertRelationsThisRecordOtherRecords(conn, rec))
 					if(insertRelationsOtherRecordsThisRecord(conn, rec))
 						if(insertRecordKeywords(conn, rec)){
 							retVal = true;
 							if((rec.getFiles()!=null)){
 								for (FileDTO fileDTO : rec.getFiles()) {
-									if((fileDTO!=null) && (fileDTO.getData() != null) && 
+									if((fileDTO!=null) && (fileDTO.getData() != null) &&
 											(fileDTO.getData().length != 0)){
 										fileDTO.setControlNumber(controlNumber);
 										if(fileDB.add(conn, fileDTO)){
@@ -859,9 +917,9 @@ public class RecordDB {
 											retVal = false;
 											break;
 										}
-									} 
+									}
 								}
-							} 
+							}
 						}
 		} catch (SQLException ex) {
 			log.fatal(ex);
@@ -869,15 +927,15 @@ public class RecordDB {
 		}
 		return retVal;
 	}
-	
+
 	private boolean insertClasses(Connection conn, Record rec){
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("insert into MARC21RECORD_CLASS (RECORDID, CFCLASSSCHEMEID, CFCLASSID, CFSTARTDATE, CFENDDATE, COMMISSIONID, RESEARCHAREA) values (?, ?, ?, ?, ?, ?, ?)");
-			
+
 			String controlNumber = rec.getMARC21Record().getControlNumber();
-			
-			
+
+
 			for (Classification classification : rec.getRecordClasses()) {
 				stmt.setString(1, controlNumber);
 				stmt.setString(2, classification.getCfClassSchemeId());
@@ -898,14 +956,14 @@ public class RecordDB {
 		}
 		return false;
 	}
-	
+
 	private boolean insertRelationsThisRecordOtherRecords(Connection conn, Record rec){
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("insert into MARC21RECORD_MARC21RECORD (RECORDID1, RECORDID2, CFCLASSSCHEMEID, CFCLASSID, CFSTARTDATE, CFENDDATE) values (?, ?, ?, ?, ?, ?)");
-			
+
 			String recordId1 = rec.getMARC21Record().getControlNumber();
-			
+
 			for (RecordRecord recordRecord : rec.getRelationsThisRecordOtherRecords()) {
 				stmt.setString(1, recordId1);
 				stmt.setString(2, recordRecord.getRecordId());
@@ -916,7 +974,7 @@ public class RecordDB {
 				stmt.setDate(6, new java.sql.Date(recordRecord.getCfEndDate().getTime()
 						.getTime()));
 				stmt.executeUpdate();
-				
+
 				if(recordRecord instanceof RecordResultPublication){
 					if(! insertRelationsThisRecordResultPublication(conn, rec, (RecordResultPublication)recordRecord))
 						return false;
@@ -930,14 +988,14 @@ public class RecordDB {
 		}
 		return false;
 	}
-	
+
 	private boolean insertRelationsThisRecordResultPublication(Connection conn, Record rec, RecordResultPublication recordResultPublication) {
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("insert into MARC21RECORD_RESPUBL (RECORDID, RESPUBLRECORDID, CFCLASSSCHEMEID, CFCLASSID, CFSTARTDATE, CFENDDATE, CFCOPYRIGHT) values (?, ?, ?, ?, ?, ?, ?)");
-			
+
 			String recordId1 = rec.getMARC21Record().getControlNumber();
-			
+
 			stmt.setString(1, recordId1);
 			stmt.setString(2, recordResultPublication.getRecordId());
 			stmt.setString(3, recordResultPublication.getCfClassSchemeId());
@@ -961,7 +1019,7 @@ public class RecordDB {
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("insert into MARC21RECORD_MARC21RECORD (RECORDID1, RECORDID2, CFCLASSSCHEMEID, CFCLASSID, CFSTARTDATE, CFENDDATE) values (?, ?, ?, ?, ?, ?)");
-			
+
 			String recordId1 = rec.getMARC21Record().getControlNumber();
 			for (RecordRecord recordRecord : rec.getRelationsOtherRecordsThisRecord()) {
 				stmt.setString(1, recordRecord.getRecordId());
@@ -986,14 +1044,14 @@ public class RecordDB {
 		}
 		return false;
 	}
-	
+
 	private boolean insertRelationsResultPublicationOtherRecord(Connection conn, Record rec, RecordResultPublication recordResultPublication) {
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("insert into MARC21RECORD_RESPUBL (RECORDID, RESPUBLRECORDID, CFCLASSSCHEMEID, CFCLASSID, CFSTARTDATE, CFENDDATE, CFCOPYRIGHT) values (?, ?, ?, ?, ?, ?, ?)");
-			
+
 			String recordId1 = rec.getMARC21Record().getControlNumber();
-			
+
 			stmt.setString(1, recordResultPublication.getRecordId());
 			stmt.setString(2, recordId1);
 			stmt.setString(3, recordResultPublication.getCfClassSchemeId());
@@ -1003,7 +1061,7 @@ public class RecordDB {
 			stmt.setDate(6, new java.sql.Date(recordResultPublication.getCfEndDate().getTime()
 					.getTime()));
 			stmt.setString(7, recordResultPublication.getCfCopyright());
-			
+
 			stmt.executeUpdate();
 			stmt.close();
 			return true;
@@ -1013,12 +1071,12 @@ public class RecordDB {
 		}
 		return false;
 	}
-	
+
 	private boolean insertRecordKeywords(Connection conn, Record rec){
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("insert into MARC21RECORD_KEYWORDS (RECORDID, CFLANGCODE, CFTRANS, CFKEYWORDS) values (?, ?, ?, ?)");
-			
+
 			String recordId = rec.getMARC21Record().getControlNumber();
 			for (MultilingualContentDTO recordKeywords : rec.getRecordKeywords()) {
 				stmt.setString(1, recordId);
@@ -1038,7 +1096,7 @@ public class RecordDB {
 
 	/**
 	 * Updates the mARC21Record in the database.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param rec
@@ -1069,8 +1127,8 @@ public class RecordDB {
 			stmt.setString(8, rec.getMARC21Record().getControlNumber());
 			stmt.executeUpdate();
 			stmt.close();
-			
-			if(updateClasses(conn, rec))		
+
+			if(updateClasses(conn, rec))
 				if(updateRelationsThisRecordOtherRecords(conn, rec))
 					if(updateRelationsOtherRecordsThisRecord(conn, rec))
 						if(updateRecordKeywords(conn, rec)){
@@ -1092,7 +1150,7 @@ public class RecordDB {
 							}
 							if ((retVal) && (rec.getFiles() != null)){
 								for (FileDTO fileDTO : rec.getFiles()) {
-									if((fileDTO != null) && (fileDTO.getData() != null) && 
+									if((fileDTO != null) && (fileDTO.getData() != null) &&
 											(fileDTO.getData().length != 0)){
 										fileDTO.setControlNumber(rec.getMARC21Record().getControlNumber());
 										if(fileDB.add(conn, fileDTO)){
@@ -1119,7 +1177,7 @@ public class RecordDB {
 		}
 		return retVal;
 	}
-	
+
 	private boolean updateClasses(Connection conn, Record rec){
 		try {
 			Statement stmt = conn.createStatement();
@@ -1133,14 +1191,14 @@ public class RecordDB {
 		}
 		return false;
 	}
-	
+
 	private boolean updateRelationsThisRecordOtherRecords(Connection conn, Record rec){
 		try {
 			Statement stmt = conn.createStatement();
 //			stmt.executeUpdate("delete from MARC21RECORD_RESPUBL where RECORDID like '"
 //						+ rec.getMARC21Record().getControlNumber() + "' and RESPUBLRECORDID not in (select RECORDID from MARC21RECORD where ARCHIVED=100)");
 			stmt.executeUpdate("delete from MARC21RECORD_MARC21RECORD where RECORDID1 like '"
-								+ rec.getMARC21Record().getControlNumber() + "' and RECORDID2 not in (select RECORDID from MARC21RECORD where ARCHIVED=100)");		
+								+ rec.getMARC21Record().getControlNumber() + "' and RECORDID2 not in (select RECORDID from MARC21RECORD where ARCHIVED=100)");
 			stmt.close();
 			return insertRelationsThisRecordOtherRecords(conn, rec);
 		} catch (SQLException ex) {
@@ -1156,7 +1214,7 @@ public class RecordDB {
 //			stmt.executeUpdate("delete from MARC21RECORD_RESPUBL where RESPUBLRECORDID like '"
 //					+ rec.getMARC21Record().getControlNumber() + "' and RECORDID not in (select RECORDID from MARC21RECORD where ARCHIVED=100)");
 			stmt.executeUpdate("delete from MARC21RECORD_MARC21RECORD where RECORDID2 like '"
-							+ rec.getMARC21Record().getControlNumber() + "'  and RECORDID1 not in (select RECORDID from MARC21RECORD where ARCHIVED=100)"); 
+							+ rec.getMARC21Record().getControlNumber() + "'  and RECORDID1 not in (select RECORDID from MARC21RECORD where ARCHIVED=100)");
 			stmt.close();
 			return insertRelationsOtherRecordsThisRecord(conn, rec);
 		} catch (SQLException ex) {
@@ -1165,7 +1223,7 @@ public class RecordDB {
 		}
 		return false;
 	}
-	
+
 	private boolean updateRecordKeywords(Connection conn, Record rec){
 		try {
 			Statement stmt = conn.createStatement();
@@ -1182,7 +1240,7 @@ public class RecordDB {
 
 	/**
 	 * Deletes a mARC21Record from the database.
-	 * 
+	 *
 	 * @param conn
 	 *            Database connection
 	 * @param rec
@@ -1195,7 +1253,7 @@ public class RecordDB {
 //			if(FileStorage.delete(rec.getFile()))
 //				if(fileDB.delete(conn, rec.getFile()))
 //					retVal = delete(conn, rec.getMARC21Record().getControlNumber());
-//		} else 
+//		} else
 		try {
 			PreparedStatement stmt = conn
 					.prepareStatement("update MARC21RECORD set MODIFIER=?,  DATEMODIFIED=?, ARCHIVED=? where RECORDID like ?");
@@ -1221,12 +1279,12 @@ public class RecordDB {
 			log.fatal(ex);
 			return false;
 		}
-		return retVal;	
+		return retVal;
 	}
 
 //	/**
 //	 * Deletes a mARC21Record from the database.
-//	 * 
+//	 *
 //	 * @param conn
 //	 *            Database connection
 //	 * @param recordId
