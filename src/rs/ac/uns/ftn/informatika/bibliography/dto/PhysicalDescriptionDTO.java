@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rs.ac.uns.ftn.informatika.bibliography.dto;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class PhysicalDescriptionDTO implements Serializable{
-	
+
 	private Integer numberOfChapters;
 	private Integer numberOfPages;
 	private Integer numberOfReferences;
@@ -19,9 +19,9 @@ public class PhysicalDescriptionDTO implements Serializable{
 	private Integer numberOfPictures;
 	private Integer numberOfGraphs;
 	private Integer numberOfAppendixes;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public PhysicalDescriptionDTO() {
 		super();
@@ -130,15 +130,15 @@ public class PhysicalDescriptionDTO implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		return ""+ numberOfPages + ", " 
-				+ numberOfChapters + ", "
-				+ numberOfReferences + ", "
-				+ numberOfTables + ", "
-				+ numberOfPictures + ", "
-				+ numberOfGraphs + ", "
+		return ""+ numberOfPages + "/"
+				+ numberOfChapters + "/"
+				+ numberOfReferences + "/"
+				+ numberOfTables + "/"
+				+ numberOfPictures + "/"
+				+ numberOfGraphs + "/"
 				+ numberOfAppendixes;
 	}
-	
-	
+
+
 
 }

@@ -29,47 +29,47 @@ import rs.ac.uns.ftn.informatika.bibliography.utils.Sanitizer;
 /**
  * Class for converting bibliographic mARC21Record between MARC21 format and
  * ProductDTO object.
- * 
+ *
  * @author chenejac@uns.ac.rs
  */
 @SuppressWarnings("serial")
 public class ProductConverter extends ABibliographicRecordConverter {
 
-	
+
 	/**
 	 * Convert the mARC21Record with data about product from MARC21 format to DTO format
-	 * 
+	 *
 	 * @param rec
 	 *            MARC21Record which should be converted
-	 * 
+	 *
 	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.AbstractRecordConverter#getDTO(rs.ac.uns.ftn.informatika.bibliography.marc21.records.MARC21Record)
-	 * 
+	 *
 	* @return true if everything is ok, otherwise false
 	 */
 	@Override
 	public boolean getDTO(Record rec){
-		
+
 		MARC21Record mARC21Record = rec.getMARC21Record();
 		if(rec.getDto() == null)
 			rec.setDto(ConverterFactory.getDTO(rec.getDtoType()));
 		ProductDTO retVal = (ProductDTO)rec.getDto();
 		retVal.setControlNumber(mARC21Record.getControlNumber());
 		retVal.setScopusID(rec.getScopusID());
-		
+
 		String originalLanguage = MultilingualContentDTO.LANGUAGE_SERBIAN;
 		try{
 			ControlField cf008 = mARC21Record.getControlField("008");
 			originalLanguage = cf008.getCharPositions(35, 3);
 		} catch (Exception e){
 		}
-		
+
 		DataField df084 = mARC21Record.getDataField("084");
 		try {
 			Subfield a = df084.getSubfield('a');
 			retVal.setInternalNumber(a.getContent());
 		} catch (Exception e) {
-		}	
-		
+		}
+
 		DataField df245 = mARC21Record.getDataField("245");
 		Subfield sub6 = df245.getSubfield('6');
 		String ordNum = null;
@@ -106,7 +106,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			}
 			retVal.setNameTranslations(nameTranslations);
 		}
-		
+
 		DataField df260 = mARC21Record.getDataField("260");
 		sub6 = df260.getSubfield('6');
 		ordNum = null;
@@ -133,7 +133,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			retVal.setPublicationYear(c.getContent());
 		} catch (Exception e) {
 		}
-		
+
 		if(ordNum != null){
 			List<DataField> dfs880 = mARC21Record.getDataFields("880");
 			List<PublisherNameDTO> publisherTranslations = new ArrayList<PublisherNameDTO>();
@@ -158,7 +158,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			}
 			retVal.getPublisher().setPublisherTranslations(publisherTranslations);
 		}
-		
+
 		DataField df100 = mARC21Record.getDataField("100");
 		if(df100!=null){
 			if (df100.getInd1() == '1') {
@@ -181,7 +181,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			} else
 				return false;
 		}
-		
+
 		List<DataField> dfs700 = mARC21Record.getDataFields("700");
 		List<AuthorDTO> coAuthorDTOs = new ArrayList<AuthorDTO>();
 		for (DataField dataField : dfs700) {
@@ -204,7 +204,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			}
 		}
 		retVal.setOtherAuthors(coAuthorDTOs);
-		
+
 		try {
 			ordNum = null;
 			DataField df500 = mARC21Record.getDataField("500");
@@ -212,15 +212,13 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			if(sub6 != null){
 				ordNum = sub6.getContent().split("\\-")[1];
 			}
-		
-			if (df500.getInd1() == '3') {
-				Subfield a = df500.getSubfield('a');
-				retVal.getDescription().setLanguage(originalLanguage);
-				retVal.getDescription().setContent(a.getContent());
-			} 
+
+			Subfield a = df500.getSubfield('a');
+			retVal.getDescription().setLanguage(originalLanguage);
+			retVal.getDescription().setContent(a.getContent());
 		} catch (Exception e) {
 		}
-			
+
 		if(ordNum != null){
 			List<DataField> dfs880 = mARC21Record.getDataFields("880");
 			List<MultilingualContentDTO> descriptionTranslations = new ArrayList<MultilingualContentDTO>();
@@ -240,7 +238,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			}
 			retVal.setDescriptionTranslations(descriptionTranslations);
 		}
-				
+
 		try {
 			ordNum = null;
 			DataField df653 = mARC21Record.getDataField("653");
@@ -248,13 +246,13 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			if(sub6 != null){
 				ordNum = sub6.getContent().split("\\-")[1];
 			}
-		
+
 			Subfield a = df653.getSubfield('a');
 			retVal.getKeywords().setLanguage(originalLanguage);
 			retVal.getKeywords().setContent(a.getContent());
 		} catch (Exception e) {
-		}	 
-		
+		}
+
 		if(ordNum != null){
 			List<DataField> dfs880 = mARC21Record.getDataFields("880");
 			List<MultilingualContentDTO> keywordsTranslations = new ArrayList<MultilingualContentDTO>();
@@ -274,7 +272,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			}
 			retVal.setKeywordsTranslations(keywordsTranslations);
 		}
-		
+
 		DataField df856 = mARC21Record.getDataField("856");
 		try {
 			List<Subfield> sfsu = df856.getSubfields('u');
@@ -288,7 +286,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			}
 		} catch (Exception e) {
 		}
-		
+
 //		try{
 //			List<RecordRecord> recordRecords = rec.getRelationsThisRecordOtherRecords();
 //			RecordDAO recordDAO = new RecordDAO(new RecordDB());
@@ -301,9 +299,9 @@ public class ProductConverter extends ABibliographicRecordConverter {
 //			}
 //		}catch (Exception e) {
 //		}
-		
+
 //		retVal.setClassifications(rec.getRecordClasses());
-		
+
 		return true;
 	}
 
@@ -315,9 +313,9 @@ public class ProductConverter extends ABibliographicRecordConverter {
 	protected void setDataFields(MARC21Record rec, RecordDTO dto) {
 
 		Integer ordNum = 0;
-		
+
 		ProductDTO productDTO = (ProductDTO) dto;
-		
+
 		DataField data084 = new DataField("084", AbstractRecordConverter.BLANK,
 				AbstractRecordConverter.BLANK);
 		StringBuffer tempContent = new StringBuffer();
@@ -330,7 +328,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		}
 		if(data084.getSubfieldCount() > 0)
 			rec.addDataField(data084);
-		
+
 		DataField data245 = new DataField("245", '0', '0');
 		Subfield sub6 = new Subfield('6');
 		if(productDTO.getNameTranslations().size() > 0){
@@ -350,7 +348,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		if(data245.getSubfieldCount() > 0)
 			rec.addDataField(data245);
 
-		
+
 		for (MultilingualContentDTO nameTranslation : productDTO.getNameTranslations()) {
 			DataField data880 = new DataField("880", '0', '0');
 			tempContent = new StringBuffer();
@@ -362,7 +360,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			data880.addSubfield(a);
 			rec.addDataField(data880);
 		}
-		
+
 		DataField data260 = new DataField("260", AbstractRecordConverter.BLANK,
 				AbstractRecordConverter.BLANK);
 		sub6 = new Subfield('6');
@@ -397,7 +395,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		}
 		if(data260.getSubfieldCount() > 0)
 			rec.addDataField(data260);
-		
+
 		for (PublisherNameDTO publisherTranslation : productDTO.getPublisher().getPublisherTranslations()) {
 			try {
 				DataField data880 = new DataField("880", AbstractRecordConverter.BLANK,
@@ -462,7 +460,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			if(data100.getSubfieldCount() > 0)
 				rec.addDataField(data100);
 		}
-			
+
 		for (AuthorDTO author : productDTO.getOtherAuthors()) {
 			DataField data700 = new DataField("700", '1',
 					AbstractRecordConverter.BLANK);
@@ -497,7 +495,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			if(data700.getSubfieldCount() > 0)
 				rec.addDataField(data700);
 		}
-		
+
 		DataField data520 = new DataField("500", AbstractRecordConverter.BLANK, AbstractRecordConverter.BLANK);
 		sub6 = new Subfield('6');
 		if(productDTO.getDescriptionTranslations().size() > 0){
@@ -516,7 +514,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		}
 		if(data520.getSubfieldCount() > 0)
 			rec.addDataField(data520);
-		
+
 		for (MultilingualContentDTO nameTranslation : productDTO.getNameTranslations()) {
 			DataField data880 = new DataField("880", AbstractRecordConverter.BLANK, AbstractRecordConverter.BLANK);
 			tempContent = new StringBuffer();
@@ -529,7 +527,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			rec.addDataField(data880);
 		}
 
-		
+
 		DataField data653 = new DataField("653", AbstractRecordConverter.BLANK, AbstractRecordConverter.BLANK);
 		sub6 = new Subfield('6');
 		if(productDTO.getKeywordsTranslations().size() > 0){
@@ -548,7 +546,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		}
 		if(data653.getSubfieldCount() > 0)
 			rec.addDataField(data653);
-		
+
 		for (MultilingualContentDTO keywordsTranslation : productDTO.getKeywordsTranslations()) {
 			DataField data880 = new DataField("880", AbstractRecordConverter.BLANK, AbstractRecordConverter.BLANK);
 			tempContent = new StringBuffer();
@@ -560,7 +558,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			data880.addSubfield(a);
 			rec.addDataField(data880);
 		}
-		
+
 		DataField data856 = new DataField("856", AbstractRecordConverter.BLANK, AbstractRecordConverter.BLANK);
 		tempContent = new StringBuffer();
 		Subfield u = new Subfield('u');
@@ -582,9 +580,9 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		}
 		if(data856.getSubfieldCount() > 0)
 			rec.addDataField(data856);
-		
+
 	}
-	
+
 	/**
 	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.ABibliographicRecordConverter#setRelationsOtherRecordsThisRecord(rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record, rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO)
 	 */
@@ -592,26 +590,26 @@ public class ProductConverter extends ABibliographicRecordConverter {
 	protected void setRelationsOtherRecordsThisRecord(Record retVal,
 			RecordDTO dto) {
 		ProductDTO patent = (ProductDTO) dto;
-		
+
 		Calendar startDate = new GregorianCalendar();
 		startDate.set(Calendar.YEAR, 1900);
 		startDate.set(Calendar.MONTH, Calendar.JANUARY);
 		startDate.set(Calendar.DAY_OF_MONTH, 1);
-		
+
 		Calendar endDate = new GregorianCalendar();
 		endDate.set(Calendar.YEAR, 2099);
 		endDate.set(Calendar.MONTH, Calendar.DECEMBER);
 		endDate.set(Calendar.DAY_OF_MONTH, 31);
-		
+
 		deleteRelationsOtherRecordsThisRecord(retVal, "authorshipType", "is author of");
-		
+
 		List<RecordRecord> recordRecords = retVal.getRelationsOtherRecordsThisRecord();
-		
+
 		for (AuthorDTO author : patent.getAllAuthors()) {
 			recordRecords.add(new RecordResultPublication(author.getControlNumber(), "authorshipType",  "is author of", startDate, endDate, null));
 		}
 	}
-	
+
 	/**
 	 * @see rs.ac.uns.ftn.informatika.bibliography.dto.recordconverters.ABibliographicRecordConverter#setRelationsThisRecordOtherRecords(rs.ac.uns.ftn.informatika.bibliography.marc21.cerifentities.Record, rs.ac.uns.ftn.informatika.bibliography.dto.RecordDTO)
 	 */
@@ -623,25 +621,25 @@ public class ProductConverter extends ABibliographicRecordConverter {
 		startDate.set(Calendar.YEAR, 1900);
 		startDate.set(Calendar.MONTH, Calendar.JANUARY);
 		startDate.set(Calendar.DAY_OF_MONTH, 1);
-		
+
 		Calendar endDate = new GregorianCalendar();
 		endDate.set(Calendar.YEAR, 2099);
 		endDate.set(Calendar.MONTH, Calendar.DECEMBER);
 		endDate.set(Calendar.DAY_OF_MONTH, 31);
-		
+
 		deleteRelationsThisRecordOtherRecords(retVal, "publicationJobAd", "applied to");
-		
+
 		List<RecordRecord> recordRecords = retVal.getRelationsThisRecordOtherRecords();
-		
+
 		for (JobAdDTO jobAd : product.getJobAds()) {
 			recordRecords.add(new RecordRecord(jobAd.getControlNumber(), "publicationJobAd", "applied to", startDate, endDate));
 		}
-		
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeyu.ac.ns.ftn.informatika.bibliography.dto.recordconverters.
 	 * ABibliographicRecordConverter
 	 * #getControlField006(rs.ac.uns.ftn.informatika
@@ -655,7 +653,7 @@ public class ProductConverter extends ABibliographicRecordConverter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeyu.ac.ns.ftn.informatika.bibliography.dto.recordconverters.
 	 * ABibliographicRecordConverter
 	 * #getControlField007(rs.ac.uns.ftn.informatika
@@ -682,8 +680,8 @@ public class ProductConverter extends ABibliographicRecordConverter {
 			content += AbstractRecordConverter.NO_ATTEMPT_TO_CODE;
 		if(productDTO.getName().getLanguage() != null)
 			content += productDTO.getName().getLanguage();
-		else 
-			content += MultilingualContentDTO.LANGUAGE_SERBIAN;		
+		else
+			content += MultilingualContentDTO.LANGUAGE_SERBIAN;
 		content += AbstractRecordConverter.NO_ATTEMPT_TO_CODE;
 		content += AbstractRecordConverter.NO_ATTEMPT_TO_CODE;
 		retVal.setContent(content);

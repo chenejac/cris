@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rs.ac.uns.ftn.informatika.bibliography.interoperability.serializers;
 
@@ -41,15 +41,15 @@ import com.gint.util.xml.XMLUtils;
 /**
  * Class for conversions between object of class MARC21Record and XML format according
  * to https://github.com/openaire/guidelines-cris-managers/blob/master/schemas/openaire-cerif-profile.xsd XMLSchema
- * 
- * 
+ *
+ *
  */
 public class OpenAIRECRISXMLSerializer implements Serializer {
 
 	protected List<String> languages;
 	protected String source;
 	protected String defaultLanguage = "  ";//MultilingualContentDTO.LANGUAGE_ENGLISH;
-	
+
 	/**
 	 * @param languages
 	 * @param source
@@ -58,16 +58,16 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 		this.languages = languages;
 		this.source = source;
 	}
-	
+
 	/**
 	 */
 	public OpenAIRECRISXMLSerializer(){
 		this.languages = Arrays.asList("en");
 		this.source = "OpenAIRE";
 	}
-	
+
 	protected static SAXParserFactory factory;
-	
+
 
 	static {
 		try {
@@ -77,13 +77,13 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rec
 	 *            MARC 21 MARC21Record
 	 * @param indent
 	 *            tags indent
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String fromRecord(Record rec, String indent) {
 		RecordDTO record = rec.getDto();
@@ -101,12 +101,12 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			return orgUnitFromRecord(record, indent, true);
 		else if(record instanceof ConferenceDTO)
 			return eventFromRecord(record, indent, true);
-		else 
+		else
 			return "";
     }
-	
+
 	/**
-	 * 
+	 *
 	 * @param record
 	 *            Record Java Bean
 	 * @param indent
@@ -114,17 +114,17 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 	 * @param xmlns
 	 *            xmlns should be added
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String publicationFromRecord(RecordDTO record, String indent, boolean xmlns) {
 		StringBuffer buff = new StringBuffer(1024);
 		buff.append(indent + "<Publication" + (xmlns?" xmlns=\"https://www.openaire.eu/cerif-profile/1.1/\"":"") + " id=\"" + record.getControlNumber() + "\">\n");
-		
+
 		List<XMLTag> types = getTypes("Type", record);
 		List<XMLTag> languages = getLanguages("Language", record);
-		List<XMLTag> titles = getTitles("Title", record);
-		List<XMLTag> subtitles = getSubtitles("Subtitle", record);
-		
+		List<XMLTag> titles = getTitles("Title", record, true);
+		List<XMLTag> subtitles = getSubtitles("Subtitle", record, true);
+
 
 		List<XMLTag> publicationDates = getPublicationDates("PublicationDate", record);
 		List<XMLTag> numbers = getNumbers("Number", record);
@@ -133,45 +133,45 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 		List<XMLTag> editions = getEditions("Edition", record);
 		List<XMLTag> startPages = getStartPages("StartPage", record);
 		List<XMLTag> endPages = getEndPages("EndPage", record);
-		
+
 		List<XMLTag> dois = getDOIs("DOI", record);
 		List<XMLTag> scpNumbers = getScopusIds("SCP-Number", record);
 		List<XMLTag> issns = getIssns("ISSN", record);
 		List<XMLTag> isbns = getIsbns("ISBN", record);
 		List<XMLTag> urls = getURLs("URL", record);
-		
+
 		//License
 		//Subject
-		
-		List<XMLTag> keywords = getKeywords("Keyword", record);
-		List<XMLTag> abstracts = getAbstracts("Abstract", record);
-		
+
+		List<XMLTag> keywords = getKeywords("Keyword", record, true);
+		List<XMLTag> abstracts = getAbstracts("Abstract", record, true);
+
 		List<XMLTag> accesss = getAccess("Access", record);
-	
+
 		for (XMLTag type : types) {
 		    buff.append(indent + "\t");
 		    buff.append(type.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag language : languages) {
 		    buff.append(indent + "\t");
 		    buff.append(language.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag title : titles) {
 		    buff.append(indent + "\t");
 		    buff.append(title.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag subtitle : subtitles) {
 		    buff.append(indent + "\t");
 		    buff.append(subtitle.toString());
 		    buff.append("\n");
 		}
-		
+
 		if(record instanceof PaperJournalDTO){
 			buff.append(indent + "\t<PublishedIn>\n");
 			buff.append(publicationFromRecord(((PaperJournalDTO)record).getJournal(), indent+"\t\t", false));
@@ -182,79 +182,79 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			buff.append(publicationFromRecord(((record instanceof PaperProceedingsDTO)?(((PaperProceedingsDTO)record).getProceedings()):(((PaperMonographDTO)record).getMonograph())), indent+"\t\t", false));
 			buff.append("\n" + indent + "\t</PartOf>\n");
 		}
-		
+
 		for (XMLTag publicationDate : publicationDates) {
 		    buff.append(indent + "\t");
 		    buff.append(publicationDate.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag number : numbers) {
 		    buff.append(indent + "\t");
 		    buff.append(number.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag volume : volumes) {
 		    buff.append(indent + "\t");
 		    buff.append(volume.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag issue : issues) {
 		    buff.append(indent + "\t");
 		    buff.append(issue.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag edition : editions) {
 		    buff.append(indent + "\t");
 		    buff.append(edition.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag startPage : startPages) {
 		    buff.append(indent + "\t");
 		    buff.append(startPage.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag endPage : endPages) {
 		    buff.append(indent + "\t");
 		    buff.append(endPage.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag doi : dois) {
 		    buff.append(indent + "\t");
 		    buff.append(doi.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag scpNumber : scpNumbers) {
 		    buff.append(indent + "\t");
 		    buff.append(scpNumber.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag issn : issns) {
 		    buff.append(indent + "\t");
 		    buff.append(issn.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag isbn : isbns) {
 		    buff.append(indent + "\t");
 		    buff.append(isbn.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag url : urls) {
 		    buff.append(indent + "\t");
 		    buff.append(url.toString());
 		    buff.append("\n");
 		}
-		
+
 		PublicationDTO publication = (PublicationDTO)record;
 		if(publication.getAllAuthors().size()>0){
 			buff.append(indent + "\t<Authors>\n");
@@ -272,7 +272,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			}
 			buff.append(indent + "\t</Authors>\n");
 		}
-		
+
 		if(publication.getEditors().size()>0){
 			buff.append(indent + "\t<Editors>\n");
 			for(AuthorDTO editor:publication.getEditors()){
@@ -302,46 +302,46 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				buff.append(indent + "\t</Publishers>\n");
 			}
 		}
-		
+
 		//publishers
-		
+
 		//License
 		//Subject
-		
+
 		for (XMLTag keyword : keywords) {
 		    buff.append(indent + "\t");
 		    buff.append(keyword.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag abstracT : abstracts) {
 		    buff.append(indent + "\t");
 		    buff.append(abstracT.toString());
 		    buff.append("\n");
 		}
-		
+
 		//status
-		
+
 		if (record instanceof ProceedingsDTO){
 			buff.append(indent + "\t<OutputFrom>\n");
 			buff.append(eventFromRecord(((ProceedingsDTO)record).getConference(), indent+"\t\t", false));
 			buff.append("\n" + indent + "\t</OutputFrom>\n");
 		}
 		//List<XMLTag> presentedAt = getEditions("Edition", record);
-		
+
 		for (XMLTag access : accesss) {
 		    buff.append(indent + "\t");
 		    buff.append(access.toString());
 		    buff.append("\n");
 		}
-		
-		
+
+
 		buff.append(indent + "</Publication>");
 		return buff.toString();
     }
-	
+
 	/**
-	 * 
+	 *
 	 * @param record
 	 *            Record Java Bean
 	 * @param indent
@@ -349,57 +349,72 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 	 * @param xmlns
 	 *            xmlns should be added
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String patentFromRecord(RecordDTO record, String indent, boolean xmlns) {
 		StringBuffer buff = new StringBuffer(1024);
 		buff.append(indent + "<Patent" + (xmlns?" xmlns=\"https://www.openaire.eu/cerif-profile/1.1/\"":"") + " id=\"" + record.getControlNumber() + "\">\n");
 		List<XMLTag> types = getTypes("Type", record);
-		List<XMLTag> titles = getTitles("Title", record);
-		
+		List<XMLTag> titles = getTitles("Title", record, true);
+
 		List<XMLTag> approvalDates = getPublicationDates("ApprovalDate", record);
-		
+
+		List<XMLTag> dois = getDOIs("DOI", record);
+		List<XMLTag> urls = getURLs("URL", record);
+
 		//publisher
-		
+
 		List<XMLTag> patentNumbers = getNumbers("PatentNumber", record);
-		
+
 		//inventors - authors
-		
-		List<XMLTag> abstracts = getAbstracts("Abstract", record);
+
+		List<XMLTag> abstracts = getAbstracts("Abstract", record, true);
 		//Subject
-		List<XMLTag> keywords = getKeywords("Keyword", record);
-		
+		List<XMLTag> keywords = getKeywords("Keyword", record, true);
+
 		List<XMLTag> accesss = getAccess("Access", record);
-		
-		
+
+
 		for (XMLTag type : types) {
 		    buff.append(indent + "\t");
 		    buff.append(type.toString());
 		    buff.append("\n");
 		}
-		
-		
+
+
 		for (XMLTag title : titles) {
 		    buff.append(indent + "\t");
 		    buff.append(title.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag approvalDate : approvalDates) {
 		    buff.append(indent + "\t");
 		    buff.append(approvalDate.toString());
 		    buff.append("\n");
 		}
-		
+
+		for (XMLTag doi : dois) {
+			buff.append(indent + "\t");
+			buff.append(doi.toString());
+			buff.append("\n");
+		}
+
+		for (XMLTag url : urls) {
+			buff.append(indent + "\t");
+			buff.append(url.toString());
+			buff.append("\n");
+		}
+
 		//publishers
-		
-		
+
+
 		for (XMLTag number : patentNumbers) {
 		    buff.append(indent + "\t");
 		    buff.append(number.toString());
 		    buff.append("\n");
 		}
-		
+
 		//inventors - authors
 		PublicationDTO publication = (PublicationDTO)record;
 		if(publication.getAllAuthors().size()>0){
@@ -418,34 +433,34 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			}
 			buff.append(indent + "\t</Inventors>\n");
 		}
-		
-		
+
+
 		for (XMLTag abstracT : abstracts) {
 			buff.append(indent + "\t");
 			buff.append(abstracT.toString());
 			buff.append("\n");
 		}
-		
+
 		//Subject
-		
+
 		for (XMLTag keyword : keywords) {
 		    buff.append(indent + "\t");
 		    buff.append(keyword.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag access : accesss) {
 		    buff.append(indent + "\t");
 		    buff.append(access.toString());
 		    buff.append("\n");
 		}
-		
+
 		buff.append(indent + "</Patent>");
 		return buff.toString();
     }
-	
+
 	/**
-	 * 
+	 *
 	 * @param record
 	 *            Record Java Bean
 	 * @param indent
@@ -453,64 +468,64 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 	 * @param xmlns
 	 *            xmlns should be added
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String productFromRecord(RecordDTO record, String indent, boolean xmlns) {
 		StringBuffer buff = new StringBuffer(1024);
 		buff.append(indent + "<Product" + (xmlns?" xmlns=\"https://www.openaire.eu/cerif-profile/1.1/\"":"") + " id=\"" + record.getControlNumber() + "\">\n");
 		List<XMLTag> types = getTypes("Type", record);
 		List<XMLTag> languages = getLanguages("Language", record);
-		List<XMLTag> names = getNames("Name", record);
-		
+		List<XMLTag> names = getNames("Name", record, true);
+
 		//versionInfo
-		
+
 		List<XMLTag> dois = getDOIs("DOI", record);
 		List<XMLTag> urls = getURLs("URL", record);
-		
+
 		//creators - authors
 		//publishers
 		//license
-		
-		
-		List<XMLTag> descriptions = getDescriptions("Description", record);
+
+
+		List<XMLTag> descriptions = getDescriptions("Description", record, true);
 		//Subject
-		List<XMLTag> keywords = getKeywords("Keyword", record);
-		
+		List<XMLTag> keywords = getKeywords("Keyword", record, true);
+
 		List<XMLTag> accesss = getAccess("Access", record);
-		
-	
+
+
 		for (XMLTag type : types) {
 		    buff.append(indent + "\t");
 		    buff.append(type.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag language : languages) {
 		    buff.append(indent + "\t");
 		    buff.append(language.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag name : names) {
 		    buff.append(indent + "\t");
 		    buff.append(name.toString());
 		    buff.append("\n");
 		}
-		
+
 		//versionInfo
-		
+
 		for (XMLTag doi : dois) {
 		    buff.append(indent + "\t");
 		    buff.append(doi.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag url : urls) {
 		    buff.append(indent + "\t");
 		    buff.append(url.toString());
 		    buff.append("\n");
 		}
-		
+
 		//creators - authors
 		PublicationDTO publication = (PublicationDTO)record;
 		if(publication.getAllAuthors().size()>0){
@@ -531,34 +546,34 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 		}
 		//publishers
 		//license
-		
+
 		for (XMLTag description : descriptions) {
 			buff.append(indent + "\t");
 			buff.append(description.toString());
 			buff.append("\n");
 		}
-		
+
 		//subject
-		
+
 		for (XMLTag keyword : keywords) {
 		    buff.append(indent + "\t");
 		    buff.append(keyword.toString());
 		    buff.append("\n");
 		}
-		
+
 		for (XMLTag access : accesss) {
 		    buff.append(indent + "\t");
 		    buff.append(access.toString());
 		    buff.append("\n");
 		}
-		
+
 		buff.append(indent + "</Product>");
 		return buff.toString();
     }
-	
+
 	/**
 	 * Creates MARC21slim XML from mARC21Record
-	 * 
+	 *
 	 * @param record
 	 *            Record Java Bean
 	 * @param indent
@@ -566,59 +581,59 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 		 * @param xmlns
 	 *            xmlns should be added
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String personFromRecord(RecordDTO record, String indent, boolean xmlns) {
 		StringBuffer buff = new StringBuffer(1024);
 		buff.append(indent + "<Person" + (xmlns?" xmlns=\"https://www.openaire.eu/cerif-profile/1.1/\"":"") + " id=\"" + record.getControlNumber() + "\">\n");
 		if(xmlns){
-			List<XMLTag> personNames = getPersonNames(indent, "PersonName", record);		
+			List<XMLTag> personNames = getPersonNames(indent, "PersonName", record);
 			List<XMLTag> genders = getGenders("Gender", record);
-	
+
 			for (XMLTag personName : personNames) {
 				buff.append(personName.toString());
 				buff.append("\n");
 			}
-			
-			
+
+
 			for (XMLTag gender : genders) {
 				buff.append(indent + "\t");
 				buff.append(gender.toString());
 				buff.append("\n");
 			}
-		}	
-		
+		}
+
 		List<XMLTag> ORCIDs = getORCIDs("ORCID", record);
 		for (XMLTag ORCID : ORCIDs) {
 			buff.append(indent + "\t");
 			buff.append(ORCID.toString());
 			buff.append("\n");
 		}
-	
+
 		if(xmlns){
 			List<XMLTag> scopusIds = getScopusIds("ScopusAuthorID", record);
 			List<XMLTag> electronicAddresses = getElectronicAddresses("ElectronicAddress", record);
-			
+
 			for (XMLTag scopusId : scopusIds) {
 			    buff.append(indent + "\t");
 			    buff.append(scopusId.toString());
 			    buff.append("\n");
 			}
-		
-			
+
+
 			for (XMLTag electronicAddress : electronicAddresses) {
 			    buff.append(indent + "\t");
 			    buff.append(electronicAddress.toString());
 			    buff.append("\n");
 			}
-		
+
 			OrganizationUnitDTO orgUnit = ((AuthorDTO)record).getOrganizationUnit();
 			InstitutionDTO institution = ((AuthorDTO)record).getInstitution();
 			if ((institution.getControlNumber()!=null)
 					&& (!"".equals(institution.getControlNumber())) && ("(BISIS)5929".equals(institution.getControlNumber()))){
 				if((orgUnit != null) && (orgUnit.getControlNumber()!=null)
 						&& (!"".equals(orgUnit.getControlNumber()))){
-					buff.append(indent + "\t\t<Affiliation>\n");	
+					buff.append(indent + "\t\t<Affiliation>\n");
 					buff.append(orgUnitFromRecord(orgUnit, indent+"\t\t\t", false));
 					buff.append("\n" + indent + "\t\t</Affiliation>\n");
 				} else if ((institution.getSuperInstitution() != null) && (institution.getSuperInstitution().getControlNumber()!=null)
@@ -628,15 +643,15 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					buff.append("\n" + indent + "\t\t</Affiliation>\n");
 				}
 			}
-		}	
-			
+		}
+
 		buff.append(indent + "</Person>");
 		return buff.toString();
     }
-	
+
 	/**
 	 * Creates MARC21slim XML from mARC21Record
-	 * 
+	 *
 	 * @param record
 	 *            Record Java Bean
 	 * @param indent
@@ -644,28 +659,28 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 	 * @param xmlns
 	 *            xmlns should be added
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String orgUnitFromRecord(RecordDTO record, String indent, boolean xmlns) {
 		StringBuffer buff = new StringBuffer(1024);
 		buff.append(indent + "<OrgUnit" + (xmlns?" xmlns=\"https://www.openaire.eu/cerif-profile/1.1/\"":"") + " id=\"" + record.getControlNumber() + "\">\n");
 //		if(xmlns){
-			List<XMLTag> names = getNames("Name", record);
+			List<XMLTag> names = getNames("Name", record, true);
 			List<XMLTag> acronyms = getAcronyms("Acronym", record);
 			List<XMLTag> identifiers = getIdentifiers("Identifier", record);
-		
+
 			for (XMLTag acronym : acronyms) {
 			    buff.append(indent + "\t");
 			    buff.append(acronym.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag name : names) {
 			    buff.append(indent + "\t");
 			    buff.append(name.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag identifier : identifiers) {
 			    buff.append(indent + "\t");
 			    buff.append(identifier.toString());
@@ -678,7 +693,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 //			buff.append(name.toString());
 //			buff.append("\n");
 //		}
-		
+
 		if(record instanceof OrganizationUnitDTO){
 			OrganizationUnitDTO orgUnit = (OrganizationUnitDTO)record;
 			if((orgUnit.getSuperOrganizationUnit() != null) && (orgUnit.getSuperOrganizationUnit().getControlNumber()!=null)
@@ -700,15 +715,15 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				buff.append(orgUnitFromRecord(institution.getSuperInstitution(), indent+"\t\t", false));
 				buff.append("\n" + indent + "\t</PartOf>");
 			}
-		} 
-		
+		}
+
 		buff.append(indent + "</OrgUnit>");
 		return buff.toString();
     }
-	
+
 	/**
 	 * Creates MARC21slim XML from mARC21Record
-	 * 
+	 *
 	 * @param record
 	 *            Record Java Bean
 	 * @param indent
@@ -716,85 +731,93 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 	 * @param xmlns
 	 *            xmlns should be added
 	 * @return created XML
-	 * 
+	 *
 	 */
 	public String eventFromRecord(RecordDTO record, String indent, boolean xmlns) {
 		StringBuffer buff = new StringBuffer(1024);
 		buff.append(indent + "<Event" + (xmlns?" xmlns=\"https://www.openaire.eu/cerif-profile/1.1/\"":"") + " id=\"" + record.getControlNumber() + "\">\n");
-		
+
 //		if(xmlns){
 			List<XMLTag> types = getTypes("Type", record);
-			List<XMLTag> names = getNames("Name", record);
-			
-			
+			List<XMLTag> names = getNames("Name", record, true);
+
+			List<XMLTag> numbers = getNumbers("Number", record);
+
+
 			List<XMLTag> places = getPlaces("Place", record);
-			List<XMLTag> countries = getCountries("Country", record);		
-			
+			List<XMLTag> countries = getCountries("Country", record);
+
 			List<XMLTag> startYears = getPublicationDates("StartDate", record);
 			List<XMLTag> endYears = getPublicationDates("EndDate", record);
-			
-			List<XMLTag> descriptions = getDescriptions("Description", record);
+
+			List<XMLTag> descriptions = getDescriptions("Description", record, true);
 			//subject
-			List<XMLTag> keywords = getKeywords("Keyword", record);
-			
-		
+			List<XMLTag> keywords = getKeywords("Keyword", record, true);
+
+
 			for (XMLTag type : types) {
 			    buff.append(indent + "\t");
 			    buff.append(type.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag name : names) {
 			    buff.append(indent + "\t");
 			    buff.append(name.toString());
 			    buff.append("\n");
 			}
-			
+
+			for (XMLTag number : numbers) {
+				buff.append(indent + "\t");
+				buff.append(number.toString());
+				buff.append("\n");
+			}
+
 			for (XMLTag place : places) {
 			    buff.append(indent + "\t");
 			    buff.append(place.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag country : countries) {
 			    buff.append(indent + "\t");
 			    buff.append(country.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag startYear : startYears) {
 			    buff.append(indent + "\t");
 			    buff.append(startYear.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag endYear : endYears) {
 			    buff.append(indent + "\t");
 			    buff.append(endYear.toString());
 			    buff.append("\n");
 			}
-			
+
 			for (XMLTag description : descriptions) {
 			    buff.append(indent + "\t");
 			    buff.append(description.toString());
 			    buff.append("\n");
 			}
-			
+
 			//subject
-			
+
 			for (XMLTag keyword : keywords) {
 			    buff.append(indent + "\t");
 			    buff.append(keyword.toString());
 			    buff.append("\n");
 			}
 //		}
-		
+
 		buff.append(indent + "</Event>");
 		return buff.toString();
     }
 
-	
-	protected List<XMLTag> getTitles(String tagName, RecordDTO record) {
+
+	protected List<XMLTag> getTitles(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof JournalDTO){
 			JournalDTO journal = (JournalDTO)record;
@@ -809,11 +832,11 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				if(lang!=null){
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
-				} 
+				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO name : journal.getNameTranslations()) {
 				if(name.getContent()!=null){
@@ -829,9 +852,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else 	if(record instanceof PaperJournalDTO){
@@ -849,9 +872,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO title : paperJournal.getTitleTranslations()) {
 				if(title.getContent()!=null){
@@ -867,9 +890,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof MonographDTO){
@@ -887,9 +910,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO title : monograph.getTitleTranslations()) {
 				if(title.getContent()!=null){
@@ -905,9 +928,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PaperMonographDTO){
@@ -925,9 +948,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO title : paperMonograph.getTitleTranslations()) {
 				if(title.getContent()!=null){
@@ -943,9 +966,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof ProceedingsDTO){
@@ -963,9 +986,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO title : proceedings.getTitleTranslations()) {
 				if(title.getContent()!=null){
@@ -981,9 +1004,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PaperProceedingsDTO){
@@ -1001,9 +1024,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO title : paperProceedings.getTitleTranslations()) {
 				if(title.getContent()!=null)
@@ -1020,9 +1043,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PatentDTO){
@@ -1041,9 +1064,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO title : patent.getTitleTranslations()) {
 				if(title.getContent()!=null)
@@ -1060,9 +1083,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof StudyFinalDocumentDTO){
@@ -1080,9 +1103,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				if((studyFinalDocument.getLanguage() != null) && (studyFinalDocument.getLanguage().equals("srp")) &&
-					((studyFinalDocument.getAlphabet() != null) && (studyFinalDocument.getAlphabet().equals("cyrillic script")))){ 
+					((studyFinalDocument.getAlphabet() != null) && (studyFinalDocument.getAlphabet().equals("cyrillic script")))){
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag))
+						if(transliteration && (! latinTag.equals(textTag)))
 							retVal.add(latinTag);
 				} else {
 					retVal.add(latinTag);
@@ -1102,23 +1125,23 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							if(! retVal.contains(textTag)){
 								retVal.add(textTag);
 							}
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								if(! retVal.contains(latinTag)){
 									retVal.add(latinTag);
 								}
-							} 
+							}
 						}
-					} 
+					}
 					if(! retVal.contains(textTag)){
 						retVal.add(textTag);
 					}
 				}
 			}
-		} 
+		}
 		return retVal;
 	}
-	
-	protected List<XMLTag> getSubtitles(String tagName, RecordDTO record) {
+
+	protected List<XMLTag> getSubtitles(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof JournalDTO){
 			JournalDTO journal = (JournalDTO)record;
@@ -1135,9 +1158,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO nameAbbreviation : journal.getNameAbbreviationTranslations()) {
 				if(nameAbbreviation.getContent()!=null){
@@ -1153,9 +1176,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else 	if(record instanceof PaperJournalDTO){
@@ -1173,9 +1196,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO subtitle : paperJournal.getSubtitleTranslations()) {
 				if(subtitle.getContent()!=null){
@@ -1191,9 +1214,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof MonographDTO){
@@ -1211,9 +1234,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO subtitle : monograph.getSubtitleTranslations()) {
 				if(subtitle.getContent()!=null){
@@ -1229,9 +1252,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PaperMonographDTO){
@@ -1249,9 +1272,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO subtitle : paperMonograph.getSubtitleTranslations()) {
 				if(subtitle.getContent()!=null){
@@ -1267,9 +1290,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof ProceedingsDTO){
@@ -1287,9 +1310,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO subtitle : proceedings.getSubtitleTranslations()) {
 				if(subtitle.getContent()!=null){
@@ -1305,9 +1328,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PaperProceedingsDTO){
@@ -1325,9 +1348,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO subtitle : paperProceedings.getSubtitleTranslations()) {
 				if(subtitle.getContent()!=null){
@@ -1343,9 +1366,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof StudyFinalDocumentDTO){
@@ -1363,9 +1386,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				if((studyFinalDocument.getLanguage() != null) && (studyFinalDocument.getLanguage().equals("srp")) &&
-					((studyFinalDocument.getAlphabet() != null) && (studyFinalDocument.getAlphabet().equals("cyrillic script")))){ 
+					((studyFinalDocument.getAlphabet() != null) && (studyFinalDocument.getAlphabet().equals("cyrillic script")))){
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag))
+						if(transliteration && (! latinTag.equals(textTag)))
 							retVal.add(latinTag);
 				} else {
 					retVal.add(latinTag);
@@ -1385,22 +1408,22 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							if(! retVal.contains(textTag)){
 								retVal.add(textTag);
 							}
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								if(! retVal.contains(latinTag)){
 									retVal.add(latinTag);
 								}
-							} 
+							}
 						}
-					} 
+					}
 					if(! retVal.contains(textTag)){
 						retVal.add(textTag);
 					}
 				}
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getPublicationDates(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof StudyFinalDocumentDTO){
@@ -1415,18 +1438,25 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			else if(studyFinalDocument.getPublicationDate() != null){
 				dateString = formatter.format(studyFinalDocument.getPublicationDate().getTime());
 				retVal.add(new XMLTag(tagName, dateString));
-			} 
+			}
 			else if(studyFinalDocument.getAcceptedOn() != null){
 				dateString = formatter.format(studyFinalDocument.getAcceptedOn().getTime());
 				if(! retVal.contains(new XMLTag(tagName, dateString)))
 					retVal.add(new XMLTag(tagName, dateString));
-			} 
+			}
 		} else if(record instanceof PatentDTO){
 			PatentDTO patent = (PatentDTO)record;
 			if((patent.getPublicationYear() != null) && (! "".equals(patent.getPublicationYear()))){
 				String year = ((patent.getPublicationYear().contains("/"))?patent.getPublicationYear().split("/")[1]:patent.getPublicationYear());
 				if(year.trim().matches("\\d{4}"))
-					retVal.add(new XMLTag(tagName, year.trim() + "-01-01"));				
+					retVal.add(new XMLTag(tagName, year.trim() + "-01-01"));
+			}
+		} else if(record instanceof ProductDTO){
+			ProductDTO product = (ProductDTO)record;
+			if((product.getPublicationYear() != null) && (! "".equals(product.getPublicationYear()))){
+				String year = ((product.getPublicationYear().contains("/"))?product.getPublicationYear().split("/")[1]:product.getPublicationYear());
+				if(year.trim().matches("\\d{4}"))
+					retVal.add(new XMLTag(tagName, year.trim() + "-01-01"));
 			}
 		} else if(record instanceof ConferenceDTO){
 			ConferenceDTO conference = (ConferenceDTO)record;
@@ -1439,20 +1469,28 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if(year.trim().matches("\\d{4}"))
 				retVal.add(new XMLTag(tagName, year.trim()));
 			}
-		}  
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getNumbers(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof PatentDTO){
 			PatentDTO patent = (PatentDTO)record;
 			if(patent.getNumber() != null)
 				retVal.add(new XMLTag(tagName, patent.getNumber()));
-		}  
+		} else if(record instanceof ProductDTO){
+			ProductDTO product = (ProductDTO)record;
+			if(product.getInternalNumber() != null)
+				retVal.add(new XMLTag(tagName, product.getInternalNumber()));
+		} else if(record instanceof ConferenceDTO){
+			ConferenceDTO conference = (ConferenceDTO)record;
+			if(conference.getNumber() != null)
+				retVal.add(new XMLTag(tagName, conference.getNumber()));
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getVolumes(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof MonographDTO){
@@ -1465,10 +1503,10 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if(paperJournal.getVolume() != null){
 				retVal.add(new XMLTag(tagName, paperJournal.getVolume()));
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getIssues(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof MonographDTO){
@@ -1481,10 +1519,10 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if(paperJournal.getNumber() != null){
 				retVal.add(new XMLTag(tagName, paperJournal.getNumber()));
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getEditions(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof MonographDTO){
@@ -1497,28 +1535,13 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if(proceedings.getEditionTitle() != null){
 				retVal.add(new XMLTag(tagName, proceedings.getEditionTitle()));
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getStartPages(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
-		if(record instanceof MonographDTO){
-			MonographDTO monograph = (MonographDTO)record;
-			if(monograph.getNumberOfPages() != null){
-				retVal.add(new XMLTag(tagName, "1"));
-			}
-		} else if(record instanceof ProceedingsDTO){
-			ProceedingsDTO proceedings = (ProceedingsDTO)record;
-			if(proceedings.getNumberOfPages() != null){
-				retVal.add(new XMLTag(tagName, "1"));
-			}
-		} else if(record instanceof StudyFinalDocumentDTO){
-			StudyFinalDocumentDTO studyFinalDocument = (StudyFinalDocumentDTO)record;
-			if((studyFinalDocument.getPhysicalDescription() != null) && (studyFinalDocument.getPhysicalDescription().getNumberOfPages() != null)){
-				retVal.add(new XMLTag(tagName, "1"));
-			}
-		} else if(record instanceof PaperProceedingsDTO){
+		if(record instanceof PaperProceedingsDTO){
 			PaperProceedingsDTO paper = (PaperProceedingsDTO)record;
 			if(paper.getStartPage() != null){
 				retVal.add(new XMLTag(tagName, paper.getStartPage()));
@@ -1533,29 +1556,14 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if(paper.getStartPage() != null){
 				retVal.add(new XMLTag(tagName, paper.getStartPage()));
 			}
-		} 
-		
+		}
+
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getEndPages(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
-		if(record instanceof MonographDTO){
-			MonographDTO monograph = (MonographDTO)record;
-			if(monograph.getNumberOfPages() != null){
-				retVal.add(new XMLTag(tagName, monograph.getNumberOfPages().toString()));
-			}
-		} else if(record instanceof ProceedingsDTO){
-			ProceedingsDTO proceedings = (ProceedingsDTO)record;
-			if(proceedings.getNumberOfPages() != null){
-				retVal.add(new XMLTag(tagName, proceedings.getNumberOfPages().toString()));
-			}
-		} else if(record instanceof StudyFinalDocumentDTO){
-			StudyFinalDocumentDTO studyFinalDocument = (StudyFinalDocumentDTO)record;
-			if((studyFinalDocument.getPhysicalDescription() != null) && (studyFinalDocument.getPhysicalDescription().getNumberOfPages() != null)){
-				retVal.add(new XMLTag(tagName, studyFinalDocument.getPhysicalDescription().getNumberOfPages().toString()));
-			}
-		} else if(record instanceof PaperProceedingsDTO){
+		if(record instanceof PaperProceedingsDTO){
 			PaperProceedingsDTO paper = (PaperProceedingsDTO)record;
 			if(paper.getEndPage() != null){
 				retVal.add(new XMLTag(tagName, paper.getEndPage()));
@@ -1570,18 +1578,18 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if(paper.getEndPage() != null){
 				retVal.add(new XMLTag(tagName, paper.getEndPage()));
 			}
-		} 
-		
+		}
+
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getDOIs(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof MonographDTO){
 			MonographDTO monograph = (MonographDTO)record;
 			if((monograph.getDoi() != null) && (! "".equals(monograph.getDoi()))){
 				String correctDoi = null;
-				String[] splited = monograph.getDoi().trim().split(":|\\s");
+				String[] splited = monograph.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1594,7 +1602,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			ProceedingsDTO proceedings = (ProceedingsDTO)record;
 			if((proceedings.getDoi() != null) && (! "".equals(proceedings.getDoi()))){
 				String correctDoi = null;
-				String[] splited = proceedings.getDoi().trim().split(":|\\s");
+				String[] splited = proceedings.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1607,7 +1615,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			StudyFinalDocumentDTO studyFinalDocument = (StudyFinalDocumentDTO)record;
 			if((studyFinalDocument.getDoi() != null) && (! "".equals(studyFinalDocument.getDoi()))){
 				String correctDoi = null;
-				String[] splited = studyFinalDocument.getDoi().trim().split(":|\\s");
+				String[] splited = studyFinalDocument.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1620,7 +1628,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			PaperProceedingsDTO paper = (PaperProceedingsDTO)record;
 			if((paper.getDoi() != null) && (! "".equals(paper.getDoi()))){
 				String correctDoi = null;
-				String[] splited = paper.getDoi().trim().split(":|\\s");
+				String[] splited = paper.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1633,7 +1641,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			PaperJournalDTO paper = (PaperJournalDTO)record;
 			if((paper.getDoi() != null) && (! "".equals(paper.getDoi()))){
 				String correctDoi = null;
-				String[] splited = paper.getDoi().trim().split(":|\\s");
+				String[] splited = paper.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1646,7 +1654,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			PaperMonographDTO paper = (PaperMonographDTO)record;
 			if((paper.getDoi() != null) && (! "".equals(paper.getDoi()))){
 				String correctDoi = null;
-				String[] splited = paper.getDoi().trim().split(":|\\s");
+				String[] splited = paper.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1659,7 +1667,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			ProductDTO product = (ProductDTO)record;
 			if((product.getDoi() != null) && (! "".equals(product.getDoi()))){
 				String correctDoi = null;
-				String[] splited = product.getDoi().trim().split(":|\\s");
+				String[] splited = product.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
 				for(String split: splited)
 					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
 						correctDoi = split;
@@ -1668,11 +1676,24 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				if(correctDoi != null)
 					retVal.add(new XMLTag(tagName, correctDoi));
 			}
-		} 
-		
+		} else if(record instanceof PatentDTO){
+			PatentDTO patent = (PatentDTO)record;
+			if((patent.getDoi() != null) && (! "".equals(patent.getDoi()))){
+				String correctDoi = null;
+				String[] splited = patent.getDoi().trim().replaceFirst("^https://doi\\.org/", "").replaceFirst("^http://doi\\.org/", "").split(":|\\s");
+				for(String split: splited)
+					if(split.matches("10\\.\\d{4,}(\\.\\d+)*/[^\\s]+")){
+						correctDoi = split;
+						break;
+					}
+				if(correctDoi != null)
+					retVal.add(new XMLTag(tagName, correctDoi));
+			}
+		}
+
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getIssns(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof MonographDTO){
@@ -1693,18 +1714,19 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						retVal.add(new XMLTag(tagName, split));
 					}
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getIsbns(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof MonographDTO){
 			MonographDTO monograph = (MonographDTO)record;
-			if((monograph.getIsbn() != null) && (! "".equals(monograph.getIsbn()))){ 
+			if((monograph.getIsbn() != null) && (! "".equals(monograph.getIsbn()))){
 				String split = monograph.getIsbn().toUpperCase().replace("ISBN:", "").replace("ISBN", "").replace(";", "").trim();
-				if((((split.matches("978-\\d+-\\d+-\\d+-\\d")) 
-					|| (split.matches("978 \\d+ \\d+ \\d+ \\d")) 
+				if( (split.matches("^(?i)(?:(?:\\\\d[ |-]?){9}[\\\\dX]|(?:\\\\d[ |-]?){13})$")) ||
+					(((split.matches("978-\\d+-\\d+-\\d+-\\d"))
+					|| (split.matches("978 \\d+ \\d+ \\d+ \\d"))
 					|| (split.matches("979-[1-9]\\d*-\\d+-\\d+-\\d"))
 					|| (split.matches("979 [1-9]\\d* \\d+ \\d+ \\d"))) && (split.length() == 17))
 					|| (((split.matches("978\\d{10}"))
@@ -1719,8 +1741,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			ProceedingsDTO proceedings = (ProceedingsDTO)record;
 			if((proceedings.getIsbn() != null) && (! "".equals(proceedings.getIsbn()))){
 				String split = proceedings.getIsbn().toUpperCase().replace("ISBN:", "").replace("ISBN", "").replace(";", "").trim();
-				if((((split.matches("978-\\d+-\\d+-\\d+-\\d")) 
-						|| (split.matches("978 \\d+ \\d+ \\d+ \\d")) 
+				if( (split.matches("^(?i)(?:(?:\\\\d[ |-]?){9}[\\\\dX]|(?:\\\\d[ |-]?){13})$")) ||
+						(((split.matches("978-\\d+-\\d+-\\d+-\\d"))
+						|| (split.matches("978 \\d+ \\d+ \\d+ \\d"))
 						|| (split.matches("979-[1-9]\\d*-\\d+-\\d+-\\d"))
 						|| (split.matches("979 [1-9]\\d* \\d+ \\d+ \\d"))) && (split.length() == 17))
 						|| (((split.matches("978\\d{10}"))
@@ -1731,10 +1754,27 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					retVal.add(new XMLTag(tagName, split));
 				}
 			}
-		} 
+		} else if(record instanceof StudyFinalDocumentDTO){
+			StudyFinalDocumentDTO studyFinalDocumentDTO = (StudyFinalDocumentDTO)record;
+			if((studyFinalDocumentDTO.getIsbn() != null) && (! "".equals(studyFinalDocumentDTO.getIsbn()))){
+				String split = studyFinalDocumentDTO.getIsbn().toUpperCase().replace("ISBN:", "").replace("ISBN", "").replace(";", "").trim();
+				if( (split.matches("^(?i)(?:(?:\\\\d[ |-]?){9}[\\\\dX]|(?:\\\\d[ |-]?){13})$")) ||
+						(((split.matches("978-\\d+-\\d+-\\d+-\\d"))
+						|| (split.matches("978 \\d+ \\d+ \\d+ \\d"))
+						|| (split.matches("979-[1-9]\\d*-\\d+-\\d+-\\d"))
+						|| (split.matches("979 [1-9]\\d* \\d+ \\d+ \\d"))) && (split.length() == 17))
+						|| (((split.matches("978\\d{10}"))
+						|| (split.matches("979[1-9]\\d{9}"))
+						|| (split.matches("\\d+-\\d+-\\d+-[\\dX]"))
+						|| (split.matches("\\d+ \\d+ \\d+ [\\dX]"))) && (split.length() == 13))
+						|| (split.matches("\\d{9}[\\dX]"))){
+					retVal.add(new XMLTag(tagName, split));
+				}
+			}
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getURLs(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof PublicationDTO){
@@ -1757,9 +1797,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 		}
 		return retVal;
 	}
-	
-	
-	protected List<XMLTag> getKeywords(String tagName, RecordDTO record) {
+
+
+	protected List<XMLTag> getKeywords(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof JournalDTO){
 			JournalDTO journal = (JournalDTO)record;
@@ -1780,9 +1820,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -1804,9 +1844,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -1830,9 +1870,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -1854,9 +1894,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -1880,9 +1920,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -1904,9 +1944,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -1930,9 +1970,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -1954,9 +1994,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -1980,9 +2020,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -2004,9 +2044,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -2030,9 +2070,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -2055,9 +2095,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -2082,9 +2122,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -2107,9 +2147,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -2134,9 +2174,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -2159,9 +2199,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
@@ -2185,9 +2225,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -2210,11 +2250,11 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 									if(! retVal.contains(textTag)){
 										retVal.add(textTag);
 									}
-									if(! latinTag.equals(textTag)){
+									if(transliteration && (! latinTag.equals(textTag))){
 										if(! retVal.contains(latinTag)){
 											retVal.add(latinTag);
 										}
-									} 
+									}
 								}
 							}
 							if(! retVal.contains(textTag)){
@@ -2243,9 +2283,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 						}
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag)){
+						if(transliteration && (! latinTag.equals(textTag))){
 							retVal.add(latinTag);
-						} 
+						}
 					}
 				}
 			}
@@ -2267,18 +2307,18 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 								latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 							}
 							retVal.add(textTag);
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								retVal.add(latinTag);
-							} 
+							}
 						}
 					}
 				}
 			}
-		} 
+		}
 		return retVal;
 	}
-	
-	protected List<XMLTag> getAbstracts(String tagName, RecordDTO record) {
+
+	protected List<XMLTag> getAbstracts(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof PaperJournalDTO){
 			PaperJournalDTO paperJournal = (PaperJournalDTO)record;
@@ -2295,9 +2335,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO abstracT : paperJournal.getAbstractTranslations()) {
 				if(abstracT.getContent()!=null){
@@ -2313,9 +2353,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof MonographDTO){
@@ -2333,9 +2373,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO abstracT : monograph.getAbstractTranslations()) {
 				if(abstracT.getContent()!=null){
@@ -2351,9 +2391,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PaperMonographDTO){
@@ -2371,9 +2411,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO abstracT : paperMonograph.getAbstractTranslations()) {
 				if(abstracT.getContent()!=null){
@@ -2389,9 +2429,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof PaperProceedingsDTO){
@@ -2409,9 +2449,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO abstracT : paperProceedings.getSubtitleTranslations()) {
 				if(abstracT.getContent()!=null){
@@ -2427,9 +2467,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof StudyFinalDocumentDTO){
@@ -2447,9 +2487,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				if((studyFinalDocument.getLanguage() != null) && (studyFinalDocument.getLanguage().equals("srp")) &&
-					((studyFinalDocument.getAlphabet() != null) && (studyFinalDocument.getAlphabet().equals("cyrillic script")))){ 
+					((studyFinalDocument.getAlphabet() != null) && (studyFinalDocument.getAlphabet().equals("cyrillic script")))){
 						retVal.add(textTag);
-						if(! latinTag.equals(textTag))
+						if(transliteration && (! latinTag.equals(textTag)))
 							retVal.add(latinTag);
 				} else {
 					retVal.add(latinTag);
@@ -2469,29 +2509,29 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 							if(! retVal.contains(textTag)){
 								retVal.add(textTag);
 							}
-							if(! latinTag.equals(textTag)){
+							if(transliteration && (! latinTag.equals(textTag))){
 								if(! retVal.contains(latinTag)){
 									retVal.add(latinTag);
 								}
-							} 
+							}
 						}
-					} 
+					}
 					if(! retVal.contains(textTag)){
 						retVal.add(textTag);
 					}
 				}
 			}
-		} 
+		}
 		return retVal;
 	}
-	
-	protected List<XMLTag> getSubjects(String tagName, RecordDTO record) {
+
+	protected List<XMLTag> getSubjects(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
-		
+
 		return retVal;
 	}
-	
-	protected List<XMLTag> getDescriptions(String tagName, RecordDTO record) {
+
+	protected List<XMLTag> getDescriptions(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof ProductDTO){
 			ProductDTO product = (ProductDTO)record;
@@ -2508,9 +2548,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO description : product.getDescriptionTranslations()) {
 				if(description.getContent()!=null){
@@ -2526,9 +2566,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		} else if(record instanceof ConferenceDTO){
@@ -2546,9 +2586,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO description : conference.getDescriptionTranslations()) {
 				if(description.getContent()!=null){
@@ -2564,15 +2604,15 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
 		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getPlaces(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof ConferenceDTO){
@@ -2580,10 +2620,10 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if((conference.getPlace() != null) && (! "".equals(conference.getPlace()))){
 				retVal.add(new XMLTag(tagName, conference.getPlace()));
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getCountries(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof ConferenceDTO){
@@ -2591,33 +2631,11 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if((conference.getState() != null) && (! "".equals(conference.getState()))){
 				retVal.add(new XMLTag(tagName, conference.getState()));
 			}
-		} 
+		}
 		return retVal;
 	}
-	
-	protected List<XMLTag> getStartYear(String tagName, RecordDTO record) {
-		List<XMLTag> retVal = new ArrayList<XMLTag>();
-		if(record instanceof ConferenceDTO){
-			ConferenceDTO conference = (ConferenceDTO)record;
-			if((conference.getPlace() != null) && (! "".equals(conference.getPlace()))){
-				retVal.add(new XMLTag(tagName, conference.getPlace()));
-			}
-		} 
-		return retVal;
-	}
-	
-	protected List<XMLTag> getEndYear(String tagName, RecordDTO record) {
-		List<XMLTag> retVal = new ArrayList<XMLTag>();
-		if(record instanceof ConferenceDTO){
-			ConferenceDTO conference = (ConferenceDTO)record;
-			if((conference.getState() != null) && (! "".equals(conference.getState()))){
-				retVal.add(new XMLTag(tagName, conference.getState()));
-			}
-		} 
-		return retVal;
-	}
-	
-	
+
+
 	protected List<XMLTag> getTypes(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof ConferenceDTO){
@@ -2665,10 +2683,14 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				XMLTag typeTag = new XMLTag(tagName, "http://purl.org/coar/resource_type/c_5794");
 				typeTag.getAttributes().add(new AttributeValue("xmlns", "https://www.openaire.eu/cerif-profile/vocab/COAR_Publication_Types"));
 				retVal.add(typeTag);
+				if(paperProceedings.getPaperType() != null && paperProceedings.getPaperType().equals("records.paperProceedings.editPanel.paperType.invitedTalkFull"))
+					retVal.add(new XMLTag("Invited", "true"));
 			} else {
 				XMLTag typeTag = new XMLTag(tagName, "http://purl.org/coar/resource_type/c_c94f");
 				typeTag.getAttributes().add(new AttributeValue("xmlns", "https://www.openaire.eu/cerif-profile/vocab/COAR_Publication_Types"));
 				retVal.add(typeTag);
+				if(paperProceedings.getPaperType() != null && paperProceedings.getPaperType().equals("records.paperProceedings.editPanel.paperType.invitedTalkAbstract"))
+					retVal.add(new XMLTag("Invited", "true"));
 			}
 		} else if(record instanceof PatentDTO){
 			XMLTag typeTag = new XMLTag(tagName, "http://purl.org/coar/resource_type/c_15cd");
@@ -2686,7 +2708,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			retVal.add(typeTag);
 		} else if(record instanceof StudyFinalDocumentDTO){
 			StudyFinalDocumentDTO thesis = (StudyFinalDocumentDTO) record;
-			if(thesis.getStudyType() != null && (thesis.getStudyType().equals("records.studyFinalDocument.editPanel.studyType.phd") || thesis.getStudyType().equals("records.studyFinalDocument.editPanel.studyType.phdArt"))){		
+			if(thesis.getStudyType() != null && (thesis.getStudyType().equals("records.studyFinalDocument.editPanel.studyType.phd") || thesis.getStudyType().equals("records.studyFinalDocument.editPanel.studyType.phdArt"))){
 				XMLTag typeTag = new XMLTag(tagName, "http://purl.org/coar/resource_type/c_db06");
 				typeTag.getAttributes().add(new AttributeValue("xmlns", "https://www.openaire.eu/cerif-profile/vocab/COAR_Publication_Types"));
 				retVal.add(typeTag);
@@ -2695,10 +2717,10 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				typeTag.getAttributes().add(new AttributeValue("xmlns", "https://www.openaire.eu/cerif-profile/vocab/COAR_Publication_Types"));
 				retVal.add(typeTag);
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getIdentifiers(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof InstitutionDTO){
@@ -2708,10 +2730,10 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				typeTag.getAttributes().add(new AttributeValue("type", ""));
 				retVal.add(typeTag);
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getLanguages(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 //		Locale locale = new Locale("en");
@@ -2728,7 +2750,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					language += ((alphabet.equals("cyrillic script"))?("-Cyrl"):("-Latn"));
 				}
 				retVal.add(new XMLTag(tagName,  language));
-//						new FacesMessages("messages.messages-records",  locale) 
+//						new FacesMessages("messages.messages-records",  locale)
 //					.getMessageFromResourceBundle("records.language." + journal.getName().getLanguage())));
 			}
 		} else if(record instanceof PaperJournalDTO){
@@ -2745,7 +2767,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//						new FacesMessages("messages.messages-records",  locale) 
+//						new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + paperJournal.getTitle().getLanguage())));
 		} else if(record instanceof MonographDTO){
 			MonographDTO monograph = (MonographDTO)record;
@@ -2761,7 +2783,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + monograph.getTitle().getLanguage())));
 		} else if(record instanceof PaperMonographDTO){
 			PaperMonographDTO paperMonograph = (PaperMonographDTO)record;
@@ -2777,7 +2799,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + paperMonograph.getTitle().getLanguage())));
 		} else if(record instanceof ProceedingsDTO){
 			ProceedingsDTO proceedings = (ProceedingsDTO)record;
@@ -2793,7 +2815,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + proceedings.getTitle().getLanguage())));
 		} else if(record instanceof PaperProceedingsDTO){
 			PaperProceedingsDTO paperProceedings = (PaperProceedingsDTO)record;
@@ -2809,9 +2831,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + paperProceedings.getTitle().getLanguage())));
-		} 
+		}
 		/*else if(record instanceof PatentDTO){
 			PatentDTO patent = (PatentDTO)record;
 			if(patent.getTitle().getLanguage() != null){
@@ -2823,9 +2845,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + patent.getTitle().getLanguage())));
-		}*/ 
+		}*/
 		else if(record instanceof ProductDTO){
 			ProductDTO product = (ProductDTO)record;
 			if(product.getName().getLanguage() != null){
@@ -2840,7 +2862,7 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //					.getMessageFromResourceBundle("records.language." + product.getName().getLanguage())));
 		} else if(record instanceof StudyFinalDocumentDTO){
 			StudyFinalDocumentDTO studyFinalDocument = (StudyFinalDocumentDTO)record;
@@ -2856,12 +2878,12 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				}
 				retVal.add(new XMLTag(tagName,  language));
 			}
-//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale) 
+//				retVal.add(new XMLTag(tagName, new FacesMessages("messages.messages-records",  locale)
 //				.getMessageFromResourceBundle("records.language." + studyFinalDocument.getLanguage())));
-		} 
+		}
 		return retVal;
-	}	
-	
+	}
+
 	protected List<XMLTag> getAccess(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		String text = "http://purl.org/coar/access_right/c_14cb";
@@ -2879,9 +2901,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 //		retVal.add(textTag);
 		return retVal;
 	}
-	
-	
-	protected List<XMLTag> getNames(String tagName, RecordDTO record) {
+
+
+	protected List<XMLTag> getNames(String tagName, RecordDTO record, boolean transliteration) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof ConferenceDTO){
 			ConferenceDTO conference = (ConferenceDTO)record;
@@ -2898,9 +2920,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO name : conference.getNameTranslations()) {
 				if(name.getContent()!=null){
@@ -2916,12 +2938,12 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
-			
+
 		} else if(record instanceof InstitutionDTO){
 			InstitutionDTO institution = (InstitutionDTO)record;
 			if(institution.getName().getContent() != null){
@@ -2937,9 +2959,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO name : institution.getNameTranslations()) {
 				if(name.getContent()!=null){
@@ -2955,11 +2977,11 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
-			}			
+			}
 		} else if(record instanceof ProductDTO){
 			ProductDTO product = (ProductDTO)record;
 			if(product.getName().getContent() != null)
@@ -2976,9 +2998,9 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 					latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 				}
 				retVal.add(textTag);
-				if(! latinTag.equals(textTag)){
+				if(transliteration && (! latinTag.equals(textTag))){
 					retVal.add(latinTag);
-				} 
+				}
 			}
 			for (MultilingualContentDTO name : product.getNameTranslations()) {
 				if(name.getContent()!=null)
@@ -2995,26 +3017,26 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 						latinTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0,2).trim()));
 					}
 					retVal.add(textTag);
-					if(! latinTag.equals(textTag)){
+					if(transliteration && (! latinTag.equals(textTag))){
 						retVal.add(latinTag);
-					} 
+					}
 				}
 			}
-		} 	
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getAcronyms(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof InstitutionDTO){
 			InstitutionDTO institution = (InstitutionDTO)record;
 			if((institution.getAcro() != null) && (! "".equals(institution.getAcro()))){
 				retVal.add(new XMLTag(tagName, institution.getAcro()));
-			}			
-		}	
+			}
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getGenders(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof AuthorDTO){
@@ -3022,24 +3044,24 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 			if((author.getSex() == 'f') || (author.getSex() == 'm')){
 				retVal.add(new XMLTag(tagName, "" + author.getSex()));
 			}
-		} 
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getElectronicAddresses(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof AuthorDTO){
 			AuthorDTO author = (AuthorDTO)record;
 			if((author.getEmail() != null) && (! "".equals(author.getEmail()))){
 				retVal.add(new XMLTag(tagName, "mailto:" + author.getEmail()));
-			}	
+			}
 			if((author.getDirectPhones() != null) && (! "".equals(author.getDirectPhones()))){
 				retVal.add(new XMLTag(tagName, "tel:" + author.getDirectPhones()));
 			}
 			if((author.getLocalPhones() != null) && (! "".equals(author.getLocalPhones()))){
 				retVal.add(new XMLTag(tagName, "tel:" + author.getLocalPhones()));
 			}
-		}	
+		}
 		return retVal;
 	}
 	protected List<XMLTag> getORCIDs(String tagName, RecordDTO record) {
@@ -3049,19 +3071,19 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 				retVal.add(new XMLTag(tagName, record.getORCID().trim()));
 			else if(record.getORCID().trim().matches("0000-000(1-[5-9]|2-[0-9]|3-[0-4])[0-9]{3}-[0-9]{3}[0-9X]"))
 				retVal.add(new XMLTag(tagName, "https://orcid.org/" + record.getORCID().trim()));
-		}		
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getScopusIds(String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if((record.getScopusID() != null) && (! "".equals(record.getScopusID()))){
 			if(record.getScopusID().trim().matches("[0-9]{10,11}"))
 				retVal.add(new XMLTag(tagName, record.getScopusID().trim()));
-		}		
+		}
 		return retVal;
 	}
-	
+
 	protected List<XMLTag> getPersonNames(String indent, String tagName, RecordDTO record) {
 		List<XMLTag> retVal = new ArrayList<XMLTag>();
 		if(record instanceof AuthorDTO){
@@ -3080,15 +3102,15 @@ public class OpenAIRECRISXMLSerializer implements Serializer {
 		}
 		return retVal;
 	}
-	
+
 
 	/**
 	 * Reads mARC21Record from the MARC21slim XML representation
-	 * 
+	 *
 	 * @param xml
 	 *            XML in MARC 21 slim format
 	 * @return created MARC21Record
-	 * 
+	 *
 	 */
 	public Record toRecord(String stringRecord) {
 		try {
