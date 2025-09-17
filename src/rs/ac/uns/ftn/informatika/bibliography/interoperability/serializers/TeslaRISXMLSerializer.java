@@ -490,6 +490,10 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 				buff.append("\n" + indent + "\t\t</Institution>\n");
 				buff.append(indent + "\t</Institutions>\n");
 			}
+			if (record.getRecord().getArchived().intValue() == 2)
+				buff.append(indent + "\t<IsArchived>true</IsArchived>\n");
+			if (record.getRecord().getArchived().intValue() == 1)
+				buff.append(indent + "\t<IsOnPublicReview>true</IsOnPublicReview>\n");
 		}
 
 		//publishers
@@ -1190,6 +1194,7 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 					buff.append(orgUnitFromRecord(institution.getSuperInstitution(), indent + "\t\t", false));
 					buff.append("\n" + indent + "\t</PartOf>");
 				}
+				buff.append("\n" + indent + "\t<IsInstitution>true</IsInstitution>\n");
 			}
 
 			List<XMLTag> keywords = getKeywords("Keyword", record, false);
@@ -1417,6 +1422,13 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 				dateString = formatter.format(studyFinalDocument.getDefendedOn().getTime());
 				if(! retVal.contains(new XMLTag(tagName, dateString)))
 					retVal.add(new XMLTag(tagName, dateString));
+			} else {
+				studyFinalDocument.loadRegisterEntry(true);
+				if (studyFinalDocument.getRegisterEntry() != null && studyFinalDocument.getRegisterEntry().getDefendedOn() != null){
+					dateString = formatter.format(studyFinalDocument.getRegisterEntry().getDefendedOn().getTime());
+					if(! retVal.contains(new XMLTag(tagName, dateString)))
+						retVal.add(new XMLTag(tagName, dateString));
+				}
 			}
 		}
 		return retVal;
@@ -2549,11 +2561,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((monograph.getPublisher() != null)
 					&& (monograph.getPublisher().getOriginalPublisher() != null)
 					&& (monograph.getPublisher().getOriginalPublisher().getName() != null)
+					&& (monograph.getPublisher().getOriginalPublisher().getName().trim().length() > 0)
 			){
 				String lang = monograph.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = monograph.getPublisher().getOriginalPublisher().getName();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((monograph.getPublisher() != null)
+					&& (monograph.getPublisher().getPublisherTranslations() != null)
+					&& (monograph.getPublisher().getPublisherTranslations().size() != 0)
+					&& (monograph.getPublisher().getPublisherTranslations().get(0).getName() != null)
+					&& (monograph.getPublisher().getPublisherTranslations().get(0).getName().trim().length() > 0)
+			){
+				String lang = monograph.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = monograph.getPublisher().getPublisherTranslations().get(0).getName();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2565,11 +2593,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((proceedings.getPublisher() != null)
 					&& (proceedings.getPublisher().getOriginalPublisher() != null)
 					&& (proceedings.getPublisher().getOriginalPublisher().getName() != null)
+					&& (proceedings.getPublisher().getOriginalPublisher().getName().trim().length() > 0)
 			){
 				String lang = proceedings.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = proceedings.getPublisher().getOriginalPublisher().getName();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((proceedings.getPublisher() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations().size() != 0)
+					&& (proceedings.getPublisher().getPublisherTranslations().get(0).getName() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations().get(0).getName().trim().length() > 0)
+			){
+				String lang = proceedings.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = proceedings.getPublisher().getPublisherTranslations().get(0).getName();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2581,11 +2625,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((studyFinalDocument.getPublisher() != null)
 					&& (studyFinalDocument.getPublisher().getOriginalPublisher() != null)
 					&& (studyFinalDocument.getPublisher().getOriginalPublisher().getName() != null)
+					&& (studyFinalDocument.getPublisher().getOriginalPublisher().getName().trim().length() > 0)
 			){
 				String lang = studyFinalDocument.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = studyFinalDocument.getPublisher().getOriginalPublisher().getName();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((studyFinalDocument.getPublisher() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().size() > 0)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getName() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getName().trim().length() > 0)
+			){
+				String lang = studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getName();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2597,11 +2657,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((patent.getPublisher() != null)
 					&& (patent.getPublisher().getOriginalPublisher() != null)
 					&& (patent.getPublisher().getOriginalPublisher().getName() != null)
+					&& (patent.getPublisher().getOriginalPublisher().getName().trim().length() > 0)
 			){
 				String lang = patent.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = patent.getPublisher().getOriginalPublisher().getName();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((patent.getPublisher() != null)
+					&& (patent.getPublisher().getPublisherTranslations() != null)
+					&& (patent.getPublisher().getPublisherTranslations().size() > 0)
+					&& (patent.getPublisher().getPublisherTranslations().get(0).getName() != null)
+					&& (patent.getPublisher().getPublisherTranslations().get(0).getName().trim().length() > 0)
+			){
+				String lang = patent.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = patent.getPublisher().getPublisherTranslations().get(0).getName();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2613,11 +2689,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((product.getPublisher() != null)
 					&& (product.getPublisher().getOriginalPublisher() != null)
 					&& (product.getPublisher().getOriginalPublisher().getName() != null)
+					&& (product.getPublisher().getOriginalPublisher().getName().trim().length() > 0)
 			){
 				String lang = product.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = product.getPublisher().getOriginalPublisher().getName();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((product.getPublisher() != null)
+					&& (product.getPublisher().getPublisherTranslations() != null)
+					&& (product.getPublisher().getPublisherTranslations().size() > 0)
+					&& (product.getPublisher().getPublisherTranslations().get(0).getName() != null)
+					&& (product.getPublisher().getPublisherTranslations().get(0).getName().trim().length() > 0)
+			){
+				String lang = product.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = product.getPublisher().getPublisherTranslations().get(0).getName();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2634,11 +2726,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((monograph.getPublisher() != null)
 					&& (monograph.getPublisher().getOriginalPublisher() != null)
 					&& (monograph.getPublisher().getOriginalPublisher().getPlace() != null)
+					&& (monograph.getPublisher().getOriginalPublisher().getPlace().trim().length() > 0)
 			){
 				String lang = monograph.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = monograph.getPublisher().getOriginalPublisher().getPlace();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((monograph.getPublisher() != null)
+					&& (monograph.getPublisher().getPublisherTranslations() != null)
+					&& (monograph.getPublisher().getPublisherTranslations().size() > 0)
+					&& (monograph.getPublisher().getPublisherTranslations().get(0).getPlace() != null)
+					&& (monograph.getPublisher().getPublisherTranslations().get(0).getPlace().trim().length() > 0)
+			){
+				String lang = monograph.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = monograph.getPublisher().getPublisherTranslations().get(0).getPlace();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2650,11 +2758,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((proceedings.getPublisher() != null)
 					&& (proceedings.getPublisher().getOriginalPublisher() != null)
 					&& (proceedings.getPublisher().getOriginalPublisher().getPlace() != null)
+					&& (proceedings.getPublisher().getOriginalPublisher().getPlace().trim().length() > 0)
 			){
 				String lang = proceedings.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = proceedings.getPublisher().getOriginalPublisher().getPlace();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((proceedings.getPublisher() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations().size() > 0)
+					&& (proceedings.getPublisher().getPublisherTranslations().get(0).getPlace() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations().get(0).getPlace().trim().length() > 0)
+			){
+				String lang = proceedings.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = proceedings.getPublisher().getPublisherTranslations().get(0).getPlace();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2666,11 +2790,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((studyFinalDocument.getPublisher() != null)
 					&& (studyFinalDocument.getPublisher().getOriginalPublisher() != null)
 					&& (studyFinalDocument.getPublisher().getOriginalPublisher().getPlace() != null)
+					&& (studyFinalDocument.getPublisher().getOriginalPublisher().getPlace().trim().length() > 0)
 			){
 				String lang = studyFinalDocument.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = studyFinalDocument.getPublisher().getOriginalPublisher().getPlace();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((studyFinalDocument.getPublisher() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().size() > 0)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getPlace() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getPlace().trim().length() > 0)
+			){
+				String lang = studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getPlace();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2682,11 +2822,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((patent.getPublisher() != null)
 					&& (patent.getPublisher().getOriginalPublisher() != null)
 					&& (patent.getPublisher().getOriginalPublisher().getPlace() != null)
+					&& (patent.getPublisher().getOriginalPublisher().getPlace().trim().length() > 0)
 			){
 				String lang = patent.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = patent.getPublisher().getOriginalPublisher().getPlace();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((patent.getPublisher() != null)
+					&& (patent.getPublisher().getPublisherTranslations() != null)
+					&& (patent.getPublisher().getPublisherTranslations().size() > 0)
+					&& (patent.getPublisher().getPublisherTranslations().get(0).getPlace() != null)
+					&& (patent.getPublisher().getPublisherTranslations().get(0).getPlace().trim().length() > 0)
+			){
+				String lang = patent.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = patent.getPublisher().getPublisherTranslations().get(0).getPlace();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2698,11 +2854,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((product.getPublisher() != null)
 					&& (product.getPublisher().getOriginalPublisher() != null)
 					&& (product.getPublisher().getOriginalPublisher().getPlace() != null)
+					&& (product.getPublisher().getOriginalPublisher().getPlace().trim().length() > 0)
 			){
 				String lang = product.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = product.getPublisher().getOriginalPublisher().getPlace();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((product.getPublisher() != null)
+					&& (product.getPublisher().getPublisherTranslations() != null)
+					&& (product.getPublisher().getPublisherTranslations().size() > 0)
+					&& (product.getPublisher().getPublisherTranslations().get(0).getPlace() != null)
+					&& (product.getPublisher().getPublisherTranslations().get(0).getPlace().trim().length() > 0)
+			){
+				String lang = product.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = product.getPublisher().getPublisherTranslations().get(0).getPlace();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2720,11 +2892,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((monograph.getPublisher() != null)
 					&& (monograph.getPublisher().getOriginalPublisher() != null)
 					&& (monograph.getPublisher().getOriginalPublisher().getState() != null)
+					&& (monograph.getPublisher().getOriginalPublisher().getState().trim().length() > 0)
 			){
 				String lang = monograph.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = monograph.getPublisher().getOriginalPublisher().getState();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((monograph.getPublisher() != null)
+					&& (monograph.getPublisher().getPublisherTranslations() != null)
+					&& (monograph.getPublisher().getPublisherTranslations().size() > 0)
+					&& (monograph.getPublisher().getPublisherTranslations().get(0).getState() != null)
+					&& (monograph.getPublisher().getPublisherTranslations().get(0).getState().trim().length() > 0)
+			){
+				String lang = monograph.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = monograph.getPublisher().getPublisherTranslations().get(0).getState();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2736,11 +2924,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((proceedings.getPublisher() != null)
 					&& (proceedings.getPublisher().getOriginalPublisher() != null)
 					&& (proceedings.getPublisher().getOriginalPublisher().getState() != null)
+					&& (proceedings.getPublisher().getOriginalPublisher().getState().trim().length() > 0)
 			){
 				String lang = proceedings.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = proceedings.getPublisher().getOriginalPublisher().getState();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((proceedings.getPublisher() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations().size() > 0)
+					&& (proceedings.getPublisher().getPublisherTranslations().get(0).getState() != null)
+					&& (proceedings.getPublisher().getPublisherTranslations().get(0).getState().trim().length() > 0)
+			){
+				String lang = proceedings.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = proceedings.getPublisher().getPublisherTranslations().get(0).getState();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2752,11 +2956,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((studyFinalDocument.getPublisher() != null)
 					&& (studyFinalDocument.getPublisher().getOriginalPublisher() != null)
 					&& (studyFinalDocument.getPublisher().getOriginalPublisher().getState() != null)
+					&& (studyFinalDocument.getPublisher().getOriginalPublisher().getState().trim().length() > 0)
 			){
 				String lang = studyFinalDocument.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = studyFinalDocument.getPublisher().getOriginalPublisher().getState();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((studyFinalDocument.getPublisher() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().size() > 0)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getState() != null)
+					&& (studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getState().trim().length() > 0)
+			){
+				String lang = studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = studyFinalDocument.getPublisher().getPublisherTranslations().get(0).getState();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2768,11 +2988,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((patent.getPublisher() != null)
 					&& (patent.getPublisher().getOriginalPublisher() != null)
 					&& (patent.getPublisher().getOriginalPublisher().getState() != null)
+					&& (patent.getPublisher().getOriginalPublisher().getState().trim().length() > 0)
 			){
 				String lang = patent.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = patent.getPublisher().getOriginalPublisher().getState();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((patent.getPublisher() != null)
+					&& (patent.getPublisher().getPublisherTranslations() != null)
+					&& (patent.getPublisher().getPublisherTranslations().size() > 0)
+					&& (patent.getPublisher().getPublisherTranslations().get(0).getState() != null)
+					&& (patent.getPublisher().getPublisherTranslations().get(0).getState().trim().length() > 0)
+			){
+				String lang = patent.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = patent.getPublisher().getPublisherTranslations().get(0).getState();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
@@ -2784,11 +3020,27 @@ public class TeslaRISXMLSerializer extends OpenAIRECRISXMLSerializer {
 			if((product.getPublisher() != null)
 					&& (product.getPublisher().getOriginalPublisher() != null)
 					&& (product.getPublisher().getOriginalPublisher().getState() != null)
+					&& (product.getPublisher().getOriginalPublisher().getState().trim().length() > 0)
 			){
 				String lang = product.getPublisher().getOriginalPublisher().getLanguage();
 				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
 					lang = defaultLanguage;
 				String text = product.getPublisher().getOriginalPublisher().getState();
+				XMLTag textTag = new XMLTag(tagName, text);
+				if (lang != null) {
+					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
+				}
+				retVal.add(textTag);
+			} else if((product.getPublisher() != null)
+					&& (product.getPublisher().getPublisherTranslations() != null)
+					&& (product.getPublisher().getPublisherTranslations().size() > 0)
+					&& (product.getPublisher().getPublisherTranslations().get(0).getState() != null)
+					&& (product.getPublisher().getPublisherTranslations().get(0).getState().trim().length() > 0)
+			){
+				String lang = product.getPublisher().getPublisherTranslations().get(0).getLanguage();
+				if ((lang == null) || ("||".equals(lang.substring(0, 2).trim())))
+					lang = defaultLanguage;
+				String text = product.getPublisher().getPublisherTranslations().get(0).getState();
 				XMLTag textTag = new XMLTag(tagName, text);
 				if (lang != null) {
 					textTag.getAttributes().add(new AttributeValue("xml:lang", lang.substring(0, 2).trim()));
